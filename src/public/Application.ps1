@@ -1,6 +1,29 @@
 Set-StrictMode -Version Latest
 # https://developer.okta.com/docs/reference/api/apps/#application-properties
 
+<#
+.SYNOPSIS
+Get one or more Okta Applications
+
+.DESCRIPTION
+
+
+.PARAMETER AppId
+Application id to get.
+
+.PARAMETER Query
+Query for name and label search
+
+.PARAMETER Limit
+Limit the number to return
+
+.PARAMETER After
+After value returned in the link, if more results
+
+.EXAMPLE
+Get-OktaApplication -Query "MyApp"
+
+#>
 function Get-OktaApplication {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
@@ -23,27 +46,43 @@ function Get-OktaApplication {
         }
     }
 }
-function Find-OktaApplication {
-    [CmdletBinding()]
-    param (
-        [string] $Query,
-        [uint] $Limit,
-        [string] $After
-    )
 
-    Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters $Query $Limit $After)"
-}
+<#
+.SYNOPSIS
+Create a new server-type OAuth Application
 
-function New-OktaApplication {
+.DESCRIPTION
+Long description
+
+.PARAMETER Label
+Friendly name for the application
+
+.PARAMETER Inactive
+Set to create inactive
+
+.PARAMETER SignOnMode
+Defaults to OPENID_CONNECT
+
+.PARAMETER Properties
+Additional properties to use in app.profile.<name> claims for the app
+
+.EXAMPLE
+$app = New-OktaServerApplication -Label MyApp -Properties @{appName = "MyApp" }
+
+Create a server with an appName property
+#>
+function New-OktaServerApplication {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $Label,
-        [string] $Name = "oidc_client", # https://developer.okta.com/docs/reference/api/apps/#app-names-and-settings
         [switch] $Inactive,
         [string] $SignOnMode = "OPENID_CONNECT",
         [hashtable] $Properties
     )
+
+    $Name = "oidc_client" # https://developer.okta.com/docs/reference/api/apps/#app-names-and-settings
 
     $body = [PSCustomObject]@{
         name      = $Name

@@ -1,0 +1,72 @@
+Set-StrictMode -Version Latest
+
+function Get-OktaPolicy
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("id")]
+        [string] $RuleId,
+        [Parameter(ParameterSetName="Query")]
+        [string] $Query
+    )
+
+    process {
+        if ($RuleId) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET
+        } else {
+            Write-Result -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET)
+        }
+    }
+}
+
+
+
+function New-OktaPolicy
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [Parameter(Mandatory)]
+        [string] $Name,
+        [string] $Description,
+        [switch] $Inactive,
+        [uint] $Priority = 1,
+        [string[]] $ClientIds
+    )
+
+    if (!$Description)
+    {
+        $Description = "$Name - Added by OktaPosh"
+    }
+
+    $body = @{
+        type        = "OAUTH_AUTHORIZATION_POLICY"
+        status      = $Inactive ? "INACTIVE" : "ACTIVE"
+        name        = $Name
+        description = $Description
+        priority    = $Priority
+        conditions  = @{
+            clients = @{
+                include = @()
+            }
+        }
+    }
+
+    if ($ClientIds)
+    {
+        $body.conditions.clients.include += $ClientIds
+    }
+    else
+    {
+        $body.conditions.clients.include += "ALL_CLIENTS"
+    }
+
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method POST -Body (ConvertTo-Json $body -Depth 5)
+}
+
+
