@@ -1,17 +1,19 @@
-$script:apiToken = "00Jy2xSscrtavh_woKo7iHrURs1M2C4tzN3_KeYQ4h"
-$script:baseUri = "https://dev-671484.okta.com/"
+$script:apiToken = ""
+$script:baseUri = ""
 
 function Set-OktaOptions {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory)]
-        [string] $ApiToken,
-        [Parameter(Mandatory)]
-        [string] $BaseUri
+        [string] $ApiToken = $env:OktaApiToken,
+        [string] $BaseUri = $env:OktaBaseUri
     )
 
-    $script:apiToken = $ApiToken
-    $script:baseUri = $baseUri
+    if (!$ApiToken -or !$BaseUri) {
+        Write-Warning "Must supply ApiToken and BaseUri"
+    } else {
+        $script:apiToken = $ApiToken
+        $script:baseUri = $baseUri
+    }
 }
 
 function Get-OktaApiToken {

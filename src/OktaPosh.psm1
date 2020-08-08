@@ -1,8 +1,8 @@
 param( [bool] $Quiet = $false )
 
-Get-ChildItem $PSScriptRoot\src\private\*.ps1 | ForEach-Object { . $_ }
+Get-ChildItem $PSScriptRoot\private\*.ps1 | ForEach-Object { . $_ }
 $exports = @()
-Get-ChildItem $PSScriptRoot\src\public\*.ps1 | ForEach-Object { . $_; $exports += $_.BaseName }
+Get-ChildItem $PSScriptRoot\public\*.ps1 | ForEach-Object { . $_; $exports += $_.BaseName }
 
 Export-ModuleMember -Function '*' -Alias '*'
 

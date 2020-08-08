@@ -1,5 +1,7 @@
 # https://developer.okta.com/docs/reference/api/apps/#application-properties
 
+Set-StrictMode -Version Latest
+
 function Get-OktaApplication {
     [CmdletBinding()]
     param (
@@ -19,6 +21,64 @@ function Find-OktaApplication {
     )
 
     Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters $Query $Limit $After)"
+}
+
+function New-OktaApplication {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $Label,
+        [string] $Name = "oidc_client", # https://developer.okta.com/docs/reference/api/apps/#app-names-and-settings
+        [switch] $Inactive,
+        [string] $SignOnMode = "OPENID_CONNECT",
+        [hashtable] $Properties
+    )
+
+    $body = [PSCustomObject]@{
+        name      = $Name
+        status    = $Inactive ? "INACTIVE" : "ACTIVE"
+        label     = $Label
+        signOnMode = $SignOnMode
+        settings   = @{
+            oauthClient = @{
+                issuer_mode = "ORG_URL"
+                response_types = @(
+                    "token"
+                )
+                grant_types = @(
+                    "client_credentials"
+                )
+                application_type = "service"
+            }
+        }
+    }
+
+    Add-PropertiesToApp $body $Properties
+
+    Invoke-OktaApi -RelativeUri "apps" -Body (ConvertTo-Json $body -Depth 10) -Method POST
+}
+
+function Add-PropertiesToApp {
+    param (
+        [Parameter(Mandatory)]
+        [PSCustomObject] $Application,
+        [hashtable] $Properties
+    )
+
+    if ($Properties) {
+        if (!(Get-Member -InputObject $Application -Name 'profile')) {
+            Add-Member -InputObject $Application -MemberType NoteProperty -Name 'profile' -Value $Properties
+        }
+        else {
+            foreach ($p in $Properties.Keys) {
+                if (!(Get-Member -InputObject $Application.profile -Name $p)) {
+                    Add-Member -InputObject $Application.profile -MemberType NoteProperty -Name $p -Value $Properties[$p]
+                } else {
+                    $Application.profile.$p = $Properties[$p]
+                }
+            }
+        }
+    }
 }
 
 <#
@@ -44,25 +104,15 @@ Set client_id and client_profile_id on the app
 General notes
 #>
 function Set-OktaApplicationProperty {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
-        [PSCustomObject] $App,
+        [Parameter(Mandatory)]
+        [PSCustomObject] $Application,
+        [Parameter(Mandatory)]
         [hashtable] $Properties
     )
 
-    if (!(Get-Member -InputObject $App -Name 'profile')) {
-        Add-Member -InputObject $App -MemberType NoteProperty -Name 'profile' -Value $Properties
-    }
-    else {
-        foreach ($p in $Properties.Keys) {
-            if (!(Get-Member -InputObject $App.profile -Name $p)) {
-                Add-Member -InputObject $App.profile -MemberType NoteProperty -Name $p -Value $Properties[$p]
-            } else {
-                $App.profile.$p = $Properties[$p]
-            }
-        }
-    }
-
-    Invoke-OktaApi -RelativeUri "apps/$($App.Id)" -Method PUT -Body (ConvertTo-Json $app -Depth 10)
+    Add-PropertiesToApp $Application $Properties
+    Invoke-OktaApi -RelativeUri "apps/$($App.Id)" -Method PUT -Body (ConvertTo-Json $Application -Depth 10)
 }
 

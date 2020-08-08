@@ -1,4 +1,5 @@
-function Get-OktaAuthorizationServer {
+function Get-OktaAuthorizationServer
+{
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId
@@ -29,7 +30,8 @@ $relianceAuth = Find-OktaAuthorizationServer -Query Reliance
 .NOTES
 General notes
 #>
-function Find-OktaAuthorizationServer {
+function Find-OktaAuthorizationServer
+{
     [CmdletBinding()]
     param (
         [string] $Query,
@@ -40,19 +42,23 @@ function Find-OktaAuthorizationServer {
     Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)"
 }
 
-function Get-QueryParameters {
+function Get-QueryParameters
+{
     param (
         [string] $Query,
         [uint] $Limit,
         [string] $After
     )
     $parms = ""
-    if ($Query) {
+    if ($Query)
+    {
         $parms = "?q=$Query"
-        if ($Limit) {
+        if ($Limit)
+        {
             $parms += "&limit=$limit"
         }
-        if ($After) {
+        if ($After)
+        {
             $parms += "&after=$after"
         }
     }
@@ -84,7 +90,8 @@ New-OktaAuthorizationServer -Name RelianceApi -Audience "http://cccis.com/relian
 .NOTES
 General notes
 #>
-function New-OktaAuthorizationServer {
+function New-OktaAuthorizationServer
+{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -96,29 +103,56 @@ function New-OktaAuthorizationServer {
         [string] $Description
     )
 
-    if (!$Description) {
+    if (!$Description)
+    {
         $Description = $Name
     }
 
     $body = @{
-        name = $Name
+        name        = $Name
         description = $Description
-        audiences = @(
+        audiences   = @(
             $Audience
         )
-        issuer = $Issuer
+        issuer      = $Issuer
     }
     Invoke-OktaApi -RelativeUri "authorizationServers" -Method POST -Body (ConvertTo-Json $body)
 }
 
-function Find-OktaScope {
-    [CmdletBinding()]
-    param (
+function Remove-OktaAuthorizationServer
+{
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
+    param(
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId
     )
+    Set-StrictMode -Version Latest
 
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET
+    if ($PSCmdlet.ShouldProcess($AuthorizationServerId,"Delete AuthorizationServer")) {
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method DELETE
+    }
+}
+
+function Find-OktaScope
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [switch] $IncludeSystem,
+        [string] $Query
+    )
+
+    $results = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET
+    if ($results -and !$IncludeSystem) {
+        $result = $results | Where-Object system -eq $false
+    }
+
+    if ($result -and $Query) {
+        $result | Where-Object name -like "*$Query*"
+    } else {
+        $results
+    }
 }
 
 <#
@@ -151,32 +185,52 @@ Add four scopes
 .NOTES
 General notes
 #>
-function New-OktaScope {
+function New-OktaScope
+{
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory, ValueFromPipeline)]
         [string] $Name,
         [string] $Description,
         [switch] $MetadataPublish,
         [switch] $DefaultScope
     )
 
-process {
-    if (!$Description) {
-        $Description = $Name
-    }
-    $body = @{
-        name = $Name
-        description = $Description
-        metadataPublish = $MetadataPublish ? "ALL_CLIENTS" : "NO_CLIENTS"
-        default = [bool]$DefaultScope
+    process
+    {
+        if (!$Description)
+        {
+            $Description = "$Name - Added by OktaPosh"
+        }
+        $body = @{
+            name            = $Name
+            description     = $Description
+            metadataPublish = $MetadataPublish ? "ALL_CLIENTS" : "NO_CLIENTS"
+            default         = [bool]$DefaultScope
+        }
+
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method POST -Body (ConvertTo-Json $body)
     }
 
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method POST -Body (ConvertTo-Json $body)
 }
 
+function Find-OktaClaim
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [string] $Query
+    )
+
+    $result = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method GET
+    if ($result -and $Query) {
+        $result | Where-Object name -like "*$Query*"
+    } else {
+        $result
+    }
 }
 
 <#
@@ -216,32 +270,37 @@ New-OktaClaim -AuthorizationServerId ausoqi2fqgcUpYHBS4x6 -Name test -ValueType 
 .NOTES
 General notes
 #>
-function New-OktaClaim {
+function New-OktaClaim
+{
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string] $Name,
-        [Parameter(Mandatory)]
-        [ValidateSet("EXPRESSION","GROUPS","SYSTEM")]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [ValidateSet("EXPRESSION", "GROUPS", "SYSTEM")]
         [string] $ValueType,
-        [ValidateSet("RESOURCE","IDENTITY")]
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [ValidateSet("RESOURCE", "IDENTITY")]
         [string] $ClaimType,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string] $Value,
+        [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $Inactive,
+        [Parameter(ValueFromPipelineByPropertyName)]
         [string[]] $Scopes
     )
 
     $body = @{
-        name = $Name
-        status = $Inactive ? "INACTIVE" : "ACTIVE"
+        name      = $Name
+        status    = $Inactive ? "INACTIVE" : "ACTIVE"
         valueType = $ValueType
         claimType = $ClaimType
-        value = $Value
+        value     = $Value
     }
-    if ($Scopes) {
+    if ($Scopes)
+    {
         $body['conditions'] = @{
             scopes = $Scopes
         }
@@ -250,7 +309,8 @@ function New-OktaClaim {
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method POST -Body (ConvertTo-Json $body)
 }
 
-function Find-OktaPolicy {
+function Find-OktaPolicy
+{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -265,39 +325,44 @@ function Find-OktaPolicy {
 
 
 
-function New-OktaPolicy {
+function New-OktaPolicy
+{
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory)]
         [string] $Name,
+        [string] $Description,
         [switch] $Inactive,
         [uint] $Priority = 1,
-        [string[]] $CliendIds
+        [string[]] $ClientIds
     )
 
-    if (!$Description) {
-        $Description = $Name
+    if (!$Description)
+    {
+        $Description = "$Name - Added by OktaPosh"
     }
 
     $body = @{
-        type = "OAUTH_AUTHORIZATION_POLICY"
-        status = $Inactive ? "INACTIVE" : "ACTIVE"
-        name = $Name
+        type        = "OAUTH_AUTHORIZATION_POLICY"
+        status      = $Inactive ? "INACTIVE" : "ACTIVE"
+        name        = $Name
         description = $Description
-        priority = $Priority
-        conditions = @{
+        priority    = $Priority
+        conditions  = @{
             clients = @{
                 include = @()
             }
         }
     }
 
-    $CliendIds.GetType()
-    if ($CliendIds) {
-        $body.conditions.clients.include += $CliendIds
-    } else {
+    if ($ClientIds)
+    {
+        $body.conditions.clients.include += $ClientIds
+    }
+    else
+    {
         $body.conditions.clients.include += "ALL_CLIENTS"
     }
 
@@ -306,7 +371,8 @@ function New-OktaPolicy {
 
 
 
-function Find-OktaRule {
+function Find-OktaRule
+{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -367,7 +433,8 @@ New-OktaRule -AuthorizationServerId $reliance.id -Name "Allow DRE" -PolicyId $dr
 .NOTES
 General notes
 #>
-function New-OktaRule {
+function New-OktaRule
+{
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
@@ -379,25 +446,25 @@ function New-OktaRule {
         [switch] $Inactive,
         [uint] $Priority = 1,
         [Parameter(Mandatory)]
-        [ValidateSet("authorization_code","password","refresh_token","client_credentials")]
+        [ValidateSet("authorization_code", "password", "refresh_token", "client_credentials")]
         [string[]] $GrantTypes,
         [string[]] $Scopes,
         [string[]] $UserIds,
         [string[]] $GroupIds = "EVERYONE",
-        [ValidateRange(5,1440)]
+        [ValidateRange(5, 1440)]
         [uint] $AccessTokenLifetimeMinutes = 60,
         [uint] $RefreshTokenLifetimeMinutes = 0, # 0 = unlimited
-        [ValidateRange(1,1825)]
+        [ValidateRange(1, 1825)]
         [uint] $RefreshTokenWindowDays = 7
     )
     $body = @{
-        type = "RESOURCE_ACCESS"
-        name = $Name
-        status = $Inactive ? "INACTIVE" : "ACTIVE"
-        priority = $Priority
+        type       = "RESOURCE_ACCESS"
+        name       = $Name
+        status     = $Inactive ? "INACTIVE" : "ACTIVE"
+        priority   = $Priority
         conditions = @{
-            people = @{
-                users = @{
+            people     = @{
+                users  = @{
                     include = @()
                     exclude = @()
                 }
@@ -413,18 +480,20 @@ function New-OktaRule {
                 include = @()
             }
         }
-        actions = @{
+        actions    = @{
             token = @{
-                accessTokenLifetimeMinutes = $AccessTokenLifetimeMinutes
+                accessTokenLifetimeMinutes  = $AccessTokenLifetimeMinutes
                 refreshTokenLifetimeMinutes = $RefreshTokenLifetimeMinutes
-                refreshTokenWindowMinutes = $RefreshTokenWindowDays*24*60
+                refreshTokenWindowMinutes   = $RefreshTokenWindowDays*24*60
             }
         }
     }
-    if ($Scopes) {
+    if ($Scopes)
+    {
         $body.conditions.scopes.include += $Scopes
     }
-    if ($UserIds) {
+    if ($UserIds)
+    {
         $body.conditions.users.include += $UserIds
     }
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method POST -Body (ConvertTo-Json $body -Depth 5)
