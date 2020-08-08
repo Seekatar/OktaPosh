@@ -1,6 +1,13 @@
-Import-Module .\OktaPosh.psm1 -fo -ArgumentList $true
-Set-OktaOptions
+# script to add Okta object for the Reliance project
+if (!$env:OktaApiToken -or ! $env:OktaBaseUri) {
+    Write-Warning "`$env:OktaApiToken and `$env:OktaBaseUri must be set"
+    return
+}
 $ErrorActionPreference = "Stop"
+Set-StrictMode -Version Latest
+
+Import-Module (Join-Path $PSScriptRoot ../src/OktaPosh.psm1) -fo -ArgumentList $true
+Set-OktaOptions
 
 # what to set up
 $authServerName = "RelianceGatewayAPI"
@@ -23,43 +30,50 @@ if ($authServer) {
 }
 
 $existingScopes = Find-OktaScope -AuthorizationServerId $authServer.id | Select-Object -ExpandProperty name
-$scopes | Where-Object { $_ -notin $existingScopes } | New-OktaScope -AuthorizationServerId $authServer.id
-
-$claims = @(
-    [PSCustomObject] @{Name = "appName";ValueType="EXPRESSION";ClaimType="RESOURCE";Value="app.profile.appName"}
-)
-
-$existingClaims = Find-OktaClaim -AuthorizationServerId $authServer.id -Query "appName"
-if (!$existingClaims) {
-    $claims | New-OktaClaim -AuthorizationServerId $authServer.id
-    "Added claims $($claims.Name -join ',')"
-}
-
-$dreApp = Find-OktaApplication -Query DRE
-if ($dreApp) {
-
-}
-$interfaceApp = Find-OktaApplication -Query InterfaceService
-if ($interfaceApp) {
-
-}
-$label = "CausualtyThirdParty"
-$thirdParty = Find-OktaApplication -Query $label
-if (!$thirdParty) {
-    $thirdParty = New-OktaApplication -Label $label -Properties @{appName = $label }
+$scopes = $scopes | Where-Object { $_ -notin $existingScopes }
+if ($scopes) {
+    $scopes | New-OktaScope -AuthorizationServerId $authServer.id
+    "Scopes added: $($scopes -join ',')"
+} else {
+    "All scopes found"
 }
 
 # add appname claim to all scopes
-$claim = New-OktaClaim -AuthorizationServerId $authServer.id -Name appName -ValueType EXPRESSION -ClaimType RESOURCE -Value "app.profile.appName"
+$claim = Find-OktaClaim -AuthorizationServerId $authServer.id -Query appName
+if ($claim) {
+    "Found appName Claim"
+} else {
+    $claim = New-OktaClaim -AuthorizationServerId $authServer.id -Name appName -ValueType EXPRESSION -ClaimType RESOURCE -Value "app.profile.appName"
+    "Added appName Claim"
+}
 
-# create policies to restrict scopes per app
-$apps = $dreApp, $interfaceApp, $thirdParty
-foreach ( $app in $apps) {
-    $policy = New-OktaPolicy -AuthorizationServerId $authServer.id -Name $app.Label -ClientIds $app.Id
-    $scopes = "get_item","access_token"
-    if ($label -ne "CasualtyThirdParty") {
-        $scopes += "save_item"
+$appNames = "DREApp", "InterfaceApp", "ThirdPartyApp"
+foreach ( $app in $appNames) {
+
+    $app = Find-OktaApplication -Query $_
+    if ($app) {
+        "Found app $_"
+    } else {
+        $app = New-OktaApplication -Label $_ -Properties @{appName = $_ }
+        "Added app $_"
     }
-    New-OktaRule -AuthorizationServerId $authServer.id -Name "Allow $($app.Label)" -PolicyId $policy.id -Priority 1 `
+
+    # create policies to restrict scopes per app
+    $policy = Find-OktaPolicy -AuthorizationServerId $authServer.id -Query $app.Label
+    if ($policy) {
+        "    Found $($app.Label) policy"
+    } else {
+        $policy = New-OktaPolicy -AuthorizationServerId $authServer.id -Name $app.Label -ClientIds $app.Id
+        $scopes = "get_item","access_token"
+        if ($label -ne "CasualtyThirdParty") {
+            $scopes += "save_item"
+        }
+    }
+    $rule = Find-OktaRule -AuthorizationServerId $authServer.id -PolicyId $policy.id -Query "Allow $($app.Label)"
+    if ($rule) {
+        "    Found rule 'Allow $($app.Label)'"
+    } else {
+        $rule = New-OktaRule -AuthorizationServerId $authServer.id -Name "Allow $($app.Label)" -PolicyId $policy.id -Priority 1 `
                  -GrantTypes client_credentials -Scopes $scopes
+    }
 }

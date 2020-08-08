@@ -1,16 +1,27 @@
+Set-StrictMode -Version Latest
 # https://developer.okta.com/docs/reference/api/apps/#application-properties
 
-Set-StrictMode -Version Latest
-
 function Get-OktaApplication {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("id")]
         [string] $AppId,
-        [switch] $RawContent
+        [Parameter(ParameterSetName="Query")]
+        [string] $Query,
+        [Parameter(ParameterSetName="Query")]
+        [uint] $Limit,
+        [Parameter(ParameterSetName="Query")]
+        [string] $After
     )
 
-    Invoke-OktaApi -RelativeUri "apps/$AppId" -RawContent:$RawContent
+    process {
+        if ($AppId) {
+            Invoke-OktaApi -RelativeUri "apps/$AppId"
+        } else {
+            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters $Query $Limit $After)"
+        }
+    }
 }
 function Find-OktaApplication {
     [CmdletBinding()]
@@ -56,29 +67,6 @@ function New-OktaApplication {
     Add-PropertiesToApp $body $Properties
 
     Invoke-OktaApi -RelativeUri "apps" -Body (ConvertTo-Json $body -Depth 10) -Method POST
-}
-
-function Add-PropertiesToApp {
-    param (
-        [Parameter(Mandatory)]
-        [PSCustomObject] $Application,
-        [hashtable] $Properties
-    )
-
-    if ($Properties) {
-        if (!(Get-Member -InputObject $Application -Name 'profile')) {
-            Add-Member -InputObject $Application -MemberType NoteProperty -Name 'profile' -Value $Properties
-        }
-        else {
-            foreach ($p in $Properties.Keys) {
-                if (!(Get-Member -InputObject $Application.profile -Name $p)) {
-                    Add-Member -InputObject $Application.profile -MemberType NoteProperty -Name $p -Value $Properties[$p]
-                } else {
-                    $Application.profile.$p = $Properties[$p]
-                }
-            }
-        }
-    }
 }
 
 <#

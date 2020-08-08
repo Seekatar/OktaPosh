@@ -1,3 +1,4 @@
+Set-StrictMode -Version Latest
 function Get-OktaAuthorizationServer
 {
     param (
@@ -40,29 +41,6 @@ function Find-OktaAuthorizationServer
     )
 
     Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)"
-}
-
-function Get-QueryParameters
-{
-    param (
-        [string] $Query,
-        [uint] $Limit,
-        [string] $After
-    )
-    $parms = ""
-    if ($Query)
-    {
-        $parms = "?q=$Query"
-        if ($Limit)
-        {
-            $parms += "&limit=$limit"
-        }
-        if ($After)
-        {
-            $parms += "&after=$after"
-        }
-    }
-    $parms
 }
 
 <#
@@ -145,14 +123,9 @@ function Find-OktaScope
 
     $results = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET
     if ($results -and !$IncludeSystem) {
-        $result = $results | Where-Object system -eq $false
+        $results = $results | Where-Object system -eq $false
     }
-
-    if ($result -and $Query) {
-        $result | Where-Object name -like "*$Query*"
-    } else {
-        $results
-    }
+    Write-Result -Result $results -Query $Query
 }
 
 <#
@@ -225,12 +198,7 @@ function Find-OktaClaim
         [string] $Query
     )
 
-    $result = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method GET
-    if ($result -and $Query) {
-        $result | Where-Object name -like "*$Query*"
-    } else {
-        $result
-    }
+    Write-Result -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method GET)
 }
 
 <#
@@ -315,12 +283,10 @@ function Find-OktaPolicy
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
-        [string] $Query,
-        [uint] $Limit,
-        [string] $After
+        [string] $Query
     )
 
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies$(Get-QueryParameters $Query $Limit $After)" -Method GET
+    Write-Result -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET)
 }
 
 
@@ -378,10 +344,11 @@ function Find-OktaRule
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory)]
-        [string] $PolicyId
+        [string] $PolicyId,
+        [string] $Query
     )
 
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET
+    Write-Result -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET)
 }
 
 <#
