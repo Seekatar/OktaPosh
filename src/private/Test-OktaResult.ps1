@@ -15,7 +15,7 @@ function Test-OktaResult {
         $oktaError = $result
         try {
             $err = $result.Content | ConvertFrom-Json
-            if ($err | gm -Name "errorCode") {
+            if ($err | Get-Member -Name "errorCode") {
                 $oktaError = @{
                     statusCode = $result.StatusCode
                     oktaError = $err

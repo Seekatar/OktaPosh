@@ -15,6 +15,7 @@ function Invoke-OktaApi {
     }
     $baseUri = Get-OktaBaseUri $OktaBaseUri
 
+    $result = $null
     if (($Method -in "Post", "Put", "Patch", "Merge") -and $body) {
         Write-Verbose "Doing $method with body"
         Write-Verbose $body
