@@ -19,7 +19,7 @@ $apps = @(
 
 
 Import-Module (Join-Path $PSScriptRoot ../src/OktaPosh.psm1) -fo -ArgumentList $true
-Set-OktaOptions
+Set-OktaOption
 
 $authServer = Get-OktaAuthorizationServer -Query $authServerName
 if ($authServer) {
@@ -50,7 +50,7 @@ $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $claimName
 if ($claim) {
     "Found '$claimName' Claim"
 } else {
-    $claim = New-OktaClaim -AuthorizationServerId $authServer.id -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE -Value "app.profile.$claimName"
+    $claim = New-OktaClaim -AuthorizationServerId $authServer.id -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE -Value "app.profile.$claimName" -Scopes "access_token"
     "Added '$claimName' Claim"
 }
 

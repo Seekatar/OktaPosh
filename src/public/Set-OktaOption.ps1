@@ -1,7 +1,7 @@
 $script:apiToken = ""
 $script:baseUri = ""
 
-function Set-OktaOptions {
+function Set-OktaOption {
     [CmdletBinding()]
     param (
         [string] $ApiToken = $env:OktaApiToken,
@@ -12,7 +12,9 @@ function Set-OktaOptions {
         Write-Warning "Must supply ApiToken and BaseUri"
     } else {
         $script:apiToken = $ApiToken
-        $script:baseUri = $baseUri
+        $script:baseUri = $BaseUri
+        $env:OktaApiToken = $ApiToken
+        $env:OktaBaseUri = $BaseUri
     }
 }
 
@@ -24,20 +26,24 @@ function Get-OktaApiToken {
         return $ApiToken
     } elseif ($script:apiToken) {
         $script:apiToken
+    } elseif ($env:OktaApiToken) {
+        $env:OktaApiToken
     } else {
-        throw "Must pass in ApiToken or call Set-OktaOptions"
+        throw "Must pass in ApiToken or call Set-OktaOption"
     }
 }
 
 function Get-OktaBaseUri {
     param (
-        [string] $BaseUri
+        [string] $OktaBaseUri
     )
-    if ($BaseUri) {
-        return $BaseUri
-    } elseif ($script:BaseUri) {
+    if ($OktaBaseUri) {
+        return $baseUri
+    } elseif ($script:baseUri) {
         $script:baseUri
+    } elseif ($env:OktaBaseUri) {
+        $env:OktaBaseUri
     } else {
-        throw "Must pass in BaseUri or call Set-OktaOptions"
+        throw "Must pass in BaseUri or call Set-OktaOption"
     }
 }
