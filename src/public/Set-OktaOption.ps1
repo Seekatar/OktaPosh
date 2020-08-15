@@ -1,6 +1,25 @@
 $script:apiToken = ""
 $script:baseUri = ""
 
+<#
+.SYNOPSIS
+Set OktaOptions for accessing the API
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ApiToken
+API token from Okta
+
+.PARAMETER BaseUri
+Base Okta URI for all API calls
+
+.EXAMPLE
+C:>PS Set-OktaOption -ApiToken abc123 -BaseUri https://devcccis.oktapreview.com/
+
+.NOTES
+General notes
+#>
 function Set-OktaOption {
     [CmdletBinding()]
     param (

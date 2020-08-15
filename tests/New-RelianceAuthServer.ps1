@@ -1,6 +1,9 @@
+[CmdletBinding(SupportsShouldProcess)]
+param()
+
 # script to add Okta object for the Reliance project
-if (!$env:OktaApiToken -or ! $env:OktaBaseUri) {
-    Write-Warning "`$env:OktaApiToken and `$env:OktaBaseUri must be set"
+if (!(Get-Module OktaPosh)) {
+    Write-Warning "Must Import-Module OktaPosh and call Set-OktaOption before running this script."
     return
 }
 $ErrorActionPreference = "Stop"
@@ -12,14 +15,10 @@ $scopes = "access_token","get_item","save_item","remove_item"
 $claimName = "appName"
 
 $apps = @(
-    @{ Name = "DREApp"; $Scopes = "get_item","access_token","save_item" },
-    @{ Name = "InterfaceApp"; $Scopes = "get_item","access_token","save_item" },
-    @{ Name = "ThirdPartyApp"; $Scopes = "get_item","access_token","save_item" }
+    @{ Name = "Reliance DREApp"; Scopes = "get_item","access_token","save_item" },
+    @{ Name = "Reliance InterfaceApp"; Scopes = "get_item","access_token","save_item" },
+    @{ Name = "Reliance ThirdPartyApp"; Scopes = "get_item","access_token" }
 )
-
-
-Import-Module (Join-Path $PSScriptRoot ../src/OktaPosh.psm1) -fo -ArgumentList $true
-Set-OktaOption
 
 $authServer = Get-OktaAuthorizationServer -Query $authServerName
 if ($authServer) {
@@ -39,7 +38,7 @@ if ($authServer) {
 $existingScopes = Get-OktaScope -AuthorizationServerId $authServer.id | Select-Object -ExpandProperty name
 $scopes = $scopes | Where-Object { $_ -notin $existingScopes }
 if ($scopes) {
-    $scopes | New-OktaScope -AuthorizationServerId $authServer.id
+    $null = $scopes | New-OktaScope -AuthorizationServerId $authServer.id
     "Scopes added: $($scopes -join ',')"
 } else {
     "All scopes found"
@@ -61,7 +60,7 @@ foreach ( $newApp in $apps) {
     if ($app) {
         "Found app '$appName'"
     } else {
-        $app = New-OktaServerApplication -Label $app -Properties @{appName = $appName }
+        $app = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
         "Added app '$appName'"
     }
 

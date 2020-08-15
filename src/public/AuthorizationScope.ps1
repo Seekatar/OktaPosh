@@ -69,7 +69,7 @@ function New-OktaScope
     {
         if (!$Description)
         {
-            $Description = "$Name - Added by OktaPosh"
+            $Description = "Added by OktaPosh"
         }
         $body = @{
             name            = $Name

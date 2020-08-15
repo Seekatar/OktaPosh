@@ -41,7 +41,7 @@ function New-OktaPolicy
 
     if (!$Description)
     {
-        $Description = "$Name - Added by OktaPosh"
+        $Description = "Added by OktaPosh"
     }
 
     $body = @{
