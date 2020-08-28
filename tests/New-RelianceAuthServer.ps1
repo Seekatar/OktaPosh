@@ -1,6 +1,9 @@
 [CmdletBinding(SupportsShouldProcess)]
 param()
 
+# CCC naming conventions
+# http://confluence.nix.cccis.com/display/IdAM/Entity+Naming+Conventions#EntityNamingConventions-Applications.1
+
 # script to add Okta object for the Reliance project
 if (!(Get-Module OktaPosh)) {
     Write-Warning "Must Import-Module OktaPosh and call Set-OktaOption before running this script."
@@ -10,14 +13,15 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 # what to set up
-$authServerName = "RelianceGatewayAPI"
-$scopes = "access_token","get_item","save_item","remove_item"
+$authServerName = "Casualty-Reliance-AS"
+$scopes = "access:token","get:item","save:item","remove:item"
 $claimName = "appName"
 
 $apps = @(
-    @{ Name = "Reliance DREApp"; Scopes = "get_item","access_token","save_item" },
-    @{ Name = "Reliance InterfaceApp"; Scopes = "get_item","access_token","save_item" },
-    @{ Name = "Reliance ThirdPartyApp"; Scopes = "get_item","access_token" }
+    @{ Name = "CCC-CASReliance-DRE"; Scopes = "get:item","access:token","save:item" },
+    @{ Name = "CCC-CASReliance-Interface"; Scopes = "get:item","access:token","save:item" },
+    @{ Name = "CCC-CASReliance-ThirdParty"; Scopes = "get:item","access:token" },
+    @{ Name = "CICD-CASReliance-LoadTest-DEV"; Scopes = "get:item","access:token","save:item" }
 )
 
 $authServer = Get-OktaAuthorizationServer -Query $authServerName
@@ -27,7 +31,7 @@ if ($authServer) {
     $authServer = New-OktaAuthorizationServer -Name $authServerName `
         -Audience "api://cccis/reliance/api" `
         -Issuer "$(Get-OktaBaseUri)/oauth2/default" `
-        -Description "Reliance API Server"
+        -Description "Reliance Service Gateway Authorization Server"
     if ($authServer) {
         "Created '$authServerName'"
     } else {
@@ -49,7 +53,7 @@ $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $claimName
 if ($claim) {
     "Found '$claimName' Claim"
 } else {
-    $claim = New-OktaClaim -AuthorizationServerId $authServer.id -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE -Value "app.profile.$claimName" -Scopes "access_token"
+    $claim = New-OktaClaim -AuthorizationServerId $authServer.id -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE -Value "app.profile.$claimName" -Scopes "access:token"
     "Added '$claimName' Claim"
 }
 
@@ -65,19 +69,20 @@ foreach ( $newApp in $apps) {
     }
 
     # create policies to restrict scopes per app
-    $policy = Get-OktaPolicy -AuthorizationServerId $authServer.id -Query $app.Label
+    $policyName = "$($app.Label)-Policy"
+    $policy = Get-OktaPolicy -AuthorizationServerId $authServer.id -Query $policyName
     if ($policy) {
-        "    Found '$($app.Label)' Policy"
+        "    Found '$($policyName)' Policy"
     } else {
-        $policy = New-OktaPolicy -AuthorizationServerId $authServer.id -Name $app.Label -ClientIds $app.Id
-        "    Added '$($app.Label)' Policy"
+        $policy = New-OktaPolicy -AuthorizationServerId $authServer.id -Name $policyName -ClientIds $app.Id
+        "    Added '$($policyName)' Policy"
     }
-    $rule = Get-OktaRule -AuthorizationServerId $authServer.id -PolicyId $policy.id -Query "Allow $($app.Label)"
+    $rule = Get-OktaRule -AuthorizationServerId $authServer.id -PolicyId $policy.id -Query "Allow $($policyName)"
     if ($rule) {
-        "    Found 'Allow $($app.Label)' Rule"
+        "    Found 'Allow $($policyName)' Rule"
     } else {
-        $rule = New-OktaRule -AuthorizationServerId $authServer.id -Name "Allow $($app.Label)" -PolicyId $policy.id -Priority 1 `
+        $rule = New-OktaRule -AuthorizationServerId $authServer.id -Name "Allow $($policyName)" -PolicyId $policy.id -Priority 1 `
                  -GrantTypes client_credentials -Scopes $newApp.Scopes
-        "    Added 'Allow $($app.Label)' Rule"
+        "    Added 'Allow $($policyName)' Rule"
     }
 }
