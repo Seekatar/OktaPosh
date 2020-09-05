@@ -17,7 +17,7 @@ function Get-OktaPolicy
         if ($RuleId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET
         } else {
-            Write-Result -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET)
+            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET)
         }
     }
 }

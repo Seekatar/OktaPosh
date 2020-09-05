@@ -131,6 +131,7 @@ Set client_id and client_profile_id on the app
 General notes
 #>
 function Set-OktaApplicationProperty {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
@@ -143,3 +144,4 @@ function Set-OktaApplicationProperty {
     Invoke-OktaApi -RelativeUri "apps/$($App.Id)" -Method PUT -Body (ConvertTo-Json $Application -Depth 10)
 }
 
+New-Alias goktaapp Get-OktaApplication

@@ -10,8 +10,9 @@ function Test-OktaResult {
         } else {
             return $result.Content | ConvertFrom-Json
         }
-    }
-    else {
+    } else {
+        # 429 is rate limit, 20-100/minute depending on the request
+        # https://developer.okta.com/docs/reference/rate-limits/
         $oktaError = $result
         try {
             $err = $result.Content | ConvertFrom-Json

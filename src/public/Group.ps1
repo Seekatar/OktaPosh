@@ -18,39 +18,8 @@ function Get-OktaGroup
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET
         } else {
-            Write-Result -Query $Query -Result (Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters $Query $Limit $After)" -Method GET)
+            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters $Query $Limit $After)" -Method GET)
         }
     }
 }
 
-
-function New-OktaGroup
-{
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
-    [CmdletBinding(SupportsShouldProcess)]
-    param (
-        [Parameter(Mandatory,ValueFromPipeline)]
-        [string] $Name,
-        [Parameter(Mandatory)]
-        [string] $Description,
-        [hashtable] $Properties
-    )
-
-    process {
-        $body = @{
-            name      = $Name
-            status    = $Inactive ? "INACTIVE" : "ACTIVE"
-            valueType = $ValueType
-            groupType = $GroupType
-            value     = $Value
-        }
-        if ($Scopes)
-        {
-            $body['conditions'] = @{
-                scopes = $Scopes
-            }
-        }
-
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/groups" -Method POST -Body (ConvertTo-Json $body)
-    }
-}

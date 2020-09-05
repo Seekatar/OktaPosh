@@ -21,6 +21,7 @@ C:>PS Set-OktaOption -ApiToken abc123 -BaseUri https://devcccis.oktapreview.com/
 General notes
 #>
 function Set-OktaOption {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
         [string] $ApiToken = $env:OktaApiToken,

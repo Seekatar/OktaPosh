@@ -14,7 +14,7 @@ defaults:
   run:
     shell: pwsh
     working-directory: src
-    
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -28,22 +28,50 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    # Default with.repository is ${{ github.repository }}
     - uses: actions/checkout@v2
-      
-    - name: Get JoatPowerShell
-      uses: actions/checkout@v2
-      with: 
-        repository: Seekatar/joat-powershell
-        path: tools/joat-powershell
 
-    # Runs a single command using the runners shell
+    # Checkout build helper scripts
+    # - name: Get JoatPowerShell
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: Seekatar/joat-powershell
+    #     path: tools/joat-powershell
+
     - name: Run a one-line script
       run: gci $env:GITHUB_WORKSPACE -r
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
+    - name: Set manifest build version
+      uses: seekatar/set-posh-manifest-action@main
+      with:
+          manifest-path: src/OktaPosh.psd1
+          build: ${{ github.run_number }}
+
+    - name: Run Script Analyzer
+      shell: pwsh
+      run: |
+        cd src
+        if ( -not (Get-Module -Name PSScriptAnalyzer ) ) { Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -Confirm:$false -SkipPublisherCheck }
+        $results = Invoke-ScriptAnalyzer -Path . -Recurse
+        $results
+        if ($results | ? Severity -eq Error ) { Write-Error "Analyzer detected errors." }
+
+    - name: Run Pester Tests
       env:
-        PSGalleryKey: ${{ secrets.PSGalleryKey }}
+        oktaApiToken: ${{ secrets.OKTA_API_TOKEN }}
+      shell: pwsh
+      run: |
+        Install-Module Pester -Confirm:$False -Force
+        cd tests/integration
+        $result = Invoke-Pester -PassThru
+        $result.tests | select name,result
+        if ($result.Result -ne "Passed") {
+          Write-Error "Pester tests failed"
+        }
+
+    - name: Publish Module
+      env:
+        PSGalleryKey: ${{ secrets.PSGALLERYKEY }}
       run: |
         gci
         Write-Host 'Publish-Module -Path . -NuGetApiKey "$env:PSGalleryKey"'

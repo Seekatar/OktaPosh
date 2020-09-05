@@ -115,3 +115,5 @@ function Remove-OktaAuthorizationServer
         Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method DELETE
     }
 }
+
+New-Alias goktaauth Get-OktaAuthorizationServer

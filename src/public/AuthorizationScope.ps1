@@ -22,7 +22,7 @@ function Get-OktaScope
             if ($results -and !$IncludeSystem) {
                 $results = $results | Where-Object system -eq $false
             }
-            Write-Result -Result $results -Query $Query
+            Find-InResult -Result $results -Query $Query
         }
     }
 }
