@@ -1,5 +1,9 @@
 name: CI
 
+env:
+  oktaBaseUri: https://dev-671484-admin.okta.com
+  oktaApiToken: ${{ secrets.OKTA_API_TOKEN }}
+
 on:
   push:
     branches: [ main ]
@@ -31,8 +35,6 @@ jobs:
         if ($results | ? Severity -eq Error ) { Write-Error "Analyzer detected errors." }
 
     - name: Run Pester Tests
-      env:
-        oktaApiToken: ${{ secrets.OKTA_API_TOKEN }}
       shell: pwsh
       working-directory: tests/integration
       run: |
@@ -51,8 +53,6 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Run Pester Tests
-      env:
-        oktaApiToken: ${{ secrets.OKTA_API_TOKEN }}
       shell: powershell
       working-directory: tests/integration
       run: |
