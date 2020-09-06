@@ -33,7 +33,7 @@ function Get-OktaApplication {
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
-        [uint] $Limit,
+        [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
         [string] $After
     )
@@ -86,7 +86,7 @@ function New-OktaServerApplication {
 
     $body = [PSCustomObject]@{
         name      = $Name
-        status    = $Inactive ? "INACTIVE" : "ACTIVE"
+        status    = ternary $Inactive "INACTIVE" "ACTIVE"
         label     = $Label
         signOnMode = $SignOnMode
         settings   = @{

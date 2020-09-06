@@ -2,7 +2,7 @@ function Get-QueryParameters
 {
     param (
         [string] $Query,
-        [uint] $Limit,
+        [uint32] $Limit,
         [string] $After
     )
     $parms = ""

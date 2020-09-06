@@ -33,7 +33,7 @@ Copyright = '(c) 2020 Jim Wallace. All rights reserved.'
 Description = 'Module for accessing the Okta API'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '7.0'
+PowerShellVersion = '5.1'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''

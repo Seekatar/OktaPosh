@@ -2,7 +2,7 @@ name: CI
 
 env:
   OKTA_BASE_URI: https://dev-671484-admin.okta.com
-  OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
+  OKTA_BASE_URI: ${{ secrets.OKTA_API_TOKEN }}
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
         if ( -not (Get-Module -Name PSScriptAnalyzer ) ) { Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -Confirm:$false -SkipPublisherCheck }
         $results = Invoke-ScriptAnalyzer -Path . -Recurse
         $results
-        if ($results | ? Severity -eq Error ) { Write-Error "Analyzer detected errors." }
+        if ($results | Where-Object Severity -eq Error ) { Write-Error "Analyzer detected errors." }
 
     - name: Run Pester Tests
       shell: pwsh

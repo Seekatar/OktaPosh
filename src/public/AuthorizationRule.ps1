@@ -77,7 +77,7 @@ function New-OktaRule
         [Parameter(Mandatory)]
         [string] $Name,
         [switch] $Inactive,
-        [uint] $Priority = 1,
+        [uint32] $Priority = 1,
         [Parameter(Mandatory)]
         [ValidateSet("authorization_code", "password", "refresh_token", "client_credentials")]
         [string[]] $GrantTypes,
@@ -85,15 +85,15 @@ function New-OktaRule
         [string[]] $UserIds,
         [string[]] $GroupIds = "EVERYONE",
         [ValidateRange(5, 1440)]
-        [uint] $AccessTokenLifetimeMinutes = 60,
-        [uint] $RefreshTokenLifetimeMinutes = 0, # 0 = unlimited
+        [uint32] $AccessTokenLifetimeMinutes = 60,
+        [uint32] $RefreshTokenLifetimeMinutes = 0, # 0 = unlimited
         [ValidateRange(1, 1825)]
-        [uint] $RefreshTokenWindowDays = 7
+        [uint32] $RefreshTokenWindowDays = 7
     )
     $body = @{
         type       = "RESOURCE_ACCESS"
         name       = $Name
-        status     = $Inactive ? "INACTIVE" : "ACTIVE"
+        status     = ternary $Inactive "INACTIVE" "ACTIVE"
         priority   = $Priority
         conditions = @{
             people     = @{

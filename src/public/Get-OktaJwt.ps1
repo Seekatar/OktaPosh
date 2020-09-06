@@ -62,8 +62,12 @@ function Get-OktaJwt {
 
     $body = "grant_type=client_credentials&scope=get_item%20access_token%20save_item" # space-separated scopes
 
+    $parms = @{}
+    if ($PSVersionTable.PSVersion.Major -ge 7) {
+        $parms['SkipHttpErrorCheck'] = $true
+    }
     $jwt = ""
-    $result = Invoke-WebRequest $env:okta_url -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader -SkipHttpErrorCheck
+    $result = Invoke-WebRequest $env:okta_url -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader @parms
     if ($result.StatusCode -ne 200)
     {
         Write-Warning "Couldn't get JWT"

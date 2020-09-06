@@ -15,18 +15,23 @@ function Invoke-OktaApi {
     }
     $baseUri = Get-OktaBaseUri $OktaBaseUri
 
+    $parms = @{
+        Uri = "$baseUri/api/v1/$RelativeUri"
+        ContentType = "application/json"
+        Headers = $headers
+        Method = $Method
+    }
+    if ($PSVersionTable.PSVersion.Major -ge 7) {
+        $parms['SkipHttpErrorCheck'] = $true
+    }
     $result = $null
     if (($Method -in "Post", "Put", "Patch", "Merge") -and $body) {
         Write-Verbose "Doing $method with body"
-        Write-Verbose $body
-        if ($PSCmdlet.ShouldProcess($RelativeUri,"Invoke API")) {
-            $result = Invoke-WebRequest -Uri "$baseUri/api/v1/$RelativeUri" -ContentType "application/json" -Headers $headers -SkipHttpErrorCheck -Method $Method -Body $Body
-        }
+        $parms["Body"] = $body
     }
-    else {
-        $result = Invoke-WebRequest -Uri "$baseUri/api/v1/$RelativeUri" -ContentType "application/json" -Headers $headers -SkipHttpErrorCheck -Method $Method
-    }
-    if ($result) { # WhatIf will have null $result
+
+    if (!$body -or $PSCmdlet.ShouldProcess($RelativeUri,"Invoke API")) {
+        $result = Invoke-WebRequest @parms
         Test-OktaResult -Result $result -RawContent:$RawContent
     }
 }

@@ -33,7 +33,7 @@ function Get-OktaAuthorizationServer
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
-        [uint] $Limit,
+        [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
         [string] $After
     )

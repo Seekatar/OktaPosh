@@ -74,7 +74,7 @@ function New-OktaScope
         $body = @{
             name            = $Name
             description     = $Description
-            metadataPublish = $MetadataPublish ? "ALL_CLIENTS" : "NO_CLIENTS"
+            metadataPublish = ternary $MetadataPublish "ALL_CLIENTS" "NO_CLIENTS"
             default         = [bool]$DefaultScope
         }
 

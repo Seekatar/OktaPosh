@@ -35,7 +35,7 @@ function New-OktaPolicy
         [string] $Name,
         [string] $Description,
         [switch] $Inactive,
-        [uint] $Priority = 1,
+        [uint32] $Priority = 1,
         [string[]] $ClientIds
     )
 
@@ -46,7 +46,7 @@ function New-OktaPolicy
 
     $body = @{
         type        = "OAUTH_AUTHORIZATION_POLICY"
-        status      = $Inactive ? "INACTIVE" : "ACTIVE"
+        status      = ternary $Inactive "INACTIVE" "ACTIVE"
         name        = $Name
         description = $Description
         priority    = $Priority

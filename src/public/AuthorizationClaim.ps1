@@ -79,7 +79,7 @@ function New-OktaClaim
     process {
         $body = @{
             name      = $Name
-            status    = $Inactive ? "INACTIVE" : "ACTIVE"
+            status    = ternary $Inactive "INACTIVE" "ACTIVE"
             valueType = $ValueType
             claimType = $ClaimType
             value     = $Value
