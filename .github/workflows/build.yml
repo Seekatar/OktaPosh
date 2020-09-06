@@ -1,9 +1,5 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
 on:
   push:
     branches: [ main ]
@@ -13,44 +9,22 @@ on:
 defaults:
   run:
     shell: pwsh
-    working-directory: src
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  test:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-    # The type of runner that the job will run on
-    runs-on: ${{matrix.os}}
+      max-parallel: 1
+    runs-on: ${{ matrix.os }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    # Default with.repository is ${{ github.repository }}
     - uses: actions/checkout@v2
-
-    # Checkout build helper scripts
-    # - name: Get JoatPowerShell
-    #   uses: actions/checkout@v2
-    #   with:
-    #     repository: Seekatar/joat-powershell
-    #     path: tools/joat-powershell
-
-    - name: Run a one-line script
-      run: gci $env:GITHUB_WORKSPACE -r
-
-    - name: Set manifest build version
-      uses: seekatar/set-posh-manifest-action@main
-      with:
-          manifest-path: src/OktaPosh.psd1
-          build: ${{ github.run_number }}
 
     - name: Run Script Analyzer
       shell: pwsh
+      working-directory: src
       run: |
-        cd src
         if ( -not (Get-Module -Name PSScriptAnalyzer ) ) { Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -Confirm:$false -SkipPublisherCheck }
         $results = Invoke-ScriptAnalyzer -Path . -Recurse
         $results
@@ -60,14 +34,47 @@ jobs:
       env:
         oktaApiToken: ${{ secrets.OKTA_API_TOKEN }}
       shell: pwsh
+      working-directory: tests/integration
       run: |
         Install-Module Pester -Confirm:$False -Force
-        cd tests/integration
         $result = Invoke-Pester -PassThru
         $result.tests | select name,result
         if ($result.Result -ne "Passed") {
           Write-Error "Pester tests failed"
         }
+
+  testPS5:
+    runs-on: windows-latest
+    needs: test
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run Pester Tests
+      env:
+        oktaApiToken: ${{ secrets.OKTA_API_TOKEN }}
+      shell: powershell
+      working-directory: tests/integration
+      run: |
+        Install-Module Pester -Confirm:$False -Force
+        $result = Invoke-Pester -PassThru
+        $result.tests | select name,result
+        if ($result.Result -ne "Passed") {
+          Write-Error "Pester tests failed"
+        }
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [test,testPS5]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set manifest build version
+      uses: seekatar/set-posh-manifest-action@main
+      with:
+          manifest-path: src/OktaPosh.psd1
+          build: ${{ github.run_number }}
 
     - name: Publish Module
       env:
@@ -75,3 +82,4 @@ jobs:
       run: |
         gci
         Write-Host 'Publish-Module -Path . -NuGetApiKey "$env:PSGalleryKey"'
+
