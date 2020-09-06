@@ -1,8 +1,8 @@
 name: CI
 
 env:
-  oktaBaseUri: https://dev-671484-admin.okta.com
-  oktaApiToken: ${{ secrets.OKTA_API_TOKEN }}
+  OKTA_BASE_URI: https://dev-671484-admin.okta.com
+  OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
 
 on:
   push:

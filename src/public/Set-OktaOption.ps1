@@ -24,8 +24,8 @@ function Set-OktaOption {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [string] $ApiToken = $env:OktaApiToken,
-        [string] $BaseUri = $env:OktaBaseUri
+        [string] $ApiToken = $env:OKTA_API_TOKEN,
+        [string] $BaseUri = $env:OKTA_BASE_URI
     )
 
     if (!$ApiToken -or !$BaseUri) {
@@ -33,8 +33,8 @@ function Set-OktaOption {
     } else {
         $script:apiToken = $ApiToken
         $script:baseUri = $BaseUri
-        $env:OktaApiToken = $ApiToken
-        $env:OktaBaseUri = $BaseUri
+        $env:OKTA_API_TOKEN = $ApiToken
+        $env:OKTA_BASE_URI = $BaseUri
     }
 }
 
@@ -46,8 +46,8 @@ function Get-OktaApiToken {
         return $ApiToken
     } elseif ($script:apiToken) {
         $script:apiToken
-    } elseif ($env:OktaApiToken) {
-        $env:OktaApiToken
+    } elseif ($env:OKTA_API_TOKEN) {
+        $env:OKTA_API_TOKEN
     } else {
         throw "Must pass in ApiToken or call Set-OktaOption"
     }
@@ -61,8 +61,8 @@ function Get-OktaBaseUri {
         return $baseUri
     } elseif ($script:baseUri) {
         $script:baseUri
-    } elseif ($env:OktaBaseUri) {
-        $env:OktaBaseUri
+    } elseif ($env:OKTA_BASE_URI) {
+        $env:OKTA_BASE_URI
     } else {
         throw "Must pass in BaseUri or call Set-OktaOption"
     }

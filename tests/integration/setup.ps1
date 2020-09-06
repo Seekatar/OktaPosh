@@ -1,7 +1,7 @@
-if (!$env:oktaApiToken) {
-    Write-Error "Missing `$env:oktaApiToken"
+if (!$env:OKTA_API_TOKEN) {
+    Write-Error "Missing `$env:OKTA_API_TOKEN"
 }
-if (!$env:oktaBaseUri) {
-    Write-Error "Missing `$env:oktaBaseUri"
+if (!$env:OKTA_BASE_URI) {
+    Write-Error "Missing `$env:OKTA_BASE_URI"
 }
 Import-Module (Join-Path $PSScriptRoot ../../src/OktaPosh.psd1) -Force
