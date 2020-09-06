@@ -41,8 +41,9 @@ jobs:
     - name: Run a one-line script
       run: gci $env:GITHUB_WORKSPACE -r
 
+
     - name: Set manifest build version
-      uses: seekatar/set-posh-manifest-action@main
+      uses: Seekatar/set-posh-manifest-action@v1
       with:
           manifest-path: src/OktaPosh.psd1
           build: ${{ github.run_number }}
