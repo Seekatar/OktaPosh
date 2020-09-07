@@ -105,7 +105,7 @@ function New-OktaServerApplication {
 
     Add-PropertiesToApp $body $Properties
 
-    Invoke-OktaApi -RelativeUri "apps" -Body (ConvertTo-Json $body -Depth 10) -Method POST
+    Invoke-OktaApi -RelativeUri "apps" -Body $body -Method POST
 }
 
 <#
@@ -144,4 +144,27 @@ function Set-OktaApplicationProperty {
     Invoke-OktaApi -RelativeUri "apps/$($App.Id)" -Method PUT -Body (ConvertTo-Json $Application -Depth 10)
 }
 
+<#
+.SYNOPSIS
+Delete an application
+
+.PARAMETER AppId
+Id of the application
+#>
+function Remove-OktaApplication {
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
+    param(
+        [Parameter(Mandatory,ValueFromPipeline)]
+        [Alias('Id')]
+        [string] $AppId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        if ($PSCmdlet.ShouldProcess($AppId,"Delete Application")) {
+            Invoke-OktaApi -RelativeUri "apps/$AppId" -Method DELETE
+        }
+    }
+}
 New-Alias goktaapp Get-OktaApplication

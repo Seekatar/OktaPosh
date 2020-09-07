@@ -78,7 +78,7 @@ function New-OktaScope
             default         = [bool]$DefaultScope
         }
 
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method POST -Body (ConvertTo-Json $body)
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method POST -Body $body
     }
 
 }

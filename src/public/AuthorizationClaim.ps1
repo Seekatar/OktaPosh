@@ -91,6 +91,6 @@ function New-OktaClaim
             }
         }
 
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method POST -Body (ConvertTo-Json $body)
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method POST -Body $body
     }
 }

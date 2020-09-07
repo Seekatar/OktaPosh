@@ -4,11 +4,16 @@ function Invoke-OktaApi {
         [string] $RelativeUri,
         [ValidateSet('Get', 'Head', 'Post', 'Put', 'Delete', 'Trace', 'Options', 'Merge', 'Patch')]
         [string] $Method = "GET",
-        [string] $Body,
+        [object] $Body,
         [switch] $RawContent,
         [string] $OktaApiToken,
-        [string] $OktaBaseUri
+        [string] $OktaBaseUri,
+        [switch] $BodyIsString
     )
+    if ($Body -is [String] -and !$BodyIsString) {
+        $Body = ConvertTo-Json $Body -Depth 10
+    }
+
     $headers = @{
         Authorization = "SSWS $(Get-OktaApiToken $OktaApiToken)"
         Accept        = "application/json"
@@ -25,12 +30,13 @@ function Invoke-OktaApi {
         $parms['SkipHttpErrorCheck'] = $true
     }
     $result = $null
-    if (($Method -in "Post", "Put", "Patch", "Merge") -and $body) {
+    $writeMethod = $Method -in "Post", "Put", "Patch", "Merge"
+    if ($writeMethod -and $body) {
         Write-Verbose "Doing $method with body"
         $parms["Body"] = $body
     }
 
-    if (!$body -or $PSCmdlet.ShouldProcess($RelativeUri,"Invoke API")) {
+    if (!$writeMethod -or $PSCmdlet.ShouldProcess($RelativeUri,"Invoke API")) {
         $result = Invoke-WebRequest @parms
         Test-OktaResult -Result $result -RawContent:$RawContent
     }

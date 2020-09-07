@@ -66,7 +66,7 @@ function New-OktaPolicy
         $body.conditions.clients.include += "ALL_CLIENTS"
     }
 
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method POST -Body (ConvertTo-Json $body -Depth 5)
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method POST -Body $body
 }
 
 

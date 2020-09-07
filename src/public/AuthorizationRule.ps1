@@ -129,5 +129,5 @@ function New-OktaRule
     {
         $body.conditions.users.include += $UserIds
     }
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method POST -Body (ConvertTo-Json $body -Depth 5)
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method POST -Body $body
 }

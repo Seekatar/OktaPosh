@@ -15,7 +15,7 @@ Describe "AuthorizationServer" {
 
     It "Creates a new AuthServer" {
         $script:authServer = New-OktaAuthorizationServer -Name $script:authServerName `
-            -Audience "api://oktaposh/api" `
+            -Audiences "api://oktaposh/api" `
             -Issuer "$(Get-OktaBaseUri)/oauth2/default" `
             -Description "OktaPosh Test Authorization Sserver"
         $script:authServer | Should -Not -Be $null

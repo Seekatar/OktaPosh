@@ -29,7 +29,7 @@ if ($authServer) {
     "Found '$authServerName'"
 } else {
     $authServer = New-OktaAuthorizationServer -Name $authServerName `
-        -Audience "api://cccis/reliance/api" `
+        -Audiences "api://cccis/reliance/api" `
         -Issuer "$(Get-OktaBaseUri)/oauth2/default" `
         -Description "Reliance Service Gateway Authorization Server"
     if ($authServer) {
