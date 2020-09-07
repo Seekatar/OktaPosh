@@ -5,40 +5,36 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaClaim
+# Get-OktaGroup
 
 ## SYNOPSIS
-Get one of more Claims for an AuthorizationServer
+Get one or more Okta Groups
 
 ## SYNTAX
 
+### Query (Default)
+```
+Get-OktaGroup [-Query <String>] [-Limit <UInt32>] [-After <String>] [<CommonParameters>]
+```
+
 ### ById
 ```
-Get-OktaClaim -AuthorizationServerId <String> -ClaimId <String> [<CommonParameters>]
+Get-OktaGroup -GroupId <String> [<CommonParameters>]
 ```
-
-### Query
-```
-Get-OktaClaim -AuthorizationServerId <String> [-Query <String>] [<CommonParameters>]
-```
-
-## DESCRIPTION
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> Get-OktaClaim -AuthorizationServerId $id
+```powershell
+PS C:\> Get-OktaGroup -GroupId 123
 ```
 
-Get all the claims for that authorization server
+Get a group with id 123
 
 ## PARAMETERS
 
-<!-- #include "./params/authServerId.md" -->
-
-### -ClaimId
-<!-- #include "./params/claimIdDescription.md" -->
+### -GroupId
+GroupId from Okta. Can use query version to get it.
 
 ```yaml
 Type: String
@@ -53,12 +49,16 @@ Accept wildcard characters: False
 ```
 
 <!-- #include "./params/query.md" -->
+<!-- #include "./params/limit.md" -->
+<!-- #include "./params/after.md" -->
 
 <!-- #include "./params/common-parameters.md" -->
+
 
 ## INPUTS
 
 ### System.String
+
 ## OUTPUTS
 
 ### System.Object

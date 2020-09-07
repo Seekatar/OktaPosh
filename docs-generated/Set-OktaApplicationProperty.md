@@ -5,49 +5,59 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-OktaAuthorizationServer
+# Set-OktaApplicationProperty
 
 ## SYNOPSIS
-Remove an Authorization Server from Okta
+Set an application property
 
 ## SYNTAX
 
 ```
-Remove-OktaAuthorizationServer [-AuthorizationServerId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaApplicationProperty [-Application] <PSObject> [-Properties] <Hashtable> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
-### Example 1
-```powershell
-PS C:\>
+## DESCRIPTION
+This will set a property on the application that can be used in a Claim with an Expression of app.profile.\<name\>
+
+## EXAMPLES
+
+### EXAMPLE 1
 ```
+$app = Get-OktaApplcation $appId
+Set-OktaApplicationProperty -Application $app -Properties @{client_id = "INS1", client_profile_id = 1234 }
+```
+
+Set client_id and client_profile_id on the app
 
 ## PARAMETERS
-### -AuthorizationServerId
-<!-- #include ./params/authserverIdDescription.md -->
+
+### -Application
+Application returned from Get-OktaApplication
 
 ```yaml
-Type: String
+Type: PSObject
 Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
+### -Properties
+Hashtable of properties and the values to set on the Application
 
 ```yaml
-Type: SwitchParameter
+Type: Hashtable
 Parameter Sets: (All)
-Aliases: cf
+Aliases:
 
-Required: False
-Position: Named
-Default value: False
+Required: True
+Position: 2
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -91,12 +101,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
+General notes
 
 ## RELATED LINKS
 

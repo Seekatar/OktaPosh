@@ -16,6 +16,8 @@ Get the API token set by Set-OktaOption or from environment, or passed in
 Get-OktaApiToken [[-ApiToken] <String>] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1
@@ -40,8 +42,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+<!-- #include "./params/common-parameters.md" -->
 
 ## INPUTS
 

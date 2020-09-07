@@ -31,6 +31,8 @@ Get-OktaApplication -AppId <String> [<CommonParameters>]
 PS C:\> Get-OktaApplication -Query "MyApp"
 ```
 
+Get applications with MyApp in the name or description
+
 ## PARAMETERS
 
 ### -AppId
@@ -48,53 +50,11 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -Query
-Query for name and label search
+<!-- #include "./params/query.md" -->
+<!-- #include "./params/limit.md" -->
+<!-- #include "./params/after.md" -->
 
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Limit
-Limit the number to return
-
-```yaml
-Type: UInt32
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -After
-After value returned in the link, if more results
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+<!-- #include "./params/common-parameters.md" -->
 
 ## INPUTS
 

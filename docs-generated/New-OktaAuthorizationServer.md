@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-OktaAuthorizationServer
 
 ## SYNOPSIS
-Short description
+Create a new AuthorizationServer
 
 ## SYNTAX
 
@@ -30,7 +30,7 @@ PS C:\> New-OktaAuthorizationServer -Name RelianceApi -Audience "http://cccis.co
 ## PARAMETERS
 
 ### -Name
-Parameter description
+Name of authorization server
 
 ```yaml
 Type: String
@@ -45,7 +45,7 @@ Accept wildcard characters: False
 ```
 
 ### -Audience
-Parameter description
+Audience value
 
 ```yaml
 Type: String
@@ -60,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Issuer
-Parameter description
+Issuer value
 
 ```yaml
 Type: String
@@ -75,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-Parameter description
+Description
 
 ```yaml
 Type: String
@@ -83,11 +83,11 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
 
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
@@ -120,8 +120,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
 
 ## INPUTS
 

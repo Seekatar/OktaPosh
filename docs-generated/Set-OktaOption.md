@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-OktaOption
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Set OktaOptions for accessing the API
 
 ## SYNTAX
 
@@ -16,37 +16,17 @@ schema: 2.0.0
 Set-OktaOption [[-ApiToken] <String>] [[-BaseUri] <String>] [<CommonParameters>]
 ```
 
-## DESCRIPTION
-{{ Fill in the Description }}
-
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
 ```
-
-{{ Add example description here }}
+PS Set-OktaOption -ApiToken abc123 -BaseUri https://devcccis.oktapreview.com/
+```
 
 ## PARAMETERS
 
 ### -ApiToken
-{{ Fill ApiToken Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BaseUri
-{{ Fill BaseUri Description }}
+API token from Okta
 
 ```yaml
 Type: String
@@ -55,7 +35,22 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: None
+Default value: $env:OKTA_API_TOKEN
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BaseUri
+Base Okta URI for all API calls
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: $env:OKTA_BASE_URI
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -63,14 +58,14 @@ Accept wildcard characters: False
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-## INPUTS
 
-### None
+
+## INPUTS
 
 ## OUTPUTS
 
-### System.Object
 ## NOTES
+General notes
 
 ## RELATED LINKS
 

@@ -1,4 +1,8 @@
 Set-StrictMode -Version Latest
+<#
+.SYNOPSIS
+Get one of more Claims for an AuthorizationServer
+#>
 function Get-OktaClaim
 {
     [CmdletBinding()]

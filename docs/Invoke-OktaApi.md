@@ -24,10 +24,8 @@ This calls the API and returns the object or error messages. You can use this to
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\>
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -137,24 +135,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+<!-- #include "./params/whatif-confirm.md" -->
+<!-- #include "./params/common-parameters.md" -->
 
 ## INPUTS
 

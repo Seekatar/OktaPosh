@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Inactive
-Set to create inactive
+Set to add as inactive
 
 ```yaml
 Type: SwitchParameter
@@ -60,6 +60,8 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+
 
 ### -SignOnMode
 Defaults to OPENID_CONNECT
@@ -122,8 +124,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+
 
 ## INPUTS
 

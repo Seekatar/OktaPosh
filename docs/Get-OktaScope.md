@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-OktaScope
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get one or more Scopes for an authorization server
 
 ## SYNTAX
 
@@ -22,23 +22,15 @@ Get-OktaScope -AuthorizationServerId <String> -ScopeId <String> [-IncludeSystem]
 Get-OktaScope -AuthorizationServerId <String> [-Query <String>] [-IncludeSystem] [<CommonParameters>]
 ```
 
-## DESCRIPTION
-{{ Fill in the Description }}
-
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
 ```
-
-{{ Add example description here }}
-
+PS C:\>
+```
 ## PARAMETERS
 <!-- #include "./params/authServerId.md" -->
 
-### -IncludeSystem
-Set to include system scopes also.
 
 ```yaml
 Type: SwitchParameter
@@ -47,7 +39,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -55,7 +47,7 @@ Accept wildcard characters: False
 <!-- #include "./params/query.md" -->
 
 ### -ScopeId
-Id of the Scope to retrieve
+Okta Scope Id from search version of Get-OktaScope
 
 ```yaml
 Type: String
@@ -69,13 +61,11 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+<!-- #include "./params/common-parameters.md" -->
 
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

@@ -1,30 +1,26 @@
 # oktaposh
+
 ## about_oktaposh
 
 # SHORT DESCRIPTION
-This module wraps the Okta REST API and returns objects for easy use in piplines
+
+Provides access to Okta Okta REST API and returns objects for easy use in PowerShell piplines.
+This is a work in progress and has support for a small, but growing list of Okta objects.
 
 # LONG DESCRIPTION
-{{ Long Description Placeholder }}
+To call any API, first set the token and baseUri with `Set-OktaOption`
 
-## Optional Subtopics
-{{ Optional Subtopic Placeholder }}
+The default parameters are `$env:OKTA_API_TOKEN` and `$env:OKTA_BASE_URI`, which you can set in your
+$Profile file etc. to avoid setting it each time the module is loaded
 
 # EXAMPLES
-{{ Code or descriptive examples of how to leverage the functions described. }}
-
-# NOTE
-{{ Note Placeholder - Additional information that a user needs to know.}}
-
-# TROUBLESHOOTING NOTE
-{{ Troubleshooting Placeholder - Warns users of bugs}}
-
-{{ Explains behavior that is likely to change with fixes }}
+```PowerShell
+Set-OktaOption -ApiToken abc123 -BaseUri https://devcccis.oktapreview.com/
+Get-OktaAuthorizationServer # get all
+```
 
 # SEE ALSO
 Okta API https://developer.okta.com/docs/reference/
 
 # KEYWORDS
-- Okta
-- Posh
-- API
+Okta, Posh, API, REST

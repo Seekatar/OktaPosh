@@ -8,6 +8,8 @@
 
 ### [Get-OktaClaim](Get-OktaClaim.md)
 
+### [Get-OktaGroup](Get-OktaGroup.md)
+
 ### [Get-OktaJwt](Get-OktaJwt.md)
 
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
@@ -31,6 +33,8 @@
 ### [New-OktaServerApplication](New-OktaServerApplication.md)
 
 ### [Remove-OktaAuthorizationServer](Remove-OktaAuthorizationServer.md)
+
+### [Set-OktaApplicationProperty](Set-OktaApplicationProperty.md)
 
 ### [Set-OktaOption](Set-OktaOption.md)
 

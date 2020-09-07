@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-OktaPolicy
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get one of more Policies for an AuthorizationServer's rule
 
 ## SYNTAX
 
@@ -22,24 +22,22 @@ Get-OktaPolicy -AuthorizationServerId <String> -RuleId <String> [<CommonParamete
 Get-OktaPolicy -AuthorizationServerId <String> [-Query <String>] [<CommonParameters>]
 ```
 
-## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```
+PS C:\>
 ```
 
-{{ Add example description here }}
-
 ## PARAMETERS
+
 <!-- #include "./params/authServerId.md" -->
+
 <!-- #include "./params/query.md" -->
 
 ### -RuleId
-Rule id to retrieve 
+Id of a Rule
 
 ```yaml
 Type: String
@@ -53,13 +51,11 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+<!-- #include "./params/common-parameters.md" -->
 
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

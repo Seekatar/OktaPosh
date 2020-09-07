@@ -30,9 +30,8 @@ PS C:\> New-OktaRule -AuthorizationServerId $reliance.id -Name "Allow DRE" -Poli
 ```
 
 ## PARAMETERS
-
 ### -AuthorizationServerId
-Parameter description
+<!-- #include ./params/authserverIdDescription.md -->
 
 ```yaml
 Type: String
@@ -40,14 +39,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -PolicyId
-Parameter description
+Id of Policy to add to the rule from Get-OktaPolicy
 
 ```yaml
 Type: String
@@ -62,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Parameter description
+Name
 
 ```yaml
 Type: String
@@ -76,10 +75,25 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-<!-- #include "./params/inactive.md" -->
+### -Inactive
+Set to add as inactive
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+
 
 ### -Priority
-Parameter description
+Rule Priority
 
 ```yaml
 Type: UInt32
@@ -94,7 +108,7 @@ Accept wildcard characters: False
 ```
 
 ### -GrantTypes
-Parameter description
+Type of grant for the Rule
 
 ```yaml
 Type: String[]
@@ -109,7 +123,7 @@ Accept wildcard characters: False
 ```
 
 ### -Scopes
-Parameter description
+Scopes to add to the Rule
 
 ```yaml
 Type: String[]
@@ -124,7 +138,7 @@ Accept wildcard characters: False
 ```
 
 ### -UserIds
-Parameter description
+UserIds to add to the Rule
 
 ```yaml
 Type: String[]
@@ -139,7 +153,7 @@ Accept wildcard characters: False
 ```
 
 ### -GroupIds
-Parameter description
+GroupIds to add to the Rule
 
 ```yaml
 Type: String[]
@@ -154,7 +168,7 @@ Accept wildcard characters: False
 ```
 
 ### -AccessTokenLifetimeMinutes
-Parameter description
+How long the access token is valid
 
 ```yaml
 Type: UInt32
@@ -169,7 +183,7 @@ Accept wildcard characters: False
 ```
 
 ### -RefreshTokenLifetimeMinutes
-Parameter description
+How long the refresh token is valid
 
 ```yaml
 Type: UInt32
@@ -229,8 +243,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+
 
 ## INPUTS
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-OktaAuthorizationServer
 
 ## SYNOPSIS
-Short description
+Get one or more Okta AuthorizationServers
 
 ## SYNTAX
 
@@ -23,29 +23,29 @@ Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-After <String>
 ```
 
 ## DESCRIPTION
-Long description
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-PS C:\> $relianceAuth = Get-OktaAuthorizationServer -Query Reliance
+PS > Get-OktaAuthorizationServer -Query Reliance
 ```
 
+Gets authorizations servers with Reliance in the name or description
+
 ## PARAMETERS
-<!-- #include "./params/authServerId.md" -->
+
 <!-- #include "./params/query.md" -->
 <!-- #include "./params/limit.md" -->
 <!-- #include "./params/after.md" -->
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+<!-- #include "./params/common-parameters.md" -->
+
 
 ## INPUTS
 
 ## OUTPUTS
 
 ## NOTES
-General notes
 
 ## RELATED LINKS

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-OktaAuthorizationServer
 
 ## SYNOPSIS
-Short description
+Get one or more Okta AuthorizationServers
 
 ## SYNTAX
 
@@ -23,34 +23,20 @@ Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-After <String>
 ```
 
 ## DESCRIPTION
-Long description
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-PS C:\> $relianceAuth = Get-OktaAuthorizationServer -Query Reliance
+PS > Get-OktaAuthorizationServer -Query Reliance
 ```
+
+Gets authorizations servers with Reliance in the name or description
 
 ## PARAMETERS
 
-### -AuthorizationServerId
-Parameter description
-
-```yaml
-Type: String
-Parameter Sets: ById
-Aliases: id
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
 ### -Query
-Parameter description
+Query for name and description
 
 ```yaml
 Type: String
@@ -64,8 +50,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+
 ### -Limit
-Parameter description
+Limit the number of values returned
 
 ```yaml
 Type: UInt32
@@ -80,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -After
-Parameter description
+Value returned from previous call to Get for continuing
 
 ```yaml
 Type: String
@@ -94,15 +81,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+
 
 ## INPUTS
 
 ## OUTPUTS
 
 ## NOTES
-General notes
 
 ## RELATED LINKS
 

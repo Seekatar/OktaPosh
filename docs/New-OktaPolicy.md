@@ -17,17 +17,12 @@ New-OktaPolicy [-AuthorizationServerId] <String> [-Name] <String> [[-Description
  [[-Priority] <UInt32>] [[-ClientIds] <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-## DESCRIPTION
-{{ Fill in the Description }}
-
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\>
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 <!-- #include "./params/authServerId.md" -->
@@ -57,30 +52,16 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-{{ Fill Description Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
+<!-- #include "./params/description.md" -->
 <!-- #include "./params/inactive.md" -->
 
 ### -Name
-{{ Fill Name Description }}
+Name of the policy
 
 ```yaml
 Type: String
@@ -95,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -Priority
-{{ Fill Priority Description }}
+Numeric priority of policy
 
 ```yaml
 Type: UInt32
@@ -109,24 +90,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+<!-- #include "./params/whatif-confirm.md" -->
+<!-- #include "./params/common-parameters.md" -->
 
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

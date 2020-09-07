@@ -1,5 +1,5 @@
-### -ClaimId
-<!-- #include "./params/claimIdDescription.md" -->
+### -AuthorizationServerId
+<!-- #include ./params/authserverIdDescription.md -->
 
 ```yaml
 Type: String

@@ -9,7 +9,9 @@
         <maml:para>Get the API token set by Set-OktaOption or from environment, or passed in</maml:para>
       </maml:description>
     </command:details>
-    <maml:description />
+    <maml:description>
+      <maml:para></maml:para>
+    </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-OktaApiToken</maml:name>
@@ -110,7 +112,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Query</maml:name>
           <maml:Description>
-            <maml:para>Query for name and label search</maml:para>
+            <maml:para>Query for name and description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -122,7 +124,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Limit</maml:name>
           <maml:Description>
-            <maml:para>Limit the number to return</maml:para>
+            <maml:para>Limit the number of values returned</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
           <dev:type>
@@ -134,7 +136,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>After</maml:name>
           <maml:Description>
-            <maml:para>After value returned in the link, if more results</maml:para>
+            <maml:para>Value returned from previous call to Get for continuing</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -161,7 +163,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Query</maml:name>
         <maml:Description>
-          <maml:para>Query for name and label search</maml:para>
+          <maml:para>Query for name and description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -173,7 +175,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Limit</maml:name>
         <maml:Description>
-          <maml:para>Limit the number to return</maml:para>
+          <maml:para>Limit the number of values returned</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
         <dev:type>
@@ -185,7 +187,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>After</maml:name>
         <maml:Description>
-          <maml:para>After value returned in the link, if more results</maml:para>
+          <maml:para>Value returned from previous call to Get for continuing</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -207,7 +209,7 @@
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-OktaApplication -Query "MyApp"</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Get applications with MyApp in the name or description</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -219,34 +221,19 @@
       <command:verb>Get</command:verb>
       <command:noun>OktaAuthorizationServer</command:noun>
       <maml:description>
-        <maml:para>Short description</maml:para>
+        <maml:para>Get one or more Okta AuthorizationServers</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Long description</maml:para>
+      <maml:para></maml:para>
     </maml:description>
     <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Get-OktaAuthorizationServer</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
-          <maml:name>AuthorizationServerId</maml:name>
-          <maml:Description>
-            <maml:para>Parameter description</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-OktaAuthorizationServer</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Query</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Query for name and description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -258,7 +245,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Limit</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Limit the number of values returned</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
           <dev:type>
@@ -270,7 +257,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>After</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Value returned from previous call to Get for continuing</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -282,22 +269,10 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
-        <maml:name>AuthorizationServerId</maml:name>
-        <maml:Description>
-          <maml:para>Parameter description</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Query</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Query for name and description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -309,7 +284,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Limit</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Limit the number of values returned</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
         <dev:type>
@@ -321,7 +296,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>After</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Value returned from previous call to Get for continuing</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -335,15 +310,15 @@
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>General notes</maml:para>
+        <maml:para></maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; $relianceAuth = Get-OktaAuthorizationServer -Query Reliance</dev:code>
+        <dev:code>PS &gt; Get-OktaAuthorizationServer -Query Reliance</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Gets authorizations servers with Reliance in the name or description</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -358,7 +333,9 @@
         <maml:para>Get the base Uri set by Set-OktaOption or from environment, or passed in</maml:para>
       </maml:description>
     </command:details>
-    <maml:description />
+    <maml:description>
+      <maml:para></maml:para>
+    </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-OktaBaseUri</maml:name>
@@ -432,7 +409,7 @@
       <command:verb>Get</command:verb>
       <command:noun>OktaClaim</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get one of more Claims for an AuthorizationServer</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -444,7 +421,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AuthorizationServerId</maml:name>
           <maml:Description>
-            <maml:para>The authorization serverId from Get-OktaAuthorizationServer</maml:para>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -456,7 +433,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
           <maml:name>ClaimId</maml:name>
           <maml:Description>
-            <maml:para>The claim id in the authorization server from Get-OktaClaim</maml:para>
+            <maml:para>ClaimId for an Authorization Server</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -471,7 +448,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AuthorizationServerId</maml:name>
           <maml:Description>
-            <maml:para>The authorization serverId from Get-OktaAuthorizationServer</maml:para>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -483,7 +460,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Query</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Query Description }}</maml:para>
+            <maml:para>Query for name and description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -495,22 +472,10 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
-        <maml:name>AuthorizationServerId</maml:name>
-        <maml:Description>
-          <maml:para></maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>The authorization serverId from Get-OktaAuthorizationServer</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -519,22 +484,10 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
         <maml:name>ClaimId</maml:name>
         <maml:Description>
-          <maml:para></maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>ClaimId</maml:name>
-        <maml:Description>
-          <maml:para>The claim id in the authorization server from Get-OktaClaim</maml:para>
+          <maml:para>ClaimId for an Authorization Server</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -546,7 +499,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Query</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Query Description }}</maml:para>
+          <maml:para>Query for name and description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -587,6 +540,158 @@
         <dev:code>PS C:\&gt; Get-OktaClaim -AuthorizationServerId $id</dev:code>
         <dev:remarks>
           <maml:para>Get all the claims for that authorization server</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-OktaGroup</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>OktaGroup</command:noun>
+      <maml:description>
+        <maml:para>Get one or more Okta Groups</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description />
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-OktaGroup</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
+          <maml:name>GroupId</maml:name>
+          <maml:Description>
+            <maml:para>GroupId from Okta. Can use query version to get it.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-OktaGroup</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Query</maml:name>
+          <maml:Description>
+            <maml:para>Query for name and description</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Limit</maml:name>
+          <maml:Description>
+            <maml:para>Limit the number of values returned</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
+          <dev:type>
+            <maml:name>UInt32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>After</maml:name>
+          <maml:Description>
+            <maml:para>Value returned from previous call to Get for continuing</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
+        <maml:name>GroupId</maml:name>
+        <maml:Description>
+          <maml:para>GroupId from Okta. Can use query version to get it.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Query</maml:name>
+        <maml:Description>
+          <maml:para>Query for name and description</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Limit</maml:name>
+        <maml:Description>
+          <maml:para>Limit the number of values returned</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
+        <dev:type>
+          <maml:name>UInt32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>After</maml:name>
+        <maml:Description>
+          <maml:para>Value returned from previous call to Get for continuing</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-OktaGroup -GroupId 123</dev:code>
+        <dev:remarks>
+          <maml:para>Get a group with id 123</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -753,8 +858,8 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; $env:OktaClientSecret="..."
-PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://dev-671484.okta.com/oauth2/ausp6jwjzhUYrGJsG4x6/v1/token"</dev:code>
+        <dev:code>$env:OktaClientSecret="..."
+Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://dev-671484.okta.com/oauth2/ausp6jwjzhUYrGJsG4x6/v1/token"</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
@@ -768,19 +873,17 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>Get</command:verb>
       <command:noun>OktaPolicy</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get one of more Policies for an AuthorizationServer's rule</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-OktaPolicy</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AuthorizationServerId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -792,7 +895,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Query</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Query Description }}</maml:para>
+            <maml:para>Query for name and description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -807,7 +910,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AuthorizationServerId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -819,7 +922,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
           <maml:name>RuleId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill RuleId Description }}</maml:para>
+            <maml:para>Id of a Rule</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -834,7 +937,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -846,7 +949,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Query</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Query Description }}</maml:para>
+          <maml:para>Query for name and description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -858,7 +961,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
         <maml:name>RuleId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill RuleId Description }}</maml:para>
+          <maml:para>Id of a Rule</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -896,9 +999,9 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt;</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -910,31 +1013,17 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>Get</command:verb>
       <command:noun>OktaRule</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get one or more rules for an auth server and policy</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-OktaRule</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-          <maml:name>AuthorizationServerId</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>PolicyId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill PolicyId Description }}</maml:para>
+            <maml:para>Id of a Policy.  Can be retrieved with Get-OktaPolicy</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -943,10 +1032,22 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AuthorizationServerId</maml:name>
+          <maml:Description>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Query</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Query Description }}</maml:para>
+            <maml:para>Query for name and description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -958,10 +1059,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -973,7 +1074,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>PolicyId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill PolicyId Description }}</maml:para>
+          <maml:para>Id of a Policy.  Can be retrieved with Get-OktaPolicy</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -982,10 +1083,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Query</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Query Description }}</maml:para>
+          <maml:para>Query for name and description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1023,9 +1124,9 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt;</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1037,31 +1138,17 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>Get</command:verb>
       <command:noun>OktaScope</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get one or more Scopes for an authorization server</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-OktaScope</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AuthorizationServerId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>IncludeSystem</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill IncludeSystem Description }}</maml:para>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1072,7 +1159,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Query</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Query Description }}</maml:para>
+            <maml:para>Query for name and description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1084,22 +1171,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-OktaScope</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AuthorizationServerId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>IncludeSystem</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill IncludeSystem Description }}</maml:para>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1110,7 +1185,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
           <maml:name>ScopeId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ScopeId Description }}</maml:para>
+            <maml:para>Okta Scope Id from search version of Get-OktaScope</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1125,7 +1200,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1135,21 +1210,9 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>IncludeSystem</maml:name>
-        <maml:Description>
-          <maml:para>{{ Fill IncludeSystem Description }}</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Query</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Query Description }}</maml:para>
+          <maml:para>Query for name and description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1161,7 +1224,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="id">
         <maml:name>ScopeId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ScopeId Description }}</maml:para>
+          <maml:para>Okta Scope Id from search version of Get-OktaScope</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1199,9 +1262,9 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt;</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1213,11 +1276,11 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>Invoke</command:verb>
       <command:noun>OktaApi</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Helper for calling the OktaApi.  Mainly used internally.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>This calls the API and returns the object or error messages. You can use this to call APIs that are not yet in this module.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1225,7 +1288,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>RelativeUri</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill RelativeUri Description }}</maml:para>
+            <maml:para>Additional part of Uri to call, after base.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1237,7 +1300,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Method</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Method Description }}</maml:para>
+            <maml:para>The HTTP method to use</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">Get</command:parameterValue>
@@ -1260,7 +1323,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Body</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Body Description }}</maml:para>
+            <maml:para>The string version of the body to send for post, put, patch</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1272,7 +1335,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>OktaApiToken</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill OktaApiToken Description }}</maml:para>
+            <maml:para>The API token. Calls Get-OktaApiToken with this value so if blank will use value from Set-OktaOption, or environment, if they exist.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1284,7 +1347,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>OktaBaseUri</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill OktaBaseUri Description }}</maml:para>
+            <maml:para>The base API Uri. Calls Get-OktaBaseUri with this value so if blank will use value from Set-OktaOption, or environment, if they exist.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1307,7 +1370,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>RawContent</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill RawContent Description }}</maml:para>
+            <maml:para>Set to return raw content instead of converting from JSON to objects</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1326,13 +1389,24 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:Description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Body</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Body Description }}</maml:para>
+          <maml:para>The string version of the body to send for post, put, patch</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1356,7 +1430,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Method</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Method Description }}</maml:para>
+          <maml:para>The HTTP method to use</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1368,7 +1442,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>OktaApiToken</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill OktaApiToken Description }}</maml:para>
+          <maml:para>The API token. Calls Get-OktaApiToken with this value so if blank will use value from Set-OktaOption, or environment, if they exist.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1380,7 +1454,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>OktaBaseUri</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill OktaBaseUri Description }}</maml:para>
+          <maml:para>The base API Uri. Calls Get-OktaBaseUri with this value so if blank will use value from Set-OktaOption, or environment, if they exist.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1392,7 +1466,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>RawContent</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill RawContent Description }}</maml:para>
+          <maml:para>Set to return raw content instead of converting from JSON to objects</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1404,7 +1478,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>RelativeUri</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill RelativeUri Description }}</maml:para>
+          <maml:para>Additional part of Uri to call, after base.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1417,6 +1491,18 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <maml:name>WhatIf</maml:name>
         <maml:Description>
           <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:Description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1454,9 +1540,9 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt;</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1468,7 +1554,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>New</command:verb>
       <command:noun>OktaAuthorizationServer</command:noun>
       <maml:description>
-        <maml:para>Short description</maml:para>
+        <maml:para>Create a new AuthorizationServer</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -1480,7 +1566,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Name of authorization server</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1492,7 +1578,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Audience</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Audience value</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1504,7 +1590,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>Issuer</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Issuer value</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1513,10 +1599,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Description</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1553,7 +1639,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Name of authorization server</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1565,7 +1651,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Audience</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Audience value</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1577,7 +1663,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>Issuer</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Issuer value</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1586,10 +1672,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Description</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1650,28 +1736,14 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <maml:para>Create a new Okta Claim</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-OktaClaim</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>AuthorizationServerId</maml:name>
-          <maml:Description>
-            <maml:para>Parameter description</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Name for new Claim</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1683,7 +1755,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>ValueType</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Description</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1707,7 +1779,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
           <maml:name>Value</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Value to set</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1719,7 +1791,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>Scopes</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>List of scopes to add to new Claim</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -1728,10 +1800,22 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AuthorizationServerId</maml:name>
+          <maml:Description>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Inactive</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Set to add as inactive</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1764,10 +1848,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1779,7 +1863,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Name for new Claim</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1791,7 +1875,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>ValueType</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1815,7 +1899,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
         <maml:name>Value</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Value to set</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1824,10 +1908,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Inactive</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Set to add as inactive</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1839,7 +1923,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>Scopes</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>List of scopes to add to new Claim</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -1904,43 +1988,17 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>New</command:verb>
       <command:noun>OktaPolicy</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Create a new Policy on the AuthorizationServer</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-OktaPolicy</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-          <maml:name>AuthorizationServerId</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Name Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-          <maml:name>Description</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill Description Description }}</maml:para>
+            <maml:para>Name of the policy</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1952,7 +2010,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>Priority</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Priority Description }}</maml:para>
+            <maml:para>Numeric priority of policy</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
           <dev:type>
@@ -1964,11 +2022,35 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>ClientIds</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ClientIds Description }}</maml:para>
+            <maml:para>Array of client ids to add to this Policy</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
             <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Description</maml:name>
+          <maml:Description>
+            <maml:para>Description</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AuthorizationServerId</maml:name>
+          <maml:Description>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -1987,7 +2069,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Inactive</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Inactive Description }}</maml:para>
+            <maml:para>Set to add as inactive</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2006,13 +2088,24 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:Description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2024,7 +2117,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>ClientIds</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ClientIds Description }}</maml:para>
+          <maml:para>Array of client ids to add to this Policy</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -2045,10 +2138,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Description</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Description Description }}</maml:para>
+          <maml:para>Description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2060,7 +2153,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Inactive</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Inactive Description }}</maml:para>
+          <maml:para>Set to add as inactive</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2072,7 +2165,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Name Description }}</maml:para>
+          <maml:para>Name of the policy</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2084,7 +2177,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>Priority</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Priority Description }}</maml:para>
+          <maml:para>Numeric priority of policy</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
         <dev:type>
@@ -2097,6 +2190,18 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <maml:name>WhatIf</maml:name>
         <maml:Description>
           <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:Description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2134,9 +2239,9 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt;</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2157,22 +2262,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-OktaRule</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>AuthorizationServerId</maml:name>
-          <maml:Description>
-            <maml:para>Parameter description</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="10" aliases="none">
           <maml:name>RefreshTokenLifetimeMinutes</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>How long the refresh token is valid</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
           <dev:type>
@@ -2196,7 +2289,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>PolicyId</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Id of Policy to add to the rule from Get-OktaPolicy</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2208,7 +2301,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Name</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2220,7 +2313,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>Priority</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Rule Priority</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
           <dev:type>
@@ -2232,7 +2325,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
           <maml:name>GrantTypes</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Type of grant for the Rule</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -2244,7 +2337,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
           <maml:name>Scopes</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Scopes to add to the Rule</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -2256,7 +2349,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
           <maml:name>UserIds</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>UserIds to add to the Rule</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -2268,7 +2361,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
           <maml:name>GroupIds</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>GroupIds to add to the Rule</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -2280,7 +2373,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
           <maml:name>AccessTokenLifetimeMinutes</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>How long the access token is valid</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
           <dev:type>
@@ -2289,10 +2382,22 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>60</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AuthorizationServerId</maml:name>
+          <maml:Description>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Inactive</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Set to add as inactive</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2325,10 +2430,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2340,7 +2445,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>PolicyId</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Id of Policy to add to the rule from Get-OktaPolicy</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2352,7 +2457,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Name</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2364,7 +2469,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Inactive</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Set to add as inactive</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2376,7 +2481,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>Priority</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Rule Priority</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
         <dev:type>
@@ -2388,7 +2493,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="5" aliases="none">
         <maml:name>GrantTypes</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Type of grant for the Rule</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -2400,7 +2505,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
         <maml:name>Scopes</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Scopes to add to the Rule</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -2412,7 +2517,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
         <maml:name>UserIds</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>UserIds to add to the Rule</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -2424,7 +2529,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
         <maml:name>GroupIds</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>GroupIds to add to the Rule</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -2436,7 +2541,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
         <maml:name>AccessTokenLifetimeMinutes</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>How long the access token is valid</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
         <dev:type>
@@ -2448,7 +2553,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="10" aliases="none">
         <maml:name>RefreshTokenLifetimeMinutes</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>How long the refresh token is valid</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">UInt32</command:parameterValue>
         <dev:type>
@@ -2521,28 +2626,14 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <maml:para>Add an Okta Authorization Scope</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-OktaScope</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>AuthorizationServerId</maml:name>
-          <maml:Description>
-            <maml:para>Parameter description</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Name of the new Scope</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2551,10 +2642,22 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Description</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Description</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AuthorizationServerId</maml:name>
+          <maml:Description>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2566,7 +2669,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>MetadataPublish</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Set to publish in meta data</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2577,7 +2680,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>DefaultScope</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Set to include in the default scope</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2610,10 +2713,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2625,7 +2728,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Name of the new Scope</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2634,10 +2737,10 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Description</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Description</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2649,7 +2752,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>MetadataPublish</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Set to publish in meta data</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2661,7 +2764,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>DefaultScope</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Set to include in the default scope</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2767,7 +2870,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Inactive</maml:name>
           <maml:Description>
-            <maml:para>Set to create inactive</maml:para>
+            <maml:para>Set to add as inactive</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2815,7 +2918,7 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Inactive</maml:name>
         <maml:Description>
-          <maml:para>Set to create inactive</maml:para>
+          <maml:para>Set to add as inactive</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2897,19 +3000,17 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>Remove</command:verb>
       <command:noun>OktaAuthorizationServer</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Remove an Authorization Server from Okta</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Remove-OktaAuthorizationServer</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AuthorizationServerId</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+            <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2940,13 +3041,24 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:Description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AuthorizationServerId</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill AuthorizationServerId Description }}</maml:para>
+          <maml:para>&lt;!-- #include ./params/authserverIdDescription.md --&gt;</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2979,6 +3091,18 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:Description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -3005,12 +3129,136 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
         <maml:para></maml:para>
       </maml:alert>
     </maml:alertSet>
+    <command:examples />
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-OktaApplicationProperty</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>OktaApplicationProperty</command:noun>
+      <maml:description>
+        <maml:para>Set an application property</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>This will set a property on the application that can be used in a Claim with an Expression of app.profile.&lt;name&gt;</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-OktaApplicationProperty</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Application</maml:name>
+          <maml:Description>
+            <maml:para>Application returned from Get-OktaApplication</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>Properties</maml:name>
+          <maml:Description>
+            <maml:para>Hashtable of properties and the values to set on the Application</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+          <dev:type>
+            <maml:name>Hashtable</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:Description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:Description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Application</maml:name>
+        <maml:Description>
+          <maml:para>Application returned from Get-OktaApplication</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>Properties</maml:name>
+        <maml:Description>
+          <maml:para>Hashtable of properties and the values to set on the Application</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        <dev:type>
+          <maml:name>Hashtable</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:Description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:Description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>General notes</maml:para>
+      </maml:alert>
+    </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$app = Get-OktaApplcation $appId
+Set-OktaApplicationProperty -Application $app -Properties @{client_id = "INS1", client_profile_id = 1234 }</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Set client_id and client_profile_id on the app</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3022,98 +3270,78 @@ PS C:\&gt; Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://d
       <command:verb>Set</command:verb>
       <command:noun>OktaOption</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Set OktaOptions for accessing the API</maml:para>
       </maml:description>
     </command:details>
-    <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
-    </maml:description>
+    <maml:description />
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-OktaOption</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>ApiToken</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ApiToken Description }}</maml:para>
+            <maml:para>API token from Okta</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
+          <dev:defaultValue>$env:OKTA_API_TOKEN</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>BaseUri</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill BaseUri Description }}</maml:para>
+            <maml:para>Base Okta URI for all API calls</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
+          <dev:defaultValue>$env:OKTA_BASE_URI</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>ApiToken</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ApiToken Description }}</maml:para>
+          <maml:para>API token from Okta</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
+        <dev:defaultValue>$env:OKTA_API_TOKEN</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>BaseUri</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill BaseUri Description }}</maml:para>
+          <maml:para>Base Okta URI for all API calls</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
+        <dev:defaultValue>$env:OKTA_BASE_URI</dev:defaultValue>
       </command:parameter>
     </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
+    <command:inputTypes />
+    <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>General notes</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>PS Set-OktaOption -ApiToken abc123 -BaseUri https://devcccis.oktapreview.com/</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

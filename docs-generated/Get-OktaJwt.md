@@ -30,8 +30,8 @@ This only does the client credentials flow
 
 ### EXAMPLE 1
 ```
-PS C:\> $env:OktaClientSecret="..."
-PS C:\> Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://dev-671484.okta.com/oauth2/ausp6jwjzhUYrGJsG4x6/v1/token"
+$env:OktaClientSecret="..."
+Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://dev-671484.okta.com/oauth2/ausp6jwjzhUYrGJsG4x6/v1/token"
 ```
 
 ## PARAMETERS
@@ -99,6 +99,8 @@ Accept wildcard characters: False
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+
 
 ## INPUTS
 

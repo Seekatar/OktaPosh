@@ -31,6 +31,8 @@ Get-OktaApplication -AppId <String> [<CommonParameters>]
 PS C:\> Get-OktaApplication -Query "MyApp"
 ```
 
+Get applications with MyApp in the name or description
+
 ## PARAMETERS
 
 ### -AppId
@@ -49,7 +51,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Query for name and label search
+Query for name and description
 
 ```yaml
 Type: String
@@ -63,8 +65,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+
 ### -Limit
-Limit the number to return
+Limit the number of values returned
 
 ```yaml
 Type: UInt32
@@ -79,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -After
-After value returned in the link, if more results
+Value returned from previous call to Get for continuing
 
 ```yaml
 Type: String
@@ -93,8 +96,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
 
 ## INPUTS
 
