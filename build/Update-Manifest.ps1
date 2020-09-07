@@ -3,14 +3,16 @@
 Set the function and alias exports
 #>
 [CmdletBinding()]
-param()
+param(
+)
 
-    Push-Location (Join-Path $PSScriptRoot ../src/public)
+    Push-Location (Join-Path $PSScriptRoot "../*/public")
     try {
         $publicFunctions = Select-String 'function\s+([\w-]*)' *.ps1 | ForEach-Object { $_.Matches.Groups[1].Value }
         $publicAliases = Select-String 'New-Alias\s+([\w-]*)' *.ps1 | ForEach-Object { $_.Matches.Groups[1].Value }
         $path = Get-ChildItem ../*.psd1
         Update-ModuleManifest -Path $path -FunctionsToExport $publicFunctions -AliasesToExport $publicAliases
+        "Updated module with $($publicFunctions.Count) functions and $($publicAliases.Count) aliases"
     } finally {
         Pop-Location
     }
