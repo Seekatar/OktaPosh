@@ -77,9 +77,9 @@ jobs:
           build: ${{ github.run_number }}
 
     - name: Publish Module
+      working-directory: OktaPosh
       env:
         PSGalleryKey: ${{ secrets.PSGALLERYKEY }}
       run: |
         gci
-        Write-Host 'Publish-Module -Path . -NuGetApiKey "$env:PSGalleryKey"'
-
+        Publish-Module -Path . -NuGetApiKey "$env:PSGalleryKey"
