@@ -27,7 +27,7 @@ jobs:
 
     - name: Run Script Analyzer
       shell: pwsh
-      working-directory: src
+      working-directory: OktaPosh
       run: |
         if ( -not (Get-Module -Name PSScriptAnalyzer ) ) { Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -Confirm:$false -SkipPublisherCheck }
         $results = Invoke-ScriptAnalyzer -Path . -Recurse
@@ -73,7 +73,7 @@ jobs:
     - name: Set manifest build version
       uses: seekatar/set-posh-manifest-action@v1
       with:
-          manifest-path: src/OktaPosh.psd1
+          manifest-path: OktaPosh/OktaPosh.psd1
           build: ${{ github.run_number }}
 
     - name: Publish Module
