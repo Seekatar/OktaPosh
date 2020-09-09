@@ -7,10 +7,9 @@ function Invoke-OktaApi {
         [object] $Body,
         [switch] $RawContent,
         [string] $OktaApiToken,
-        [string] $OktaBaseUri,
-        [switch] $BodyIsString
+        [string] $OktaBaseUri
     )
-    if ($Body -is [String] -and !$BodyIsString) {
+    if ($Body -isnot [String]) {
         $Body = ConvertTo-Json $Body -Depth 10
     }
 
