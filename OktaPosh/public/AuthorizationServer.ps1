@@ -170,4 +170,6 @@ function Remove-OktaAuthorizationServer
     }
 }
 
-New-Alias goktaauth Get-OktaAuthorizationServer
+if (!(Test-Path alias:goktaauth)) {
+    New-Alias goktaauth Get-OktaAuthorizationServer
+}

@@ -79,9 +79,9 @@ function New-OktaRule
         [switch] $Inactive,
         [uint32] $Priority = 1,
         [Parameter(Mandatory)]
-        [ValidateSet("authorization_code", "password", "refresh_token", "client_credentials")]
+        [ValidateSet("authorization_code", "password", "refresh_token", "client_credentials", "implicit")]
         [string[]] $GrantTypes,
-        [string[]] $Scopes,
+        [string[]] $Scopes = @('*'),
         [string[]] $UserIds,
         [string[]] $GroupIds = "EVERYONE",
         [ValidateRange(5, 1440)]

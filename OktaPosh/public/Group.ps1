@@ -20,7 +20,11 @@ function Get-OktaGroup
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET
         } else {
-            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters $Query $Limit $After)" -Method GET)
+            $result = Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters $Query $Limit $After)" -Method GET
+            if ($query) {
+                $result | Where-Object { $_.profile.name -like '*$Query*' -or $_.profile.description -like '*$Query*' }
+            }
+            $result
         }
     }
 }
@@ -32,7 +36,7 @@ function New-OktaGroup {
     param (
         [Parameter(Mandatory)]
         [string] $Name,
-        [switch] $Description
+        [string] $Description
     )
 
     if (!$Description) {
@@ -92,5 +96,41 @@ function Remove-OktaGroup {
         if ($PSCmdlet.ShouldProcess($GroupId,"Delete Group")) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method DELETE
         }
+    }
+}
+
+function Get-OktaGroupApp
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("id")]
+        [string] $GroupId,
+        [Parameter()]
+        [uint32] $Limit,
+        [Parameter()]
+        [string] $After
+    )
+
+    process {
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/apps$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET
+    }
+}
+
+function Get-OktaGroupUser
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("id")]
+        [string] $GroupId,
+        [Parameter()]
+        [uint32] $Limit,
+        [Parameter()]
+        [string] $After
+    )
+
+    process {
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET
     }
 }

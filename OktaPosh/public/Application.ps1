@@ -84,6 +84,7 @@ function New-OktaServerApplication {
 
     $Name = "oidc_client" # https://developer.okta.com/docs/reference/api/apps/#app-names-and-settings
 
+    # settings for OAUTH https://developer.okta.com/docs/reference/api/apps/#add-oauth-2-0-client-application
     $body = [PSCustomObject]@{
         name      = $Name
         status    = ternary $Inactive "INACTIVE" "ACTIVE"
@@ -91,14 +92,65 @@ function New-OktaServerApplication {
         signOnMode = $SignOnMode
         settings   = @{
             oauthClient = @{
-                issuer_mode = "ORG_URL"
+                issuer_mode = "ORG_URL" #z ok
+                #z redirect_uris = []
+                #z post_logout_redirect_uris = []
+                #z initiate_login_uri = ""
                 response_types = @(
-                    "token"
+                    "token" #z token,id_token
                 )
                 grant_types = @(
-                    "client_credentials"
+                    "client_credentials" #z     implicit
                 )
-                application_type = "service"
+                application_type = "service" #z browser for UI
+                #z consent_method = "REQUIRED" (default of TRUSTED for service)
+            }
+        }
+    }
+
+    Add-PropertiesToApp $body $Properties
+
+    Invoke-OktaApi -RelativeUri "apps" -Body $body -Method POST
+}
+
+function New-OktaSpaApplication {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $Label,
+        [Parameter(Mandatory)]
+        [string[]] $RedirectUris,
+        [Parameter(Mandatory)]
+        [string] $LoginUri,
+        [string[]] $PostLogoutUris,
+        [switch] $Inactive,
+        [string] $SignOnMode = "OPENID_CONNECT",
+        [hashtable] $Properties
+    )
+
+    $Name = "oidc_client" # https://developer.okta.com/docs/reference/api/apps/#app-names-and-settings
+
+    # settings for OAUTH https://developer.okta.com/docs/reference/api/apps/#add-oauth-2-0-client-application
+    $body = [PSCustomObject]@{
+        name      = $Name
+        status    = ternary $Inactive "INACTIVE" "ACTIVE"
+        label     = $Label
+        signOnMode = $SignOnMode
+        settings   = @{
+            oauthClient = @{
+                issuer_mode = "ORG_URL" 
+                redirect_uris = $RedirectUris
+                post_logout_redirect_uris = $PostLogoutUris
+                initiate_login_uri = $LoginUri
+                response_types = @(
+                    "token","id_token"
+                )
+                grant_types = @(
+                    "implicit"
+                )
+                application_type = "browser"
+                consent_method = "REQUIRED"
             }
         }
     }
@@ -167,4 +219,64 @@ function Remove-OktaApplication {
         }
     }
 }
-New-Alias goktaapp Get-OktaApplication
+
+function Add-OktaApplicationGroup {
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory)]
+        [Alias('Id')]
+        [string] $AppId,
+        [Parameter(Mandatory,ValueFromPipeline)]
+        [string] $GroupId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        if ($PSCmdlet.ShouldProcess("$AppId += $GroupId","Add Group to Application")) {
+            Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$groupId" -Method PUT
+        }
+    }
+}
+
+function Get-OktaApplicationGroup {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory,ValueFromPipeline)]
+        [Alias('Id')]
+        [string] $AppId,
+        [Parameter()]
+        [uint32] $Limit,
+        [Parameter()]
+        [string] $After
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        Invoke-OktaApi -RelativeUri "apps/$AppId/groups$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET    }
+}
+
+function Remove-OktaApplicationGroup {
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
+    param(
+        [Parameter(Mandatory,ValueFromPipeline)]
+        [Alias('Id')]
+        [string] $AppId,
+        [Parameter(Mandatory,ValueFromPipeline)]
+        [string] $GroupId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        if ($PSCmdlet.ShouldProcess("$AppId -= $GroupId","Delete Group from Application")) {
+            Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$GroupId" -Method DELETE
+        }
+    }
+}
+
+if (!(Test-Path alias:goktaapp)) {
+    New-Alias goktaapp Get-OktaApplication
+}
+
