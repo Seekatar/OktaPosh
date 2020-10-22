@@ -92,18 +92,14 @@ function New-OktaServerApplication {
         signOnMode = $SignOnMode
         settings   = @{
             oauthClient = @{
-                issuer_mode = "ORG_URL" #z ok
-                #z redirect_uris = []
-                #z post_logout_redirect_uris = []
-                #z initiate_login_uri = ""
+                issuer_mode = "ORG_URL"
                 response_types = @(
-                    "token" #z token,id_token
+                    "token"
                 )
                 grant_types = @(
-                    "client_credentials" #z     implicit
+                    "client_credentials"
                 )
                 application_type = "service" #z browser for UI
-                #z consent_method = "REQUIRED" (default of TRUSTED for service)
             }
         }
     }
@@ -137,9 +133,15 @@ function New-OktaSpaApplication {
         status    = ternary $Inactive "INACTIVE" "ACTIVE"
         label     = $Label
         signOnMode = $SignOnMode
+        credentials = @{
+            oauthClient = @{
+              autoKeyRotation = $true
+              token_endpoint_auth_method = "none"
+            }
+        }
         settings   = @{
             oauthClient = @{
-                issuer_mode = "ORG_URL" 
+                issuer_mode = "ORG_URL"
                 redirect_uris = $RedirectUris
                 post_logout_redirect_uris = $PostLogoutUris
                 initiate_login_uri = $LoginUri
@@ -214,7 +216,7 @@ function Remove-OktaApplication {
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($AppId,"Delete Application")) {
+        if ($PSCmdlet.ShouldProcess($AppId,"Remove Application")) {
             Invoke-OktaApi -RelativeUri "apps/$AppId" -Method DELETE
         }
     }
@@ -270,7 +272,7 @@ function Remove-OktaApplicationGroup {
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess("$AppId -= $GroupId","Delete Group from Application")) {
+        if ($PSCmdlet.ShouldProcess("$AppId -= $GroupId","Remove Group from Application")) {
             Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$GroupId" -Method DELETE
         }
     }

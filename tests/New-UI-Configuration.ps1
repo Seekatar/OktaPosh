@@ -1,0 +1,81 @@
+[CmdletBinding(SupportsShouldProcess)]
+param()
+
+# CCC naming conventions
+# http://confluence.nix.cccis.com/display/IdAM/Entity+Naming+Conventions#EntityNamingConventions-Applications.1
+
+# script to add Okta object for the Reliance project
+if (!(Get-Module OktaPosh)) {
+    Write-Warning "Must Import-Module OktaPosh and call Set-OktaOption before running this script."
+    return
+}
+$ErrorActionPreference = "Stop"
+Set-StrictMode -Version Latest
+
+# what to set up
+$authServerName = "Casualty-Reliance-RBR-AS"
+$scopes = "fpui:read","fpui:write","fpui:delete"
+$claimName = ""
+$audience = "https://reliance-qa/fp-ui"
+$description = "Reliance First-Party UI"
+$apps = @(
+    @{ Name = "Casualty-Reliance-RBR"
+    RedirectUris = @(
+        "https://1085090-devrmq01.reprice.nhr.com:31100/fp-ui/implicit/callback",
+        "https://reliance-dev.reprice.nhr.com/fp-ui/implicit/callback"
+    )
+    LoginUri = "https://reliance-dev.reprice.nhr.com/fp-ui/"
+    PostLogoutUris = "https://reliance-dev.reprice.nhr.com/fp-ui/"
+    Scopes = $scopes }
+)
+$groupNames = @("CCC-Reliance-RBR-Group")
+$origins = @("https://reliance-dev.reprice.nhr.com")
+
+try {
+
+    . (Join-Path $PSScriptRoot New-OktaAuthServerConfig.ps1)
+    . (Join-Path $PSScriptRoot New-OktaAppConfig.ps1)
+
+    $authServer = New-OktaAuthServerConfig -authServerName $authServerName `
+                            -Scopes $scopes `
+                            -audience $audience `
+                            -description $description `
+                            -claimName $claimName
+
+    $groups = @()
+    foreach ($group in $groupNames) {
+        $g = Get-OktaGroup -Query $group
+        if ($g) {
+            Write-Host "Found group $group"
+        } else {
+            $g = New-OktaGroup -Name $group
+            Write-Host "Added group $group"
+        }
+        $groups += $g
+    }
+
+    foreach ($newApp in $apps) {
+        $app = New-OktaAppConfig -Name $newApp.Name `
+                        -Scopes $newApp.Scopes `
+                        -RedirectUris $newApp.RedirectUris `
+                        -LoginUri $newApp.LoginUri `
+                        -PostLogoutUris $newApp.PostLogoutUris `
+                        -AuthServerId $authServer.Id
+        foreach ($group in $groups) {
+            $null = Add-OktaApplicationGroup -AppId $app.id -GroupId $group.id
+            Write-Host "    Added $($group.profile.name) group to $($app.name)"
+        }
+    }
+
+    foreach ($origin in $origins) {
+        if (Get-OktaTrustedOrigin -Query $origin) {
+            Write-Host "Found origin $origin"
+        } else {
+            $null = New-OktaTrustedOrigin -Name $origin -Origin $origin -CORS -Redirect
+            Write-Host "Added origin $origin"
+        }
+     }
+
+} catch {
+    Write-Error "$_`n$($_.ScriptStackTrace)"
+}

@@ -1,18 +1,15 @@
 function Get-QueryParameters {
     param (
-        [string] $Query,
+        [Alias('Query')]
+        [string] $Q,
         [uint32] $Limit,
-        [string] $After
+        [string] $After,
+        [string] $Filter,
+        [string] $Search
     )
     $parms = @()
-    if ($Query) {
-        $parms += = "q=$Query"
-    }
-    if ($Limit) {
-        $parms += "limit=$limit"
-    }
-    if ($After) {
-        $parms += "after=$after"
+    foreach ($p in $PSBoundParameters.Keys) {
+        $parms += "$($p.ToLower())=$([System.Web.HttpUtility]::UrlEncode($PSBoundParameters[$p]))"
     }
     if ($parms) {
         return "?$($parms -join '&')"

@@ -128,10 +128,10 @@ function Set-OktaAuthorizationServer
         audiences   = @($Audiences)
         issuer      = $Issuer
     }
-    Invoke-OktaApi -RelativeUri "authorizationServers" -Method PUT -Body $body
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method PUT -Body $body
 }
 
-function Set-OktaAuthorizationServer
+function Set-OktaAuthorizationServerActive
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
@@ -141,8 +141,8 @@ function Set-OktaAuthorizationServer
         [string] $AuthorizationServerId,
         [switch] $Deactivate
     )
-    $activate = ternary $Description 'deactivate' 'activate'
-    Invoke-OktaApi -RelativeUri "authorizationServers/lifecycle/$activate" -Method POST
+    $activate = ternary $Deactivate 'deactivate' 'activate'
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/$activate" -Method POST
 }
 
 <#
@@ -164,7 +164,8 @@ function Remove-OktaAuthorizationServer
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($AuthorizationServerId,"Delete AuthorizationServer")) {
+        if ($PSCmdlet.ShouldProcess($AuthorizationServerId,"Remove AuthorizationServer")) {
+            Set-OktaAuthorizationServerActive -AuthorizationServerId $AuthorizationServerId -Deactivate
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method DELETE
         }
     }

@@ -12,7 +12,12 @@ param(
         $publicAliases = Select-String 'New-Alias\s+([\w-]*)' *.ps1 | ForEach-Object { $_.Matches.Groups[1].Value }
         $path = Get-ChildItem ../*.psd1
         Update-ModuleManifest -Path $path -FunctionsToExport $publicFunctions -AliasesToExport $publicAliases
+        Get-Content $path | ForEach-Object { $_.TrimEnd() } | Out-File "$path.tmp"
+        Copy-Item "$path.tmp" $path
+        Remove-Item "$path.tmp"
         "Updated module with $($publicFunctions.Count) functions and $($publicAliases.Count) aliases"
+    } catch {
+        Write-Error "$_`n$($_.ScriptStackTrace)"
     } finally {
         Pop-Location
     }

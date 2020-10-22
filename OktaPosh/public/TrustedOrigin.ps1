@@ -9,8 +9,6 @@ function Get-OktaTrustedOrigin
         [Alias("id")]
         [string] $TrustedOriginId,
         [Parameter(ParameterSetName="Query")]
-        [string] $Query,
-        [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
         [string] $After
@@ -40,7 +38,7 @@ function New-OktaTrustedOrigin {
 
     $body = [PSCustomObject]@{
         name        = $Name
-        orgin       = $Description
+        orgin       = $Origin
         scopes      = @()
     }
     if ($CORS) {
@@ -82,7 +80,7 @@ function Remove-OktaTrustedOrigin {
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($TrustedOriginId,"Delete TrustedOrigin")) {
+        if ($PSCmdlet.ShouldProcess($TrustedOriginId,"Remove TrustedOrigin")) {
             Invoke-OktaApi -RelativeUri "trustedOrigins/$TrustedOriginId" -Method DELETE
         }
     }

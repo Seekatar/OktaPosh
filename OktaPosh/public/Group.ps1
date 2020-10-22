@@ -11,6 +11,10 @@ function Get-OktaGroup
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
+        [string] $Filter,
+        [Parameter(ParameterSetName="Query")]
+        [string] $Search,
+        [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
         [string] $After
@@ -20,11 +24,7 @@ function Get-OktaGroup
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET
         } else {
-            $result = Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters $Query $Limit $After)" -Method GET
-            if ($query) {
-                $result | Where-Object { $_.profile.name -like '*$Query*' -or $_.profile.description -like '*$Query*' }
-            }
-            $result
+            Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters -Query $Query -Limit $Limit -After $After -Filter $Filter -Search $Search)" -Method GET
         }
     }
 }
@@ -44,8 +44,10 @@ function New-OktaGroup {
     }
 
     $body = [PSCustomObject]@{
-        name        = $Name
-        description = $Description
+        profile = @{
+            name        = $Name
+            description = $Description
+        }
     }
 
     Invoke-OktaApi -RelativeUri "groups" -Body $body -Method POST
@@ -55,7 +57,7 @@ function Set-OktaGroup {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory)]
         [Alias('Id')]
         [string] $GroupId,
         [Parameter(Mandatory)]
@@ -72,7 +74,7 @@ function Set-OktaGroup {
         description = $Description
     }
 
-    Invoke-OktaApi -RelativeUri "groups" -Body $body -Method PUT
+    Invoke-OktaApi -RelativeUri "groups/$GroupId" -Body $body -Method PUT
 }
 
 <#
@@ -93,7 +95,7 @@ function Remove-OktaGroup {
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($GroupId,"Delete Group")) {
+        if ($PSCmdlet.ShouldProcess($GroupId,"Remove Group")) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method DELETE
         }
     }
