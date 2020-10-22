@@ -1,4 +1,6 @@
-. (Join-Path $PSScriptRoot setup.ps1)
+BeforeAll {
+    . (Join-Path $PSScriptRoot setup.ps1)
+}
 
 Describe "Application" {
     It "Gets Application" {

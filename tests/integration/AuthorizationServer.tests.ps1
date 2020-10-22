@@ -1,20 +1,22 @@
-. (Join-Path $PSScriptRoot setup.ps1)
+BeforeAll {
+    . (Join-Path $PSScriptRoot setup.ps1)
 
-$script:authServerName = "Okta-Posh-Test"
-$script:scopes = "access:token","get:item","save:item","remove:item"
-$script:claimName = "appName"
+    $authServerName = "Okta-Posh-Test"
+    $scopes = "access:token","get:item","save:item","remove:item"
+    $claimName = "appName"
 
-$script:authServer = $null
+    $script:authServer = $null
+}
 
 Describe "AuthorizationServer" {
 
     It "Check for existing AuthServer" {
-        $script:authServer = Get-OktaAuthorizationServer -Query $script:authServerName
+        $script:authServer = Get-OktaAuthorizationServer -Query $authServerName
         $script:authServer | Should -Be $null
     }
 
     It "Creates a new AuthServer" {
-        $script:authServer = New-OktaAuthorizationServer -Name $script:authServerName `
+        $script:authServer = New-OktaAuthorizationServer -Name $authServerName `
             -Audiences "api://oktaposh/api" `
             -Issuer "$(Get-OktaBaseUri)/oauth2/default" `
             -Description "OktaPosh Test Authorization Sserver"
@@ -27,19 +29,19 @@ Describe "AuthorizationServer" {
     }
 
     It "Creates new scopes" {
-        $newScopes = $script:scopes | New-OktaScope -AuthorizationServerId $script:authServer.id
-        $newScopes.Count | Should -Be $script:scopes.Count
+        $newScopes = $scopes | New-OktaScope -AuthorizationServerId $script:authServer.id
+        $newScopes.Count | Should -Be $scopes.Count
     }
 
     It "Checks for existing Claim" {
-        $claim = Get-OktaClaim -AuthorizationServerId $script:authServer.id -Query $script:claimName
+        $claim = Get-OktaClaim -AuthorizationServerId $script:authServer.id -Query $claimName
         $claim | Should -Be $null
     }
 
     It "Creates new Claim" {
         $claim = New-OktaClaim -AuthorizationServerId $script:authServer.id `
-            -Name $script:claimName -ValueType EXPRESSION -ClaimType RESOURCE `
-            -Value "app.profile.$script:claimName" -Scopes "access:token"
+            -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE `
+            -Value "app.profile.$claimName" -Scopes "access:token"
         $claim | Should -Not -Be $null
     }
 
@@ -60,10 +62,9 @@ Describe "AuthorizationServer" {
         $result | Should -Not -Be $null
         $result.Id | Should -Be $script:authServer.Id
     }
-}
 
-Describe "Remove Test Objects" {
-    It 'Removes AuthServer' {
+    AfterAll {
         Remove-OktaAuthorizationServer -AuthorizationServerId $script:authServer.Id -Confirm:$false
     }
 }
+

@@ -10,7 +10,10 @@ function New-OktaAppConfig {
         [Parameter(Mandatory)]
         [string[]] $Scopes,
         [Parameter(Mandatory)]
-        [string] $AuthServerId
+        [string] $AuthServerId,
+        [Parameter(Mandatory)]
+        [ValidateSet("authorization_code", "password", "refresh_token", "client_credentials", "implicit")]
+        [string[]] $GrantTypes
     )
     
     $appName = $Name
@@ -40,8 +43,12 @@ function New-OktaAppConfig {
     if ($rule) {
         Write-Host "    Found 'Allow $($policyName)' Rule"
     } else {
-        $rule = New-OktaRule -AuthorizationServerId $AuthServerId -Name "Allow $($policyName)" -PolicyId $policy.id -Priority 1 `
-                -GrantTypes client_credentials -Scopes $Scopes
+        $rule = New-OktaRule -AuthorizationServerId $AuthServerId `
+                             -Name "Allow $($policyName)" `
+                             -PolicyId $policy.id `
+                             -Priority 1 `
+                             -GrantTypes $GrantTypes `
+                             -Scopes $Scopes
         Write-Host "    Added 'Allow $($policyName)' Rule"
     }
     return $app

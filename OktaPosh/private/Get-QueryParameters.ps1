@@ -9,7 +9,9 @@ function Get-QueryParameters {
     )
     $parms = @()
     foreach ($p in $PSBoundParameters.Keys) {
-        $parms += "$($p.ToLower())=$([System.Web.HttpUtility]::UrlEncode($PSBoundParameters[$p]))"
+        if ($PSBoundParameters[$p]) {
+            $parms += "$($p.ToLower())=$([System.Web.HttpUtility]::UrlEncode($PSBoundParameters[$p]))"
+        }
     }
     if ($parms) {
         return "?$($parms -join '&')"

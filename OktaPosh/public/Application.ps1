@@ -216,9 +216,40 @@ function Remove-OktaApplication {
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($AppId,"Remove Application")) {
-            Invoke-OktaApi -RelativeUri "apps/$AppId" -Method DELETE
+        $app = Get-OktaApplication -AppId $AppId
+        if ($app) {
+            if ($PSCmdlet.ShouldProcess("'$($app.Label)' Id=$AppId","Remove Application")) {
+                Set-OktaApplicationActive -AppId $AppId -Deactivate
+                Invoke-OktaApi -RelativeUri "apps/$AppId" -Method DELETE
+            }
+        } else {
+            Write-Host "Application with id '$AppId' not found"
         }
+    }
+}
+
+function Set-OktaApplicationActive
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [Alias('Id')]
+        [string] $AppId,
+        [switch] $Deactivate
+    )
+    $activate = ternary $Deactivate 'deactivate' 'activate'
+    Invoke-OktaApi -RelativeUri "apps/$AppId/lifecycle/$activate" -Method POST
+}
+
+function Set-OktaApplication {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [PSCustomObject] $Application
+    )
+
+    if ($PSCmdlet.ShouldProcess("$($Application.label)","Update Application")) {
+        Invoke-OktaApi -RelativeUri "apps/$($Application.id)" -Body $Application -Method PUT
     }
 }
 

@@ -31,7 +31,7 @@ function Invoke-OktaApi {
     $result = $null
     $writeMethod = $Method -in "Post", "Put", "Patch", "Merge"
     if ($writeMethod -and $body) {
-        Write-Verbose "Doing $method with body"
+        Write-Verbose "Doing $method with body $body"
         $parms["Body"] = $body
     }
 

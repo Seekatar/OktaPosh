@@ -81,8 +81,12 @@ foreach ( $newApp in $apps) {
     if ($rule) {
         "    Found 'Allow $($policyName)' Rule"
     } else {
-        $rule = New-OktaRule -AuthorizationServerId $authServer.id -Name "Allow $($policyName)" -PolicyId $policy.id -Priority 1 `
-                 -GrantTypes client_credentials -Scopes $newApp.Scopes
+        $rule = New-OktaRule -AuthorizationServerId $authServer.id `
+                            -Name "Allow $($policyName)" `
+                            -PolicyId $policy.id -Priority 1 `
+                            -GrantTypes client_credentials `
+                            -Scopes $newApp.Scopes
+                            
         "    Added 'Allow $($policyName)' Rule"
     }
 }

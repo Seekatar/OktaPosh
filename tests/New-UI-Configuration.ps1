@@ -28,18 +28,24 @@ $apps = @(
     PostLogoutUris = "https://reliance-dev.reprice.nhr.com/fp-ui/"
     Scopes = $scopes }
 )
-$groupNames = @("CCC-Reliance-RBR-Group")
+$groupNames = @("CCC-Reliance-RBR-Group",
+                "RelianceDevs",
+                "RelianceQA",
+                "RelianceUsers")
+
 $origins = @("https://reliance-dev.reprice.nhr.com")
 
 try {
 
     . (Join-Path $PSScriptRoot New-OktaAuthServerConfig.ps1)
     . (Join-Path $PSScriptRoot New-OktaAppConfig.ps1)
+    $issuer = Get-OktaBaseUri
 
     $authServer = New-OktaAuthServerConfig -authServerName $authServerName `
                             -Scopes $scopes `
                             -audience $audience `
                             -description $description `
+                            -issuer $issuer `
                             -claimName $claimName
 
     $groups = @()
@@ -60,6 +66,7 @@ try {
                         -RedirectUris $newApp.RedirectUris `
                         -LoginUri $newApp.LoginUri `
                         -PostLogoutUris $newApp.PostLogoutUris `
+                        -GrantTypes "authorization_code", "password", "client_credentials", "implicit" `
                         -AuthServerId $authServer.Id
         foreach ($group in $groups) {
             $null = Add-OktaApplicationGroup -AppId $app.id -GroupId $group.id
@@ -68,7 +75,7 @@ try {
     }
 
     foreach ($origin in $origins) {
-        if (Get-OktaTrustedOrigin -Query $origin) {
+        if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"" -Verbose) {
             Write-Host "Found origin $origin"
         } else {
             $null = New-OktaTrustedOrigin -Name $origin -Origin $origin -CORS -Redirect

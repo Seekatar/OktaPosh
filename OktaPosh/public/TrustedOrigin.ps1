@@ -9,6 +9,8 @@ function Get-OktaTrustedOrigin
         [Alias("id")]
         [string] $TrustedOriginId,
         [Parameter(ParameterSetName="Query")]
+        [string] $Filter,
+        [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
         [string] $After
@@ -18,7 +20,7 @@ function Get-OktaTrustedOrigin
         if ($TrustedOriginId) {
             Invoke-OktaApi -RelativeUri "trustedOrigins/$TrustedOriginId" -Method GET
         } else {
-            Invoke-OktaApi -RelativeUri "trustedOrigins$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET
+            Invoke-OktaApi -RelativeUri "trustedOrigins$(Get-QueryParameters -Limit $Limit -After $After -Filter $Filter)" -Method GET
         }
     }
 }
@@ -38,7 +40,7 @@ function New-OktaTrustedOrigin {
 
     $body = [PSCustomObject]@{
         name        = $Name
-        orgin       = $Origin
+        origin      = $Origin
         scopes      = @()
     }
     if ($CORS) {
