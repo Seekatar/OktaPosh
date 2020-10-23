@@ -10,14 +10,15 @@ function Get-OktaPolicy
         [Alias("id")]
         [string] $RuleId,
         [Parameter(ParameterSetName="Query")]
-        [string] $Query
+        [string] $Query,
+        [switch] $Json
     )
 
     process {
         if ($RuleId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET -RawContent:$Json
         } else {
-            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET)
+            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET -RawContent:$Json)
         }
     }
 }

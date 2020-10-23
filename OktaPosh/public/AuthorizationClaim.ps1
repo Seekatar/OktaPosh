@@ -13,14 +13,15 @@ function Get-OktaClaim
         [Alias("id")]
         [string] $ClaimId,
         [Parameter(ParameterSetName="Query")]
-        [string] $Query
+        [string] $Query,
+        [switch] $Json
     )
 
     process {
         if ($ClaimId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$ClaimId" -Method GET
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$ClaimId" -Method GET -RawContent:$Json
         } else {
-            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method GET)
+            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method GET -RawContent:$Json)
         }
     }
 }

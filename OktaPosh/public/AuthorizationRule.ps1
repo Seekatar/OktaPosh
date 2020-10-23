@@ -8,11 +8,12 @@ function Get-OktaRule
         [string] $AuthorizationServerId,
         [Parameter(Mandatory)]
         [string] $PolicyId,
-        [string] $Query
+        [string] $Query,
+        [switch] $Json
     )
 
     process {
-        Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET)
+        Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET -RawContent:$Json)
     }
 }
 

@@ -37,14 +37,15 @@ function Get-OktaAuthorizationServer
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
-        [string] $After
+        [string] $After,
+        [switch] $Json
     )
 
     process {
         if ($AuthorizationServerId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId"
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -RawContent:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)"
+            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)" -RawContent:$Json
         }
     }
 }
@@ -131,18 +132,28 @@ function Set-OktaAuthorizationServer
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method PUT -Body $body
 }
 
-function Set-OktaAuthorizationServerActive
+function Disable-OktaAuthorizationServer
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [Alias('Id')]
-        [string] $AuthorizationServerId,
-        [switch] $Deactivate
+        [string] $AuthorizationServerId
     )
-    $activate = ternary $Deactivate 'deactivate' 'activate'
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/$activate" -Method POST
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/deactivate" -Method POST
+}
+
+function Enable-OktaAuthorizationServer
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [Alias('Id')]
+        [string] $AuthorizationServerId
+    )
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/activate" -Method POST
 }
 
 <#
@@ -164,9 +175,14 @@ function Remove-OktaAuthorizationServer
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($AuthorizationServerId,"Remove AuthorizationServer")) {
-            Set-OktaAuthorizationServerActive -AuthorizationServerId $AuthorizationServerId -Deactivate
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method DELETE
+        $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId
+        if ($auth) {
+            if ($PSCmdlet.ShouldProcess($auth.Name,"Remove AuthorizationServer")) {
+                Disable-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId
+                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method DELETE
+            }
+        } else {
+            Write-Warning "AuthorizationServer with id '$AuthorizationServerId' not found"
         }
     }
 }

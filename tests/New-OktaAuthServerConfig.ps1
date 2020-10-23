@@ -11,7 +11,7 @@ param(
     [string] $description,
     [Parameter(Mandatory)]
     [string] $issuer,
-    [string] $claimName
+    [string[]] $claimNames
 )
 
     $authServer = Get-OktaAuthorizationServer -Query $authServerName
@@ -39,7 +39,7 @@ param(
     }
 
     # add appname claim to all scopes
-    if ($claimName) {
+    foreach($claim in $claimNames) {
         $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $claimName
         if ($claim) {
             Write-Host "    Found '$claimName' Claim"

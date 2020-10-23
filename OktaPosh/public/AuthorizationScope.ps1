@@ -11,14 +11,15 @@ function Get-OktaScope
         [string] $ScopeId,
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
-        [switch] $IncludeSystem
+        [switch] $IncludeSystem,
+        [switch] $Json
     )
 
     process {
         if ($ScopeId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method GET
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method GET -RawContent:$Json
         } else {
-            $results = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET
+            $results = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET -RawContent:$Json
             if ($results -and !$IncludeSystem) {
                 $results = $results | Where-Object system -eq $false
             }

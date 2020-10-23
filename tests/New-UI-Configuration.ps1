@@ -14,15 +14,30 @@ Set-StrictMode -Version Latest
 
 # what to set up
 $authServerName = "Casualty-Reliance-RBR-AS"
-$scopes = "fpui:read","fpui:write","fpui:delete"
-$claimName = ""
+# currently UI asks for last 3, and need openid
+$scopes = "fpui:read","fpui:write","fpui:delete","openid","profile","email"
+
+'X-CCC-FP-Email': email,
+'X-CCC-FP-Username': email,
+'X-CCC-FP-UserId': '1',
+'X-CCC-FP-ClientCode': 'INS1',
+'X-CCC-FP-ProfileId': '1',
+'X-CCC-FP-Roles': 'admin', = memberOf // role in appuser for appusername or appuserrole $appuser.attributename (app is name, not label)
+'X-CCC-FP-PictureUrl': 'TODO', 
+also have app properties $app.attribute
+also have org properties org.
+groups?getFilteredGroups
+
+$claimName = "user.displayName","user.email","user.profileUrl"
+
 $audience = "https://reliance-qa/fp-ui"
 $description = "Reliance First-Party UI"
 $apps = @(
     @{ Name = "Casualty-Reliance-RBR"
     RedirectUris = @(
         "https://1085090-devrmq01.reprice.nhr.com:31100/fp-ui/implicit/callback",
-        "https://reliance-dev.reprice.nhr.com/fp-ui/implicit/callback"
+        "https://reliance-dev.reprice.nhr.com/fp-ui/implicit/callback",
+        "http://localhost:8080/fp-ui/implicit/callback"
     )
     LoginUri = "https://reliance-dev.reprice.nhr.com/fp-ui/"
     PostLogoutUris = "https://reliance-dev.reprice.nhr.com/fp-ui/"
@@ -39,7 +54,9 @@ try {
 
     . (Join-Path $PSScriptRoot New-OktaAuthServerConfig.ps1)
     . (Join-Path $PSScriptRoot New-OktaAppConfig.ps1)
-    $issuer = Get-OktaBaseUri
+    $uri = New-Object 'System.Uri' -ArgumentList (Get-OktaBaseUri)
+    $issuer = "$($uri.Scheme)://$($uri.Host)"
+    "Issuer is $issuer"
 
     $authServer = New-OktaAuthServerConfig -authServerName $authServerName `
                             -Scopes $scopes `
@@ -70,12 +87,12 @@ try {
                         -AuthServerId $authServer.Id
         foreach ($group in $groups) {
             $null = Add-OktaApplicationGroup -AppId $app.id -GroupId $group.id
-            Write-Host "    Added $($group.profile.name) group to $($app.name)"
+            Write-Host "    Added $($group.profile.name) group to app $($app.label)"
         }
     }
 
     foreach ($origin in $origins) {
-        if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"" -Verbose) {
+        if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
             Write-Host "Found origin $origin"
         } else {
             $null = New-OktaTrustedOrigin -Name $origin -Origin $origin -CORS -Redirect
