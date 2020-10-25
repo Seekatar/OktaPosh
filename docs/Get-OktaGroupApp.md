@@ -8,12 +8,12 @@ schema: 2.0.0
 # Get-OktaGroupApp
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the Applications attached to the Group
 
 ## SYNTAX
 
 ```
-Get-OktaGroupApp -GroupId <String> [-Limit <UInt32>] [-After <String>] [<CommonParameters>]
+Get-OktaGroupApp -GroupId <String> [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +22,7 @@ Get-OktaGroupApp -GroupId <String> [-Limit <UInt32>] [-After <String>] [<CommonP
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -31,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -After
-{{ Fill After Description }}
+Value returned from previous call to Get for continuing
 
 ```yaml
 Type: String
@@ -46,12 +46,12 @@ Accept wildcard characters: False
 ```
 
 ### -GroupId
-{{ Fill GroupId Description }}
+GroupId retrieved from Get-OktaGroup
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: id
+Aliases: Id
 
 Required: True
 Position: Named
@@ -60,8 +60,23 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Limit
-{{ Fill Limit Description }}
+Specifies the number of results to return
 
 ```yaml
 Type: UInt32
@@ -81,7 +96,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

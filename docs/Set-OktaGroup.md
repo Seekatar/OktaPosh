@@ -8,12 +8,18 @@ schema: 2.0.0
 # Set-OktaGroup
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a Group's name or description
 
 ## SYNTAX
 
+### Object
 ```
-Set-OktaGroup [-GroupId] <String> [-Name] <String> [-Description] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaGroup -Group <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Separate
+```
+Set-OktaGroup -Id <String> -Name <String> [-Description <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +28,7 @@ Set-OktaGroup [-GroupId] <String> [-Name] <String> [-Description] [-WhatIf] [-Co
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -40,17 +46,17 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Description
-{{ Fill Description Description }}
+Optional description
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
+Type: String
+Parameter Sets: Separate
 Aliases:
 
 Required: False
@@ -60,31 +66,46 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -GroupId
-{{ Fill GroupId Description }}
+### -Group
+Optional description of the group.
 
 ```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Id
+Type: PSObject
+Parameter Sets: Object
+Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-{{ Fill Name Description }}
+### -Id
+Group Id from Get-OktaGroup
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Separate
+Aliases: GroupId
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Name
+Name of the item
+
+```yaml
+Type: String
+Parameter Sets: Separate
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,7 +122,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -111,8 +132,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
-
+### System.String
 ## OUTPUTS
 
 ### System.Object

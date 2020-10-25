@@ -8,19 +8,21 @@ schema: 2.0.0
 # Get-OktaScope
 
 ## SYNOPSIS
-Get one or more Scopes for an authorization server
+Get one or more Scopes for an AuthorizationServer
 
 ## SYNTAX
 
 ### ById
 ```
-Get-OktaScope -AuthorizationServerId <String> -ScopeId <String> [-IncludeSystem] [<CommonParameters>]
+Get-OktaScope -AuthorizationServerId <String> -ScopeId <String> [-IncludeSystem] [-Json] [<CommonParameters>]
 ```
 
 ### Query
 ```
-Get-OktaScope -AuthorizationServerId <String> [-Query <String>] [-IncludeSystem] [<CommonParameters>]
+Get-OktaScope -AuthorizationServerId <String> [-Query <String>] [-IncludeSystem] [-Json] [<CommonParameters>]
 ```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
@@ -28,9 +30,11 @@ Get-OktaScope -AuthorizationServerId <String> [-Query <String>] [-IncludeSystem]
 ```
 PS C:\>
 ```
+
 ## PARAMETERS
+
 ### -AuthorizationServerId
-<!-- #include ./params/authserverIdDescription.md -->
+\<!-- #include ./params/authserverIdDescription.md --\>
 
 ```yaml
 Type: String
@@ -44,21 +48,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Query
-Query for name and description
+Searches in the name
 
 ```yaml
 Type: String
@@ -72,15 +63,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-
-
 ### -ScopeId
 Okta Scope Id from search version of Get-OktaScope
 
 ```yaml
 Type: String
 Parameter Sets: ById
-Aliases: id
+Aliases: Id
 
 Required: True
 Position: Named
@@ -89,9 +78,38 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
+### -IncludeSystem
+Set to also include System scopes (excluded by default)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
-
 
 ## INPUTS
 

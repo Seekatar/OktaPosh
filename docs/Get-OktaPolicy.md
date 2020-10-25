@@ -8,20 +8,21 @@ schema: 2.0.0
 # Get-OktaPolicy
 
 ## SYNOPSIS
-Get one of more Policies for an AuthorizationServer's rule
+Get one of more Policies for an AuthorizationServer
 
 ## SYNTAX
 
 ### ById
 ```
-Get-OktaPolicy -AuthorizationServerId <String> -RuleId <String> [<CommonParameters>]
+Get-OktaPolicy -AuthorizationServerId <String> -PolicyId <String> [-Json] [<CommonParameters>]
 ```
 
 ### Query
 ```
-Get-OktaPolicy -AuthorizationServerId <String> [-Query <String>] [<CommonParameters>]
+Get-OktaPolicy -AuthorizationServerId <String> [-Query <String>] [-Json] [<CommonParameters>]
 ```
 
+## DESCRIPTION
 
 ## EXAMPLES
 
@@ -32,17 +33,58 @@ PS C:\>
 
 ## PARAMETERS
 
-<!-- #include "./params/authServerId.md" -->
+### -AuthorizationServerId
+\<!-- #include ./params/authserverIdDescription.md --\>
 
-<!-- #include "./params/query.md" -->
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
-### -RuleId
-Id of a Rule
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Query
+Searches in the name property
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyId
+PolicyId retrieved from Get-OktaPolicy
 
 ```yaml
 Type: String
 Parameter Sets: ById
-Aliases: id
+Aliases: Id
 
 Required: True
 Position: Named
@@ -51,7 +93,8 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-<!-- #include "./params/common-parameters.md" -->
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

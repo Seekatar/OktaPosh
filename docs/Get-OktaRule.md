@@ -8,14 +8,22 @@ schema: 2.0.0
 # Get-OktaRule
 
 ## SYNOPSIS
-Get one or more rules for an auth server and policy
+Get one or more Rules for an AuthorizationServer and Policy
 
 ## SYNTAX
 
+### ById
 ```
-Get-OktaRule [-AuthorizationServerId] <String> [-PolicyId] <String> [[-Query] <String>] [<CommonParameters>]
+Get-OktaRule -AuthorizationServerId <String> [-PolicyId] <String> -RuleId <String> [-Json] [<CommonParameters>]
 ```
 
+### Query
+```
+Get-OktaRule -AuthorizationServerId <String> [-PolicyId] <String> [-Query <String>] [-Json]
+ [<CommonParameters>]
+```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
@@ -26,11 +34,24 @@ PS C:\>
 
 ## PARAMETERS
 
-<!-- #include "./params/authServerId.md" -->
+### -AuthorizationServerId
+\<!-- #include ./params/authserverIdDescription.md --\>
 
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -PolicyId
-Id of a Policy.  Can be retrieved with Get-OktaPolicy
+Id of a Policy.
+Can be retrieved with Get-OktaPolicy
 
 ```yaml
 Type: String
@@ -44,10 +65,53 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-<!-- #include "./params/query.md" -->
+### -Query
+Query for name and description
 
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
 
-<!-- #include "./params/common-parameters.md" -->
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RuleId
+RuleId retrieved from Get-OktaRule
+
+```yaml
+Type: String
+Parameter Sets: ById
+Aliases: Id
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

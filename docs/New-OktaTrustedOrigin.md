@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-OktaTrustedOrigin
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new TrustedOrigin
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ New-OktaTrustedOrigin [-Name] <String> [-Origin] <String> [-CORS] [-Redirect] [-
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -32,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -CORS
-{{ Fill CORS Description }}
+Enables the origin URL to access Okta APIs from Javascript.
 
 ```yaml
 Type: SwitchParameter
@@ -41,7 +41,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -56,13 +56,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the item, can be same as Origin
 
 ```yaml
 Type: String
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -Origin
-{{ Fill Origin Description }}
+Input origin URL for Okta API access or custom page redirect.
 
 ```yaml
 Type: String
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -Redirect
-{{ Fill Redirect Description }}
+ASllows for browser redirection to 'Origin URL' after signing in or out.
 
 ```yaml
 Type: SwitchParameter
@@ -101,7 +101,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -117,7 +117,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -128,7 +128,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

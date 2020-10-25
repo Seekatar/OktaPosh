@@ -5,16 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaAuthorizationServerActive
+# Set-OktaTrustedOrigin
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a TrustedOrigin
 
 ## SYNTAX
 
 ```
-Set-OktaAuthorizationServerActive [-AuthorizationServerId] <String> [-Deactivate] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Set-OktaTrustedOrigin [-TrustedOrigin] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,28 +22,13 @@ Set-OktaAuthorizationServerActive [-AuthorizationServerId] <String> [-Deactivate
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -AuthorizationServerId
-{{ Fill AuthorizationServerId Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Id
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
@@ -56,21 +40,21 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Deactivate
-{{ Fill Deactivate Description }}
+### -TrustedOrigin
+TrustedOrigin object from Get-OktaTrustedOrigin
 
 ```yaml
-Type: SwitchParameter
+Type: PSObject
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -87,7 +71,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -98,10 +82,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
 
 ## RELATED LINKS
+

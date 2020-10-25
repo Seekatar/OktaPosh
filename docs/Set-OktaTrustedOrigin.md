@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-OktaTrustedOrigin
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a TrustedOrigin
 
 ## SYNTAX
 
@@ -22,7 +22,7 @@ Set-OktaTrustedOrigin [-TrustedOrigin] <PSObject> [-WhatIf] [-Confirm] [<CommonP
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -40,13 +40,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -TrustedOrigin
-{{ Fill TrustedOrigin Description }}
+TrustedOrigin object from Get-OktaTrustedOrigin
 
 ```yaml
 Type: PSObject
@@ -71,7 +71,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -82,7 +82,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

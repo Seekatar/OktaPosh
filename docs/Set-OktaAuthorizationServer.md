@@ -8,13 +8,13 @@ schema: 2.0.0
 # Set-OktaAuthorizationServer
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update an AuthorizationServer
 
 ## SYNTAX
 
 ```
 Set-OktaAuthorizationServer [-AuthorizationServerId] <String> [-Name] <String> [-Audiences] <String[]>
- [[-Description] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-Description] <String>] [[-Issuer] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ Set-OktaAuthorizationServer [-AuthorizationServerId] <String> [-Name] <String> [
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -32,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Audiences
-{{ Fill Audiences Description }}
+Audience value for the AuthorizationServer
 
 ```yaml
 Type: String[]
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -AuthorizationServerId
-{{ Fill AuthorizationServerId Description }}
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
 ```yaml
 Type: String
@@ -71,13 +71,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Description
-{{ Fill Description Description }}
+Optional description
 
 ```yaml
 Type: String
@@ -91,8 +91,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Issuer
+Name of the Issuer for the server
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
-{{ Fill Name Description }}
+Name of the item
 
 ```yaml
 Type: String
@@ -117,7 +132,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -128,7 +143,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

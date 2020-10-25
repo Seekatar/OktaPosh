@@ -8,22 +8,24 @@ schema: 2.0.0
 # Invoke-OktaApi
 
 ## SYNOPSIS
-Helper for calling the OktaApi.  Mainly used internally.
+Helper for calling the OktaApi.
+Mainly used internally.
 
 ## SYNTAX
 
 ```
-Invoke-OktaApi [[-RelativeUri] <String>] [[-Method] <String>] [[-Body] <String>] [-RawContent]
+Invoke-OktaApi [[-RelativeUri] <String>] [[-Method] <String>] [[-Body] <Object>] [-Json]
  [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This calls the API and returns the object or error messages. You can use this to call APIs that are not yet in this module.
+This calls the API and returns the object or error messages.
+You can use this to call APIs that are not yet in this module.
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\>
 ```
 
@@ -33,7 +35,7 @@ PS C:\>
 The string version of the body to send for post, put, patch
 
 ```yaml
-Type: String
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -47,6 +49,8 @@ Accept wildcard characters: False
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
+Prompts you for confirmation before running the cmdlet.
+
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
@@ -54,7 +58,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -76,7 +80,8 @@ Accept wildcard characters: False
 ```
 
 ### -OktaApiToken
-The API token. Calls Get-OktaApiToken with this value so if blank will use value from Set-OktaOption, or environment, if they exist.
+The API token.
+Calls Get-OktaApiToken with this value so if blank will use value from Set-OktaOption, or environment, if they exist.
 
 ```yaml
 Type: String
@@ -91,7 +96,8 @@ Accept wildcard characters: False
 ```
 
 ### -OktaBaseUri
-The base API Uri. Calls Get-OktaBaseUri with this value so if blank will use value from Set-OktaOption, or environment, if they exist.
+The base API Uri.
+Calls Get-OktaBaseUri with this value so if blank will use value from Set-OktaOption, or environment, if they exist.
 
 ```yaml
 Type: String
@@ -105,7 +111,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RawContent
+### -Json
 Set to return raw content instead of converting from JSON to objects
 
 ```yaml
@@ -115,7 +121,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -135,13 +141,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-<!-- #include "./params/whatif-confirm.md" -->
-<!-- #include "./params/common-parameters.md" -->
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

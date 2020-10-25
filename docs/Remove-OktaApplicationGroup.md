@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-OktaApplicationGroup
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove a Group from an Application
 
 ## SYNTAX
 
@@ -22,7 +22,7 @@ Remove-OktaApplicationGroup [-AppId] <String> [-GroupId] <String> [-WhatIf] [-Co
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -31,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -AppId
-{{ Fill AppId Description }}
+ApplicationId retrieved from Get-OktaApplication
 
 ```yaml
 Type: String
@@ -55,13 +55,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -GroupId
-{{ Fill GroupId Description }}
+GroupId retrieved from Get-OktaGroup
 
 ```yaml
 Type: String
@@ -86,7 +86,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -97,7 +97,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

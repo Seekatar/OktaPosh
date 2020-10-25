@@ -1,6 +1,24 @@
+### [Add-OktaApplicationGroup](Add-OktaApplicationGroup.md)
+
+### [Disable-OktaApplication](Disable-OktaApplication.md)
+
+### [Disable-OktaAuthorizationServer](Disable-OktaAuthorizationServer.md)
+
+### [Enable-OktaApplication](Enable-OktaApplication.md)
+
+### [Enable-OktaAuthorizationServer](Enable-OktaAuthorizationServer.md)
+
+### [Export-OktaAuthorizationServer](Export-OktaAuthorizationServer.md)
+
 ### [Get-OktaApiToken](Get-OktaApiToken.md)
 
 ### [Get-OktaApplication](Get-OktaApplication.md)
+
+### [Get-OktaApplicationGroup](Get-OktaApplicationGroup.md)
+
+### [Get-OktaApplicationSchema](Get-OktaApplicationSchema.md)
+
+### [Get-OktaApplicationUser](Get-OktaApplicationUser.md)
 
 ### [Get-OktaAuthorizationServer](Get-OktaAuthorizationServer.md)
 
@@ -10,19 +28,29 @@
 
 ### [Get-OktaGroup](Get-OktaGroup.md)
 
+### [Get-OktaGroupApp](Get-OktaGroupApp.md)
+
+### [Get-OktaGroupUser](Get-OktaGroupUser.md)
+
 ### [Get-OktaJwt](Get-OktaJwt.md)
 
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
 
+### [Get-OktaRateLimit](Get-OktaRateLimit.md)
+
 ### [Get-OktaRule](Get-OktaRule.md)
 
 ### [Get-OktaScope](Get-OktaScope.md)
+
+### [Get-OktaTrustedOrigin](Get-OktaTrustedOrigin.md)
 
 ### [Invoke-OktaApi](Invoke-OktaApi.md)
 
 ### [New-OktaAuthorizationServer](New-OktaAuthorizationServer.md)
 
 ### [New-OktaClaim](New-OktaClaim.md)
+
+### [New-OktaGroup](New-OktaGroup.md)
 
 ### [New-OktaPolicy](New-OktaPolicy.md)
 
@@ -32,11 +60,37 @@
 
 ### [New-OktaServerApplication](New-OktaServerApplication.md)
 
+### [New-OktaSpaApplication](New-OktaSpaApplication.md)
+
+### [New-OktaTrustedOrigin](New-OktaTrustedOrigin.md)
+
+### [Remove-OktaApplication](Remove-OktaApplication.md)
+
+### [Remove-OktaApplicationGroup](Remove-OktaApplicationGroup.md)
+
+### [Remove-OktaApplicationSchemaProperty](Remove-OktaApplicationSchemaProperty.md)
+
 ### [Remove-OktaAuthorizationServer](Remove-OktaAuthorizationServer.md)
+
+### [Remove-OktaClaim](Remove-OktaClaim.md)
+
+### [Remove-OktaGroup](Remove-OktaGroup.md)
+
+### [Remove-OktaTrustedOrigin](Remove-OktaTrustedOrigin.md)
+
+### [Set-OktaApplication](Set-OktaApplication.md)
 
 ### [Set-OktaApplicationProperty](Set-OktaApplicationProperty.md)
 
+### [Set-OktaApplicationSchemaProperty](Set-OktaApplicationSchemaProperty.md)
+
+### [Set-OktaAuthorizationServer](Set-OktaAuthorizationServer.md)
+
+### [Set-OktaGroup](Set-OktaGroup.md)
+
 ### [Set-OktaOption](Set-OktaOption.md)
+
+### [Set-OktaTrustedOrigin](Set-OktaTrustedOrigin.md)
 
 
 

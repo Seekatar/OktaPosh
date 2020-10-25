@@ -8,18 +8,18 @@ schema: 2.0.0
 # Get-OktaTrustedOrigin
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get one or more TrustedOrigins
 
 ## SYNTAX
 
 ### Query (Default)
 ```
-Get-OktaTrustedOrigin [-Limit <UInt32>] [-After <String>] [<CommonParameters>]
+Get-OktaTrustedOrigin [-Filter <String>] [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
 ```
 
 ### ById
 ```
-Get-OktaTrustedOrigin -TrustedOriginId <String> [<CommonParameters>]
+Get-OktaTrustedOrigin -TrustedOriginId <String> [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +28,7 @@ Get-OktaTrustedOrigin -TrustedOriginId <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -37,7 +37,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -After
-{{ Fill After Description }}
+Value returned from previous call to Get for continuing
 
 ```yaml
 Type: String
@@ -51,8 +51,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Filter
+Expression for filtering on properties
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Limit
-{{ Fill Limit Description }}
+Specifies the number of results to return
 
 ```yaml
 Type: UInt32
@@ -67,12 +97,12 @@ Accept wildcard characters: False
 ```
 
 ### -TrustedOriginId
-{{ Fill TrustedOriginId Description }}
+Id of a TrustedOrigin
 
 ```yaml
 Type: String
 Parameter Sets: ById
-Aliases: id
+Aliases: Id
 
 Required: True
 Position: Named
@@ -87,7 +117,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object
