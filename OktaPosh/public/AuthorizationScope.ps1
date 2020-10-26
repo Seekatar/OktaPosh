@@ -7,7 +7,7 @@ function Get-OktaScope
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
+        [Alias("Id")]
         [string] $ScopeId,
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
@@ -17,9 +17,9 @@ function Get-OktaScope
 
     process {
         if ($ScopeId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method GET -RawContent:$Json
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method GET -Json:$Json
         } else {
-            $results = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET -RawContent:$Json
+            $results = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET -Json:$Json
             if ($results -and !$IncludeSystem) {
                 $results = $results | Where-Object system -eq $false
             }
@@ -28,30 +28,6 @@ function Get-OktaScope
     }
 }
 
-<#
-.SYNOPSIS
-Add an Okta Authorization Scope
-
-.PARAMETER AuthorizationServerId
-Parameter description
-
-.PARAMETER Name
-Parameter description
-
-.PARAMETER Description
-Parameter description
-
-.PARAMETER MetadataPublish
-Parameter description
-
-.PARAMETER DefaultScope
-Parameter description
-
-.EXAMPLE
-"access_token","get_item","save_item","remove_item" | New-OktaScope -AuthorizationServerId ausoqi2fqgcUpYHBS4x6 -Description "Added via script"
-
-Add four scopes
-#>
 function New-OktaScope
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]

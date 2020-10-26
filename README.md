@@ -36,3 +36,17 @@ Import-Module platyPS
 Import-Module OktPosh -fo
 New-MarkdownHelp -Module OktaPosh -OutputFolder .\temp\oktaposhdocs
 ```
+
+### Running Pester v5
+
+```powershell
+cd tests/integration
+Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; CodeCoverage=@{Enabled=$true}}
+```
+
+### Running Script Analyzer
+
+```powershell
+cd OktaPosh
+Invoke-ScriptAnalyzer -Path . -Recurse
+```

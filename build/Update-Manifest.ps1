@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Set the function and alias exports
+Set the function and alias exports in the manifest file
 #>
 [CmdletBinding()]
 param(

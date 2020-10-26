@@ -8,64 +8,24 @@ function Get-OktaRule
         [string] $AuthorizationServerId,
         [Parameter(Mandatory)]
         [string] $PolicyId,
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $RuleId,
+        [Parameter(ParameterSetName="Query")]
         [string] $Query,
         [switch] $Json
     )
 
     process {
-        Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET -RawContent:$Json)
+        if ($RuleId) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$RuleId" -Method GET -Json:$Json
+        } else {
+	        Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET -Json:$Json)
+        }
+
     }
-}
+ }
 
-<#
-.SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
-
-.PARAMETER AuthorizationServerId
-Parameter description
-
-.PARAMETER PolicyId
-Parameter description
-
-.PARAMETER Name
-Parameter description
-
-.PARAMETER Inactive
-Parameter description
-
-.PARAMETER Priority
-Parameter description
-
-.PARAMETER GrantTypes
-Parameter description
-
-.PARAMETER Scopes
-Parameter description
-
-.PARAMETER UserIds
-Parameter description
-
-.PARAMETER GroupIds
-Parameter description
-
-.PARAMETER AccessTokenLifetimeMinutes
-Parameter description
-
-.PARAMETER RefreshTokenLifetimeMinutes
-Parameter description
-
-.PARAMETER RefreshTokenWindowDays
-Parameter description
-
-.EXAMPLE
-New-OktaRule -AuthorizationServerId $reliance.id -Name "Allow DRE" -PolicyId $drePolicy.id -Priority 1 -GrantTypes client_credentials -Scopes get_item,access_token,save_item
-
-.NOTES
-General notes
-#>
 function New-OktaRule
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]

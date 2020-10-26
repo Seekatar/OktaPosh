@@ -3,7 +3,7 @@
 param(
     [string] $DocsSource = (Convert-Path "$PSScriptRoot\..\docs"),
     [string] $DocsOutput = "$PSScriptRoot\..\docs-generated",
-    [string] $SourceFolder = (Convert-Path "$PSScriptRoot\..\src"),
+    [string] $SourceFolder = (Convert-Path "$PSScriptRoot\..\OktaPosh"),
     [switch] $SeparateSynopsis
 )
 Set-StrictMode -Version Latest
@@ -24,7 +24,7 @@ $files = Get-ChildItem -Path $DocsSource -Filter '*-*.md'
 Write-Verbose "Files is $DocsSource $files"
 Write-Verbose "Found $($files.Count) files"
 
-Push-Location $DocsSource 
+Push-Location $DocsSource
 try {
 foreach ($file in $files) {
    $null = $sb.Append("### [$($file.BaseName)]($($file.Name))`r`n`r`n")

@@ -1,29 +1,5 @@
-<#
-.SYNOPSIS
-Get an Okta JWT token
+Set-StrictMode -Version Latest
 
-.DESCRIPTION
-This only does the client credentials flow
-
-.PARAMETER ClientId
-ClientId from the Application
-
-.PARAMETER OktaTokenUrl
-Url to get the token, e.g. "https://dev-671484.okta.com/oauth2/default/v1/token"
-
-.PARAMETER ClientSecret
-Client secret for the Application
-
-.PARAMETER SecureClientSecret
-Client secret for the Application as a SecureString
-
-.EXAMPLE
-$env:OktaClientSecret="..."
-Get-OktaJwt -ClientId "0oap78eubPKbQCnEk4x6" -OktaTokenUrl "https://dev-671484.okta.com/oauth2/ausp6jwjzhUYrGJsG4x6/v1/token"
-
-.OUTPUTS
-JWT string or null
-#>
 function Get-OktaJwt {
     [CmdletBinding()]
     [OutputType([string])]
@@ -67,7 +43,7 @@ function Get-OktaJwt {
         $parms['SkipHttpErrorCheck'] = $true
     }
     $jwt = ""
-    $result = Invoke-WebRequest $env:okta_url -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader @parms
+    $result = Invoke-WebRequest $OktaTokenUrl -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader @parms
     if ($result.StatusCode -ne 200)
     {
         Write-Warning "Couldn't get JWT"
@@ -75,7 +51,7 @@ function Get-OktaJwt {
     }
     else
     {
-        $jwt = (ConvertFrom-Json $result.Content).access_token
+        $jwt = (ConvertFrom-Json $result.Content -Depth 5).access_token
     }
     $jwt
 

@@ -13,9 +13,9 @@ Set a Property on a Schema
 ## SYNTAX
 
 ```
-Set-OktaApplicationSchemaProperty [-AppId] <String> [-Name] <String> [-DisplayName] <String>
- [[-Description] <String>] [[-Type] <String>] [-Required] [-UserScope] [[-Min] <Int32>] [[-Max] <Int32>]
- [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaApplicationSchemaProperty [-AppId] <String> [-Name] <String> [[-Description] <String>]
+ [[-Type] <String>] [-Required] [-UserScope] [[-Min] <Int32>] [[-Max] <Int32>] [-Json] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -72,21 +72,6 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DisplayName
-Used as a human readable label when the attribute appears in the UI.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

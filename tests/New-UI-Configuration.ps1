@@ -17,18 +17,67 @@ $authServerName = "Casualty-Reliance-RBR-AS"
 # currently UI asks for last 3, and need openid
 $scopes = "fpui:read","fpui:write","fpui:delete","openid","profile","email"
 
-'X-CCC-FP-Email': email,
-'X-CCC-FP-Username': email,
-'X-CCC-FP-UserId': '1',
-'X-CCC-FP-ClientCode': 'INS1',
-'X-CCC-FP-ProfileId': '1',
-'X-CCC-FP-Roles': 'admin', = memberOf // role in appuser for appusername or appuserrole $appuser.attributename (app is name, not label)
-'X-CCC-FP-PictureUrl': 'TODO', 
-also have app properties $app.attribute
-also have org properties org.
-groups?getFilteredGroups
+# 'X-CCC-FP-Email': email,
+# 'X-CCC-FP-Username': email,
+# 'X-CCC-FP-UserId': '1',
+# 'X-CCC-FP-ClientCode': 'INS1',
+# 'X-CCC-FP-ProfileId': '1',
+# 'X-CCC-FP-Roles': 'admin', = memberOf // role in appuser for appusername or appuserrole $appuser.attributename (app is name, not label)
+# 'X-CCC-FP-PictureUrl': 'TODO',
+# also have app properties $app.attribute
+# also have org properties org.
+# groups?getFilteredGroups
 
-$claimName = "user.displayName","user.email","user.profileUrl"
+$claims = @(
+    @{
+        name = "roles"
+        valueType = "GROUPS"
+        value = "CCC-Reliance-RBR-"
+        claimType= "RESOURCE"
+    },
+    @{
+        name = "clients"
+        valueType = "GROUPS"
+        value = "CCC-Reliance-Client-"
+        claimType= "RESOURCE"
+    },
+    @{
+        name = "profileUrl"
+        valueType = "EXPRESSION"
+        value = "appuser.profile"
+        claimType= "RESOURCE"
+    },
+    @{
+        name = "email"
+        valueType = "EXPRESSION"
+        value = "appuser.email"
+        claimType= "RESOURCE"
+    },
+    @{
+        name = "friendlyName"
+        valueType = "EXPRESSION"
+        value = "String.len(appuser.name) > 0 ? appuser.name : appuser.given_name+ `" `" + appuser.family_name"
+        claimType= "RESOURCE"
+    },
+    @{
+        name = "login"
+        valueType = "EXPRESSION"
+        value = "appuser.email"
+        claimType= "RESOURCE"
+    },
+    @{
+        name = "pictureUrl"
+        valueType = "EXPRESSION"
+        value = "appuser.picture"
+        claimType= "RESOURCE"
+    },
+    @{
+        name = "profileUrl"
+        valueType = "EXPRESSION"
+        value = "appuser.profile"
+        claimType= "RESOURCE"
+    }
+)
 
 $audience = "https://reliance-qa/fp-ui"
 $description = "Reliance First-Party UI"
@@ -63,7 +112,7 @@ try {
                             -audience $audience `
                             -description $description `
                             -issuer $issuer `
-                            -claimName $claimName
+                            -claims $claims
 
     $groups = @()
     foreach ($group in $groupNames) {

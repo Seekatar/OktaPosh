@@ -7,18 +7,18 @@ function Get-OktaPolicy
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
-        [string] $RuleId,
+        [Alias("Id")]
+        [string] $PolicyId,
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
         [switch] $Json
     )
 
     process {
-        if ($RuleId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET -RawContent:$Json
+        if ($PolicyId) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId" -Method GET -Json:$Json
         } else {
-            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET -RawContent:$Json)
+            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET -Json:$Json)
         }
     }
 }

@@ -1,36 +1,11 @@
 # https://developer.okta.com/docs/reference/api/authorization-servers/
 Set-StrictMode -Version Latest
 
-<#
-.SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
-
-.PARAMETER AuthorizationServerId
-Parameter description
-
-.PARAMETER Query
-Parameter description
-
-.PARAMETER Limit
-Parameter description
-
-.PARAMETER After
-Parameter description
-
-.EXAMPLE
-$relianceAuth = Get-OktaAuthorizationServer -Query Reliance
-
-.NOTES
-General notes
-#>
 function Get-OktaAuthorizationServer
 {
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
+        [Alias("Id")]
         [string] $AuthorizationServerId,
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
@@ -43,38 +18,13 @@ function Get-OktaAuthorizationServer
 
     process {
         if ($AuthorizationServerId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -RawContent:$Json
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)" -RawContent:$Json
+            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)" -Json:$Json
         }
     }
 }
 
-<#
-.SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
-
-.PARAMETER Name
-Parameter description
-
-.PARAMETER Audiences
-Parameter description
-
-.PARAMETER Issuer
-Parameter description
-
-.PARAMETER Description
-Parameter description
-
-.EXAMPLE
-New-OktaAuthorizationServer -Name RelianceApi -Audiences "http://cccis.com/reliance/api" -Issuer "http:/cccis.com/reliance"
-
-.NOTES
-General notes
-#>
 function New-OktaAuthorizationServer
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
@@ -127,7 +77,7 @@ function Set-OktaAuthorizationServer
         name        = $Name
         description = $Description
         audiences   = @($Audiences)
-        issuer      = $Issuer
+        issuerMode  = 'ORG_URL' # required
     }
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method PUT -Body $body
 }
@@ -135,7 +85,7 @@ function Set-OktaAuthorizationServer
 function Disable-OktaAuthorizationServer
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param (
         [Parameter(Mandatory)]
         [Alias('Id')]
@@ -156,18 +106,11 @@ function Enable-OktaAuthorizationServer
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/activate" -Method POST
 }
 
-<#
-.SYNOPSIS
-Delete an authorization server
-
-.PARAMETER AuthorizationServerId
-Id of the auth server
-#>
 function Remove-OktaAuthorizationServer
 {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $AuthorizationServerId
     )

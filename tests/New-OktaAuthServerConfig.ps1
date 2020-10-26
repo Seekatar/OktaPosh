@@ -11,7 +11,7 @@ param(
     [string] $description,
     [Parameter(Mandatory)]
     [string] $issuer,
-    [string[]] $claimNames
+    [HashTable[]] $claims
 )
 
     $authServer = Get-OktaAuthorizationServer -Query $authServerName
@@ -39,12 +39,16 @@ param(
     }
 
     # add appname claim to all scopes
-    foreach($claim in $claimNames) {
-        $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $claimName
+    foreach($claim in $claims) {
+        $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $claim.name
         if ($claim) {
             Write-Host "    Found '$claimName' Claim"
         } else {
-            $claim = New-OktaClaim -AuthorizationServerId $authServer.id -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE -Value "app.profile.$claimName" -Scopes "access:token"
+            $claim = New-OktaClaim -AuthorizationServerId $authServer.id `
+                                   -Name $claim.name `
+                                   -ValueType $claim.valueType `
+                                   -ClaimType $claim.claimType `
+                                   -Value $claim.value
             Write-Host "    Added '$claimName' Claim"
         }
     }
