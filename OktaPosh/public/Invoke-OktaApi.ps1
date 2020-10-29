@@ -44,7 +44,13 @@ function Invoke-OktaApi {
     }
 
     if (!$writeMethod -or $PSCmdlet.ShouldProcess($RelativeUri,"Invoke API")) {
-        $result = Invoke-WebRequest @parms
-        Test-OktaResult -Result $result -Json:$Json
+        $prevPref = $progressPreference
+        $progressPreference = "silentlyContinue"
+        try {
+            $result = Invoke-WebRequest @parms
+            Test-OktaResult -Result $result -Json:$Json
+        } finally {
+            $progressPreference = $prevPref
+        }
     }
 }

@@ -113,7 +113,7 @@ function New-OktaSpaApplication {
         }
     }
 
-    Add-PropertiesToObject -Object $body -Propertied $Properties
+    Add-PropertiesToObject -Object $body -Properties $Properties
 
     Invoke-OktaApi -RelativeUri "apps" -Body $body -Method POST
 }

@@ -41,7 +41,10 @@ function New-OktaClaim
         [ValidateSet("EXPRESSION", "GROUPS")]
         [string] $ValueType,
         [Parameter(ValueFromPipelineByPropertyName)]
-        [ValidateSet("RESOURCE", "IDENTITY")] # Resource = attach to token, Identity = attach to id token
+        [ValidateSet("STARTS_WITH", "EQUALS", "CONTAINS", "REGEX", "")]
+        [string] $GroupFilterType,
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [ValidateSet("RESOURCE", "IDENTITY", "ACCESS_TOKEN", "ID_TOKEN")] # Resource = attach to token, Identity = attach to id token
         [string] $ClaimType = "RESOURCE",
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [string] $Value,
@@ -54,6 +57,11 @@ function New-OktaClaim
 
     process
     {
+        if ($ClaimType -eq "ACCESS_TOKEN") {
+            $ClaimType = "RESOURCE"
+        } elseif ($ClaimType -eq "ID_TOKEN") {
+            $ClaimType = "IDENTITY"
+        } 
         $body = @{
             name      = $Name
             status    = ternary $Inactive "INACTIVE" "ACTIVE"
@@ -66,6 +74,12 @@ function New-OktaClaim
             $body['conditions'] = @{
                 scopes = $Scopes
             }
+        }
+        if ($ValueType -eq 'GROUPS') {
+            if (!$GroupFilterType) {
+                throw "Must supply GroupFilterType for ValueType of GROUPS"
+            }
+            $body['group_filter_type'] = $GroupFilterType
         }
 
         Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method POST -Body $body -Json:$Json

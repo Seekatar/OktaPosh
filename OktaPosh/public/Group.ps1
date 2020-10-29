@@ -40,14 +40,10 @@ function New-OktaGroup {
         [string] $Description
     )
 
-    if (!$Description) {
-        $Description = "Added by OktaPosh"
-    }
-
     $body = [PSCustomObject]@{
         profile = @{
             name        = $Name
-            description = $Description
+            description = ternary $Description $Description "Added by OktaPosh"
         }
     }
 
@@ -71,10 +67,6 @@ function Set-OktaGroup {
     )
 
     process {
-        if (!$Description) {
-            $Description = "Updated by OktaPosh"
-        }
-
         if ($Id) {
             $body = @{
                 profile = @{

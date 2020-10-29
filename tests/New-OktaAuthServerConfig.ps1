@@ -9,8 +9,6 @@ param(
     [string] $audience,
     [Parameter(Mandatory)]
     [string] $description,
-    [Parameter(Mandatory)]
-    [string] $issuer,
     [HashTable[]] $claims
 )
 
@@ -20,7 +18,6 @@ param(
     } else {
         $authServer = New-OktaAuthorizationServer -Name $authServerName `
             -Audiences $audience `
-            -Issuer $issuer `
             -Description $description
         if ($authServer) {
             Write-Host "Created '$authServerName' $($authServer.id)"
@@ -39,17 +36,18 @@ param(
     }
 
     # add appname claim to all scopes
-    foreach($claim in $claims) {
-        $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $claim.name
+    foreach($c in $claims) {
+        $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $c.name
         if ($claim) {
-            Write-Host "    Found '$claimName' Claim"
+            Write-Host "    Found '$($c.name)' Claim"
         } else {
             $claim = New-OktaClaim -AuthorizationServerId $authServer.id `
-                                   -Name $claim.name `
-                                   -ValueType $claim.valueType `
-                                   -ClaimType $claim.claimType `
-                                   -Value $claim.value
-            Write-Host "    Added '$claimName' Claim"
+                                   -Name $c.name `
+                                   -ValueType $c.valueType `
+                                   -GroupFilterType $c['groupFilterType'] `
+                                   -ClaimType $c.claimType `
+                                   -Value $c.value
+            Write-Host "    Added '$($c.name)' Claim"
         }
     }
     return $authServer

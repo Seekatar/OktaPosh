@@ -14,8 +14,8 @@ Set-StrictMode -Version Latest
 
 # what to set up
 $authServerName = "Casualty-Reliance-RBR-AS"
-# currently UI asks for last 3, and need openid
-$scopes = "fpui:read","fpui:write","fpui:delete","openid","profile","email"
+# currently UI asks common okta ones, openid, email, profile
+$scopes = "fpui:read","fpui:write","fpui:delete"
 
 # 'X-CCC-FP-Email': email,
 # 'X-CCC-FP-Username': email,
@@ -32,50 +32,52 @@ $claims = @(
     @{
         name = "roles"
         valueType = "GROUPS"
+        groupFilterType = "STARTS_WITH"
         value = "CCC-Reliance-RBR-"
-        claimType= "RESOURCE"
+        claimType= "ACCESS_TOKEN"
     },
     @{
         name = "clients"
         valueType = "GROUPS"
+        groupFilterType = "STARTS_WITH"
         value = "CCC-Reliance-Client-"
-        claimType= "RESOURCE"
+        claimType= "ACCESS_TOKEN"
     },
     @{
         name = "profileUrl"
         valueType = "EXPRESSION"
         value = "appuser.profile"
-        claimType= "RESOURCE"
+        claimType= "ACCESS_TOKEN"
     },
     @{
         name = "email"
         valueType = "EXPRESSION"
         value = "appuser.email"
-        claimType= "RESOURCE"
+        claimType= "ACCESS_TOKEN"
     },
     @{
         name = "friendlyName"
         valueType = "EXPRESSION"
         value = "String.len(appuser.name) > 0 ? appuser.name : appuser.given_name+ `" `" + appuser.family_name"
-        claimType= "RESOURCE"
+        claimType= "ACCESS_TOKEN"
     },
     @{
         name = "login"
         valueType = "EXPRESSION"
         value = "appuser.email"
-        claimType= "RESOURCE"
+        claimType= "ACCESS_TOKEN"
     },
     @{
         name = "pictureUrl"
         valueType = "EXPRESSION"
         value = "appuser.picture"
-        claimType= "RESOURCE"
+        claimType= "ID_TOKEN"
     },
     @{
         name = "profileUrl"
         valueType = "EXPRESSION"
         value = "appuser.profile"
-        claimType= "RESOURCE"
+        claimType= "ID_TOKEN"
     }
 )
 
@@ -90,9 +92,12 @@ $apps = @(
     )
     LoginUri = "https://reliance-dev.reprice.nhr.com/fp-ui/"
     PostLogoutUris = "https://reliance-dev.reprice.nhr.com/fp-ui/"
-    Scopes = $scopes }
+    Scopes = $scopes + "openid","profile","email" }
 )
-$groupNames = @("CCC-Reliance-RBR-Group",
+$groupNames = @("CCC-Reliance-RBR-Read-Group",
+                "CCC-Reliance-RBR-Write-Group",
+                "CCC-Reliance-RBR-Admin-Group",
+                "CCC-Reliance-Client-Diversified DPS-Group",
                 "RelianceDevs",
                 "RelianceQA",
                 "RelianceUsers")
@@ -103,25 +108,21 @@ try {
 
     . (Join-Path $PSScriptRoot New-OktaAuthServerConfig.ps1)
     . (Join-Path $PSScriptRoot New-OktaAppConfig.ps1)
-    $uri = New-Object 'System.Uri' -ArgumentList (Get-OktaBaseUri)
-    $issuer = "$($uri.Scheme)://$($uri.Host)"
-    "Issuer is $issuer"
 
     $authServer = New-OktaAuthServerConfig -authServerName $authServerName `
                             -Scopes $scopes `
                             -audience $audience `
                             -description $description `
-                            -issuer $issuer `
                             -claims $claims
 
     $groups = @()
     foreach ($group in $groupNames) {
         $g = Get-OktaGroup -Query $group
         if ($g) {
-            Write-Host "Found group $group"
+            Write-Host "Found group '$group'"
         } else {
             $g = New-OktaGroup -Name $group
-            Write-Host "Added group $group"
+            Write-Host "Added group '$group'"
         }
         $groups += $g
     }
@@ -136,16 +137,16 @@ try {
                         -AuthServerId $authServer.Id
         foreach ($group in $groups) {
             $null = Add-OktaApplicationGroup -AppId $app.id -GroupId $group.id
-            Write-Host "    Added $($group.profile.name) group to app $($app.label)"
+            Write-Host "    Added '$($group.profile.name)' group to app '$($app.label)'"
         }
     }
 
     foreach ($origin in $origins) {
         if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
-            Write-Host "Found origin $origin"
+            Write-Host "Found origin '$origin'"
         } else {
             $null = New-OktaTrustedOrigin -Name $origin -Origin $origin -CORS -Redirect
-            Write-Host "Added origin $origin"
+            Write-Host "Added origin '$origin'"
         }
      }
 

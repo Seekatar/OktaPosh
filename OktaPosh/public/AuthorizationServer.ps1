@@ -25,6 +25,17 @@ function Get-OktaAuthorizationServer
     }
 }
 
+function Get-OktaOpenIdConfig {
+    param (
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $AuthorizationServerId
+    )
+
+    Invoke-RestMethod "$(Get-OktaBaseUri)/oauth2/$AuthorizationServerId/.well-known/openid-configuration"
+}
+
+
 function New-OktaAuthorizationServer
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
@@ -34,21 +45,16 @@ function New-OktaAuthorizationServer
         [string] $Name,
         [Parameter(Mandatory)]
         [string[]] $Audiences,
-        [Parameter(Mandatory)]
-        [string] $Issuer,
+        [ValidateSet("ORG_URL","CUSTOM_URL_DOMAIN")]
+        [string] $IssuerMode = "ORG_URL",
         [string] $Description
     )
 
-    if (!$Description)
-    {
-        $Description = $Name
-    }
-
     $body = @{
         name        = $Name
-        description = $Description
+        description = (ternary [bool]$Description $Description "Added by OktaPosh")
         audiences   = @($Audiences)
-        issuer      = $Issuer
+        issuerMode  = $IssuerMode
     }
     Invoke-OktaApi -RelativeUri "authorizationServers" -Method POST -Body $body
 }
@@ -65,6 +71,8 @@ function Set-OktaAuthorizationServer
         [string] $Name,
         [Parameter(Mandatory)]
         [string[]] $Audiences,
+        [ValidateSet("ORG_URL","CUSTOM_URL_DOMAIN")]
+        [string] $IssuerMode = "ORG_URL",
         [string] $Description
     )
 
@@ -77,7 +85,7 @@ function Set-OktaAuthorizationServer
         name        = $Name
         description = $Description
         audiences   = @($Audiences)
-        issuerMode  = 'ORG_URL' # required
+        issuerMode  = $IssuerMode
     }
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method PUT -Body $body
 }

@@ -44,13 +44,9 @@ function New-OktaScope
 
     process
     {
-        if (!$Description)
-        {
-            $Description = "Added by OktaPosh"
-        }
         $body = @{
             name            = $Name
-            description     = $Description
+            description = ternary $Description $Description "Added by OktaPosh"
             metadataPublish = ternary $MetadataPublish "ALL_CLIENTS" "NO_CLIENTS"
             default         = [bool]$DefaultScope
         }

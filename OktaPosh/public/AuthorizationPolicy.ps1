@@ -40,16 +40,11 @@ function New-OktaPolicy
         [string[]] $ClientIds
     )
 
-    if (!$Description)
-    {
-        $Description = "Added by OktaPosh"
-    }
-
     $body = @{
         type        = "OAUTH_AUTHORIZATION_POLICY"
         status      = ternary $Inactive "INACTIVE" "ACTIVE"
         name        = $Name
-        description = $Description
+        description = ternary $Description $Description "Added by OktaPosh"
         priority    = $Priority
         conditions  = @{
             clients = @{

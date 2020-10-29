@@ -76,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -MetadataPublish
-Set to publish in meta data
+Set to publish in public metadata
 
 ```yaml
 Type: SwitchParameter
