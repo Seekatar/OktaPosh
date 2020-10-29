@@ -48,24 +48,24 @@ function Set-OktaApplicationSchemaProperty
                     properties = @{
                         "$name" = @{
                             title       = $name
-                            description = ternary $Description "Added by OktaPosh"
+                            description = ternary $Description $Description "Added by OktaPosh"
                             type        = $type
-                            required    = $Required
+                            required    = [bool]$Required
                             scope       = ternary $UserScope "SELF" "NONE"
                         }
                     }
                 }
             }
         }
-        if ($Type -eq "string" -and ($null -ne $Min -and $Max))
+        if ($Type -eq "string" -and $null -ne $Min -and $null -ne $Max)
         {
-            $body["minLength"] = $Min
-            $body["maxLength"] = $Min
+            $body.definitions.custom.properties[$name]["minLength"] = $Min
+            $body.definitions.custom.properties[$name]["maxLength"] = $Max
         }
-        elseif (($Type -eq "number" -or $Type -eq "integer") -and ($null -ne $Min -and $Max))
+        elseif (($Type -eq "number" -or $Type -eq "integer") -and ($null -ne $Min -and $null -ne $Max))
         {
-            $body["minimum"] = $Min
-            $body["maximum"] = $Min
+            $body.definitions.custom.properties[$name]["minimum"] = $Min
+            $body.definitions.custom.properties[$name]["maximum"] = $Max
         }
 
         Invoke-OktaApi -RelativeUri "meta/schemas/apps/$AppId/default" -Method POST -Body $body -Json:$Json

@@ -1,30 +1,21 @@
+BeforeAll {
+    . (Join-Path $PSScriptRoot setup.ps1)
+}
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ authServerName = "Okta-Posh-Test"
-        scopeNames                     = "access:token", "get:item", "save:item", "remove:item"
-        claimName                      = "test-claim"
-        policyName                     = "test-policy"
-        appName                        = "test-app"
-        vars                           = @{
+    "It:TestCases" = @{
+        authServerName = "Okta-Posh-Test"
+        scopeNames     = "access:token", "get:item", "save:item", "remove:item"
+        claimName      = "test-claim"
+        policyName     = "test-policy"
+        vars           = @{
             authServer = $null
-            app        = $null
             scopes     = $null
             policy     = $null
             rule       = $null
         }
     }
-}
-
-# OR ???
-
-BeforeAll {
-    . (Join-Path $PSScriptRoot setup.ps1)
-    $authServerName = "Okta-Posh-Test"
-    $scopes = "access:token","get:item","save:item","remove:item"
-    $claimName = "appName"
-
-    $script:authServer = $null
 }
 
 Describe "AuthorizationServer" {
@@ -102,36 +93,6 @@ Describe "AuthorizationServer" {
         $claim.Name | Should -Be $claimName
     }
 
-    It "Adds an application" {
-        $vars.app = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
-        $vars.app | Should -Not -Be $null
-    }
-    It "Gets Applications" {
-        $result = Get-OktaApplication
-        $result | Should -Not -Be $null
-        $result.Count | Should -BeGreaterThan 0
-    }
-    It "Gets Application by Id" {
-        $result = Get-OktaApplication -ApplicationId $vars.app.Id
-        $result.Id | Should -Be $vars.app.Id
-    }
-    It "Disables Application" {
-        Disable-OktaApplication -Id $vars.app.Id -Confirm:$false
-        $result = Get-OktaApplication -ApplicationId $vars.app.Id
-        $result.status | Should -Be 'INACTIVE'
-    }
-    It "Enables Application" {
-        Enable-OktaApplication -Id $vars.app.Id
-        $result = Get-OktaApplication -ApplicationId $vars.app.Id
-        $result.status | Should -Be 'ACTIVE'
-    }
-    It "Sets profile property" {
-        Set-OktaApplicationProperty -App $vars.app -Properties @{testProp = 'hi there' }
-        $result = Get-OktaApplication -ApplicationId $vars.app.Id
-        $result.profile.testProp | Should -Be 'hi there'
-    }
-
-
     It "Adds a policy" {
         $vars.policy = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name $policyName -ClientIds $vars.app.Id
         $vars.policy | Should -Not -Be $null
@@ -166,12 +127,6 @@ Describe "AuthorizationServer" {
 }
 
 Describe "Cleanup" {
-    It 'Removes Application' {
-        Get-OktaApplication |
-        Where-Object Label -eq $appName |
-        Remove-OktaApplication -Confirm:$false
-    }
-
     It 'Removes AuthServer' {
         Get-OktaAuthorizationServer |
         Where-Object Name -eq $authServerName |
