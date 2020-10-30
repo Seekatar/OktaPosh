@@ -15,15 +15,21 @@ defaults:
     shell: pwsh
 
 jobs:
-  test:
+  CI:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-      max-parallel: 1
+      max-parallel: 3
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Get PS Repos
+      shell: pwsh
+      working-directory: OktaPosh
+      run: |
+       Get-PSRepository
 
     - name: Run Script Analyzer
       shell: pwsh
