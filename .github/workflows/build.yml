@@ -39,7 +39,7 @@ jobs:
       working-directory: tests/integration
       run: |
         Install-Module Pester -Confirm:$False -Force
-        $result = Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=$true}; CodeCoverage=@{Enabled=$true;Path='c:\code\OktaPosh\OktaPosh\public\*.ps1'}}
+        $result = Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=$true}; CodeCoverage=@{Enabled=$true;Path='Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=$true}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}'}}
         $result.tests | select name,result
         if ($result.Result -ne "Passed") {
           Write-Error "Pester tests failed"
