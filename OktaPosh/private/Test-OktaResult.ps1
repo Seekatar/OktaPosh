@@ -37,7 +37,10 @@ function Set-RateLimit {
 function Test-OktaResult {
     [CmdletBinding()]
     param (
+        [Parameter(Mandatory)]
         [Microsoft.PowerShell.Commands.WebResponseObject] $Result,
+        [Parameter(Mandatory)]
+        [string] $Method,
         [switch] $Json
     )
     Set-RateLimit $Result
@@ -48,6 +51,8 @@ function Test-OktaResult {
         } else {
             return $result.Content | ConvertFrom-Json -Depth 10
         }
+    } elseif ($result.StatusCode -eq 404 -and $Method -eq 'GET') {
+        return $null
     } else {
         # 429 is rate limit, 20-100/minute depending on the request
         # https://developer.okta.com/docs/reference/rate-limits/

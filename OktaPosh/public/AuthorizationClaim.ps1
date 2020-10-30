@@ -61,7 +61,7 @@ function New-OktaClaim
             $ClaimType = "RESOURCE"
         } elseif ($ClaimType -eq "ID_TOKEN") {
             $ClaimType = "IDENTITY"
-        } 
+        }
         $body = @{
             name      = $Name
             status    = ternary $Inactive "INACTIVE" "ACTIVE"

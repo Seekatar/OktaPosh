@@ -40,8 +40,8 @@ jobs:
       run: |
         Install-Module Pester -Confirm:$False -Force
         $result = Invoke-Pester -Configuration @{
-                                                  Output = @{Verbosity='Detailed'};
-                                                  Run = @{PassThru=$true};
+                                                  Output = @{Verbosity='Detailed'}
+                                                  Run = @{PassThru=$true}
                                                   CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}
                                                 }
         $result.tests | select name,result
@@ -52,11 +52,10 @@ jobs:
     - uses: actions/upload-artifact@v2
       name: Upload coverage.xml
       with:
-        name: coverage.xml
+        name: ${{ matrix.os }}_coverage.xml
         path: tests/integration/coverage.xml
 
   testPS5:
-    if: github.ref  == 'refs/heads/main'
     runs-on: windows-latest
     needs: test
 
@@ -68,7 +67,10 @@ jobs:
       working-directory: tests/integration
       run: |
         Install-Module Pester -Confirm:$False -Force
-        $result = Invoke-Pester -PassThru
+        $result = Invoke-Pester -Configuration @{
+                                                  Output = @{Verbosity='Detailed'}
+                                                  Run = @{PassThru=$true}
+                                                }
         $result.tests | select name,result
         if ($result.Result -ne "Passed") {
           Write-Error "Pester tests failed"

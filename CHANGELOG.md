@@ -11,6 +11,7 @@
     * New-OktaSpaApplication
   * Authorization Servers
     * Export-OktaAuthorizationServer
+    * Get-OktaOpenIdConfig
   * Claims
     * Remove-OktaClaim
   * Groups & Users
@@ -29,6 +30,10 @@
     * Get-OktaApplicationSchema
     * Remove-OktaApplicationSchemaProperty
     * Set-OktaApplicationSchemaProperty
+  * Users
+    * Add-OktaUser
+    * Get-OktaUser
+    * Remove-OktaUser
 
 ## 2020-09-12
 

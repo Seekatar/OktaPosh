@@ -5,25 +5,22 @@ online version:
 schema: 2.0.0
 ---
 
-# Add-OktaApplicationGroup
+# New-OktaUser
 
 ## SYNOPSIS
-Adds a group to the application
+Create a new user in Okta
 
 ## SYNTAX
 
 ```
-Add-OktaApplicationGroup [-AppId] <String> [-GroupId] <String> [[-Priority] <Int32>]
- [[-Properties] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
+ [[-MobilePhone] <String>] [-Activate] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
-
-## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
+```powershell
 PS C:\> {{ Add example code here }}
 ```
 
@@ -31,18 +28,18 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -AppId
-ApplicationId retrieved from Get-OktaApplication
+### -Activate
+Set to activate during add
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: ApplicationId, Id
+Aliases:
 
-Required: True
-Position: 0
+Required: False
+Position: Named
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -56,13 +53,43 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -GroupId
-GroupId retrieved from Get-OktaGroup
+### -Email
+Email address
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -FirstName
+First name
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -LastName
+Last name
 
 ```yaml
 Type: String
@@ -72,37 +99,37 @@ Aliases:
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Priority
-Priority of group assignment
+### -Login
+Login, defaults to Email
 
 ```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Properties
-Optional properties to attach
-
-```yaml
-Type: Hashtable
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 3
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -MobilePhone
+Mobile Phone
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -117,7 +144,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -128,6 +155,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+
+### System.Management.Automation.SwitchParameter
+
 ## OUTPUTS
 
 ### System.Object

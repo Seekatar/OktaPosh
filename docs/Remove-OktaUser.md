@@ -5,24 +5,24 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-OktaGroup
+# Remove-OktaUser
 
 ## SYNOPSIS
-Remove a Group
+Remove a user, permanently!
 
 ## SYNTAX
 
 ```
-Remove-OktaGroup [-GroupId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-OktaUser [-UserId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This will DEPROVISION and delete the user
 
 ## EXAMPLES
 
 ### Example 1
-```
+```powershell
 PS C:\> {{ Add example code here }}
 ```
 
@@ -40,13 +40,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -GroupId
-GroupId retrieved from Get-OktaGroup
+### -UserId
+The id of the user
 
 ```yaml
 Type: String
@@ -71,7 +71,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -82,6 +82,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+
 ## OUTPUTS
 
 ### System.Object

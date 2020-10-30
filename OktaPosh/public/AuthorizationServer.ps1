@@ -32,7 +32,9 @@ function Get-OktaOpenIdConfig {
         [string] $AuthorizationServerId
     )
 
-    Invoke-RestMethod "$(Get-OktaBaseUri)/oauth2/$AuthorizationServerId/.well-known/openid-configuration"
+    process {
+        Invoke-RestMethod "$(Get-OktaBaseUri)/oauth2/$AuthorizationServerId/.well-known/openid-configuration"
+    }
 }
 
 
@@ -46,7 +48,6 @@ function New-OktaAuthorizationServer
         [Parameter(Mandatory)]
         [string[]] $Audiences,
         [ValidateSet("ORG_URL","CUSTOM_URL_DOMAIN")]
-        [string] $IssuerMode = "ORG_URL",
         [string] $Description
     )
 

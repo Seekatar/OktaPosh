@@ -48,7 +48,7 @@ function Invoke-OktaApi {
         $progressPreference = "silentlyContinue"
         try {
             $result = Invoke-WebRequest @parms
-            Test-OktaResult -Result $result -Json:$Json
+            Test-OktaResult -Result $result -Json:$Json -Method $Method
         } finally {
             $progressPreference = $prevPref
         }
