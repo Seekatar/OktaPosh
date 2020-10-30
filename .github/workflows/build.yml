@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-      max-parallel: 3
+      max-parallel: 1
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -35,6 +35,7 @@ jobs:
       shell: pwsh
       working-directory: OktaPosh
       run: |
+        Install-PackageProvider Nuget -MinimumVersion 2.8.5.201 –Force
         if ( -not (Get-Module -Name PSScriptAnalyzer ) ) { Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -Confirm:$false -SkipPublisherCheck }
         $results = Invoke-ScriptAnalyzer -Path . -Recurse
         $results
