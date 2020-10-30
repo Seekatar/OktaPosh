@@ -41,7 +41,7 @@ New-MarkdownHelp -Module OktaPosh -OutputFolder .\temp\oktaposhdocs
 
 ```powershell
 cd tests/integration
-Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; CodeCoverage=@{Enabled=$true}}
+Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=$true}; CodeCoverage=@{Enabled=$true}}
 ```
 
 ### Running Script Analyzer

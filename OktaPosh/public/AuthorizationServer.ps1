@@ -54,7 +54,6 @@ function New-OktaAuthorizationServer
         name        = $Name
         description = (ternary [bool]$Description $Description "Added by OktaPosh")
         audiences   = @($Audiences)
-        issuerMode  = $IssuerMode
     }
     Invoke-OktaApi -RelativeUri "authorizationServers" -Method POST -Body $body
 }

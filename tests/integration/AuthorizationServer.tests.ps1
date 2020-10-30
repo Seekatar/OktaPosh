@@ -10,6 +10,7 @@ $PSDefaultParameterValues = @{
         claimName      = "test-claim"
         policyName     = "test-policy"
         vars           = @{
+            app        = $null
             authServer = $null
             scopes     = $null
             policy     = $null
@@ -28,7 +29,7 @@ Describe "AuthorizationServer" {
     It "Creates a new AuthServer" {
         $vars.authServer = New-OktaAuthorizationServer -Name $authServerName `
             -Audience "api://oktaposh/api" `
-            -Issuer "$(Get-OktaBaseUri)/oauth2/default" `
+            -IssuerMode CUSTOM_URL_DOMAIN `
             -Description "OktaPosh Test Authorization Server"
         $vars.authServer | Should -Not -Be $null
     }
@@ -94,6 +95,7 @@ Describe "AuthorizationServer" {
     }
 
     It "Adds a policy" {
+        $vars.app = New-OktaServerApplication -Label PolicyTestApp
         $vars.policy = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name $policyName -ClientIds $vars.app.Id
         $vars.policy | Should -Not -Be $null
 
@@ -127,11 +129,9 @@ Describe "AuthorizationServer" {
 }
 
 Describe "Cleanup" {
-    It 'Removes AuthServer' {
-        Get-OktaAuthorizationServer |
-        Where-Object Name -eq $authServerName |
-        Select-Object -expand Id |
-        Remove-OktaAuthorizationServer -Confirm:$false
+    It 'Removes AuthServer and App' {
+        Remove-OktaApplication -AppId $vars.app.id  -Confirm:$false
+        Remove-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -Confirm:$false
     }
 }
 
