@@ -31,7 +31,7 @@ Add four scopes
 ## PARAMETERS
 
 ### -AuthorizationServerId
-\<!-- #include ./params/authserverIdDescription.md --\>
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
 ```yaml
 Type: String

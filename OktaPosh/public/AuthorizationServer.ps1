@@ -47,7 +47,6 @@ function New-OktaAuthorizationServer
         [string] $Name,
         [Parameter(Mandatory)]
         [string[]] $Audiences,
-        [ValidateSet("ORG_URL","CUSTOM_URL_DOMAIN")]
         [string] $Description
     )
 
@@ -136,8 +135,4 @@ function Remove-OktaAuthorizationServer
             Write-Warning "AuthorizationServer with id '$AuthorizationServerId' not found"
         }
     }
-}
-
-if (!(Test-Path alias:goktaauth)) {
-    New-Alias goktaauth Get-OktaAuthorizationServer
 }

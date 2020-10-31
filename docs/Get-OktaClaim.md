@@ -36,7 +36,7 @@ Get all the claims for that authorization server
 ## PARAMETERS
 
 ### -AuthorizationServerId
-\<!-- #include ./params/authserverIdDescription.md --\>
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
 ```yaml
 Type: String

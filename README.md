@@ -35,7 +35,10 @@ After editing the help with `#include` platyPS won't be able to update it, so yo
 Install-Module -Name platyPS -Scope CurrentUser
 
 Import-Module platyPS
-Import-Module OktPosh -fo
+Import-Module .\OktaPosh\OktPosh.psd1 -Force
+Update-MarkdownHelp .\docs
+
+# sometimes you may have to generate new doc and compare
 New-MarkdownHelp -Module OktaPosh -OutputFolder .\temp\oktaposhdocs
 ```
 

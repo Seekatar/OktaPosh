@@ -17,6 +17,8 @@ New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Log
  [[-MobilePhone] <String>] [-Activate] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1

@@ -1,5 +1,7 @@
 [CmdletBinding(SupportsShouldProcess)]
-param()
+param(
+    [string] $Environment = "dev"
+)
 
 # CCC naming conventions
 # http://confluence.nix.cccis.com/display/IdAM/Entity+Naming+Conventions#EntityNamingConventions-Applications.1
@@ -13,34 +15,24 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 # what to set up
-$authServerName = "Casualty-Reliance-AS"
-# currently UI asks common okta ones, openid, email, profile
-$scopes = "fpui:read","fpui:write","fpui:delete"
-
-# 'X-CCC-FP-Email': email,
-# 'X-CCC-FP-Username': email,
-# 'X-CCC-FP-UserId': '1',
-# 'X-CCC-FP-ClientCode': 'INS1',
-# 'X-CCC-FP-ProfileId': '1',
-# 'X-CCC-FP-Roles': 'admin', = memberOf // role in appuser for appusername or appuserrole $appuser.attributename (app is name, not label)
-# 'X-CCC-FP-PictureUrl': 'TODO',
-# also have app properties $app.attribute
-# also have org properties org.
-# groups?getFilteredGroups
+$authServerName = "Casualty-DataCapture-AS"
+$scopes = @("casualty.datacapture.client.usaa",
+            "casualty.datacapture.client.geico",
+            "casualty.datacapture.client.nw")
 
 $claims = @(
     @{
         name = "roles"
         valueType = "GROUPS"
         groupFilterType = "STARTS_WITH"
-        value = "CCC-Reliance-RBR-"
+        value = "CCC-DataCapture-Role-"
         claimType= "ACCESS_TOKEN"
     },
     @{
         name = "clients"
         valueType = "GROUPS"
         groupFilterType = "STARTS_WITH"
-        value = "CCC-Reliance-Client-"
+        value = "CCC-DataCapture-Client-"
         claimType= "ACCESS_TOKEN"
     },
     @{
@@ -75,28 +67,23 @@ $claims = @(
     }
 )
 
-$audience = "https://reliance-qa/fp-ui"
-$description = "Reliance First-Party UI"
+$audience = "https://reliance/dc-ui"
+$description = "DataCapture UI"
 $apps = @(
-    @{ Name = "CCC-Reliance-SPA"
+    @{ Name = "CCC-DataCapture-SPA"
     RedirectUris = @(
-        "https://1085090-devrmq01.reprice.nhr.com:31100/fp-ui/implicit/callback",
-        "https://reliance-dev.reprice.nhr.com/fp-ui/implicit/callback",
-        "http://localhost:8080/fp-ui/implicit/callback"
+        "https://reliance-$environment.reprice.nhr.com/dc-ui/implicit/callback",
+        "http://localhost:8080/dc-ui/implicit/callback"
     )
-    LoginUri = "https://reliance-dev.reprice.nhr.com/fp-ui/"
-    PostLogoutUris = "https://reliance-dev.reprice.nhr.com/fp-ui/"
+    LoginUri = "https://reliance-$environment.reprice.nhr.com/dc-ui/"
+    PostLogoutUris = "https://reliance-$environment.reprice.nhr.com/dc-ui/"
     Scopes = $scopes + "openid","profile","email" }
 )
-$groupNames = @("CCC-Reliance-RBR-Read-Group",
-                "CCC-Reliance-RBR-Write-Group",
-                "CCC-Reliance-RBR-Admin-Group",
-                "CCC-Reliance-Client-Diversified DPS-Group",
-                "RelianceDevs",
-                "RelianceQA",
-                "RelianceUsers")
+$groupNames = @("CCC-DataCapture-Client-USAA-Group",
+                "CCC-DataCapture-Client-NW-Group",
+                "CCC-DataCapture-Client-GEICO-Group")
 
-$origins = @("https://reliance-dev.reprice.nhr.com")
+$origins = @("https://reliance-$environment.reprice.nhr.com")
 
 try {
 

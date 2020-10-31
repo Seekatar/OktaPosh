@@ -294,8 +294,3 @@ function Remove-OktaApplicationGroup {
         }
     }
 }
-
-if (!(Test-Path alias:goktaapp)) {
-    New-Alias goktaapp Get-OktaApplication
-}
-

@@ -29,6 +29,8 @@ Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-After <Str
  [-SortBy <String>] [-SortOrder <String>] [-Json] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1

@@ -35,7 +35,7 @@ PS C:\> New-OktaClaim -AuthorizationServerId ausoqi2fqgcUpYHBS4x6 -Name test -Va
 ## PARAMETERS
 
 ### -AuthorizationServerId
-\<!-- #include ./params/authserverIdDescription.md --\>
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
 ```yaml
 Type: String
