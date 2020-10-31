@@ -6,7 +6,11 @@ env:
 
 on:
   push:
-    branches: [ release/** ]
+    branches: [ release/**, main ]
+    paths:
+    - '!*.md'
+    - '!docs-generated'
+    - '!okta_doc'
   pull_request:
     branches: [ main ]
 
