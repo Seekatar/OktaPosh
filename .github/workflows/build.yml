@@ -5,6 +5,7 @@ env:
   OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
 
 on:
+  workflow_dispatch:
   push:
     branches: [ release/**, main ]
     paths:
