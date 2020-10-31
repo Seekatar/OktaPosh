@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-OktaSpaApplication
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new SPA-type OAuth Application
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ New-OktaSpaApplication [-Label] <String> [-RedirectUris] <String[]> [-LoginUri] 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -42,13 +42,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Inactive
-{{ Fill Inactive Description }}
+Set to create inactive
 
 ```yaml
 Type: SwitchParameter
@@ -57,13 +57,13 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Label
-{{ Fill Label Description }}
+Unique user-defined display name for app
 
 ```yaml
 Type: String
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -LoginUri
-{{ Fill LoginUri Description }}
+Initiate login URI
 
 ```yaml
 Type: String
@@ -93,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -PostLogoutUris
-{{ Fill PostLogoutUris Description }}
+URIs where Okta will send relying party initiated logouts.
 
 ```yaml
 Type: String[]
@@ -108,7 +108,7 @@ Accept wildcard characters: False
 ```
 
 ### -Properties
-{{ Fill Properties Description }}
+Optional properties to attach
 
 ```yaml
 Type: Hashtable
@@ -123,7 +123,7 @@ Accept wildcard characters: False
 ```
 
 ### -RedirectUris
-{{ Fill RedirectUris Description }}
+URIs where Okta will send relying party initiated logouts.
 
 ```yaml
 Type: String[]
@@ -138,7 +138,7 @@ Accept wildcard characters: False
 ```
 
 ### -SignOnMode
-{{ Fill SignOnMode Description }}
+Authentication mode of app (see https://developer.okta.com/docs/reference/api/apps/#sign-on-modes)
 
 ```yaml
 Type: String
@@ -163,7 +163,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -174,7 +174,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

@@ -1,3 +1,10 @@
+Set-StrictMode -Version Latest
+
+function Get-OktaRateLimit {
+    param ()
+    return $script:rateLimit
+}
+
 function Invoke-OktaApi {
     [CmdletBinding(SupportsShouldProcess)]
     param (
@@ -5,10 +12,11 @@ function Invoke-OktaApi {
         [ValidateSet('Get', 'Head', 'Post', 'Put', 'Delete', 'Trace', 'Options', 'Merge', 'Patch')]
         [string] $Method = "GET",
         [object] $Body,
-        [switch] $RawContent,
+        [switch] $Json,
         [string] $OktaApiToken,
         [string] $OktaBaseUri
     )
+
     if ($Body -isnot [String]) {
         $Body = ConvertTo-Json $Body -Depth 10
     }
@@ -36,7 +44,13 @@ function Invoke-OktaApi {
     }
 
     if (!$writeMethod -or $PSCmdlet.ShouldProcess($RelativeUri,"Invoke API")) {
-        $result = Invoke-WebRequest @parms
-        Test-OktaResult -Result $result -RawContent:$RawContent
+        $prevPref = $progressPreference
+        $progressPreference = "silentlyContinue"
+        try {
+            $result = Invoke-WebRequest @parms
+            Test-OktaResult -Result $result -Json:$Json -Method $Method
+        } finally {
+            $progressPreference = $prevPref
+        }
     }
 }

@@ -13,22 +13,85 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 # what to set up
-$authServerName = "Casualty-Reliance-RBR-AS"
+$authServerName = "Casualty-Reliance-AS"
+# currently UI asks common okta ones, openid, email, profile
 $scopes = "fpui:read","fpui:write","fpui:delete"
-$claimName = ""
+
+# 'X-CCC-FP-Email': email,
+# 'X-CCC-FP-Username': email,
+# 'X-CCC-FP-UserId': '1',
+# 'X-CCC-FP-ClientCode': 'INS1',
+# 'X-CCC-FP-ProfileId': '1',
+# 'X-CCC-FP-Roles': 'admin', = memberOf // role in appuser for appusername or appuserrole $appuser.attributename (app is name, not label)
+# 'X-CCC-FP-PictureUrl': 'TODO',
+# also have app properties $app.attribute
+# also have org properties org.
+# groups?getFilteredGroups
+
+$claims = @(
+    @{
+        name = "roles"
+        valueType = "GROUPS"
+        groupFilterType = "STARTS_WITH"
+        value = "CCC-Reliance-RBR-"
+        claimType= "ACCESS_TOKEN"
+    },
+    @{
+        name = "clients"
+        valueType = "GROUPS"
+        groupFilterType = "STARTS_WITH"
+        value = "CCC-Reliance-Client-"
+        claimType= "ACCESS_TOKEN"
+    },
+    @{
+        name = "email"
+        valueType = "EXPRESSION"
+        value = "appuser.email"
+        claimType= "ACCESS_TOKEN"
+    },
+    @{
+        name = "friendlyName"
+        valueType = "EXPRESSION"
+        value = "String.len(appuser.name) > 0 ? appuser.name : appuser.given_name+ `" `" + appuser.family_name"
+        claimType= "ACCESS_TOKEN"
+    },
+    @{
+        name = "login"
+        valueType = "EXPRESSION"
+        value = "appuser.email"
+        claimType= "ACCESS_TOKEN"
+    },
+    @{
+        name = "pictureUrl"
+        valueType = "EXPRESSION"
+        value = "appuser.picture"
+        claimType= "ID_TOKEN"
+    },
+    @{
+        name = "profileUrl"
+        valueType = "EXPRESSION"
+        value = "appuser.profile"
+        claimType= "ID_TOKEN"
+    }
+)
+
 $audience = "https://reliance-qa/fp-ui"
 $description = "Reliance First-Party UI"
 $apps = @(
-    @{ Name = "Casualty-Reliance-RBR"
+    @{ Name = "CCC-Reliance-SPA"
     RedirectUris = @(
         "https://1085090-devrmq01.reprice.nhr.com:31100/fp-ui/implicit/callback",
-        "https://reliance-dev.reprice.nhr.com/fp-ui/implicit/callback"
+        "https://reliance-dev.reprice.nhr.com/fp-ui/implicit/callback",
+        "http://localhost:8080/fp-ui/implicit/callback"
     )
     LoginUri = "https://reliance-dev.reprice.nhr.com/fp-ui/"
     PostLogoutUris = "https://reliance-dev.reprice.nhr.com/fp-ui/"
-    Scopes = $scopes }
+    Scopes = $scopes + "openid","profile","email" }
 )
-$groupNames = @("CCC-Reliance-RBR-Group",
+$groupNames = @("CCC-Reliance-RBR-Read-Group",
+                "CCC-Reliance-RBR-Write-Group",
+                "CCC-Reliance-RBR-Admin-Group",
+                "CCC-Reliance-Client-Diversified DPS-Group",
                 "RelianceDevs",
                 "RelianceQA",
                 "RelianceUsers")
@@ -39,23 +102,21 @@ try {
 
     . (Join-Path $PSScriptRoot New-OktaAuthServerConfig.ps1)
     . (Join-Path $PSScriptRoot New-OktaAppConfig.ps1)
-    $issuer = Get-OktaBaseUri
 
     $authServer = New-OktaAuthServerConfig -authServerName $authServerName `
                             -Scopes $scopes `
                             -audience $audience `
                             -description $description `
-                            -issuer $issuer `
-                            -claimName $claimName
+                            -claims $claims
 
     $groups = @()
     foreach ($group in $groupNames) {
         $g = Get-OktaGroup -Query $group
         if ($g) {
-            Write-Host "Found group $group"
+            Write-Host "Found group '$group'"
         } else {
             $g = New-OktaGroup -Name $group
-            Write-Host "Added group $group"
+            Write-Host "Added group '$group'"
         }
         $groups += $g
     }
@@ -70,16 +131,16 @@ try {
                         -AuthServerId $authServer.Id
         foreach ($group in $groups) {
             $null = Add-OktaApplicationGroup -AppId $app.id -GroupId $group.id
-            Write-Host "    Added $($group.profile.name) group to $($app.name)"
+            Write-Host "    Added '$($group.profile.name)' group to app '$($app.label)'"
         }
     }
 
     foreach ($origin in $origins) {
-        if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"" -Verbose) {
-            Write-Host "Found origin $origin"
+        if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
+            Write-Host "Found origin '$origin'"
         } else {
             $null = New-OktaTrustedOrigin -Name $origin -Origin $origin -CORS -Redirect
-            Write-Host "Added origin $origin"
+            Write-Host "Added origin '$origin'"
         }
      }
 

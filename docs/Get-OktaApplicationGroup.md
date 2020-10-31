@@ -8,12 +8,18 @@ schema: 2.0.0
 # Get-OktaApplicationGroup
 
 ## SYNOPSIS
-Get one or more Okta Groups
+Get the list of groups attached to the application, or a specific group
 
 ## SYNTAX
 
+### ById
 ```
-Get-OktaApplicationGroup [-AppId] <String> [[-Limit] <UInt32>] [[-After] <String>] [<CommonParameters>]
+Get-OktaApplicationGroup -AppId <String> -GroupId <String> [-Json] [<CommonParameters>]
+```
+
+### Query
+```
+Get-OktaApplicationGroup -AppId <String> [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +28,7 @@ Get-OktaApplicationGroup [-AppId] <String> [[-Limit] <UInt32>] [[-After] <String
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -30,19 +36,87 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-<!-- #include "./params/appId.md" -->
+### -After
+Value returned from previous call to Get for continuing
 
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
 
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
-<!-- #include "./params/limit.md" -->
-<!-- #include "./params/after.md" -->
+### -AppId
+ApplicationId retrieved from Get-OktaApplication
 
-<!-- #include "./params/common-parameters.md" -->
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: ApplicationId
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GroupId
+GroupId retrieved from Get-OktaGroup
+
+```yaml
+Type: String
+Parameter Sets: ById
+Aliases: Id
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Specifies the number of results to return
+
+```yaml
+Type: UInt32
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

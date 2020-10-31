@@ -7,17 +7,18 @@ function Get-OktaPolicy
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
-        [string] $RuleId,
+        [Alias("Id")]
+        [string] $PolicyId,
         [Parameter(ParameterSetName="Query")]
-        [string] $Query
+        [string] $Query,
+        [switch] $Json
     )
 
     process {
-        if ($RuleId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET
+        if ($PolicyId) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId" -Method GET -Json:$Json
         } else {
-            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET)
+            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method GET -Json:$Json)
         }
     }
 }
@@ -39,16 +40,11 @@ function New-OktaPolicy
         [string[]] $ClientIds
     )
 
-    if (!$Description)
-    {
-        $Description = "Added by OktaPosh"
-    }
-
     $body = @{
         type        = "OAUTH_AUTHORIZATION_POLICY"
         status      = ternary $Inactive "INACTIVE" "ACTIVE"
         name        = $Name
-        description = $Description
+        description = ternary $Description $Description "Added by OktaPosh"
         priority    = $Priority
         conditions  = @{
             clients = @{

@@ -8,12 +8,12 @@ schema: 2.0.0
 # New-OktaRule
 
 ## SYNOPSIS
-Short description
+Create a new Rule on the AuthorizationServer's Policy
 
 ## SYNTAX
 
 ```
-New-OktaRule [-AuthorizationServerId] <String> [-PolicyId] <String> [-Name] <String> [-Inactive]
+New-OktaRule -AuthorizationServerId <String> [-PolicyId] <String> [-Name] <String> [-Inactive]
  [[-Priority] <UInt32>] [-GrantTypes] <String[]> [[-Scopes] <String[]>] [[-UserIds] <String[]>]
  [[-GroupIds] <String[]>] [[-AccessTokenLifetimeMinutes] <UInt32>] [[-RefreshTokenLifetimeMinutes] <UInt32>]
  [[-RefreshTokenWindowDays] <UInt32>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -30,8 +30,9 @@ PS C:\> New-OktaRule -AuthorizationServerId $reliance.id -Name "Allow DRE" -Poli
 ```
 
 ## PARAMETERS
+
 ### -AuthorizationServerId
-<!-- #include ./params/authserverIdDescription.md -->
+\<!-- #include ./params/authserverIdDescription.md --\>
 
 ```yaml
 Type: String
@@ -89,8 +90,6 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
-
 
 ### -Priority
 Rule Priority
@@ -223,7 +222,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -238,16 +237,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
-
-
 
 ## INPUTS
 

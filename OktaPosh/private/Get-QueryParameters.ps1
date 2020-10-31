@@ -5,7 +5,9 @@ function Get-QueryParameters {
         [uint32] $Limit,
         [string] $After,
         [string] $Filter,
-        [string] $Search
+        [string] $Search,
+        [string] $SortBy,
+        [string] $SortOrder
     )
     $parms = @()
     foreach ($p in $PSBoundParameters.Keys) {

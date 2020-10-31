@@ -8,18 +8,18 @@ schema: 2.0.0
 # Get-OktaAuthorizationServer
 
 ## SYNOPSIS
-Get one or more Okta AuthorizationServers
+Get one or more AuthorizationServers
 
 ## SYNTAX
 
 ### ById
 ```
-Get-OktaAuthorizationServer -AuthorizationServerId <String> [<CommonParameters>]
+Get-OktaAuthorizationServer -AuthorizationServerId <String> [-Json] [<CommonParameters>]
 ```
 
 ### Query
 ```
-Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-After <String>] [<CommonParameters>]
+Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,12 +35,83 @@ Gets authorizations servers with Reliance in the name or description
 
 ## PARAMETERS
 
-<!-- #include "./params/query.md" -->
-<!-- #include "./params/limit.md" -->
-<!-- #include "./params/after.md" -->
+### -Query
+Searches the name and audiences of Authorization Servers for matching values
 
-<!-- #include "./params/common-parameters.md" -->
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
 
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Limit the number of values returned
+
+```yaml
+Type: UInt32
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -After
+Value returned from previous call to Get for continuing
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AuthorizationServerId
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
+
+```yaml
+Type: String
+Parameter Sets: ById
+Aliases: Id
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

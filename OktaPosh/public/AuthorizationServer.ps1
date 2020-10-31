@@ -1,79 +1,43 @@
 # https://developer.okta.com/docs/reference/api/authorization-servers/
 Set-StrictMode -Version Latest
 
-<#
-.SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
-
-.PARAMETER AuthorizationServerId
-Parameter description
-
-.PARAMETER Query
-Parameter description
-
-.PARAMETER Limit
-Parameter description
-
-.PARAMETER After
-Parameter description
-
-.EXAMPLE
-$relianceAuth = Get-OktaAuthorizationServer -Query Reliance
-
-.NOTES
-General notes
-#>
 function Get-OktaAuthorizationServer
 {
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
+        [Alias("Id")]
         [string] $AuthorizationServerId,
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
-        [string] $After
+        [string] $After,
+        [switch] $Json
     )
 
     process {
         if ($AuthorizationServerId) {
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId"
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)"
+            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)" -Json:$Json
         }
     }
 }
 
-<#
-.SYNOPSIS
-Short description
+function Get-OktaOpenIdConfig {
+    param (
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $AuthorizationServerId
+    )
 
-.DESCRIPTION
-Long description
+    process {
+        Invoke-RestMethod "$(Get-OktaBaseUri)/oauth2/$AuthorizationServerId/.well-known/openid-configuration"
+    }
+}
 
-.PARAMETER Name
-Parameter description
 
-.PARAMETER Audiences
-Parameter description
-
-.PARAMETER Issuer
-Parameter description
-
-.PARAMETER Description
-Parameter description
-
-.EXAMPLE
-New-OktaAuthorizationServer -Name RelianceApi -Audiences "http://cccis.com/reliance/api" -Issuer "http:/cccis.com/reliance"
-
-.NOTES
-General notes
-#>
 function New-OktaAuthorizationServer
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
@@ -83,21 +47,13 @@ function New-OktaAuthorizationServer
         [string] $Name,
         [Parameter(Mandatory)]
         [string[]] $Audiences,
-        [Parameter(Mandatory)]
-        [string] $Issuer,
         [string] $Description
     )
 
-    if (!$Description)
-    {
-        $Description = $Name
-    }
-
     $body = @{
         name        = $Name
-        description = $Description
+        description = (ternary [bool]$Description $Description "Added by OktaPosh")
         audiences   = @($Audiences)
-        issuer      = $Issuer
     }
     Invoke-OktaApi -RelativeUri "authorizationServers" -Method POST -Body $body
 }
@@ -114,6 +70,8 @@ function Set-OktaAuthorizationServer
         [string] $Name,
         [Parameter(Mandatory)]
         [string[]] $Audiences,
+        [ValidateSet("ORG_URL","CUSTOM_URL_DOMAIN")]
+        [string] $IssuerMode = "ORG_URL",
         [string] $Description
     )
 
@@ -126,37 +84,40 @@ function Set-OktaAuthorizationServer
         name        = $Name
         description = $Description
         audiences   = @($Audiences)
-        issuer      = $Issuer
+        issuerMode  = $IssuerMode
     }
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method PUT -Body $body
 }
 
-function Set-OktaAuthorizationServerActive
+function Disable-OktaAuthorizationServer
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
+    param (
+        [Parameter(Mandatory)]
+        [Alias('Id')]
+        [string] $AuthorizationServerId
+    )
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/deactivate" -Method POST
+}
+
+function Enable-OktaAuthorizationServer
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [Alias('Id')]
-        [string] $AuthorizationServerId,
-        [switch] $Deactivate
+        [string] $AuthorizationServerId
     )
-    $activate = ternary $Deactivate 'deactivate' 'activate'
-    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/$activate" -Method POST
+    Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/lifecycle/activate" -Method POST
 }
 
-<#
-.SYNOPSIS
-Delete an authorization server
-
-.PARAMETER AuthorizationServerId
-Id of the auth server
-#>
 function Remove-OktaAuthorizationServer
 {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $AuthorizationServerId
     )
@@ -164,13 +125,14 @@ function Remove-OktaAuthorizationServer
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($AuthorizationServerId,"Remove AuthorizationServer")) {
-            Set-OktaAuthorizationServerActive -AuthorizationServerId $AuthorizationServerId -Deactivate
-            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method DELETE
+        $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId
+        if ($auth) {
+            if ($PSCmdlet.ShouldProcess($auth.Name,"Remove AuthorizationServer")) {
+                Disable-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId
+                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Method DELETE
+            }
+        } else {
+            Write-Warning "AuthorizationServer with id '$AuthorizationServerId' not found"
         }
     }
-}
-
-if (!(Test-Path alias:goktaauth)) {
-    New-Alias goktaauth Get-OktaAuthorizationServer
 }

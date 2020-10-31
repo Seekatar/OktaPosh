@@ -1,76 +1,32 @@
-Set-StrictMode -Version Latest
 # https://developer.okta.com/docs/reference/api/apps/#application-properties
+Set-StrictMode -Version Latest
 
-<#
-.SYNOPSIS
-Get one or more Okta Applications
-
-.DESCRIPTION
-
-
-.PARAMETER AppId
-Application id to get.
-
-.PARAMETER Query
-Query for name and label search
-
-.PARAMETER Limit
-Limit the number to return
-
-.PARAMETER After
-After value returned in the link, if more results
-
-.EXAMPLE
-Get-OktaApplication -Query "MyApp"
-
-#>
 function Get-OktaApplication {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
+        [Alias("Id")]
+        [Alias("ApplicationId")]
         [string] $AppId,
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
-        [string] $After
+        [string] $After,
+        [switch] $Json
     )
 
     process {
         if ($AppId) {
-            Invoke-OktaApi -RelativeUri "apps/$AppId"
+            Invoke-OktaApi -RelativeUri "apps/$AppId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters $Query $Limit $After)"
+            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters $Query $Limit $After)" -Json:$Json
         }
     }
 }
 
-<#
-.SYNOPSIS
-Create a new server-type OAuth Application
 
-.DESCRIPTION
-Long description
-
-.PARAMETER Label
-Friendly name for the application
-
-.PARAMETER Inactive
-Set to create inactive
-
-.PARAMETER SignOnMode
-Defaults to OPENID_CONNECT
-
-.PARAMETER Properties
-Additional properties to use in app.profile.<name> claims for the app
-
-.EXAMPLE
-$app = New-OktaServerApplication -Label MyApp -Properties @{appName = "MyApp" }
-
-Create a server with an appName property
-#>
 function New-OktaServerApplication {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
@@ -99,12 +55,12 @@ function New-OktaServerApplication {
                 grant_types = @(
                     "client_credentials"
                 )
-                application_type = "service" #z browser for UI
+                application_type = "service"
             }
         }
     }
 
-    Add-PropertiesToApp $body $Properties
+    Add-PropertiesToObject -Object $body -Properties $Properties
 
     Invoke-OktaApi -RelativeUri "apps" -Body $body -Method POST
 }
@@ -157,33 +113,11 @@ function New-OktaSpaApplication {
         }
     }
 
-    Add-PropertiesToApp $body $Properties
+    Add-PropertiesToObject -Object $body -Properties $Properties
 
     Invoke-OktaApi -RelativeUri "apps" -Body $body -Method POST
 }
 
-<#
-.SYNOPSIS
-Set an application property
-
-.DESCRIPTION
-This will set a property on the application that can be used in a Claim with an Expression of app.profile.<name>
-
-.PARAMETER App
-Application object retrieved from Get-OktaApplication
-
-.PARAMETER Properties
-Hashtable of properties and the values to set on the Application
-
-.EXAMPLE
-$app = Get-OktaApplcation $appId
-Set-OktaApplicationProperty -Application $app -Properties @{client_id = "INS1", client_profile_id = 1234 }
-
-Set client_id and client_profile_id on the app
-
-.NOTES
-General notes
-#>
 function Set-OktaApplicationProperty {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
@@ -194,22 +128,15 @@ function Set-OktaApplicationProperty {
         [hashtable] $Properties
     )
 
-    Add-PropertiesToApp $Application $Properties
-    Invoke-OktaApi -RelativeUri "apps/$($App.Id)" -Method PUT -Body (ConvertTo-Json $Application -Depth 10)
+    Add-PropertiesToObject -Object $Application -Properties $Properties
+    Invoke-OktaApi -RelativeUri "apps/$($Application.Id)" -Method PUT -Body (ConvertTo-Json $Application -Depth 10)
 }
 
-<#
-.SYNOPSIS
-Delete an application
-
-.PARAMETER AppId
-Id of the application
-#>
 function Remove-OktaApplication {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline)]
-        [Alias('Id')]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
         [string] $AppId
     )
 
@@ -219,27 +146,37 @@ function Remove-OktaApplication {
         $app = Get-OktaApplication -AppId $AppId
         if ($app) {
             if ($PSCmdlet.ShouldProcess("'$($app.Label)' Id=$AppId","Remove Application")) {
-                Set-OktaApplicationActive -AppId $AppId -Deactivate
+                Disable-OktaApplication -AppId $AppId
                 Invoke-OktaApi -RelativeUri "apps/$AppId" -Method DELETE
             }
         } else {
-            Write-Host "Application with id '$AppId' not found"
+            Write-Warning "Application with id '$AppId' not found"
         }
     }
 }
 
-function Set-OktaApplicationActive
+function Disable-OktaApplication
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
-        [Alias('Id')]
-        [string] $AppId,
-        [switch] $Deactivate
+        [Alias("Id")]
+        [string] $AppId
     )
-    $activate = ternary $Deactivate 'deactivate' 'activate'
-    Invoke-OktaApi -RelativeUri "apps/$AppId/lifecycle/$activate" -Method POST
+    Invoke-OktaApi -RelativeUri "apps/$AppId/lifecycle/deactivate" -Method POST
+}
+
+function Enable-OktaApplication
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [Alias("Id")]
+        [string] $AppId
+    )
+    Invoke-OktaApi -RelativeUri "apps/$AppId/lifecycle/activate" -Method POST
 }
 
 function Set-OktaApplication {
@@ -257,17 +194,25 @@ function Add-OktaApplicationGroup {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]
-        [Alias('Id')]
+        [Alias("Id")]
+        [Alias("ApplicationId")]
         [string] $AppId,
         [Parameter(Mandatory,ValueFromPipeline)]
-        [string] $GroupId
+        [string] $GroupId,
+        [ValidateRange(0,100)]
+        [int] $Priority = 0,
+        [hashtable] $Properties
     )
 
     process {
         Set-StrictMode -Version Latest
 
+        $props = [PSCustomObject]@{
+            priority = $Priority
+        }
+        Add-PropertiesToObject -Object $props -Properties $Properties
         if ($PSCmdlet.ShouldProcess("$AppId += $GroupId","Add Group to Application")) {
-            Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$groupId" -Method PUT
+            Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$groupId" -Method PUT -Body $props
         }
     }
 }
@@ -275,26 +220,67 @@ function Add-OktaApplicationGroup {
 function Get-OktaApplicationGroup {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory,ValueFromPipeline)]
-        [Alias('Id')]
+        [Parameter(Mandatory)]
+        [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter()]
+        [Parameter(Mandatory,ValueFromPipeline,ParameterSetName="ById")]
+        [Alias('Id')]
+        [string] $GroupId,
+        [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
-        [Parameter()]
-        [string] $After
+        [Parameter(ParameterSetName="Query")]
+        [string] $After,
+        [switch] $Json
     )
 
     process {
         Set-StrictMode -Version Latest
 
-        Invoke-OktaApi -RelativeUri "apps/$AppId/groups$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET    }
+        if ($GroupId) {
+            Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$GroupId" -Method GET -Json:$Json
+        } else {
+            Invoke-OktaApi -RelativeUri "apps/$AppId/groups$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET -Json:$Json
+        }
+    }
 }
+
+
+function Get-OktaApplicationUser {
+    [CmdletBinding(DefaultParameterSetName="Query")]
+    param(
+        [Parameter(Mandatory)]
+        [Alias("ApplicationId")]
+        [string] $AppId,
+        [Parameter(Mandatory,ValueFromPipeline,ParameterSetName="ById")]
+        [Alias('Id')]
+        [string] $UserId,
+        [Parameter(ParameterSetName="Query")]
+        [string] $Query,
+        [Parameter(ParameterSetName="Query")]
+        [uint32] $Limit,
+        [Parameter(ParameterSetName="Query")]
+        [string] $After,
+        [switch] $Json
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        if ($UserId) {
+            Invoke-OktaApi -RelativeUri "apps/$AppId/users/$UserId" -Method GET -Json:$Json
+        } else {
+            Invoke-OktaApi -RelativeUri "apps/$AppId/users$(Get-QueryParameters -Query $Query -Limit $Limit -After $After)" -Method GET -Json:$Json
+        }
+    }
+}
+
 
 function Remove-OktaApplicationGroup {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
         [Parameter(Mandatory,ValueFromPipeline)]
         [Alias('Id')]
+        [Alias("ApplicationId")]
         [string] $AppId,
         [Parameter(Mandatory,ValueFromPipeline)]
         [string] $GroupId
@@ -308,8 +294,3 @@ function Remove-OktaApplicationGroup {
         }
     }
 }
-
-if (!(Test-Path alias:goktaapp)) {
-    New-Alias goktaapp Get-OktaApplication
-}
-

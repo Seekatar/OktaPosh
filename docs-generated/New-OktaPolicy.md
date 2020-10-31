@@ -13,20 +13,23 @@ Create a new Policy on the AuthorizationServer
 ## SYNTAX
 
 ```
-New-OktaPolicy [-AuthorizationServerId] <String> [-Name] <String> [[-Description] <String>] [-Inactive]
+New-OktaPolicy -AuthorizationServerId <String> [-Name] <String> [-Description <String>] [-Inactive]
  [[-Priority] <UInt32>] [[-ClientIds] <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\>
 ```
 
 ## PARAMETERS
+
 ### -AuthorizationServerId
-<!-- #include ./params/authserverIdDescription.md -->
+\<!-- #include ./params/authserverIdDescription.md --\>
 
 ```yaml
 Type: String
@@ -58,6 +61,8 @@ Accept wildcard characters: False
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
+Prompts you for confirmation before running the cmdlet.
+
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
@@ -79,6 +84,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -98,8 +104,6 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
-
 
 ### -Name
 Name of the policy
@@ -142,36 +146,17 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-
-
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

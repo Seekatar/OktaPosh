@@ -8,14 +8,16 @@ schema: 2.0.0
 # New-OktaScope
 
 ## SYNOPSIS
-Add an Okta Authorization Scope
+Create a new AuthorizationServer Scope
 
 ## SYNTAX
 
 ```
-New-OktaScope [-AuthorizationServerId] <String> [-Name] <String> [[-Description] <String>] [-MetadataPublish]
+New-OktaScope -AuthorizationServerId <String> [-Name] <String> [-Description <String>] [-MetadataPublish]
  [-DefaultScope] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
@@ -27,8 +29,9 @@ PS C:\> "access_token","get_item","save_item","remove_item" | New-OktaScope -Aut
 Add four scopes
 
 ## PARAMETERS
+
 ### -AuthorizationServerId
-<!-- #include ./params/authserverIdDescription.md -->
+\<!-- #include ./params/authserverIdDescription.md --\>
 
 ```yaml
 Type: String
@@ -66,6 +69,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -112,7 +116,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -127,17 +131,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
-
-
 
 ## INPUTS
 

@@ -13,8 +13,8 @@ Create a new AuthorizationServer
 ## SYNTAX
 
 ```
-New-OktaAuthorizationServer [-Name] <String> [-Audience] <String> [-Issuer] <String> [[-Description] <String>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaAuthorizationServer [-Name] <String> -Audiences <String[]> [-Description <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,40 +44,69 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Audience
-Audience value
+### -Description
+Description
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 2
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Issuer
-Issuer value
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: String
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Audiences
+Audience value for the AuthorizationServer
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-<!-- #include "./params/description.md" -->
-
-<!-- #include "./params/whatif-confirm.md" -->
-<!-- #include "./params/common-parameters.md" -->
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

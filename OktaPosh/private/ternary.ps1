@@ -1,6 +1,6 @@
 function ternary {
     param (
-        [bool] $value,
+        $value,
         $ifTrue,
         $ifFalse
     )

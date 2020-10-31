@@ -6,7 +6,7 @@ function Get-OktaGroup
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
+        [Alias("Id")]
         [string] $GroupId,
         [Parameter(ParameterSetName="Query")]
         [string] $Query,
@@ -17,14 +17,15 @@ function Get-OktaGroup
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Query")]
-        [string] $After
+        [string] $After,
+        [switch] $Json
     )
 
     process {
         if ($GroupId) {
-            Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET
+            Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters -Query $Query -Limit $Limit -After $After -Filter $Filter -Search $Search)" -Method GET
+            Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters -Query $Query -Limit $Limit -After $After -Filter $Filter -Search $Search)" -Method GET -Json:$Json
         }
     }
 }
@@ -39,14 +40,10 @@ function New-OktaGroup {
         [string] $Description
     )
 
-    if (!$Description) {
-        $Description = "Added by OktaPosh"
-    }
-
     $body = [PSCustomObject]@{
         profile = @{
             name        = $Name
-            description = $Description
+            description = ternary $Description $Description "Added by OktaPosh"
         }
     }
 
@@ -57,37 +54,40 @@ function Set-OktaGroup {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
-        [Alias('Id')]
-        [string] $GroupId,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,ParameterSetName="Object")]
+        [PSCustomObject] $Group,
+
+        [Parameter(Mandatory,ValueFromPipeline,ParameterSetName="Separate")]
+        [Alias('GroupId')]
+        [string] $Id,
+        [Parameter(Mandatory,ParameterSetName="Separate")]
         [string] $Name,
-        [switch] $Description
+        [Parameter(ParameterSetName="Separate")]
+        [string] $Description
     )
 
-    if (!$Description) {
-        $Description = "Updated by OktaPosh"
+    process {
+        if ($Id) {
+            $body = @{
+                profile = @{
+                    name = $Name
+                }
+            }
+            if ($Description) {
+                $body.profile['description'] = $Description
+            }
+            $Group = [PSCustomObject]$body
+        } else {
+            $Id = $Group.Id
+        }
+        Invoke-OktaApi -RelativeUri "groups/$Id" -Body $Group -Method PUT
     }
-
-    $body = [PSCustomObject]@{
-        name        = $Name
-        description = $Description
-    }
-
-    Invoke-OktaApi -RelativeUri "groups/$GroupId" -Body $body -Method PUT
 }
 
-<#
-.SYNOPSIS
-Delete a group
-
-.PARAMETER GroupId
-Id of the group
-#>
 function Remove-OktaGroup {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $GroupId
     )
@@ -106,16 +106,17 @@ function Get-OktaGroupApp
     [CmdletBinding()]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
+        [Alias("Id")]
         [string] $GroupId,
         [Parameter()]
         [uint32] $Limit,
         [Parameter()]
-        [string] $After
+        [string] $After,
+        [switch] $Json
     )
 
     process {
-        Invoke-OktaApi -RelativeUri "groups/$GroupId/apps$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/apps$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET -Json:$Json
     }
 }
 
@@ -124,15 +125,16 @@ function Get-OktaGroupUser
     [CmdletBinding()]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [Alias("id")]
+        [Alias("Id")]
         [string] $GroupId,
         [Parameter()]
         [uint32] $Limit,
         [Parameter()]
-        [string] $After
+        [string] $After,
+        [switch] $Json
     )
 
     process {
-        Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET -Json:$Json
     }
 }

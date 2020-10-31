@@ -8,18 +8,18 @@ schema: 2.0.0
 # Get-OktaApplication
 
 ## SYNOPSIS
-Get one or more Okta Applications
+Get one or more Applications
 
 ## SYNTAX
 
 ### Query (Default)
 ```
-Get-OktaApplication [-Query <String>] [-Limit <UInt32>] [-After <String>] [<CommonParameters>]
+Get-OktaApplication [-Query <String>] [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
 ```
 
 ### ById
 ```
-Get-OktaApplication -AppId <String> [<CommonParameters>]
+Get-OktaApplication -AppId <String> [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,7 +41,7 @@ Application id to get.
 ```yaml
 Type: String
 Parameter Sets: ById
-Aliases: id
+Aliases: Id
 
 Required: True
 Position: Named
@@ -51,7 +51,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Query for name and description
+Searches the name or label property of applications
 
 ```yaml
 Type: String
@@ -64,7 +64,6 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
 
 ### -Limit
 Limit the number of values returned
@@ -96,10 +95,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
-
 
 ## INPUTS
 
