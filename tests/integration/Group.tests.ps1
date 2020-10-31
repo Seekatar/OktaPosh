@@ -40,8 +40,9 @@ Describe "Group" {
 
 Describe "Cleanup" {
     It "Remove test group" {
-        Get-OktaGroup -Query $groupName |
-            Remove-OktaGroup -Confirm:$false
+        if ($vars.group) {
+            Remove-OktaGroup -GroupId $vars.group.id -Confirm:$false
+        }
     }
 }
 

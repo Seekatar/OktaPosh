@@ -49,7 +49,11 @@ function Test-OktaResult {
         if ($Json) {
             return $Result.Content
         } else {
-            return $result.Content | ConvertFrom-Json -Depth 10
+            $parms = @{}
+            if ($PSVersionTable.PSVersion.Major -ge 7) {
+                $parms['Depth'] = 10
+            }
+            return $result.Content | ConvertFrom-Json @parms
         }
     } elseif ($result.StatusCode -eq 404 -and $Method -eq 'GET') {
         return $null
@@ -58,7 +62,11 @@ function Test-OktaResult {
         # https://developer.okta.com/docs/reference/rate-limits/
         $oktaError = $result
         try {
-            $err = $result.Content | ConvertFrom-Json -Depth 10
+            $parms = @{}
+            if ($PSVersionTable.PSVersion.Major -ge 7) {
+                $parms['Depth'] = 10
+            }
+            $err = $result.Content | ConvertFrom-Json @parms
             if ($err | Get-Member -Name "errorCode") {
                 $oktaError = @{
                     statusCode = $result.StatusCode

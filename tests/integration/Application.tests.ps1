@@ -112,11 +112,13 @@ Describe "Application" {
 
 Describe "Cleanup" {
     It 'Removes Application' {
-        Get-OktaApplication |
-        Where-Object Label -eq $appName |
-        Remove-OktaApplication -Confirm:$false
+        if ($vars.app) {
+            Remove-OktaApplication -AppId $vars.app.Id -Confirm:$false
+        }
 
-        Remove-OktaApplication -AppId $vars.spaApp.Id -Confirm:$false
+        if ($vars.spaApp) {
+            Remove-OktaApplication -AppId $vars.spaApp.Id -Confirm:$false
+        }
     }
 }
 

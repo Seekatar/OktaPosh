@@ -68,7 +68,11 @@ function Get-OktaJwt {
                                     } `
                             -Body (ConvertTo-Json $body) `
                             -MaximumRedirection 0
-            $session = $trans.Content | ConvertFrom-Json -Depth 10
+            $parms = @{}
+            if ($PSVersionTable.PSVersion.Major -ge 7) {
+                $parms['Depth'] = 10
+            }
+            $session = $trans.Content | ConvertFrom-Json @parms
         } catch {
             $e = $_
             try {
@@ -89,7 +93,7 @@ function Get-OktaJwt {
         }
         try {
             $tokenUri = New-Object 'System.Uri' -ArgumentList $uri,($uri.PathAndQuery+"/v1/authorize?" +
-                                                    "response_type=$($IdToken ? 'id_token' : 'token')&" +
+                                                    "response_type=$(ternary $IdToken 'id_token' 'token')&" +
                                                     "scope=$($scopes -join '%20')&" +
                                                     'state=TEST&' +
                                                     'nonce=TEST&' +
@@ -150,7 +154,11 @@ function Get-OktaJwt {
         }
         else
         {
-            $jwt = (ConvertFrom-Json $result.Content -Depth 5).access_token
+            $parms = @{}
+            if ($PSVersionTable.PSVersion.Major -ge 7) {
+                $parms['Depth'] = 5
+            }
+            $jwt = (ConvertFrom-Json $result.Content @parms).access_token
         }
         $jwt
     }
