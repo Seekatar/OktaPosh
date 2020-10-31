@@ -1,8 +1,9 @@
 # Change Log
 
-## 2020-10-25
+## 2020-10-31
 
 * All `Get-*` functions have `-Json` switch to return raw JSON instead of PSCustomObject
+* Get-OktaJwt really works now, and will be api and user tokens.
 * New Functions
   * Applications
     * Disable-OktaApplication

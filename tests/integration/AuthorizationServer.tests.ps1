@@ -29,7 +29,6 @@ Describe "AuthorizationServer" {
     It "Creates a new AuthServer" {
         $vars.authServer = New-OktaAuthorizationServer -Name $authServerName `
             -Audience "api://oktaposh/api" `
-            -IssuerMode CUSTOM_URL_DOMAIN `
             -Description "OktaPosh Test Authorization Server"
         $vars.authServer | Should -Not -Be $null
     }

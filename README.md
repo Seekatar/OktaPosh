@@ -8,6 +8,8 @@ The first version supported AuthorizationServers and related objects to support 
 
 One action that is currently only available in the API (not the Web UI) is `Set-OktaApplicationProperty`
 
+To get the complete list of functions, after importing OktaPosh, run `Get-Command -Module OktaPosh`
+
 More functionality will be added as time permits.
 
 ## Installing
@@ -17,6 +19,10 @@ OktaPosh is available in the [PowerShell Gallery](https://www.powershellgallery.
 ``` PowerShell
 Install-Module -Name OktaPosh
 ```
+
+## High Level Functions
+
+The `tests` folder has some high-level functions currently not in the module that add an AuthorizationServer and all of its related objects in one shot. There are also some sample scripts used by the my specific situation, but may be useful for others to look at.
 
 ## Technical Details
 
