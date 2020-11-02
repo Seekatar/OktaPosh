@@ -217,6 +217,42 @@ function Add-OktaApplicationGroup {
     }
 }
 
+function Add-OktaUserToApplication {
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory)]
+        [Alias("ApplicationId")]
+        [string] $AppId,
+        [Alias("Id")]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [string] $UserId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        Invoke-OktaApi -RelativeUri "apps/$AppId/users/$UserId" -Method PUT
+    }
+}
+function Remove-OktaUserFromApplication {
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory)]
+        [Alias("ApplicationId")]
+        [string] $AppId,
+        [Alias("Id")]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [string] $UserId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        Invoke-OktaApi -RelativeUri "apps/$AppId/users/$UserId" -Method DELETE
+    }
+}
+
+
 function Get-OktaApplicationGroup {
     [CmdletBinding()]
     param(

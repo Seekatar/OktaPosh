@@ -138,3 +138,35 @@ function Get-OktaGroupUser
         Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET -Json:$Json
     }
 }
+
+function Add-OktaUserToGroup {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $GroupId,
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $UserId,
+        [switch] $Json
+    )
+
+    process {
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/users/$UserId" -Method PUT -Json:$Json
+    }
+}
+
+function Remove-OktaUserFromGroup {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $GroupId,
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $UserId,
+        [switch] $Json
+    )
+
+    process {
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/users/$UserId" -Method DELETE -Json:$Json
+    }
+}
