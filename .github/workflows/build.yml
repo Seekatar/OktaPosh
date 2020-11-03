@@ -67,26 +67,27 @@ jobs:
         name: ${{ matrix.os }}_coverage.xml
         path: tests/integration/coverage.xml
 
-  # CI-PS5:
-  #   runs-on: windows-latest
-  #   needs: CI-Core
+  CI-PS5:
+    runs-on: windows-latest
+    needs: CI-Core
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v2
 
-  #   - name: Run Pester Tests
-  #     shell: powershell
-  #     working-directory: tests/integration
-  #     run: |
-  #       Install-Module Pester -Confirm:$False -Force
-  #       $result = Invoke-Pester -Configuration @{
-  #                                                 Output = @{Verbosity='Detailed'}
-  #                                                 Run = @{PassThru=$true}
-  #                                               }
-  #       $result.tests | select name,result
-  #       if ($result.Result -ne "Passed") {
-  #         Write-Error "Pester tests failed"
-  #       }
+    - name: Run Pester Tests
+      shell: powershell
+      working-directory: tests/integration
+      run: |
+        $PSVersionTable
+        Install-Module Pester -Confirm:$False -Force
+        #$result = Invoke-Pester -Configuration @{
+        #                                          Output = @{Verbosity='Detailed'}
+        #                                          Run = @{PassThru=$true}
+        #                                        }
+        #$result.tests | select name,result
+        #if ($result.Result -ne "Passed") {
+        #  Write-Error "Pester tests failed"
+        #}
 
   publish:
     if: github.ref  == 'refs/heads/main'
