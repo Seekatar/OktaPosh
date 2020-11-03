@@ -217,7 +217,7 @@ function Add-OktaApplicationGroup {
     }
 }
 
-function Add-OktaUserToApplication {
+function Add-OktaApplicationUser {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]
@@ -234,7 +234,7 @@ function Add-OktaUserToApplication {
         Invoke-OktaApi -RelativeUri "apps/$AppId/users/$UserId" -Method PUT
     }
 }
-function Remove-OktaUserFromApplication {
+function Remove-OktaApplicationUser {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]

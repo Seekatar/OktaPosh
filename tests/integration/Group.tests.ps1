@@ -3,7 +3,10 @@
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{ groupName = "test-group"
-                        vars = @{group =$null} }
+                        email = 'grouptestuser@mailinator.com'
+                        vars = @{group =$null
+                                 user = $null
+                        } }
 }
 
 Describe "Group" {
@@ -36,10 +39,24 @@ Describe "Group" {
         $vars.group = Get-OktaGroup -Id $vars.group.Id
         $vars.group.profile.description | Should -Be "newer description"
     }
+    It "Adds a user to a group and removes it" {
+        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
+        $vars.user | Should -Not -Be $null
+
+        $null = Add-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
+        $users = @(Get-OktaGroupUser -GroupId $vars.group.id)
+        $users.Count | Should -Be 1
+        Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
+        $users = @(Get-OktaGroupUser -GroupId $vars.group.id)
+        $users.Count | Should -Be 0
+    }
 }
 
 Describe "Cleanup" {
     It "Remove test group" {
+        if ($vars.user) {
+            Remove-OktaUser -UserId $vars.user.id -Confirm:$false
+        }
         if ($vars.group) {
             Remove-OktaGroup -GroupId $vars.group.id -Confirm:$false
         }

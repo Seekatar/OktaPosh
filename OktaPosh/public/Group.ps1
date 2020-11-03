@@ -139,7 +139,7 @@ function Get-OktaGroupUser
     }
 }
 
-function Add-OktaUserToGroup {
+function Add-OktaGroupUser {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
@@ -155,7 +155,7 @@ function Add-OktaUserToGroup {
     }
 }
 
-function Remove-OktaUserFromGroup {
+function Remove-OktaGroupUser {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]

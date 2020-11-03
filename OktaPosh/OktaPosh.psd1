@@ -73,8 +73,8 @@ FunctionsToExport = 'Get-OktaApplication', 'New-OktaServerApplication',
                'New-OktaSpaApplication', 'Set-OktaApplicationProperty',
                'Remove-OktaApplication', 'Disable-OktaApplication',
                'Enable-OktaApplication', 'Set-OktaApplication',
-               'Add-OktaApplicationGroup', 'Add-OktaUserToApplication',
-               'Remove-OktaUserFromApplication', 'Get-OktaApplicationGroup',
+               'Add-OktaApplicationGroup', 'Add-OktaApplicationUser',
+               'Remove-OktaApplicationUser', 'Get-OktaApplicationGroup',
                'Get-OktaApplicationUser', 'Remove-OktaApplicationGroup',
                'Get-OktaApplicationSchema', 'Set-OktaApplicationSchemaProperty',
                'Remove-OktaApplicationSchemaProperty', 'Get-OktaClaim',
@@ -86,12 +86,11 @@ FunctionsToExport = 'Get-OktaApplication', 'New-OktaServerApplication',
                'Remove-OktaAuthorizationServer', 'Export-OktaAuthorizationServer',
                'Get-OktaJwt', 'Get-OktaGroup', 'New-OktaGroup', 'Set-OktaGroup',
                'Remove-OktaGroup', 'Get-OktaGroupApp', 'Get-OktaGroupUser',
-               'Add-OktaUserToGroup', 'Remove-OktaUserFromGroup',
-               'Get-OktaRateLimit', 'Invoke-OktaApi', 'Set-OktaOption',
-               'Get-OktaApiToken', 'Get-OktaBaseUri', 'Get-OktaTrustedOrigin',
-               'New-OktaTrustedOrigin', 'Set-OktaTrustedOrigin',
-               'Remove-OktaTrustedOrigin', 'New-OktaUser', 'Get-OktaUser',
-               'Remove-OktaUser'
+               'Add-OktaGroupUser', 'Remove-OktaGroupUser', 'Get-OktaRateLimit',
+               'Invoke-OktaApi', 'Set-OktaOption', 'Get-OktaApiToken',
+               'Get-OktaBaseUri', 'Get-OktaTrustedOrigin', 'New-OktaTrustedOrigin',
+               'Set-OktaTrustedOrigin', 'Remove-OktaTrustedOrigin', 'New-OktaUser',
+               'Get-OktaUser', 'Remove-OktaUser'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()

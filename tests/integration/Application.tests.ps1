@@ -7,10 +7,12 @@ $PSDefaultParameterValues = @{
     "It:TestCases" = @{
         appName        = "test-app"
         spaAppName     = "test-spa-app"
+        email          = 'apptestuser@mailinator.com'
         vars           = @{
             app        = $null
             spaApp     = $null
             schema     = $null
+            user       = $null
         }
     }
 }
@@ -103,15 +105,25 @@ Describe "Application" {
         Remove-OktaGroup -GroupId $group.id -Confirm:$false
     }
 
-    It "Gets Application User" {
-        # onces the Add/Remove functions are added, flesh this out
-        $users = Get-OktaApplicationUser -AppId $vars.app.id
-        $users | Should -Be $null
+    It "Adds and removes a user from the group" {
+        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
+        $vars.user | Should -Not -Be $null
+
+        $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
+        $users = @(Get-OktaApplicationUser -AppId $vars.app.id)
+        $users.Count | Should -Be 1
+        Remove-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
+        $users = @(Get-OktaApplicationUser -AppId $vars.app.id)
+        $users.Count | Should -Be 0
     }
 }
 
 Describe "Cleanup" {
     It 'Removes Application' {
+        if ($vars.user) {
+            Remove-OktaUser -UserId $vars.user.id -Confirm:$false
+        }
+
         if ($vars.app) {
             Remove-OktaApplication -AppId $vars.app.Id -Confirm:$false
         }

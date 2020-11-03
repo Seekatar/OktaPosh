@@ -8,6 +8,7 @@ function Get-OktaRateLimit {
 function Invoke-OktaApi {
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory)]
         [string] $RelativeUri,
         [ValidateSet('Get', 'Head', 'Post', 'Put', 'Delete', 'Trace', 'Options', 'Merge', 'Patch')]
         [string] $Method = "Get",
