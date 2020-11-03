@@ -124,6 +124,8 @@ Describe "Cleanup" {
             Remove-OktaUser -UserId $vars.user.id -Confirm:$false
         }
 
+        Get-OktaGroup -q test-group-app | Remove-OktaGroup -Confirm:$false
+
         if ($vars.app) {
             Remove-OktaApplication -AppId $vars.app.Id -Confirm:$false
         }
