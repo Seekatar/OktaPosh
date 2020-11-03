@@ -5,31 +5,36 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaApplicationUser
+# Get-OktaUser
 
 ## SYNOPSIS
-Get one or more users attached to the application
+Get one or more Okta Users
 
 ## SYNTAX
 
 ### Query (Default)
 ```
-Get-OktaApplicationUser -AppId <String> [-Query <String>] [-Limit <UInt32>] [-After <String>] [-Json]
+Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-After <String>] [-Json]
  [<CommonParameters>]
 ```
 
 ### ById
 ```
-Get-OktaApplicationUser -AppId <String> -UserId <String> [-Json] [<CommonParameters>]
+Get-OktaUser -UserId <String> [-Json] [<CommonParameters>]
+```
+
+### Search
+```
+Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-After <String>] [-Search <String>]
+ [-SortBy <String>] [-SortOrder <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
+```powershell
 PS C:\> {{ Add example code here }}
 ```
 
@@ -42,7 +47,7 @@ Value returned from previous call to Get for continuing
 
 ```yaml
 Type: String
-Parameter Sets: Query
+Parameter Sets: Query, Search
 Aliases:
 
 Required: False
@@ -52,15 +57,15 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AppId
-ApplicationId retrieved from Get-OktaApplication
+### -Filter
+Expression for filtering on properties
 
 ```yaml
 Type: String
-Parameter Sets: (All)
-Aliases: ApplicationId
+Parameter Sets: Query, Search
+Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -77,17 +82,17 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Limit
-Specifies the number of results to return
+Limit the number of values returned
 
 ```yaml
 Type: UInt32
-Parameter Sets: Query
+Parameter Sets: Query, Search
 Aliases:
 
 Required: False
@@ -98,12 +103,11 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Value matched against an application user profile's userName, firstName, lastName, and email.
-Note: This operation only supports startsWith that matches what the string starts with to the query.
+Searches by first name, last name and email
 
 ```yaml
 Type: String
-Parameter Sets: Query
+Parameter Sets: Query, Search
 Aliases:
 
 Required: False
@@ -113,18 +117,64 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Search
+Searches for users with a supported filtering expression for most properties
+
+```yaml
+Type: String
+Parameter Sets: Search
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SortBy
+Specifies field to sort by (for search queries only)
+
+```yaml
+Type: String
+Parameter Sets: Search
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SortOrder
+Specifies sort order asc or desc (for search queries only)
+
+```yaml
+Type: String
+Parameter Sets: Search
+Aliases:
+Accepted values: asc, desc
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -UserId
-UserId retrieved from Get-OktaUser
+The id of the user
 
 ```yaml
 Type: String
 Parameter Sets: ById
-Aliases: Id
+Aliases: Login, Id
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -134,6 +184,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+
 ## OUTPUTS
 
 ### System.Object

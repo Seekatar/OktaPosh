@@ -15,7 +15,7 @@ Create a new Claim on an AuthorizationServer
 ```
 New-OktaClaim -AuthorizationServerId <String> [-Name] <String> [-ValueType] <String>
  [-GroupFilterType <String>] [[-ClaimType] <String>] [-Value] <String> [-Inactive] [[-Scopes] <String[]>]
- [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-AlwayIncludeInToken <Boolean>] [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -185,8 +185,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AlwayIncludeInToken
+Set to $False to not always include in the Token
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -GroupFilterType
-{{ Fill GroupFilterType Description }}
+For a group-type filter, how to filter the names
 
 ```yaml
 Type: String

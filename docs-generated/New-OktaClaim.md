@@ -13,8 +13,9 @@ Create a new Claim on an AuthorizationServer
 ## SYNTAX
 
 ```
-New-OktaClaim -AuthorizationServerId <String> [-Name] <String> [-ValueType] <String> [[-ClaimType] <String>]
- [-Value] <String> [-Inactive] [[-Scopes] <String[]>] [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaClaim -AuthorizationServerId <String> [-Name] <String> [-ValueType] <String>
+ [-GroupFilterType <String>] [[-ClaimType] <String>] [-Value] <String> [-Inactive] [[-Scopes] <String[]>]
+ [-AlwayIncludeInToken <Boolean>] [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,7 +35,7 @@ PS C:\> New-OktaClaim -AuthorizationServerId ausoqi2fqgcUpYHBS4x6 -Name test -Va
 ## PARAMETERS
 
 ### -AuthorizationServerId
-\<!-- #include ./params/authserverIdDescription.md --\>
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
 ```yaml
 Type: String
@@ -181,6 +182,36 @@ Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AlwayIncludeInToken
+{{ Fill AlwayIncludeInToken Description }}
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GroupFilterType
+{{ Fill GroupFilterType Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

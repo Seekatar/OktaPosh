@@ -5,16 +5,16 @@ online version:
 schema: 2.0.0
 ---
 
-# New-OktaPolicy
+# New-OktaUser
 
 ## SYNOPSIS
-Create a new Policy on the AuthorizationServer
+Create a new user in Okta
 
 ## SYNTAX
 
 ```
-New-OktaPolicy -AuthorizationServerId <String> [-Name] <String> [-Description <String>] [-Inactive]
- [[-Priority] <UInt32>] [[-ClientIds] <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
+ [[-MobilePhone] <String>] [-Activate] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,45 +22,30 @@ New-OktaPolicy -AuthorizationServerId <String> [-Name] <String> [-Description <S
 ## EXAMPLES
 
 ### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
-PS C:\>
-```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
+### -Activate
+Set to activate during add
 
 ```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ClientIds
-Array of client ids to add to this Policy
-
-```yaml
-Type: String[]
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
@@ -70,43 +55,43 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-Description
+### -Email
+Email address
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 2
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Inactive
-Set to add as inactive
+### -FirstName
+First name
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Name
-Name of the policy
+### -LastName
+Last name
 
 ```yaml
 Type: String
@@ -116,22 +101,37 @@ Aliases:
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Priority
-Numeric priority of policy
+### -Login
+Login, defaults to Email
 
 ```yaml
-Type: UInt32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 3
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -MobilePhone
+Mobile Phone
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -146,7 +146,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -156,7 +156,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+
+### System.Management.Automation.SwitchParameter
+
 ## OUTPUTS
 
 ### System.Object

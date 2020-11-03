@@ -13,8 +13,8 @@ Create a new AuthorizationServer
 ## SYNTAX
 
 ```
-New-OktaAuthorizationServer [-Name] <String> -Audiences <String[]> [-Issuer] <String> [-Description <String>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaAuthorizationServer [-Name] <String> -Audiences <String[]> [-Description <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,21 +39,6 @@ Aliases:
 
 Required: True
 Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Issuer
-Issuer value
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

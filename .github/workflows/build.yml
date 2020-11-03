@@ -4,6 +4,7 @@ env:
   OKTA_BASE_URI: https://dev-671484-admin.okta.com
   OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
 
+# workflow_dispatch: allows manually kicking off a build
 on:
   workflow_dispatch:
   push:

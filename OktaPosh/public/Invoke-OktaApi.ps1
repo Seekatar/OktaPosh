@@ -10,7 +10,7 @@ function Invoke-OktaApi {
     param (
         [string] $RelativeUri,
         [ValidateSet('Get', 'Head', 'Post', 'Put', 'Delete', 'Trace', 'Options', 'Merge', 'Patch')]
-        [string] $Method = "GET",
+        [string] $Method = "Get",
         [object] $Body,
         [switch] $Json,
         [string] $OktaApiToken,

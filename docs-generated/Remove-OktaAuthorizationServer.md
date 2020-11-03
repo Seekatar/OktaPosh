@@ -31,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -AuthorizationServerId
-\<!-- #include ./params/authserverIdDescription.md --\>
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
 ```yaml
 Type: String
@@ -41,7 +41,7 @@ Aliases: Id
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 

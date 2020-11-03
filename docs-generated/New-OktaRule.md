@@ -32,7 +32,7 @@ PS C:\> New-OktaRule -AuthorizationServerId $reliance.id -Name "Allow DRE" -Poli
 ## PARAMETERS
 
 ### -AuthorizationServerId
-\<!-- #include ./params/authserverIdDescription.md --\>
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
 ```yaml
 Type: String
@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -GrantTypes
-Type of grant for the Rule
+Types of grant for the Rule
 
 ```yaml
 Type: String[]

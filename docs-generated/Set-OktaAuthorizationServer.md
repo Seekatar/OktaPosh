@@ -14,7 +14,7 @@ Update an AuthorizationServer
 
 ```
 Set-OktaAuthorizationServer [-AuthorizationServerId] <String> [-Name] <String> [-Audiences] <String[]>
- [[-Description] <String>] [[-Issuer] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-IssuerMode <String>] [[-Description] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -91,21 +91,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Issuer
-Name of the Issuer for the server
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Name
 Name of the item
 
@@ -133,6 +118,21 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IssuerMode
+{{ Fill IssuerMode Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
