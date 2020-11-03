@@ -41,7 +41,7 @@ Application id to get.
 ```yaml
 Type: String
 Parameter Sets: ById
-Aliases: Id
+Aliases: ApplicationId, Id
 
 Required: True
 Position: Named

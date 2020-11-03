@@ -61,6 +61,7 @@ function Test-OktaResult {
         # 429 is rate limit, 20-100/minute depending on the request
         # https://developer.okta.com/docs/reference/rate-limits/
         #
+        Write-Verbose "StatusCode is $($result.StatusCode)"
         $oktaError = $result
         try {
             $parms = @{}

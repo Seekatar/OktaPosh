@@ -5,56 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaPolicy
+# Remove-OktaGroupUser
 
 ## SYNOPSIS
-Get one of more Policies for an AuthorizationServer
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### ById
 ```
-Get-OktaPolicy -AuthorizationServerId <String> -PolicyId <String> [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaPolicy -AuthorizationServerId <String> [-Query <String>] [-Json] [<CommonParameters>]
+Remove-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
-PS C:\>
-```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Query
-Searches in the name property
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
@@ -63,8 +45,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -GroupId
+{{ Fill GroupId Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Json
-Set to return JSON instead of PSCustomObject
+{{ Fill Json Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -73,23 +70,39 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-PolicyId retrieved from Get-OktaPolicy
+### -UserId
+{{ Fill UserId Description }}
 
 ```yaml
 Type: String
-Parameter Sets: ById
+Parameter Sets: (All)
 Aliases: Id
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -99,6 +112,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+
 ## OUTPUTS
 
 ### System.Object

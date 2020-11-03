@@ -34,7 +34,7 @@ Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-After <Str
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -82,7 +82,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -164,7 +164,7 @@ Accept wildcard characters: False
 ```
 
 ### -UserId
-The id of the user
+UserId retrieved from Get-OktaUser
 
 ```yaml
 Type: String
@@ -184,7 +184,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

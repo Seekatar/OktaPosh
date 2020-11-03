@@ -52,6 +52,7 @@ function New-OktaClaim
         [switch] $Inactive,
         [Parameter(ValueFromPipelineByPropertyName)]
         [string[]] $Scopes,
+        [bool] $AlwayIncludeInToken = $true,
         [switch] $Json
     )
 
@@ -68,6 +69,9 @@ function New-OktaClaim
             valueType = $ValueType
             claimType = $ClaimType
             value     = $Value
+        }
+        if ($ClaimType -eq "IDENTITY") {
+            $body['alwaysIncludeInToken'] = $AlwayIncludeInToken
         }
         if ($Scopes)
         {

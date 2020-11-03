@@ -1,5 +1,13 @@
 # Change Log
 
+## 2020-11-02
+
+* User Functions
+  * Add-OktaApplicationUser
+  * Add-OktaGroupUser
+  * Remove-OktaApplicationUser
+  * Remove-OktaGroupUser
+
 ## 2020-10-31
 
 * All `Get-*` functions have `-Json` switch to return raw JSON instead of PSCustomObject

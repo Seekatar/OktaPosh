@@ -7,11 +7,23 @@ $PSDefaultParameterValues = @{
     "It:TestCases" = @{
         appName        = "test-app"
         spaAppName     = "test-spa-app"
+        groupName      = 'test-group-app'
+        email          = 'apptestuser@mailinator.com'
         vars           = @{
             app        = $null
             spaApp     = $null
             schema     = $null
+            user       = $null
         }
+    }
+}
+
+Describe "Cleanup" {
+    It "Cleansup" {
+        (Get-OktaApplication -q $appName) | Remove-OktaApplication -Confirm:$false
+        (Get-OktaApplication -q $spaAppName) | Remove-OktaApplication -Confirm:$false
+        (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
+        (Get-OktaGroup -q $groupName) | Remove-OktaGroup -Confirm:$false
     }
 }
 
@@ -84,7 +96,7 @@ Describe "Application" {
     }
 
     It "Adds and removes a Group" {
-        $group = New-OktaGroup 'test-group-app'
+        $group = New-OktaGroup $groupName
         $group | Should -Not -Be $null
         $assigment = Add-OktaApplicationGroup -AppId $vars.app.id -GroupId $group.Id
         $assigment | Should -Not -Be $null
@@ -103,15 +115,27 @@ Describe "Application" {
         Remove-OktaGroup -GroupId $group.id -Confirm:$false
     }
 
-    It "Gets Application User" {
-        # onces the Add/Remove functions are added, flesh this out
+    It "Adds and removes a user from the group" {
+        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
+        $vars.user | Should -Not -Be $null
+
+        $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
         $users = Get-OktaApplicationUser -AppId $vars.app.id
-        $users | Should -Be $null
+        $users.Count | Should -Be 1
+        Remove-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
+        $users = Get-OktaApplicationUser -AppId $vars.app.id
+        ($users -eq $null -or $users.Count -eq 0) | Should -Be $true
     }
 }
 
 Describe "Cleanup" {
     It 'Removes Application' {
+        if ($vars.user) {
+            Remove-OktaUser -UserId $vars.user.id -Confirm:$false
+        }
+
+        (Get-OktaGroup -q $groupName) | Remove-OktaGroup -Confirm:$false
+
         if ($vars.app) {
             Remove-OktaApplication -AppId $vars.app.Id -Confirm:$false
         }

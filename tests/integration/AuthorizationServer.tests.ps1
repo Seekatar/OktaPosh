@@ -5,6 +5,7 @@ BeforeAll {
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{
+        appName        = "PolicyTestApp"
         authServerName = "Okta-Posh-Test"
         scopeNames     = "access:token", "get:item", "save:item", "remove:item"
         claimName      = "test-claim"
@@ -16,6 +17,13 @@ $PSDefaultParameterValues = @{
             policy     = $null
             rule       = $null
         }
+    }
+}
+
+Describe "Cleanup" {
+    It 'Removes AuthServer and App' {
+        (Get-OktaApplication -q $appName) | Remove-OktaApplication -Confirm:$false
+        (Get-OktaAuthorizationServer -q $authServerName) | Remove-OktaAuthorizationServer -Confirm:$false
     }
 }
 
@@ -94,7 +102,7 @@ Describe "AuthorizationServer" {
     }
 
     It "Adds a policy" {
-        $vars.app = New-OktaServerApplication -Label PolicyTestApp
+        $vars.app = New-OktaServerApplication -Label $appName
         $vars.policy = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name $policyName -ClientIds $vars.app.Id
         $vars.policy | Should -Not -Be $null
 

@@ -37,7 +37,7 @@ ApplicationId retrieved from Get-OktaApplication
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Id
+Aliases: ApplicationId, Id
 
 Required: True
 Position: 0

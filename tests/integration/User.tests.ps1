@@ -7,6 +7,12 @@ $PSDefaultParameterValues = @{
                         vars = @{user =$null} }
 }
 
+Describe "Cleanup" {
+    It "Remove test user" {
+        (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
+    }
+}
+
 Describe "User" {
     It "Adds a user" {
         $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email

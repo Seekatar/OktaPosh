@@ -5,91 +5,86 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaPolicy
+# Remove-OktaApplicationUser
 
 ## SYNOPSIS
-Get one of more Policies for an AuthorizationServer
+Remove a User from the Application
 
 ## SYNTAX
 
-### ById
 ```
-Get-OktaPolicy -AuthorizationServerId <String> -PolicyId <String> [-Json] [<CommonParameters>]
+Remove-OktaApplicationUser [-AppId] <String> [-UserId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
-
-### Query
-```
-Get-OktaPolicy -AuthorizationServerId <String> [-Query <String>] [-Json] [<CommonParameters>]
-```
-
-## DESCRIPTION
 
 ## EXAMPLES
 
 ### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
-PS C:\>
-```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
+### -AppId
+ApplicationId retrieved from Get-OktaApplication
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ApplicationId
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Query
-Searches in the name property
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Json
-Set to return JSON instead of PSCustomObject
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-PolicyId retrieved from Get-OktaPolicy
+### -UserId
+UserId retrieved from Get-OktaUser
 
 ```yaml
 Type: String
-Parameter Sets: ById
+Parameter Sets: (All)
 Aliases: Id
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -99,10 +94,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
 
 ## RELATED LINKS
-
