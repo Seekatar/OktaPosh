@@ -9,6 +9,13 @@ $PSDefaultParameterValues = @{
                         } }
 }
 
+Describe "Cleanup" {
+    It "Remove test group" {
+        (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
+        (Get-OktaGroup -q $groupName) | Remove-OktaGroup -Confirm:$false
+    }
+}
+
 Describe "Group" {
     It "Adds a group" {
         $vars.group = New-OktaGroup -Name $groupName
@@ -44,11 +51,12 @@ Describe "Group" {
         $vars.user | Should -Not -Be $null
 
         $null = Add-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
-        $users = @(Get-OktaGroupUser -GroupId $vars.group.id)
+        $users = Get-OktaGroupUser -GroupId $vars.group.id
         $users.Count | Should -Be 1
+        Write-Warning "Removing user $($vars.user.id) from $($vars.group.id)"
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
-        $users = @(Get-OktaGroupUser -GroupId $vars.group.id)
-        $users.Count | Should -Be 0
+        $users = Get-OktaGroupUser -GroupId $vars.group.id
+        ($users -eq $null -or $users.Count -eq 0) | Should -Be $true
     }
 }
 
