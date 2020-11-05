@@ -12,8 +12,14 @@ Get the Applications attached to the Group
 
 ## SYNTAX
 
+### ById
 ```
-Get-OktaGroupApp -GroupId <String> [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
+Get-OktaGroupApp -GroupId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaGroupApp [-Limit <UInt32>] [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,27 +36,12 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -After
-Value returned from previous call to Get for continuing
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -GroupId
 GroupId retrieved from Get-OktaGroup
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: ById
 Aliases: Id
 
 Required: True
@@ -81,6 +72,21 @@ Specifies the number of results to return
 ```yaml
 Type: UInt32
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
 Aliases:
 
 Required: False

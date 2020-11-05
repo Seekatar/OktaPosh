@@ -5,16 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# New-OktaUser
+# Add-OktaApplicationUser
 
 ## SYNOPSIS
-Create a new user in Okta
+Add a User to the Application
 
 ## SYNTAX
 
 ```
-New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
- [[-MobilePhone] <String>] [-Activate] [-WhatIf] [-Confirm] [<CommonParameters>]
+Add-OktaApplicationUser [-AppId] <String> [-UserId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,18 +29,18 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Activate
-Set to activate during add
+### -AppId
+ApplicationId retrieved from Get-OktaApplication
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ApplicationId
 
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: True (ByPropertyName)
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -60,78 +59,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Email
-Email address
+### -UserId
+UserId retrieved from Get-OktaUser
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 2
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -FirstName
-First name
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -LastName
-Last name
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
+Aliases: Id
 
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -Login
-Login, defaults to Email
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -MobilePhone
-Mobile Phone
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -157,7 +96,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-### System.Management.Automation.SwitchParameter
 ## OUTPUTS
 
 ### System.Object

@@ -14,8 +14,8 @@ Mainly used internally.
 ## SYNTAX
 
 ```
-Invoke-OktaApi [[-RelativeUri] <String>] [[-Method] <String>] [[-Body] <Object>] [-Json]
- [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Invoke-OktaApi [-RelativeUri] <String> [[-Method] <String>] [[-Body] <Object>] [-Json]
+ [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-Next] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -134,7 +134,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
@@ -153,6 +153,21 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

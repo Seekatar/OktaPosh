@@ -5,45 +5,33 @@ online version:
 schema: 2.0.0
 ---
 
-# New-OktaUser
+# New-OktaApUser
 
 ## SYNOPSIS
-Create a new user in Okta
+Add a user for an Authentication Provider
 
 ## SYNTAX
 
 ```
-New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
- [[-MobilePhone] <String>] [-Activate] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaApUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
+ [[-MobilePhone] <String>] [-Type] <String> [[-Name] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+For users automatically added via an Authentication Provider, this allows you to add them before the first login.
+So you can add them to groups and apps, etc.
+Group Rules can do something similar.
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+New-OktaApUser -FirstName Fred -LastName Flintstone -Email fflintstone@myco.com -Type FEDERATION -name Corporate-AD
 ```
 
-{{ Add example description here }}
+Add's domain user fflintstone@myco.com to Okta.
 
 ## PARAMETERS
-
-### -Activate
-Set to activate during add
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
 
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
@@ -135,6 +123,36 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -Name
+Directory instance name as the name property for ACTIVE_DIRECTORY or LDAP providers.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Type
+Type of Authentication Provider, use tab to see valid values
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
@@ -157,11 +175,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-### System.Management.Automation.SwitchParameter
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
 
 ## RELATED LINKS
-

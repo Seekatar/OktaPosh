@@ -19,7 +19,12 @@ Get-OktaAuthorizationServer -AuthorizationServerId <String> [-Json] [<CommonPara
 
 ### Query
 ```
-Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
+Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaAuthorizationServer [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,21 +70,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -After
-Value returned from previous call to Get for continuing
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -AuthorizationServerId
 AuthorizationServerId retrieved from Get-OktaAuthorizationServer
 
@@ -106,6 +96,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

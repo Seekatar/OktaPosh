@@ -5,15 +5,26 @@ online version:
 schema: 2.0.0
 ---
 
-# Add-OktaApplicationUser
+# Get-OktaIdentityProvider
 
 ## SYNOPSIS
-Add a User to the Application
+Gets Identity Providers. Useful for New-OktaApUser
 
 ## SYNTAX
 
+### Query (Default)
 ```
-Add-OktaApplicationUser [-AppId] <String> [-UserId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Get-OktaIdentityProvider [-Query <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
+### ById
+```
+Get-OktaIdentityProvider -IdpId <String> [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaIdentityProvider [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -21,7 +32,7 @@ Add-OktaApplicationUser [-AppId] <String> [-UserId] <String> [-WhatIf] [-Confirm
 ## EXAMPLES
 
 ### Example 1
-```
+```powershell
 PS C:\> {{ Add example code here }}
 ```
 
@@ -29,63 +40,77 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -AppId
-ApplicationId retrieved from Get-OktaApplication
+### -IdpId
+Identity Provider Id
 
 ```yaml
 Type: String
-Parameter Sets: (All)
-Aliases: ApplicationId
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UserId
-UserId retrieved from Get-OktaUser
-
-```yaml
-Type: String
-Parameter Sets: (All)
+Parameter Sets: ById
 Aliases: Id
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+### -Json
+Set to return JSON instead of PSCustomObject
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: wi
+Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Specifies the number of results to return
+
+```yaml
+Type: UInt32
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Query
+Searches the name
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -96,6 +121,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+
 ## OUTPUTS
 
 ### System.Object

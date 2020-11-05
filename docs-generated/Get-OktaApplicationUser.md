@@ -14,13 +14,17 @@ Get one or more users attached to the application
 
 ### Query (Default)
 ```
-Get-OktaApplicationUser -AppId <String> [-Query <String>] [-Limit <UInt32>] [-After <String>] [-Json]
- [<CommonParameters>]
+Get-OktaApplicationUser -AppId <String> [-Query <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### ById
 ```
 Get-OktaApplicationUser -AppId <String> -UserId <String> [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaApplicationUser -AppId <String> [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,21 +40,6 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -After
-Value returned from previous call to Get for continuing
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -AppId
 ApplicationId retrieved from Get-OktaApplication
@@ -125,6 +114,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

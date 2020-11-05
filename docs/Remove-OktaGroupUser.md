@@ -16,6 +16,8 @@ Remove a User from a Group
 Remove-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1

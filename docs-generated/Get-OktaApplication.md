@@ -14,12 +14,17 @@ Get one or more Applications
 
 ### Query (Default)
 ```
-Get-OktaApplication [-Query <String>] [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
+Get-OktaApplication [-Query <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### ById
 ```
 Get-OktaApplication -AppId <String> [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaApplication [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -80,21 +85,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -After
-Value returned from previous call to Get for continuing
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Json
 Set to return JSON instead of PSCustomObject
 
@@ -106,6 +96,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

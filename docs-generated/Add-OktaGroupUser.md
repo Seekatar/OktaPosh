@@ -8,7 +8,7 @@ schema: 2.0.0
 # Add-OktaGroupUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Add a User to a Group
 
 ## SYNTAX
 
@@ -17,16 +17,16 @@ Add-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-Con
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```
+$group = Get-OktaGroup -q ccc-datacapture-client-den1
+Get-OktaApplicationUser -AppId 0oat5ywrqy2ZSwDes0h7 | Add-OktaGroupUser -GroupId $group.Id
 ```
 
-{{ Add example description here }}
+Add all the users on an App to a group
 
 ## PARAMETERS
 
@@ -40,7 +40,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Json
-{{ Fill Json Description }}
+Set to return JSON instead of PSCustomObject
 
 ```yaml
 Type: SwitchParameter
@@ -70,13 +70,13 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -UserId
-{{ Fill UserId Description }}
+UserId retrieved from Get-OktaUser
 
 ```yaml
 Type: String
@@ -101,7 +101,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -112,7 +112,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object
