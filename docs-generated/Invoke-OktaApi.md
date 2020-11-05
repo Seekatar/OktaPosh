@@ -26,8 +26,10 @@ You can use this to call APIs that are not yet in this module.
 
 ### Example 1
 ```
-PS C:\>
+Invoke-OktaApi -RelativeUri "apps?filter=user.id+eq+%2200upwxy3icQiHJ3HN0h7%22+or+status+eq+%22ACTIVE%22&expand=user%2F00upwxy3icQiHJ3HN0h7&limit=25" -Verbose
 ```
+
+This was lifted from the browser's dev tools to figure out how it was getting a user's apps. This was then turned into Get-OktaUserApplication
 
 ## PARAMETERS
 

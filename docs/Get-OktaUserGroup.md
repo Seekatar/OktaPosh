@@ -5,15 +5,21 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-OktaGroupUser
+# Get-OktaUserGroup
 
 ## SYNOPSIS
-Remove a User from a Group
+Get a list of Groups for the User
 
 ## SYNTAX
 
+### Limit (Default)
 ```
-Remove-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
+Get-OktaUserGroup -UserId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaUserGroup -UserId <String> [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -21,43 +27,13 @@ Remove-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-
 ## EXAMPLES
 
 ### Example 1
-```
+```powershell
 PS C:\> {{ Add example code here }}
 ```
 
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GroupId
-{{ Fill GroupId Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Json
 Set to return JSON instead of PSCustomObject
@@ -69,7 +45,37 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Limit the number of values returned
+
+```yaml
+Type: UInt32
+Parameter Sets: Limit
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -80,28 +86,12 @@ UserId retrieved from Get-OktaUser
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Id
+Aliases: Login, Id
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -111,10 +101,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
 
 ## RELATED LINKS
-

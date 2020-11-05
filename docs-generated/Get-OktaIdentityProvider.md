@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-OktaIdentityProvider
 
 ## SYNOPSIS
-Gets Identity Providers. Useful for New-OktaApUser
+Gets Identity Providers. Useful for New-OktaAuthProviderUser
 
 ## SYNTAX
 
@@ -32,7 +32,7 @@ Get-OktaIdentityProvider [-Next] [-Json] [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 

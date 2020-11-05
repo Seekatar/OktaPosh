@@ -1,11 +1,11 @@
-# oktaposh
+# OktaPosh
 
-## about_oktaposh
+## OktaPosh
 
 # SHORT DESCRIPTION
 
-Provides access to Okta Okta REST API and returns objects for easy use in PowerShell piplines.
-This is a work in progress and has support for a small, but growing list of Okta objects.
+Provides access to the Okta REST API and returns objects for easy use in PowerShell piplines.
+This is a work in progress and has support for a growing list of Okta objects.
 
 # LONG DESCRIPTION
 To call any API, first set the token and baseUri with `Set-OktaOption`
@@ -16,11 +16,17 @@ $Profile file etc. to avoid setting it each time the module is loaded
 # EXAMPLES
 ```PowerShell
 Set-OktaOption -ApiToken abc123 -BaseUri https://devcccis.oktapreview.com/
-Get-OktaAuthorizationServer # get all
+Get-OktaAuthorizationServer
 ```
+
+That will set the Okta API token and base URI for all subsequent calls to Okta. It then makes a call to get all Authorization Servers
 
 # SEE ALSO
 Okta API https://developer.okta.com/docs/reference/
+Set-OktaOptionh
 
 # KEYWORDS
-Okta, Posh, API, REST
+- Okta
+- Posh
+- API
+- REST

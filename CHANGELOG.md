@@ -2,9 +2,11 @@
 
 ## 2020-11-05
 
-* Replace unusable After parameter with Next switch for Gets that support it
+* Replace less that useful -After parameter with -Next switch for Gets that have -Limit and support it
 * User Functions
-  * New-OktaApUser
+  * Get-OktaUserApplication
+  * Get-OktaUserGroup
+  * New-OktaAuthProviderUser
 * Misc
   * Get-OktaIdentityProvider
 

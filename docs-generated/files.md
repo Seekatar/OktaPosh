@@ -54,11 +54,15 @@
 
 ### [Get-OktaUser](Get-OktaUser.md)
 
+### [Get-OktaUserApplication](Get-OktaUserApplication.md)
+
+### [Get-OktaUserGroup](Get-OktaUserGroup.md)
+
 ### [Invoke-OktaApi](Invoke-OktaApi.md)
 
-### [New-OktaApUser](New-OktaApUser.md)
-
 ### [New-OktaAuthorizationServer](New-OktaAuthorizationServer.md)
+
+### [New-OktaAuthProviderUser](New-OktaAuthProviderUser.md)
 
 ### [New-OktaClaim](New-OktaClaim.md)
 

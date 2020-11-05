@@ -60,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Json
-{{ Fill Json Description }}
+Set to return JSON instead of PSCustomObject
 
 ```yaml
 Type: SwitchParameter
