@@ -15,7 +15,8 @@ function Invoke-OktaApi {
         [object] $Body,
         [switch] $Json,
         [string] $OktaApiToken,
-        [string] $OktaBaseUri
+        [string] $OktaBaseUri,
+        [switch] $Next
     )
 
     if ($Body -isnot [String]) {
@@ -27,6 +28,15 @@ function Invoke-OktaApi {
         Accept        = "application/json"
     }
     $baseUri = Get-OktaBaseUri $OktaBaseUri
+
+    $objectPath = ($RelativeUri -split "\?")[0]
+    if ($Next) {
+        if ($script:nextUrls[$objectPath]) {
+            $RelativeUri = $script:nextUrls[$objectPath]
+        } else {
+            Write-Warning "Can't use next since no previous Get for $objectPath"
+        }
+    }
 
     $parms = @{
         Uri = "$baseUri/api/v1/$RelativeUri"
@@ -49,7 +59,7 @@ function Invoke-OktaApi {
         $progressPreference = "silentlyContinue"
         try {
             $result = Invoke-WebRequest @parms
-            Test-OktaResult -Result $result -Json:$Json -Method $Method
+            Test-OktaResult -Result $result -Json:$Json -Method $Method -ObjectPath $objectPath
         } finally {
             $progressPreference = $prevPref
         }

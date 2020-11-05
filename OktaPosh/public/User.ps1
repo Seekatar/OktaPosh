@@ -1,3 +1,51 @@
+# https://developer.okta.com/docs/reference/api/users/
+
+function New-OktaApUser
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [string] $FirstName,
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [string] $LastName,
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [string] $Email,
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [string] $Login,
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [string] $MobilePhone,
+        [Parameter(Mandatory)]
+        [ValidateSet('OKTA', 'ACTIVE_DIRECTORY', 'LDAP', 'FEDERATION', 'SOCIAL', 'IMPORT')]
+        [string] $Type,
+        [string] $Name
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        if (!$Login) {
+            $Login = $Email
+        }
+        $body = @{
+            profile = @{
+                firstName = $FirstName
+                lastName = $LastName
+                email = $Email
+                login = $Login
+                mobilePhone = $MobilePhone
+              }
+            credentials = @{
+                provider = @{
+                  type = $Type
+                  name = $Name
+                }
+              }
+        }
+        Invoke-OktaApi -RelativeUri "users?provider=true" -Body $body -Method POST
+    }
+}
+
 function New-OktaUser
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
@@ -52,9 +100,8 @@ function Get-OktaUser {
         [Parameter(ParameterSetName="Query")]
         [Parameter(ParameterSetName="Search")]
         [uint32] $Limit,
-        [Parameter(ParameterSetName="Query")]
-        [Parameter(ParameterSetName="Search")]
-        [string] $After,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
         [Parameter(ParameterSetName="Search")]
         [string] $Search,
         [Parameter(ParameterSetName="Search")]
@@ -70,10 +117,10 @@ function Get-OktaUser {
             Invoke-OktaApi -RelativeUri "users/$UserId" -Json:$Json
         } else {
             Invoke-OktaApi -RelativeUri "users$(Get-QueryParameters `
-                                 -Query $Query -Limit $Limit -After $After `
-                                 -Filter $Filter `
-                                 -Search $Search -SortBy $SortBy -SortOrder $SortOrder `
-                                 )" -Json:$Json
+                                -Query $Query -Limit $Limit `
+                                -Filter $Filter `
+                                -Search $Search -SortBy $SortBy -SortOrder $SortOrder `
+                                )" -Json:$Json -Next:$Next
         }
     }
 }
@@ -102,6 +149,3 @@ function Remove-OktaUser {
 
     }
 }
-
-
-

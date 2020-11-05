@@ -12,8 +12,8 @@ function Get-OktaApplication {
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
-        [Parameter(ParameterSetName="Query")]
-        [string] $After,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
         [switch] $Json
     )
 
@@ -21,7 +21,7 @@ function Get-OktaApplication {
         if ($AppId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters $Query $Limit $After)" -Json:$Json
+            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next
         }
     }
 }
@@ -264,8 +264,8 @@ function Get-OktaApplicationGroup {
         [string] $GroupId,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
-        [Parameter(ParameterSetName="Query")]
-        [string] $After,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
         [switch] $Json
     )
 
@@ -275,7 +275,7 @@ function Get-OktaApplicationGroup {
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$GroupId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "apps/$AppId/groups$(Get-QueryParameters -Limit $Limit -After $After)" -Method GET -Json:$Json
+            Invoke-OktaApi -RelativeUri "apps/$AppId/groups$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
         }
     }
 }
@@ -294,8 +294,8 @@ function Get-OktaApplicationUser {
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
-        [Parameter(ParameterSetName="Query")]
-        [string] $After,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
         [switch] $Json
     )
 
@@ -305,7 +305,7 @@ function Get-OktaApplicationUser {
         if ($UserId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId/users/$UserId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "apps/$AppId/users$(Get-QueryParameters -Query $Query -Limit $Limit -After $After)" -Method GET -Json:$Json
+            Invoke-OktaApi -RelativeUri "apps/$AppId/users$(Get-QueryParameters -Query $Query -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
         }
     }
 }

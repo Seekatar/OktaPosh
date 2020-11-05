@@ -11,6 +11,8 @@ param(
     [string] $description,
     [HashTable[]] $claims
 )
+    Set-StrictMode -Version Latest
+    $ErrorActionPreference = "Stop"
 
     $authServer = Get-OktaAuthorizationServer -Query $authServerName
     if ($authServer) {

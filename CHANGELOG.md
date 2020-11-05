@@ -1,5 +1,13 @@
 # Change Log
 
+## 2020-11-05
+
+* Replace unusable After parameter with Next switch for Gets that support it
+* User Functions
+  * New-OktaApUser
+* Misc
+  * Get-OktaIdentityProvider
+
 ## 2020-11-02
 
 * User Functions

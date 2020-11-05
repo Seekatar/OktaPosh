@@ -15,7 +15,10 @@ function New-OktaAppConfig {
         [ValidateSet("authorization_code", "password", "refresh_token", "client_credentials", "implicit")]
         [string[]] $GrantTypes
     )
-    
+
+    Set-StrictMode -Version Latest
+    $ErrorActionPreference = "Stop"
+
     $appName = $Name
 
     $app = Get-OktaApplication -Query $appName
