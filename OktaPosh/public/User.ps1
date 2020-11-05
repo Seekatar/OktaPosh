@@ -1,24 +1,25 @@
 # https://developer.okta.com/docs/reference/api/users/
 
-function New-OktaApUser
+function New-OktaAuthProviderUser
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Alias("given_name")]
         [string] $FirstName,
         [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Alias("family_name")]
         [string] $LastName,
         [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string] $Email,
         [Parameter(ValueFromPipelineByPropertyName)]
         [string] $Login,
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $MobilePhone,
         [Parameter(Mandatory)]
         [ValidateSet('OKTA', 'ACTIVE_DIRECTORY', 'LDAP', 'FEDERATION', 'SOCIAL', 'IMPORT')]
-        [string] $Type,
-        [string] $Name
+        [string] $ProviderType,
+        [string] $ProviderName,
+        [string[]] $GroupIds
     )
 
     process {
@@ -33,14 +34,18 @@ function New-OktaApUser
                 lastName = $LastName
                 email = $Email
                 login = $Login
-                mobilePhone = $MobilePhone
               }
             credentials = @{
                 provider = @{
-                  type = $Type
-                  name = $Name
+                  type = $ProviderType
                 }
               }
+        }
+        if ($ProviderName) {
+            $body.credentials.provider['name'] = $ProviderName
+        }
+        if ($GroupIds) {
+            $body['groupIds'] = @($GroupIds)
         }
         Invoke-OktaApi -RelativeUri "users?provider=true" -Body $body -Method POST
     }
@@ -123,6 +128,41 @@ function Get-OktaUser {
                                 )" -Json:$Json -Next:$Next
         }
     }
+}
+
+function Get-OktaUserApplication {
+    [CmdletBinding(DefaultParameterSetName="Limit")]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [Alias("Login")]
+        [string] $UserId,
+        [Parameter(ParameterSetName="Limit")]
+        [uint32] $Limit,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
+        [switch] $Json
+    )
+
+    $query = Get-QueryParameters -Filter "user.id eq `"$UserId`"" -Limit $Limit
+    Invoke-OktaApi -RelativeUri "apps$query&expand=user%2F$UserId" -Json:$Json -Next:$Next
+}
+
+function Get-OktaUserGroup {
+    [CmdletBinding(DefaultParameterSetName="Limit")]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [Alias("Login")]
+        [string] $UserId,
+        [Parameter(ParameterSetName="Limit")]
+        [uint32] $Limit,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
+        [switch] $Json
+    )
+
+    Invoke-OktaApi -RelativeUri "users/$UserId/groups$(Get-QueryParameters -Limit $Limit)" -Json:$Json -Next:$Next
 }
 
 function Remove-OktaUser {
