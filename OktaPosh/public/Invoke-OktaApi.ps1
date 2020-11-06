@@ -34,7 +34,8 @@ function Invoke-OktaApi {
         if ($script:nextUrls[$objectPath]) {
             $RelativeUri = $script:nextUrls[$objectPath]
         } else {
-            Write-Warning "Can't use next since no previous Get for $objectPath"
+            Write-Warning "Nothing available for next '$objectPath'"
+            return $null
         }
     }
 
@@ -47,6 +48,8 @@ function Invoke-OktaApi {
     if ($PSVersionTable.PSVersion.Major -ge 7) {
         $parms['SkipHttpErrorCheck'] = $true
     }
+    Write-Verbose "$($parms.method) $($parms.Uri)"
+
     $result = $null
     $writeMethod = $Method -in "Post", "Put", "Patch", "Merge"
     if ($writeMethod -and $body) {
@@ -65,3 +68,19 @@ function Invoke-OktaApi {
         }
     }
 }
+
+function Test-OktaNext
+{
+    param(
+        [ValidateSet('groups','users','apps','authorizationServers')]
+        [string] $ObjectName
+    )
+
+    return $script:nextUrls[$ObjectName]
+}
+
+function Get-OktaNextUrl
+{
+    return $script:nextUrls
+}
+

@@ -50,12 +50,15 @@ function Test-OktaResult {
 
     if ( $result.StatusCode -lt 300 ) {
 
-        if ($Method -eq 'Get' -and $result.RelationLink["next"]) {
-            Write-Verbose ($result.RelationLink | out-string)
-            Write-Verbose $ObjectPath
-            if ($result.RelationLink["next"] -match ".*($ObjectPath.*)") {
+        # PS 7+ :( $result.RelationLink["next"]
+        if ($Method -eq 'Get' -and $result.Headers["link"]) {
+            Write-Verbose "Link is $($result.Headers["link"])"
+            $next = $result.Headers["link"] -split ',' | Where-Object {$_ -match "<.*($ObjectPath.*)>; rel=`"next`""}
+            if ($next) {
                 Write-Verbose "Status: $($result.StatusCode). Setting $ObjectPath = $($Matches[1])"
                 $script:nextUrls[$ObjectPath] = $Matches[1]
+            } else {
+                $script:nextUrls.Remove($ObjectPath)
             }
         } else {
             $script:nextUrls.Remove($ObjectPath)

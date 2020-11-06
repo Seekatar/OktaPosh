@@ -95,8 +95,13 @@ function Remove-OktaGroup {
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($GroupId,"Remove Group")) {
-            Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method DELETE
+        $group = Get-OktaGroup -GroupId $GroupId
+        if ($group) {
+            if ($PSCmdlet.ShouldProcess("$group.profile.name","Remove Group")) {
+                Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method DELETE
+            }
+        } else {
+            Write-Warning "Group with id '$GroupId' not found"
         }
     }
 }

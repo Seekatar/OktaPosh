@@ -1,1 +1,1 @@
-tests/integration/coverage.xml
+**/tests/**/coverage.xml

@@ -254,7 +254,7 @@ function Remove-OktaApplicationUser {
 
 
 function Get-OktaApplicationGroup {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Query")]
     param(
         [Parameter(Mandatory)]
         [Alias("ApplicationId")]

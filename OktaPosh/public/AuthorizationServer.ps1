@@ -3,6 +3,7 @@ Set-StrictMode -Version Latest
 
 function Get-OktaAuthorizationServer
 {
+    [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
