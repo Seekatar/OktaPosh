@@ -40,6 +40,8 @@
 
 ### [Get-OktaJwt](Get-OktaJwt.md)
 
+### [Get-OktaNextUrl](Get-OktaNextUrl.md)
+
 ### [Get-OktaOpenIdConfig](Get-OktaOpenIdConfig.md)
 
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
@@ -115,6 +117,8 @@
 ### [Set-OktaOption](Set-OktaOption.md)
 
 ### [Set-OktaTrustedOrigin](Set-OktaTrustedOrigin.md)
+
+### [Test-OktaNext](Test-OktaNext.md)
 
 
 
