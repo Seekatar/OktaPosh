@@ -6,7 +6,6 @@ env:
 
 # workflow_dispatch: allows manually kicking off a build
 on:
-  workflow_dispatch:
   push:
     branches: [ release/**, main ]
     paths:
@@ -15,6 +14,7 @@ on:
     - '!okta_doc'
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 defaults:
   run:
