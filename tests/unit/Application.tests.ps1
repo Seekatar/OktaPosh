@@ -1,5 +1,5 @@
 BeforeAll {
-    # . (Join-Path $PSScriptRoot setup.ps1)
+    . (Join-Path $PSScriptRoot '../setup.ps1') -Unit
 }
 
 # Pester 5 need to pass in TestCases object to pass share
@@ -14,24 +14,7 @@ $PSDefaultParameterValues = @{
     }
 }
 
-BeforeAll {
-
-    # Mock Invoke-OktaApi -ModuleName OktaPosh
-    Mock -CommandName Invoke-WebRequest `
-            -ModuleName OktaPosh `
-            -MockWith {
-                $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
-                $Content = '{"errorCode": "200" }'
-                $StatusCode = 200
-
-                $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
-                $Response | Add-Member -NotePropertyName Content -NotePropertyValue $Content -Force
-                $Response | Add-Member -NotePropertyName StatusCode -NotePropertyValue $StatusCode -Force
-                $Response
-            }
-}
-
-Describe "Application" {
+Describe "Application Tests" {
     It "Adds a server application" {
         $null = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -39,7 +22,6 @@ Describe "Application" {
                     $Uri -like "*/apps" -and $Method -eq 'POST'
                 }
     }
-
     It "Adds a SPA application" {
         $null = New-OktaSpaApplication -Label $spaAppName -RedirectUris "http://gohome" -LoginUri "http://login"
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -90,7 +72,6 @@ Describe "Application" {
                     $Uri -like "*apps/$($vars.app.Id)" -and $Method -eq 'PUT'
                 }
     }
-
     It "Adds Schema" {
         $null = Get-OktaApplicationSchema -AppId $vars.app.id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -98,7 +79,6 @@ Describe "Application" {
                     $Uri -like "*/meta/schemas/apps/$($vars.app.Id)/default" -and $Method -eq 'GET'
                 }
     }
-
     It "Sets a schema value" {
         $null = Set-OktaApplicationSchemaProperty -AppId $vars.app.id `
                                           -Name oktaPosh `
@@ -110,7 +90,6 @@ Describe "Application" {
                     $Uri -like "*/meta/schemas/apps/$($vars.app.Id)/default" -and $Method -eq 'POST'
                 }
     }
-
     It "Removes a schema value" {
         $null = Remove-OktaApplicationSchemaProperty -AppId $vars.app.id `
                                           -Name oktaPosh -Confirm:$false
@@ -119,7 +98,6 @@ Describe "Application" {
                     $Uri -like "*/meta/schemas/apps/$($vars.app.Id)/default" -and $Method -eq 'POST'
                 }
     }
-
     It "Adds and removes a Group" {
         $null = Add-OktaApplicationGroup -AppId $vars.app.id -GroupId $group.Id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -146,19 +124,24 @@ Describe "Application" {
                 }
     }
 
-    It "removes" {
-        Remove-OktaGroup -GroupId $group.id -Confirm:$false
+    It "Adds and removes a user from the group" {
+        $userId = "132-234-234"
+        $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $userId
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/groups/$($group.Id)" -and $Method -eq 'DELETE'
+                    $Uri -like "*/apps/$($vars.app.Id)/users/$userId" -and $Method -eq 'PUT'
                 }
-    }
 
-    It "Gets Application User" {
         $null = Get-OktaApplicationUser -AppId $vars.app.id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/apps/$($vars.app.Id)/users" -and $Method -eq 'GET'
+                }
+
+        $null = Remove-OktaApplicationUser -AppId $vars.app.id -UserId $userId
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps/$($vars.app.Id)/users/$userId" -and $Method -eq 'DELETE'
                 }
     }
 }
@@ -175,5 +158,3 @@ Describe "Cleanup" {
         }
     }
 }
-
-

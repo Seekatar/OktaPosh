@@ -1,4 +1,4 @@
-. (Join-Path $PSScriptRoot setup.ps1)
+. (Join-Path $PSScriptRoot '../setup.ps1')
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
@@ -53,7 +53,7 @@ Describe "Group" {
         $null = Add-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
         $users = Get-OktaGroupUser -GroupId $vars.group.id
         $users.Count | Should -Be 1
-        Write-Warning "Removing user $($vars.user.id) from $($vars.group.id)"
+
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
         $users = Get-OktaGroupUser -GroupId $vars.group.id
         ($users -eq $null -or $users.Count -eq 0) | Should -Be $true
