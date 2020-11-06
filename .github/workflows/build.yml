@@ -4,16 +4,18 @@ env:
   OKTA_BASE_URI: https://dev-671484-admin.okta.com
   OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
 
-# workflow_dispatch: allows manually kicking off a build
 on:
   push:
-    branches: [ release/**, main ]
-    paths:
-    - '!*.md'
-    - '!docs-generated'
-    - '!okta_doc'
+    branches: [ release/** ]
+    # changing to this breaks trigger?
+    # branches: [ release/**, main ]
+    # paths:
+    # - '!*.md'
+    # - '!docs-generated'
+    # - '!okta_doc'
   pull_request:
     branches: [ main ]
+  # workflow_dispatch: allows manually kicking off a build
   workflow_dispatch:
 
 defaults:
