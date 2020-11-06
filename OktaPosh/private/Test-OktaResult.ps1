@@ -71,7 +71,7 @@ function Test-OktaResult {
             if ($PSVersionTable.PSVersion.Major -ge 7) {
                 $parms['Depth'] = 10
             }
-            # PS vs if don't have parens, can't use ValueFromPipeline
+            # PS v5 if don't have parens, can't use ValueFromPipeline
             # Get this error piping Get-OktaApplication | Remove-OktaApplication
             # The input object cannot be bound to any parameters for the command either because the command does not take pipeline input or the input and its properties do not match any of the parameters that take pipeline input
             return ($result.Content | ConvertFrom-Json @parms)

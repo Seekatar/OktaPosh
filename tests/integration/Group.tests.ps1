@@ -51,7 +51,7 @@ Describe "Group" {
         $vars.user | Should -Not -Be $null
 
         $null = Add-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
-        $users = Get-OktaGroupUser -GroupId $vars.group.id
+        $users = @(Get-OktaGroupUser -GroupId $vars.group.id)
         $users.Count | Should -Be 1
 
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id

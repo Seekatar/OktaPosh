@@ -117,7 +117,7 @@ Describe "Application Tests" {
         $vars.user | Should -Not -Be $null
 
         $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
-        $users = Get-OktaApplicationUser -AppId $vars.app.id
+        $users = @(Get-OktaApplicationUser -AppId $vars.app.id)
         $users.Count | Should -Be 1
         Remove-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
         $users = Get-OktaApplicationUser -AppId $vars.app.id

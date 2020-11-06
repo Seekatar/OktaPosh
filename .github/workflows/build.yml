@@ -6,15 +6,11 @@ env:
 
 on:
   push:
-    branches: [ release/** ]
-    # changing to this breaks trigger?
-    # branches: [ release/**, main ]
-    # paths:
-    # - '!*.md'
-    # - '!docs-generated'
-    # - '!okta_doc'
+    branches:
+    - master
   pull_request:
-    branches: [ main ]
+    branches:
+    - release/**
   # workflow_dispatch: allows manually kicking off a build
   workflow_dispatch:
 
@@ -33,11 +29,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Get PS Repos
+    - name: Dump Environment
       shell: pwsh
-      working-directory: OktaPosh
       run: |
-       Get-PSRepository
+       gci env: | ft -wrap
 
     - name: Run Script Analyzer
       shell: pwsh
