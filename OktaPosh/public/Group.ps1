@@ -145,6 +145,7 @@ function Get-OktaGroupUser
 }
 
 function Add-OktaGroupUser {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
@@ -161,6 +162,7 @@ function Add-OktaGroupUser {
 }
 
 function Remove-OktaGroupUser {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]

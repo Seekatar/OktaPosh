@@ -7,10 +7,11 @@ env:
 on:
   push:
     branches:
-    - master
+    - main
   pull_request:
     branches:
     - release/**
+    - main
   # workflow_dispatch: allows manually kicking off a build
   workflow_dispatch:
 
@@ -58,11 +59,19 @@ jobs:
           Write-Error "Pester tests failed"
         }
 
-    - uses: actions/upload-artifact@v2
-      name: Upload coverage.xml
-      with:
-        name: ${{ matrix.os }}_coverage.xml
-        path: tests/unit/coverage.xml
+    # - uses: actions/upload-artifact@v2
+    #   name: Upload coverage.xml
+    #   with:
+    #     name: ${{ matrix.os }}_coverage.xml
+    #     path: tests/unit/coverage.xml
+
+    - name: Upload to CodeCov
+      shell: bash
+      working-directory: tests/unit
+      run: |
+        export CODECOV_TOKEN="${{ secrets.CODECOV }}"
+        bash <(curl -s https://codecov.io/bash)
+      if: ${{ matrix.os == 'ubuntu-latest'}}
 
   CI-PS5:
     runs-on: windows-latest

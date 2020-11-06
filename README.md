@@ -1,6 +1,9 @@
 # Okta PowerShell API
 
 ![CI](https://github.com/Seekatar/OktaPosh/workflows/CI/badge.svg?branch=main)
+![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/OktaPosh)
+![Platforms](https://img.shields.io/powershellgallery/p/OktaPosh)
+[![codecov](https://codecov.io/gh/Seekatar/OktaPosh/branch/main/graph/badge.svg?token=XX57WM7GY5)](https://codecov.io/gh/Seekatar/OktaPosh)
 
 This PowerShell module wraps the Okta REST API making it easy to manipulate objects in Okta individually. Use this in a CI/CD pipeline to configure multiple Okta environments consistently. Most of the functionality is also available on the Okta admin site, but not all.
 

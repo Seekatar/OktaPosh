@@ -144,8 +144,10 @@ function Get-OktaUserApplication {
         [switch] $Json
     )
 
-    $query = Get-QueryParameters -Filter "user.id eq `"$UserId`"" -Limit $Limit
-    Invoke-OktaApi -RelativeUri "apps$query&expand=user%2F$UserId" -Json:$Json -Next:$Next
+    process {
+        $query = Get-QueryParameters -Filter "user.id eq `"$UserId`"" -Limit $Limit
+        Invoke-OktaApi -RelativeUri "apps$query&expand=user%2F$UserId" -Json:$Json -Next:$Next
+    }
 }
 
 function Get-OktaUserGroup {
@@ -162,7 +164,9 @@ function Get-OktaUserGroup {
         [switch] $Json
     )
 
-    Invoke-OktaApi -RelativeUri "users/$UserId/groups$(Get-QueryParameters -Limit $Limit)" -Json:$Json -Next:$Next
+    process {
+        Invoke-OktaApi -RelativeUri "users/$UserId/groups$(Get-QueryParameters -Limit $Limit)" -Json:$Json -Next:$Next
+    }
 }
 
 function Remove-OktaUser {
