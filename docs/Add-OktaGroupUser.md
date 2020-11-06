@@ -16,14 +16,17 @@ Add a User to a Group
 Add-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+$group = Get-OktaGroup -q ccc-datacapture-client-den1
+Get-OktaApplicationUser -AppId 0oat5ywrqy2ZSwDes0h7 | Add-OktaGroupUser -GroupId $group.Id
 ```
 
-{{ Add example description here }}
+Add all the users on an App to a group
 
 ## PARAMETERS
 
@@ -58,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Json
-{{ Fill Json Description }}
+Set to return JSON instead of PSCustomObject
 
 ```yaml
 Type: SwitchParameter

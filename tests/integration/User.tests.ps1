@@ -1,4 +1,4 @@
-. (Join-Path $PSScriptRoot setup.ps1)
+. (Join-Path $PSScriptRoot '../setup.ps1')
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{

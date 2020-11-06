@@ -1,5 +1,9 @@
 param( [bool] $Quiet = $true )
 
+if ($PSVersionTable.PSVersion.Major -lt 7) {
+    Add-Type -AssemblyName System.Web
+}
+
 Get-ChildItem $PSScriptRoot\private\*.ps1 -Recurse | ForEach-Object { . $_ }
 $exports = @()
 Get-ChildItem $PSScriptRoot\public\*.ps1 -Recurse | ForEach-Object { . $_; $exports += $_.BaseName }

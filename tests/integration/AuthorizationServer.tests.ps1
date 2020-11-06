@@ -1,5 +1,5 @@
 BeforeAll {
-    . (Join-Path $PSScriptRoot setup.ps1)
+    . (Join-Path $PSScriptRoot '../setup.ps1')
 }
 
 # Pester 5 need to pass in TestCases object to pass share
@@ -30,29 +30,25 @@ Describe "Cleanup" {
 Describe "AuthorizationServer" {
 
     It "Check for existing AuthServer" {
-        $script:authServer = Get-OktaAuthorizationServer -Query $authServerName
-        $script:authServer | Should -Be $null
+        $vars.authServer = Get-OktaAuthorizationServer -Query $authServerName
+        $vars.authServer | Should -Be $null
     }
-
     It "Creates a new AuthServer" {
         $vars.authServer = New-OktaAuthorizationServer -Name $authServerName `
             -Audience "api://oktaposh/api" `
             -Description "OktaPosh Test Authorization Server"
         $vars.authServer | Should -Not -Be $null
     }
-
     It "Gets Authorization Servers" {
         $result = Get-OktaAuthorizationServer
         $result | Should -Not -Be $null
         $result.Count | Should -BeGreaterThan 0
     }
-
     It "Gets Authorization Server By Id" {
         $result = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
         $result | Should -Not -Be $null
         $result.Id | Should -Be $vars.authServer.Id
     }
-
     It "Gets Authorization Server By Query" {
         $result = Get-OktaAuthorizationServer -Query 'test'
         $result | Should -Not -Be $null
@@ -66,19 +62,16 @@ Describe "AuthorizationServer" {
         $result = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
         $result.description | Should -Be "new description"
     }
-
     It "Disables Authorization Server" {
         Disable-OktaAuthorizationServer -Id $vars.authServer.Id -Confirm:$false
         $result = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
         $result.status | Should -Be 'INACTIVE'
     }
-
     It "Enables Authorization Server" {
         Enable-OktaAuthorizationServer -Id $vars.authServer.Id
         $result = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
         $result.status | Should -Be 'ACTIVE'
     }
-
     It "Creates new scopes" {
         $newScopes = $scopeNames | New-OktaScope -AuthorizationServerId $vars.authServer.id
         $newScopes.Count | Should -Be $scopeNames.Count
@@ -88,7 +81,6 @@ Describe "AuthorizationServer" {
         $vars.scopes | Should -Not -Be $null
         $vars.scopes.Count | Should -Be $scopeNames.Count
     }
-
     It "Creates new Claim" {
         $claim = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
             -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE `

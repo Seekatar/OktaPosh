@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-OktaGroupUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove a User from a Group
 
 ## SYNTAX
 
@@ -17,12 +17,11 @@ Remove-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> {{ Add example code here }}
 ```
 
@@ -40,7 +39,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -61,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Json
-{{ Fill Json Description }}
+Set to return JSON instead of PSCustomObject
 
 ```yaml
 Type: SwitchParameter
@@ -70,13 +69,13 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -UserId
-{{ Fill UserId Description }}
+UserId retrieved from Get-OktaUser
 
 ```yaml
 Type: String
@@ -101,7 +100,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -112,7 +111,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

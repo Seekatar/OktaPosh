@@ -1,5 +1,5 @@
 BeforeAll {
-    . (Join-Path $PSScriptRoot setup.ps1)
+    . (Join-Path $PSScriptRoot '../setup.ps1')
 }
 
 # Pester 5 need to pass in TestCases object to pass share
@@ -19,7 +19,7 @@ $PSDefaultParameterValues = @{
 }
 
 Describe "Cleanup" {
-    It "Cleansup" {
+    It 'Removes Test Data' {
         (Get-OktaApplication -q $appName) | Remove-OktaApplication -Confirm:$false
         (Get-OktaApplication -q $spaAppName) | Remove-OktaApplication -Confirm:$false
         (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
@@ -27,7 +27,8 @@ Describe "Cleanup" {
     }
 }
 
-Describe "Application" {
+
+Describe "Application Tests" {
     It "Adds a server application" {
         $vars.app = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
         $vars.app | Should -Not -Be $null
@@ -65,12 +66,10 @@ Describe "Application" {
         $result = Get-OktaApplication -ApplicationId $vars.app.Id
         $result.profile.testProp | Should -Be 'hi there'
     }
-
     It "Adds Schema" {
         $vars.schema = Get-OktaApplicationSchema -AppId $vars.app.id
         $vars.schema | Should -Not -Be $null
     }
-
     It "Sets a schema value" {
         $schema = Set-OktaApplicationSchemaProperty -AppId $vars.app.id `
                                           -Name oktaPosh `
@@ -86,7 +85,6 @@ Describe "Application" {
         $prop.minLength | Should -Be 1
         $prop.maxLength | Should -Be 10
     }
-
     It "Removes a schema value" {
         $schema = Remove-OktaApplicationSchemaProperty -AppId $vars.app.id `
                                           -Name oktaPosh -Confirm:$false
@@ -94,7 +92,6 @@ Describe "Application" {
         $prop = $schema.definitions.custom.properties | Get-Member -Name oktaPosh
         $prop | Should -Be $null
     }
-
     It "Adds and removes a Group" {
         $group = New-OktaGroup $groupName
         $group | Should -Not -Be $null

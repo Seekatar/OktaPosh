@@ -186,7 +186,7 @@ Accept wildcard characters: False
 ```
 
 ### -AlwayIncludeInToken
-{{ Fill AlwayIncludeInToken Description }}
+Set to $False to not always include in the Token
 
 ```yaml
 Type: Boolean
@@ -201,7 +201,7 @@ Accept wildcard characters: False
 ```
 
 ### -GroupFilterType
-{{ Fill GroupFilterType Description }}
+For a group-type filter, how to filter the names
 
 ```yaml
 Type: String

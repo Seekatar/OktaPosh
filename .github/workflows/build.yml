@@ -4,17 +4,19 @@ env:
   OKTA_BASE_URI: https://dev-671484-admin.okta.com
   OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
 
-# workflow_dispatch: allows manually kicking off a build
 on:
-  workflow_dispatch:
   push:
-    branches: [ release/**, main ]
-    paths:
-    - '!*.md'
-    - '!docs-generated'
-    - '!okta_doc'
+    branches: [ release/** ]
+    # changing to this breaks trigger?
+    # branches: [ release/**, main ]
+    # paths:
+    # - '!*.md'
+    # - '!docs-generated'
+    # - '!okta_doc'
   pull_request:
     branches: [ main ]
+  # workflow_dispatch: allows manually kicking off a build
+  workflow_dispatch:
 
 defaults:
   run:
@@ -46,9 +48,9 @@ jobs:
         $results
         if ($results | Where-Object Severity -eq Error ) { Write-Error "Analyzer detected errors." }
 
-    - name: Run Pester Tests
+    - name: Run Pester Unit Tests
       shell: pwsh
-      working-directory: tests/integration
+      working-directory: tests/unit
       run: |
         Install-Module Pester -Confirm:$False -Force
         $result = Invoke-Pester -Configuration @{
@@ -65,7 +67,7 @@ jobs:
       name: Upload coverage.xml
       with:
         name: ${{ matrix.os }}_coverage.xml
-        path: tests/integration/coverage.xml
+        path: tests/unit/coverage.xml
 
   CI-PS5:
     runs-on: windows-latest
@@ -74,20 +76,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Run Pester Tests
+    - name: Run Pester Unit Tests
       shell: powershell
-      working-directory: tests/integration
+      working-directory: tests/unit
       run: |
         $PSVersionTable
         Install-Module Pester -Confirm:$False -Force
-        #$result = Invoke-Pester -Configuration @{
-        #                                          Output = @{Verbosity='Detailed'}
-        #                                          Run = @{PassThru=$true}
-        #                                        }
-        #$result.tests | select name,result
-        #if ($result.Result -ne "Passed") {
-        #  Write-Error "Pester tests failed"
-        #}
+        $result = Invoke-Pester -Configuration @{
+                                                  Output = @{Verbosity='Detailed'}
+                                                  Run = @{PassThru=$true}
+                                                }
+        $result.tests | select name,result
+        if ($result.Result -ne "Passed") {
+          Write-Error "Pester tests failed"
+        }
 
   publish:
     if: github.ref  == 'refs/heads/main'

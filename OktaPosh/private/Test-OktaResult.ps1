@@ -6,6 +6,7 @@ $script:rateLimit = [PSCustomObject]@{
     RateLimitResetLocal = $null
 }
 $script:epochStart = New-Object DateTime -ArgumentList 1970,1,1,0,0,0,0,'Utc'
+$script:nextUrls = @{}
 
 function Set-RateLimit {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -41,11 +42,28 @@ function Test-OktaResult {
         [Microsoft.PowerShell.Commands.WebResponseObject] $Result,
         [Parameter(Mandatory)]
         [string] $Method,
+        [Parameter(Mandatory)]
+        [string] $ObjectPath,
         [switch] $Json
     )
     Set-RateLimit $Result
 
     if ( $result.StatusCode -lt 300 ) {
+
+        # PS 7+ :( $result.RelationLink["next"]
+        if ($Method -eq 'Get' -and $result.Headers["link"]) {
+            Write-Verbose "Link is $($result.Headers["link"])"
+            $next = $result.Headers["link"] -split ',' | Where-Object {$_ -match "<.*($ObjectPath.*)>; rel=`"next`""}
+            if ($next) {
+                Write-Verbose "Status: $($result.StatusCode). Setting $ObjectPath = $($Matches[1])"
+                $script:nextUrls[$ObjectPath] = $Matches[1]
+            } else {
+                $script:nextUrls.Remove($ObjectPath)
+            }
+        } else {
+            $script:nextUrls.Remove($ObjectPath)
+        }
+
         if ($Json) {
             return $Result.Content
         } else {
@@ -53,7 +71,10 @@ function Test-OktaResult {
             if ($PSVersionTable.PSVersion.Major -ge 7) {
                 $parms['Depth'] = 10
             }
-            return $result.Content | ConvertFrom-Json @parms
+            # PS vs if don't have parens, can't use ValueFromPipeline
+            # Get this error piping Get-OktaApplication | Remove-OktaApplication
+            # The input object cannot be bound to any parameters for the command either because the command does not take pipeline input or the input and its properties do not match any of the parameters that take pipeline input
+            return ($result.Content | ConvertFrom-Json @parms)
         }
     } elseif ($result.StatusCode -eq 404 -and $Method -eq 'GET') {
         return $null

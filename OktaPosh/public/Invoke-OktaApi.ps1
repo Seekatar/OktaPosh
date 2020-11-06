@@ -15,7 +15,8 @@ function Invoke-OktaApi {
         [object] $Body,
         [switch] $Json,
         [string] $OktaApiToken,
-        [string] $OktaBaseUri
+        [string] $OktaBaseUri,
+        [switch] $Next
     )
 
     if ($Body -isnot [String]) {
@@ -28,6 +29,16 @@ function Invoke-OktaApi {
     }
     $baseUri = Get-OktaBaseUri $OktaBaseUri
 
+    $objectPath = ($RelativeUri -split "\?")[0]
+    if ($Next) {
+        if ($script:nextUrls[$objectPath]) {
+            $RelativeUri = $script:nextUrls[$objectPath]
+        } else {
+            Write-Warning "Nothing available for next '$objectPath'"
+            return $null
+        }
+    }
+
     $parms = @{
         Uri = "$baseUri/api/v1/$RelativeUri"
         ContentType = "application/json"
@@ -37,6 +48,8 @@ function Invoke-OktaApi {
     if ($PSVersionTable.PSVersion.Major -ge 7) {
         $parms['SkipHttpErrorCheck'] = $true
     }
+    Write-Verbose "$($parms.method) $($parms.Uri)"
+
     $result = $null
     $writeMethod = $Method -in "Post", "Put", "Patch", "Merge"
     if ($writeMethod -and $body) {
@@ -49,9 +62,25 @@ function Invoke-OktaApi {
         $progressPreference = "silentlyContinue"
         try {
             $result = Invoke-WebRequest @parms
-            Test-OktaResult -Result $result -Json:$Json -Method $Method
+            Test-OktaResult -Result $result -Json:$Json -Method $Method -ObjectPath $objectPath
         } finally {
             $progressPreference = $prevPref
         }
     }
 }
+
+function Test-OktaNext
+{
+    param(
+        [ValidateSet('groups','users','apps','authorizationServers')]
+        [string] $ObjectName
+    )
+
+    return $script:nextUrls[$ObjectName]
+}
+
+function Get-OktaNextUrl
+{
+    return $script:nextUrls
+}
+

@@ -19,7 +19,12 @@ Get-OktaApplicationGroup -AppId <String> -GroupId <String> [-Json] [<CommonParam
 
 ### Query
 ```
-Get-OktaApplicationGroup -AppId <String> [-Limit <UInt32>] [-After <String>] [-Json] [<CommonParameters>]
+Get-OktaApplicationGroup -AppId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaApplicationGroup -AppId <String> [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,21 +40,6 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -After
-Value returned from previous call to Get for continuing
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -AppId
 ApplicationId retrieved from Get-OktaApplication
@@ -102,6 +92,21 @@ Specifies the number of results to return
 ```yaml
 Type: UInt32
 Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
 Aliases:
 
 Required: False

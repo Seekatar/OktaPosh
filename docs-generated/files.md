@@ -1,5 +1,7 @@
 ### [Add-OktaApplicationGroup](Add-OktaApplicationGroup.md)
 
+### [Add-OktaApplicationUser](Add-OktaApplicationUser.md)
+
 ### [Add-OktaGroupUser](Add-OktaGroupUser.md)
 
 ### [Disable-OktaApplication](Disable-OktaApplication.md)
@@ -34,7 +36,11 @@
 
 ### [Get-OktaGroupUser](Get-OktaGroupUser.md)
 
+### [Get-OktaIdentityProvider](Get-OktaIdentityProvider.md)
+
 ### [Get-OktaJwt](Get-OktaJwt.md)
+
+### [Get-OktaNextUrl](Get-OktaNextUrl.md)
 
 ### [Get-OktaOpenIdConfig](Get-OktaOpenIdConfig.md)
 
@@ -50,9 +56,15 @@
 
 ### [Get-OktaUser](Get-OktaUser.md)
 
+### [Get-OktaUserApplication](Get-OktaUserApplication.md)
+
+### [Get-OktaUserGroup](Get-OktaUserGroup.md)
+
 ### [Invoke-OktaApi](Invoke-OktaApi.md)
 
 ### [New-OktaAuthorizationServer](New-OktaAuthorizationServer.md)
+
+### [New-OktaAuthProviderUser](New-OktaAuthProviderUser.md)
 
 ### [New-OktaClaim](New-OktaClaim.md)
 
@@ -77,6 +89,8 @@
 ### [Remove-OktaApplicationGroup](Remove-OktaApplicationGroup.md)
 
 ### [Remove-OktaApplicationSchemaProperty](Remove-OktaApplicationSchemaProperty.md)
+
+### [Remove-OktaApplicationUser](Remove-OktaApplicationUser.md)
 
 ### [Remove-OktaAuthorizationServer](Remove-OktaAuthorizationServer.md)
 
@@ -103,6 +117,8 @@
 ### [Set-OktaOption](Set-OktaOption.md)
 
 ### [Set-OktaTrustedOrigin](Set-OktaTrustedOrigin.md)
+
+### [Test-OktaNext](Test-OktaNext.md)
 
 
 

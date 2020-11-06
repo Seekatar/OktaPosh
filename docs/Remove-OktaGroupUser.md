@@ -16,6 +16,8 @@ Remove a User from a Group
 Remove-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1
@@ -58,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Json
-{{ Fill Json Description }}
+Set to return JSON instead of PSCustomObject
 
 ```yaml
 Type: SwitchParameter

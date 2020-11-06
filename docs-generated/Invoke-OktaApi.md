@@ -14,8 +14,8 @@ Mainly used internally.
 ## SYNTAX
 
 ```
-Invoke-OktaApi [[-RelativeUri] <String>] [[-Method] <String>] [[-Body] <Object>] [-Json]
- [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Invoke-OktaApi [-RelativeUri] <String> [[-Method] <String>] [[-Body] <Object>] [-Json]
+ [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-Next] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,8 +26,10 @@ You can use this to call APIs that are not yet in this module.
 
 ### Example 1
 ```
-PS C:\>
+Invoke-OktaApi -RelativeUri "apps?filter=user.id+eq+%2200upwxy3icQiHJ3HN0h7%22+or+status+eq+%22ACTIVE%22&expand=user%2F00upwxy3icQiHJ3HN0h7&limit=25" -Verbose
 ```
+
+This was lifted from the browser's dev tools to figure out how it was getting a user's apps. This was then turned into Get-OktaUserApplication
 
 ## PARAMETERS
 
@@ -134,7 +136,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
@@ -153,6 +155,21 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

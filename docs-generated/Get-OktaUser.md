@@ -14,8 +14,7 @@ Get one or more Okta Users
 
 ### Query (Default)
 ```
-Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-After <String>] [-Json]
- [<CommonParameters>]
+Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### ById
@@ -25,8 +24,13 @@ Get-OktaUser -UserId <String> [-Json] [<CommonParameters>]
 
 ### Search
 ```
-Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-After <String>] [-Search <String>]
- [-SortBy <String>] [-SortOrder <String>] [-Json] [<CommonParameters>]
+Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-Search <String>] [-SortBy <String>]
+ [-SortOrder <String>] [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaUser [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,31 +38,16 @@ Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-After <Str
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```
+Get-Oktauser  -limit 1 -filter 'profile.firstName eq "jim"'
 ```
 
-{{ Add example description here }}
+Get first user who has firstname of 'jim'
 
 ## PARAMETERS
 
-### -After
-Value returned from previous call to Get for continuing
-
-```yaml
-Type: String
-Parameter Sets: Query, Search
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Filter
-Expression for filtering on properties
+Expression for filtering on properties.  See https://developer.okta.com/docs/reference/api/users/#list-users-with-a-filter
 
 ```yaml
 Type: String
@@ -82,7 +71,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -118,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-Searches for users with a supported filtering expression for most properties
+Searches for users with a supported filtering expression for most properties. See https://developer.okta.com/docs/reference/api/users/#list-users-with-search
 
 ```yaml
 Type: String
@@ -164,7 +153,7 @@ Accept wildcard characters: False
 ```
 
 ### -UserId
-The id of the user
+UserId retrieved from Get-OktaUser
 
 ```yaml
 Type: String
@@ -178,13 +167,27 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

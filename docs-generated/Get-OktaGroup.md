@@ -14,13 +14,18 @@ Get one or more Groups
 
 ### Query (Default)
 ```
-Get-OktaGroup [-Query <String>] [-Filter <String>] [-Search <String>] [-Limit <UInt32>] [-After <String>]
- [-Json] [<CommonParameters>]
+Get-OktaGroup [-Query <String>] [-Filter <String>] [-Search <String>] [-Limit <UInt32>] [-Json]
+ [<CommonParameters>]
 ```
 
 ### ById
 ```
 Get-OktaGroup -GroupId <String> [-Json] [<CommonParameters>]
+```
+
+### Next
+```
+Get-OktaGroup [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -82,23 +87,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -After
-Value returned from previous call to Get for continuing
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Filter
-Expression for filtering on properties
+Expression for filtering on properties.  See https://developer.okta.com/docs/reference/api-overview/#filtering
 
 ```yaml
 Type: String
@@ -133,6 +123,21 @@ Searches for groups with a supported filtering expression for all attributes exc
 ```yaml
 Type: String
 Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
 Aliases:
 
 Required: False

@@ -3,7 +3,6 @@ function Get-QueryParameters {
         [Alias('Query')]
         [string] $Q,
         [uint32] $Limit,
-        [string] $After,
         [string] $Filter,
         [string] $Search,
         [string] $SortBy,

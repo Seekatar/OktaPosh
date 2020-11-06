@@ -1,5 +1,15 @@
 # Change Log
 
+## 2020-11-05
+
+* Replace less that useful -After parameter with -Next switch for Gets that have -Limit and support it
+* User Functions
+  * Get-OktaUserApplication
+  * Get-OktaUserGroup
+  * New-OktaAuthProviderUser
+* Misc
+  * Get-OktaIdentityProvider
+
 ## 2020-11-02
 
 * User Functions

@@ -3,6 +3,7 @@ Set-StrictMode -Version Latest
 
 function Get-OktaAuthorizationServer
 {
+    [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -11,8 +12,8 @@ function Get-OktaAuthorizationServer
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
-        [Parameter(ParameterSetName="Query")]
-        [string] $After,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
         [switch] $Json
     )
 
@@ -20,7 +21,7 @@ function Get-OktaAuthorizationServer
         if ($AuthorizationServerId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters $Query $Limit $After)" -Json:$Json
+            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next
         }
     }
 }

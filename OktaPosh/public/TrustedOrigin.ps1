@@ -12,8 +12,8 @@ function Get-OktaTrustedOrigin
         [string] $Filter,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
-        [Parameter(ParameterSetName="Query")]
-        [string] $After,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $Next,
         [switch] $Json
     )
 
@@ -21,7 +21,7 @@ function Get-OktaTrustedOrigin
         if ($TrustedOriginId) {
             Invoke-OktaApi -RelativeUri "trustedOrigins/$TrustedOriginId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "trustedOrigins$(Get-QueryParameters -Limit $Limit -After $After -Filter $Filter)" -Method GET -Json:$Json
+            Invoke-OktaApi -RelativeUri "trustedOrigins$(Get-QueryParameters -Limit $Limit -Filter $Filter)" -Method GET -Json:$Json -Next:$Next
         }
     }
 }
