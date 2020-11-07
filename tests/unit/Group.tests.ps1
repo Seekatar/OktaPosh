@@ -66,6 +66,13 @@ Describe "Group" {
                 -ParameterFilter {
                     $Uri -like "*/groups/$($vars.group.Id)/users" -and $Method -eq 'GET'
                 }
+
+        $null = @(Get-OktaUserGroup -UserId $vars.user.id)
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*users/$($vars.user.id)/groups" -and $Method -eq 'GET'
+                }
+
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {

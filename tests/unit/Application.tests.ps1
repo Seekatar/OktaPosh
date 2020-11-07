@@ -124,18 +124,24 @@ Describe "Application Tests" {
                 }
     }
 
-    It "Adds and removes a user from the group" {
+    It "Adds and removes a user from the app" {
         $userId = "132-234-234"
         $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $userId
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/apps/$($vars.app.Id)/users/$userId" -and $Method -eq 'PUT'
+                    $Uri -like "*/apps*&expand=user%2F$UserId*" -and $Method -eq 'PUT'
                 }
 
         $null = Get-OktaApplicationUser -AppId $vars.app.id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/apps/$($vars.app.Id)/users" -and $Method -eq 'GET'
+                }
+
+        $null = Get-OktaUserApplication -UserId $userId
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps/$($vars.app.Id)/users/$userId" -and $Method -eq 'DELETE'
                 }
 
         $null = Remove-OktaApplicationUser -AppId $vars.app.id -UserId $userId

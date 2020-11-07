@@ -76,7 +76,7 @@ function Test-OktaNext
         [string] $ObjectName
     )
 
-    return $script:nextUrls[$ObjectName]
+    return [bool]$script:nextUrls[$ObjectName]
 }
 
 function Get-OktaNextUrl

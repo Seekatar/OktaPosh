@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-      max-parallel: 1
+      max-parallel: 3
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -58,12 +58,6 @@ jobs:
         if ($result.Result -ne "Passed") {
           Write-Error "Pester tests failed"
         }
-
-    # - uses: actions/upload-artifact@v2
-    #   name: Upload coverage.xml
-    #   with:
-    #     name: ${{ matrix.os }}_coverage.xml
-    #     path: tests/unit/coverage.xml
 
     - name: Upload to CodeCov
       shell: bash

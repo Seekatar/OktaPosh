@@ -24,6 +24,13 @@ Describe "User" {
         $result | Should -Not -Be $null
         $result.Count | Should -BeGreaterThan 0
     }
+    It "Tests Next" {
+        Test-OktaNext -ObjectName users | Should -Be $false
+        (Get-OktaNextUrl).Keys.Count | Should -Be 0
+    }
+    It "Tests RateLimit" {
+        (Get-OktaRateLimit).RateLimit | Should -Be $null
+    }
     It "Gets User By Email" {
         $result = Get-OktaUser -Query $email
         $result | Should -Not -Be $null
@@ -33,6 +40,13 @@ Describe "User" {
         $result = Get-OktaUser -Id $vars.user.Id
         $result | Should -Not -Be $null
         $result.Id | Should -Be  $vars.user.Id
+    }
+    It "Adds AuthProviderUser" {
+        $result = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL
+        $result | Should -Not -Be $null
+        $result.status | Should -Be 'PROVISIONED'
+
+        Remove-OktaUser -UserId $result.Id
     }
 }
 

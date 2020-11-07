@@ -110,7 +110,7 @@ function Remove-OktaClaim
         if ($claim) {
             if ($PSCmdlet.ShouldProcess("$($Claim.name)", "Remove claim"))
             {
-                Invoke-OktaApi -RelativeUri "meta/schemas/apps/$AppId/default" -Method DELETE -Json:$Json
+                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$ClaimId" -Method DELETE -Json:$Json
             }
         } else {
             Write-Warning "Claim with id '$ClaimId' not found"

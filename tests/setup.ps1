@@ -10,7 +10,7 @@ if ($Unit) {
         -ModuleName OktaPosh `
         -MockWith {
             $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
-            $Content = '{"errorCode": "200", "name":"test", "system": "system" }'
+            $Content = '{"errorCode": "200", "name":"test", "system": "system", "id": "policyid", "access_token": "token", "sessionToken": "token" }'
             $StatusCode = 200
 
             $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
@@ -28,6 +28,9 @@ if ($Unit) {
     }
     if (!$env:OKTA_BASE_URI) {
         Write-Error "Missing `$env:OKTA_BASE_URI"
+    }
+    if (!$env:OKTA_CLIENT_SECRET) {
+        Write-Error "Missing `$env:OKTA_CLIENT_SECRET"
     }
 }
 # functions use the env variables by default
