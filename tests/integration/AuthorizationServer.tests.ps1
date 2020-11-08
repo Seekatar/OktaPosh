@@ -29,6 +29,9 @@ $PSDefaultParameterValues = @{
 
 Describe "Setup" {
     It 'Get API App' {
+
+        Set-OktaOption
+
         # can't get secret to test getting JWT via API, so it must exist
         $vars.app = Get-OktaApplication -q $testAppName
         $vars.app | Should -Not -Be $null
@@ -106,6 +109,11 @@ Describe "AuthorizationServer" {
         $claim | Should -Not -Be $null
         $claim.Name | Should -Be $claimName
     }
+    It "Gets Claim By Id" {
+        $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
+        $claim | Should -Not -Be $null
+        $claim.Name | Should -Be $claimName
+    }
     It "Adds a policy" {
         $vars.policy = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name $policyName -ClientIds $vars.app.Id
         $vars.policy | Should -Not -Be $null
@@ -156,7 +164,8 @@ Describe "AuthorizationServer" {
     It "Tests User JWT Access" {
         $vars.user = New-OktaUser -FirstName Wilma -LastName Flintsone -Email $username -Activate -Pw $userPw
         $vars.user | Should -Not -Be $null
-        Add-OktaApplicationUser -AppId $vars.spaApp.id -UserId $vars.user.Id | Should -Not -Be $null
+        $result = Add-OktaApplicationUser -AppId $vars.spaApp.id -UserId $vars.user.Id
+	$result | Should -Not -Be $null
         $jwt = Get-OktaJwt -ClientId $vars.spaApp.id `
                     -Issuer $vars.authServer.issuer `
                     -ClientSecret $userPw `
@@ -164,6 +173,16 @@ Describe "AuthorizationServer" {
                     -GrantType implicit `
                     -RedirectUri $redirectUri
         [bool]$jwt | Should -Be $true
+    }
+    It "Exports an auth server" {
+        $result = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $env:TEMP
+    }
+    It "Removes a Claim By Id" {
+        $null = Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims/$($vars.claim.id)" -and $Method -eq 'DELETE'
+                }
     }
 }
 

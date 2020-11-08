@@ -105,6 +105,9 @@ Describe "Application Tests" {
         $assigments = @(Get-OktaApplicationGroup -AppId $vars.app.id)
         $assigments.count | Should -Be 1
 
+        $apps = @(Get-OktaGroupApp -GroupId $group.Id)
+	$apps.Count | Should -BeGreaterThan 0
+	
         Remove-OktaApplicationGroup -AppId $vars.app.id -GroupId $group.Id -Confirm:$false
         $groups = Get-OktaApplicationGroup -AppId $vars.app.id
         $groups | Should -Be $null
@@ -112,13 +115,15 @@ Describe "Application Tests" {
         Remove-OktaGroup -GroupId $group.id -Confirm:$false
     }
 
-    It "Adds and removes a user from the group" {
+    It "Adds and removes a user from the app" {
         $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
         $vars.user | Should -Not -Be $null
 
         $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
         $users = @(Get-OktaApplicationUser -AppId $vars.app.id)
         $users.Count | Should -Be 1
+        $result = Get-OktaUserApplication -UserId $vars.user.id
+	$result | Should -Not -Be $null
         Remove-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
         $users = Get-OktaApplicationUser -AppId $vars.app.id
         ($users -eq $null -or $users.Count -eq 0) | Should -Be $true

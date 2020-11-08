@@ -14,7 +14,7 @@ $PSDefaultParameterValues = @{
 
 Describe "trustedOrigin" {
     It "Adds a TrustedOrigin" {
-        $null = New-OktatrustedOrigin -Name $trustedOriginName -Origin $trustedOriginName -CORS
+        $null = New-OktatrustedOrigin -Name $trustedOriginName -Origin $trustedOriginName -CORS -Redirect
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins" -and $Method -eq 'POST'
@@ -28,7 +28,7 @@ Describe "trustedOrigin" {
                 }
     }
     It "Gets TrustedOrigin By Name" {
-        $null = Get-OktatrustedOrigin -Filter 'name eq "trustedOriginName"'
+        $null = Get-OktatrustedOrigin -Filter "name eq `"$trustedOriginName`""
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins?filter*" -and $Method -eq 'GET'

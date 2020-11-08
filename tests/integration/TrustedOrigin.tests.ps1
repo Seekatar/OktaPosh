@@ -13,7 +13,7 @@ $PSDefaultParameterValues = @{
 
 Describe "TrustedOrigin" {
     It "Adds a TrustedOrigin" {
-        $vars.trustedOrigin = New-OktatrustedOrigin -Name $trustedOriginName -Origin $trustedOriginName -CORS
+        $vars.trustedOrigin = New-OktatrustedOrigin -Name $trustedOriginName -Origin $trustedOriginName -CORS -Redirect
         $vars.trustedOrigin | Should -Not -Be $null
     }
     It "Gets TrustedOrigins" {

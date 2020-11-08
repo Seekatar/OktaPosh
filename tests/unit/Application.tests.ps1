@@ -5,11 +5,15 @@ BeforeAll {
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{
-        group = @{Id = "12345567"}
         appName = "test-app"
         spaAppName = "test-spa-app"
+        groupName      = 'test-group-app'
+        email          = 'apptestuser@mailinator.com'
         vars = @{
-            app = @{id = 1234;label="test-app"}
+            app 	= @{id = 'App-1234-4324';label="test-app"}
+            spaApp     = $null
+            schema     = $null
+            user       	= @{id = 'User-123-123-345';}
         }
     }
 }
@@ -99,6 +103,9 @@ Describe "Application Tests" {
                 }
     }
     It "Adds and removes a Group" {
+        $group 	= @{id = "Group-12345567"}
+
+        $null = New-OktaGroup $groupName
         $null = Add-OktaApplicationGroup -AppId $vars.app.id -GroupId $group.Id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
@@ -117,19 +124,31 @@ Describe "Application Tests" {
                     $Uri -like "*/apps/$($vars.app.Id)/groups" -and $Method -eq 'GET'
                 }
 
+        Get-OktaGroupApp -GroupId $group.Id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/groups/$($group.Id)/apps" -and $Method -eq 'GET'
+                }
+
         Remove-OktaApplicationGroup -AppId $vars.app.id -GroupId $group.Id -Confirm:$false
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/apps/$($vars.app.Id)/groups/$($group.Id)" -and $Method -eq 'DELETE'
                 }
+        Remove-OktaGroup -GroupId $group.id -Confirm:$false
     }
 
     It "Adds and removes a user from the app" {
-        $userId = "132-234-234"
-        $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $userId
+        $null = New-OktaUser -FirstName test-user -LastName test-user -Email $email
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/apps*&expand=user%2F$UserId*" -and $Method -eq 'PUT'
+                    $Uri -like "*/users?activate=false" -and $Method -eq 'POST'
+                }
+
+        $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps/$($vars.app.id)/users/$($vars.user.id)" -and $Method -eq 'PUT'
                 }
 
         $null = Get-OktaApplicationUser -AppId $vars.app.id
@@ -138,29 +157,41 @@ Describe "Application Tests" {
                     $Uri -like "*/apps/$($vars.app.Id)/users" -and $Method -eq 'GET'
                 }
 
-        $null = Get-OktaUserApplication -UserId $userId
+        $null = Get-OktaUserApplication -UserId $vars.user.id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/apps/$($vars.app.Id)/users/$userId" -and $Method -eq 'DELETE'
+                    $Uri -like "*/apps?filter=user.id*&expand=user*" -and $Method -eq 'GET'
                 }
 
-        $null = Remove-OktaApplicationUser -AppId $vars.app.id -UserId $userId
+        $null = Remove-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/apps/$($vars.app.Id)/users/$userId" -and $Method -eq 'DELETE'
+                    $Uri -like "*/apps/$($vars.app.Id)/users/$($vars.user.id)" -and $Method -eq 'DELETE'
                 }
+        $null = Get-OktaApplicationUser -AppId $vars.app.id
     }
 }
 
 Describe "Cleanup" {
     It 'Removes Application' {
         Mock Get-OktaApplication -ModuleName OktaPosh -MockWith { @{Label = $appName}}
+        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{profile=@{email="test"}}}
+        if ($vars.user) {
+            Remove-OktaUser -UserId $vars.user.id -Confirm:$false
+        }
+
+        (Get-OktaGroup -q $groupName) | Remove-OktaGroup -Confirm:$false
+
         if ($vars.app) {
             Remove-OktaApplication -AppId $vars.app.Id -Confirm:$false
             Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
             -ParameterFilter {
                 $Uri -like "*/apps/$($vars.app.Id)" -and $Method -eq 'DELETE'
             }
+        }
+
+        if ($vars.spaApp) {
+            Remove-OktaApplication -AppId $vars.spaApp.Id -Confirm:$false
         }
     }
 }
