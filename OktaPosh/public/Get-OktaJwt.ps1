@@ -28,6 +28,10 @@ function Get-OktaJwt {
     )
 
     $ErrorActionPreference = "Stop"
+    if ($PSVersionTable.PSVersion.Major -lt 7) {
+        Write-Warning "Currently this only works on PS 7 or higher"
+        return
+    }
 
     if ((!$ClientSecret -and !$SecureClientSecret) -or !$Issuer -or !$ClientId -or !$Username -or !$RedirectUri) {
         Write-Warning @"
@@ -66,6 +70,8 @@ Have RedirectUrl: $(!$Username -or $RedirectUri)
     $uri = New-Object 'System.Uri' -ArgumentList $Issuer
     $baseUri = New-Object 'System.Uri' -ArgumentList $uri.GetLeftPart("Authority")
     $sessionUri = New-Object 'System.Uri' -ArgumentList $baseUri, "api/v1/authn"
+    $prevPref = $progressPreference
+    $progressPreference = "silentlyContinue"
     try {
         $trans = Invoke-WebRequest -Uri $sessionUri -Method Post `
                         -Headers @{ 'Accept'            = 'application/json'
@@ -90,12 +96,15 @@ Have RedirectUrl: $(!$Username -or $RedirectUri)
         } catch {
             throw $e
         }
+    } finally {
+        $progressPreference = $prevPref
     }
 
     if (!$session) {
         Write-Warning "Didn't get session"
         return
     }
+    $progressPreference = "silentlyContinue"
     try {
         $tokenUri = New-Object 'System.Uri' -ArgumentList $uri,($uri.PathAndQuery+"/v1/authorize?" +
                                                 "response_type=$(ternary $IdToken 'id_token' 'token')&" +
@@ -106,14 +115,16 @@ Have RedirectUrl: $(!$Username -or $RedirectUri)
                                                 "redirect_uri=$redirectUri&" +
                                                 "sessionToken=$($session.sessionToken)")
         Write-Verbose "Token uri is $tokenUri"
-        $null = Invoke-WebRequest $tokenUri -MaximumRedirection 0
+        $null = Invoke-WebRequest $tokenUri -MaximumRedirection 2
     }
     catch {
         # expect 302 response
-        Write-Verbose "$_`n$($_.ScriptStackTrace)"
+        Write-Verbose "Exception Type: $($_.GetType())"
+        Write-Verbose "Exception & Stack: $_`n$($_.ScriptStackTrace)"
 
         $e = $_
-        if (!($e | Get-Member -Name Exception)) {
+        if (!($e | Get-Member -Name Exception) -or !($e.Exception | Get-Member -Name Response)) {
+            Write-Warning "Got unexpected exception (expected 302)"
             throw $_
         }
 
@@ -141,6 +152,8 @@ Have RedirectUrl: $(!$Username -or $RedirectUri)
             Write-Warning "Didn't get redirect for JWT"
             Write-Warning $_
         }
+    } finally {
+        $progressPreference = $prevPref
     }
 }
 
@@ -201,19 +214,25 @@ Have ClientId: $([bool]$ClientId)
     if (!($Issuer.EndsWith("/v1/token"))) {
         $Issuer = $Issuer + "/v1/token"
     }
-    $result = Invoke-WebRequest $Issuer -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader @parms
-    if ($result.StatusCode -ne 200)
-    {
-        Write-Warning "Couldn't get JWT"
-        Write-Warning $result
-    }
-    else
-    {
-        $parms = @{}
-        if ($PSVersionTable.PSVersion.Major -ge 7) {
-            $parms['Depth'] = 5
+    $prevPref = $progressPreference
+    $progressPreference = "silentlyContinue"
+    try {
+        $result = Invoke-WebRequest $Issuer -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader @parms
+        if ($result.StatusCode -ne 200)
+        {
+            Write-Warning "Couldn't get JWT"
+            Write-Warning $result
         }
-        $jwt = (ConvertFrom-Json $result.Content @parms).access_token
+        else
+        {
+            $parms = @{}
+            if ($PSVersionTable.PSVersion.Major -ge 7) {
+                $parms['Depth'] = 5
+            }
+            $jwt = (ConvertFrom-Json $result.Content @parms).access_token
+        }
+        $jwt
+    } finally {
+        $progressPreference = $prevPref
     }
-    $jwt
 }

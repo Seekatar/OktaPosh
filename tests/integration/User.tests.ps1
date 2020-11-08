@@ -29,7 +29,8 @@ Describe "User" {
         (Get-OktaNextUrl).Keys.Count | Should -Be 0
     }
     It "Tests RateLimit" {
-        (Get-OktaRateLimit).RateLimit | Should -Be $null
+        $limit = Get-OktaRateLimit
+        $limit.RateLimit | Should -BeGreaterThan 0
     }
     It "Gets User By Email" {
         $result = Get-OktaUser -Query $email
@@ -46,7 +47,7 @@ Describe "User" {
         $result | Should -Not -Be $null
         $result.status | Should -Be 'PROVISIONED'
 
-        Remove-OktaUser -UserId $result.Id
+        Remove-OktaUser -UserId $result.Id -Confirm:$false
     }
 }
 

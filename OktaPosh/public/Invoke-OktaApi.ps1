@@ -45,9 +45,6 @@ function Invoke-OktaApi {
         Headers = $headers
         Method = $Method
     }
-    if ($PSVersionTable.PSVersion.Major -ge 7) {
-        $parms['SkipHttpErrorCheck'] = $true
-    }
     Write-Verbose "$($parms.method) $($parms.Uri)"
 
     $result = $null
@@ -63,6 +60,14 @@ function Invoke-OktaApi {
         try {
             $result = Invoke-WebRequest @parms
             Test-OktaResult -Result $result -Json:$Json -Method $Method -ObjectPath $objectPath
+        } catch {
+            $e = $_
+            # PS 5 throws on since dont have skipHttpErrorCheck
+            if (!($e | Get-Member -Name Exception) -or !($e.Exception | Get-Member -Name Response)) {
+                Write-Warning "Got unexpected exception"
+                throw $_
+            }
+            Test-OktaResult -Result $e.Exception.Response -Json:$Json -Method $Method -ObjectPath $objectPath
         } finally {
             $progressPreference = $prevPref
         }

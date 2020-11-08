@@ -12,9 +12,31 @@ function Set-RateLimit {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     param (
-        [Microsoft.PowerShell.Commands.WebResponseObject] $Result
+        [object] $Headers
     )
 
+    Write-Verbose "Set-RateLimit Headers is $($Headers.GetType().FullName) $((Get-Member -InputObject $Headers -Name Contains))"
+
+    # If the response is in an Exception vs return the headers are different. Arrrg!
+    if (Get-Member -InputObject $Headers -Name GetValues) {
+        if ($Headers.Contains('X-Rate-Limit-Limit')) {
+            $script:rateLimit.RateLimit = [int]($Headers.GetValues('X-Rate-Limit-Limit') | Select-Object -First 1 )
+        } else {
+            $script:rateLimit.RateLimit = $null
+        }
+        if ($Headers.Contains('X-Rate-Limit-Remaining')) {
+            $script:rateLimit.RateLimitRemaining = [int]($Headers.GetValues('X-Rate-Limit-Remaining') | Select-Object -First 1 )
+        } else {
+            $script:rateLimit.RateLimitRemaining = $null
+        }
+        if ($Headers.Contains('X-Rate-Limit-Reset')) {
+            $script:rateLimit.RateLimitResetUtc = $script:epochStart.AddSeconds([int]($Headers.GetValues('X-Rate-Limit-Reset') | Select-Object -First 1 ))
+            $script:rateLimit.RateLimitResetLocal = $script:rateLimit.RateLimitResetUtc.ToLocalTime()
+        } else {
+            $script:rateLimit.RateLimitResetUtc = $null
+            $script:rateLimit.RateLimitResetLocal = $null
+        }
+    } else {
     if ($Result.Headers['X-Rate-Limit-Limit']) {
         $script:rateLimit.RateLimit = [int]($Result.Headers['X-Rate-Limit-Limit'] | Select-Object -First 1 )
     } else {
@@ -32,6 +54,7 @@ function Set-RateLimit {
         $script:rateLimit.RateLimitResetUtc = $null
         $script:rateLimit.RateLimitResetLocal = $null
     }
+    }
     Write-Verbose $script:rateLimit
 }
 
@@ -39,14 +62,14 @@ function Test-OktaResult {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Microsoft.PowerShell.Commands.WebResponseObject] $Result,
+        [object] $Result,
         [Parameter(Mandatory)]
         [string] $Method,
         [Parameter(Mandatory)]
         [string] $ObjectPath,
         [switch] $Json
     )
-    Set-RateLimit $Result
+    Set-RateLimit $Result.Headers
 
     if ( $result.StatusCode -lt 300 ) {
 

@@ -238,20 +238,22 @@ Describe "AuthorizationServer" {
                 }
 
 
-        $null = Get-OktaJwt -ClientId $vars.spaApp.id `
-                    -Issuer $vars.authServer.issuer `
-                    -ClientSecret $userPw `
-                    -Username $userName -Scopes $scopeNames[0] `
-                    -GrantType implicit `
-                    -RedirectUri $redirectUri
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-                -ParameterFilter {
-                    $Uri -like "*/api/v1/authn" -and $Method -eq 'POST'
-                }
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-                -ParameterFilter {
-                    $Uri -like "*v1/authorize*"
-                }
+        if ($PSVersionTable.PSVersion.Major -ge 7) {
+            $null = Get-OktaJwt -ClientId $vars.spaApp.id `
+                        -Issuer $vars.authServer.issuer `
+                        -ClientSecret $userPw `
+                        -Username $userName -Scopes $scopeNames[0] `
+                        -GrantType implicit `
+                        -RedirectUri $redirectUri
+            Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                    -ParameterFilter {
+                        $Uri -like "*/api/v1/authn" -and $Method -eq 'POST'
+                    }
+            Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                    -ParameterFilter {
+                        $Uri -like "*v1/authorize*"
+                    }
+        }
     }
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}

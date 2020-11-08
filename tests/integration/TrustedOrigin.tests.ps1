@@ -22,12 +22,12 @@ Describe "TrustedOrigin" {
         $result.Count | Should -BeGreaterThan 0
     }
     It "Gets TrustedOrigin By Name" {
-        $result = Get-OktatrustedOrigin -Filter "name eq `"$trustedOriginName`""
+        $result = @(Get-OktatrustedOrigin -Filter "name eq `"$trustedOriginName`"")
         $result | Should -Not -Be $null
         $result.Count | Should -BeGreaterThan 0
     }
     It "Gets TrustedOrigin By Id" {
-        $result = Get-OktatrustedOrigin -Id $vars.trustedOrigin.Id
+        $result = @(Get-OktatrustedOrigin -Id $vars.trustedOrigin.Id)
         $result | Should -Not -Be $null
         $result.Count | Should -BeGreaterThan 0
     }

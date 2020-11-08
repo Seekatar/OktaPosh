@@ -1,5 +1,12 @@
 # Change Log
 
+## 2020-11-09
+
+* Greatly increase test code coverage
+* Fixes for Get-OktaJwt, split into two functions, Get-OktaJwt only works on PS v7
+* PowerShell v5 compatibility fixes
+* Add run.ps1 to more easily invoke commands locally
+
 ## 2020-11-05
 
 * Replace less that useful -After parameter with -Next switch for Gets that have -Limit and support it
