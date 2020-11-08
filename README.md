@@ -49,45 +49,4 @@ The layout and building of this module and its help is based upon [Donovan Brown
 
 This module is built and published using GitHub Actions.
 
-### Updating Help
-
-After editing the help with `#include` platyPS won't be able to update it, so you need to create it anew and merged it.
-
-``` powershell
-# one -time
-Install-Module -Name platyPS -Scope CurrentUser
-
-Import-Module platyPS
-Import-Module .\OktaPosh\OktPosh.psd1 -Force
-Update-MarkdownHelp .\docs
-
-# sometimes you may have to generate new doc and compare
-New-MarkdownHelp -Module OktaPosh -OutputFolder .\temp\oktaposhdocs
-```
-
-### Running Pester v5
-
-This is run in the build, but you can run it locally like this:
-
-``` powershell
-cd tests/integration
-Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=$true}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
-```
-
-In code `coverage.xml`
-
-| Property | Description                       |
-|----------|-----------------------------------|
-| mi       | missed instructions (statements)  |
-| ci       | covered instructions (statements) |
-| mb       | missed branches                   |
-| cb       | covered branches                  |
-
-### Running The Script Analyzer
-
-This is also run in the build, but you can run it locally like this:
-
-``` powershell
-cd OktaPosh
-Invoke-ScriptAnalyzer -Path . -Recurse
-```
+A helper script `./run.ps1` makes running some of the commands from the GitHub Action locally easier, and some other functionality.

@@ -243,7 +243,6 @@ Describe "AuthorizationServer" {
                         -Issuer $vars.authServer.issuer `
                         -ClientSecret $userPw `
                         -Username $userName -Scopes $scopeNames[0] `
-                        -GrantType implicit `
                         -RedirectUri $redirectUri
             Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                     -ParameterFilter {
@@ -257,7 +256,7 @@ Describe "AuthorizationServer" {
     }
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
-        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $env:TEMP
+        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'

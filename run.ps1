@@ -1,5 +1,5 @@
 param (
-    [ValidateSet('unit','integration','build','new-help','update-help')]
+    [ValidateSet('unit','integration','build','analyze','new-help','update-help')]
     [string[]] $Task,
     [switch] $PesterPassThru
 )
@@ -24,11 +24,18 @@ foreach ($t in $Task) {
             .\New-ModuleHelp.ps1
             .\Update-Manifest.ps1
         }
+        'analyze' {
+            Push-Location (Join-Path $PSScriptRoot '/OktaPosh')
+            Invoke-ScriptAnalyzer -Path . -Recurse
+        }
         'new-help' {
             Push-Location $PSScriptRoot
+            if(-not (Get-Module platyPS -ListAvailable)) {
+                Install-Module platyPS -Scope CurrentUser -Force
+            }
             Import-Module platyPS
             Import-Module ./OktaPosh/OktaPosh.psd1 -Force
-            $dir = (Join-Path $env:TEMP oktaposhdocs)
+            $dir = (Join-Path ([System.IO.Path]::GetTempPath()) oktaposhdocs)
             if (!(Test-Path $dir)) {
                 New-Item $dir -ItemType Directory
             }
@@ -38,6 +45,9 @@ foreach ($t in $Task) {
         }
         'update-help' {
             Push-Location $PSScriptRoot
+            if(-not (Get-Module platyPS -ListAvailable)) {
+                Install-Module platyPS -Scope CurrentUser -Force
+            }
             Import-Module platyPS
             Update-MarkdownHelp .\docs
         }

@@ -170,18 +170,17 @@ Describe "AuthorizationServer" {
 
         # not working on 5 for some reason
         if ($PSVersionTable.PSVersion.Major -ge 7) {
-            # Write-Warning "Get-OktaJwt -ClientId $($vars.spaApp.id) -Issuer $($vars.authServer.issuer) -ClientSecret $userPw -Username $userName -Scopes $($scopeNames[0]) -GrantType implicit -RedirectUri $redirectUri"
+            # Write-Warning "Get-OktaJwt -ClientId $($vars.spaApp.id) -Issuer $($vars.authServer.issuer) -ClientSecret $userPw -Username $userName -Scopes $($scopeNames[0]) -RedirectUri $redirectUri"
             $jwt = Get-OktaJwt -ClientId $vars.spaApp.id `
                         -Issuer $vars.authServer.issuer `
                         -ClientSecret $userPw `
                         -Username $userName -Scopes $scopeNames[0] `
-                        -GrantType implicit `
                         -RedirectUri $redirectUri
             [bool]$jwt | Should -Be $true
         }
     }
     It "Exports an auth server" {
-        $result = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $env:TEMP
+        $result = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
         $result.Count | Should -BeGreaterThan 4
         $result | Remove-Item
     }

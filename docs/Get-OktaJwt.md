@@ -15,7 +15,7 @@ Get an Okta JWT token for an Application or Okta User
 ```
 Get-OktaJwt [-ClientId <String>] [-Issuer <String>] [-RedirectUri <String>] [-Username <String>]
  [-ClientSecret <String>] [-SecureClientSecret <SecureString>] [-IdToken] -Scopes <String[]>
- [-GrantType <String>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,15 +25,7 @@ This only does client credentials flow for server and implicit for user
 
 ### EXAMPLE 1
 ```
-$env:OktaClientSecret="..."
-Get-OktaJwt -ClientId "clientId" -Issuer https://dev-111111.okta.com/oauth2/aus3333333 -GrantType client_credentials -Scopes access:token
-```
-
-Get a token for an Application
-
-### EXAMPLE 2
-```
-Get-OktaJwt -Issuer https://dev-111111.okta.com/oauth2/aus3333333 -ClientId clientId -RedirectUri http://localhost:8080/app/implicit/callback -Username Test -ClientSecret ****! -Scopes openid -GrantType implicit
+Get-OktaJwt -Issuer https://dev-111111.okta.com/oauth2/aus3333333 -ClientId clientId -RedirectUri http://localhost:8080/app/implicit/callback -Username Test -ClientSecret ****! -Scopes openid
 ```
 
 Get a token for a user
@@ -85,23 +77,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -GrantType
-{{ Fill GrantType Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -IdToken
-{{ Fill IdToken Description }}
+Set if want the Id token instead of the Access token
 
 ```yaml
 Type: SwitchParameter

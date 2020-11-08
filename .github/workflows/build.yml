@@ -33,6 +33,7 @@ jobs:
     - name: Dump Environment
       shell: pwsh
       run: |
+       $PSVersionTable
        gci env: | ft -wrap
 
     - name: Run Script Analyzer

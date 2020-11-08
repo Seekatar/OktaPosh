@@ -21,10 +21,7 @@ function Get-OktaJwt {
         [switch] $IdToken,
 
         [Parameter(Mandatory)]
-        [string[]] $Scopes,
-
-        [ValidateSet("authorization_code", "password", "refresh_token", "implicit")]
-        [string] $GrantType = "implicit"
+        [string[]] $Scopes
     )
 
     $ErrorActionPreference = "Stop"
