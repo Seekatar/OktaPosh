@@ -47,7 +47,8 @@ Get first user who has firstname of 'jim'
 ## PARAMETERS
 
 ### -Filter
-Expression for filtering on properties.  See https://developer.okta.com/docs/reference/api/users/#list-users-with-a-filter
+Expression for filtering on properties. 
+See https://developer.okta.com/docs/reference/api/users/#list-users-with-a-filter
 
 ```yaml
 Type: String
@@ -107,7 +108,8 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-Searches for users with a supported filtering expression for most properties. See https://developer.okta.com/docs/reference/api/users/#list-users-with-search
+Searches for users with a supported filtering expression for most properties.
+See https://developer.okta.com/docs/reference/api/users/#list-users-with-search
 
 ```yaml
 Type: String
@@ -177,7 +179,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

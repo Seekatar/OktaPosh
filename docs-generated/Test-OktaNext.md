@@ -21,7 +21,7 @@ Test-OktaNext [[-ObjectName] <String>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Test-OktaNext users
 ```
 
@@ -30,7 +30,8 @@ Checks to see if Get-OktaUser -Next will return anything without making a call.
 ## PARAMETERS
 
 ### -ObjectName
-Base-level object name. Use tab completion for valid values
+Base-level object name.
+Use tab completion for valid values
 
 ```yaml
 Type: String
@@ -48,7 +49,6 @@ Accept wildcard characters: False
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

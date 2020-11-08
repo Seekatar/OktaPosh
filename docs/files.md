@@ -16,6 +16,8 @@
 
 ### [Get-OktaApiToken](Get-OktaApiToken.md)
 
+### [Get-OktaAppJwt](Get-OktaAppJwt.md)
+
 ### [Get-OktaApplication](Get-OktaApplication.md)
 
 ### [Get-OktaApplicationGroup](Get-OktaApplicationGroup.md)
