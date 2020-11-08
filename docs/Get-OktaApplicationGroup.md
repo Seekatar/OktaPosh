@@ -12,14 +12,14 @@ Get the list of groups attached to the application, or a specific group
 
 ## SYNTAX
 
+### Query (Default)
+```
+Get-OktaApplicationGroup -AppId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
 ### ById
 ```
 Get-OktaApplicationGroup -AppId <String> -GroupId <String> [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaApplicationGroup -AppId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### Next
@@ -111,7 +111,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

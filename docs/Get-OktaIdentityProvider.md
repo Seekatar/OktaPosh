@@ -8,7 +8,8 @@ schema: 2.0.0
 # Get-OktaIdentityProvider
 
 ## SYNOPSIS
-Gets Identity Providers. Useful for New-OktaAuthProviderUser
+Gets Identity Providers.
+Useful for New-OktaAuthProviderUser
 
 ## SYNTAX
 
@@ -65,7 +66,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -95,7 +96,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -121,7 +122,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

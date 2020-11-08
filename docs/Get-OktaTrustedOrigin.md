@@ -12,7 +12,7 @@ Get one or more TrustedOrigins
 
 ## SYNTAX
 
-### Query (Default)
+### Filter (Default)
 ```
 Get-OktaTrustedOrigin [-Filter <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
@@ -42,11 +42,12 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Filter
-Expression for filtering on properties.  See https://developer.okta.com/docs/reference/api-overview/#filtering
+Expression for filtering on properties. 
+See https://developer.okta.com/docs/reference/api-overview/#filtering
 
 ```yaml
 Type: String
-Parameter Sets: Query
+Parameter Sets: Filter
 Aliases:
 
 Required: False
@@ -76,7 +77,7 @@ Specifies the number of results to return
 
 ```yaml
 Type: UInt32
-Parameter Sets: Query
+Parameter Sets: Filter
 Aliases:
 
 Required: False
@@ -111,7 +112,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

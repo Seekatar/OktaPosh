@@ -12,14 +12,14 @@ Get one or more AuthorizationServers
 
 ## SYNTAX
 
+### Query (Default)
+```
+Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
 ### ById
 ```
 Get-OktaAuthorizationServer -AuthorizationServerId <String> [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaAuthorizationServer [-Query <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### Next
@@ -110,7 +110,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

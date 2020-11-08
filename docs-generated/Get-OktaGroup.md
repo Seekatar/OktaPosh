@@ -88,7 +88,8 @@ Accept wildcard characters: False
 ```
 
 ### -Filter
-Expression for filtering on properties.  See https://developer.okta.com/docs/reference/api-overview/#filtering
+Expression for filtering on properties. 
+See https://developer.okta.com/docs/reference/api-overview/#filtering
 
 ```yaml
 Type: String
@@ -142,7 +143,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

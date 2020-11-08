@@ -17,16 +17,17 @@ Export-OktaAuthorizationServer [-AuthorizationServerId] <String> [-OutputFolder]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This can be used for comparing configuration between AuthorizationServers or Okta instances.
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+mkdir "\temp\authserver_$($authserver.id)"
+Export-OktaAuthorizationServer  $authServer.id
 ```
 
-{{ Add example description here }}
+Export an Authorization server to a folder.
 
 ## PARAMETERS
 
@@ -67,8 +68,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### None
 ## OUTPUTS
+### List of fully qualified path names.
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

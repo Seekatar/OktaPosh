@@ -54,6 +54,9 @@ Describe "Group" {
         $users = @(Get-OktaGroupUser -GroupId $vars.group.id)
         $users.Count | Should -Be 1
 
+        $groups = @(Get-OktaUserGroup -UserId $vars.user.id)
+        $groups.Count | Should -BeGreaterThan 0
+
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
         $users = Get-OktaGroupUser -GroupId $vars.group.id
         ($users -eq $null -or $users.Count -eq 0) | Should -Be $true

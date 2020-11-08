@@ -20,7 +20,7 @@ function Get-OktaScope
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method GET -Json:$Json
         } else {
             $results = Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes" -Method GET -Json:$Json
-            if ($results -and !$IncludeSystem) {
+            if ($results -and !$IncludeSystem -and !$Json) {
                 $results = $results | Where-Object system -eq $false
             }
             Find-InResult -Result $results -Query $Query

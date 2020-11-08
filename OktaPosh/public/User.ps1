@@ -67,7 +67,8 @@ function New-OktaUser
         [Parameter(ValueFromPipelineByPropertyName)]
         [string] $MobilePhone,
         [Parameter(ValueFromPipelineByPropertyName)]
-        [switch] $Activate
+        [switch] $Activate,
+        [string] $Pw
     )
 
     process {
@@ -85,6 +86,14 @@ function New-OktaUser
                 mobilePhone = $MobilePhone
               }
         }
+        if ($Pw) {
+            $body["credentials"] = @{
+                password = @{
+                    value = $Pw
+             }
+          }
+        }
+
         Invoke-OktaApi -RelativeUri "users?activate=$(ternary $Activate 'true' 'false')" -Body $body -Method POST
     }
 }
@@ -182,7 +191,7 @@ function Remove-OktaUser {
 
         $user = Get-OktaUser -UserId $UserId
         if ($user) {
-            if ($PSCmdlet.ShouldProcess("'$($user.profile.email)'","Remove User")) {
+            if ($PSCmdlet.ShouldProcess($user.profile.email,"Remove User")) {
                 # first call DEPROVISIONS the user, second permanently deletes it
                 Invoke-OktaApi -RelativeUri "users/$UserId" -Method DELETE
                 Invoke-OktaApi -RelativeUri "users/$UserId" -Method DELETE
@@ -190,6 +199,5 @@ function Remove-OktaUser {
         } else {
             Write-Warning "User with id '$UserId' not found"
         }
-
     }
 }

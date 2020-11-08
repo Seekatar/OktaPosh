@@ -1,16 +1,16 @@
-# https://developer.okta.com/docs/reference/api/trustedorigins/
+# https://developer.okta.com/docs/reference/api/trusted-origins/
 Set-StrictMode -Version Latest
 
 function Get-OktaTrustedOrigin
 {
-    [CmdletBinding(DefaultParameterSetName="Query")]
+    [CmdletBinding(DefaultParameterSetName="Filter")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $TrustedOriginId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Filter")]
         [string] $Filter,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Filter")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
@@ -39,15 +39,21 @@ function New-OktaTrustedOrigin {
         [switch] $Redirect
     )
 
-    $body = [PSCustomObject]@{
+    if (!$CORS -and !$Redirect) {
+        throw "CORS and/or Redirect must be set"
+    }
+
+    $body = @{
         name        = $Name
         origin      = $Origin
-        scopes      = @()
     }
     if ($CORS) {
-        $body.scopes += @{ type = 'CORS'}
+        $body["scopes"] = @(@{ type = 'CORS'})
     }
     if ($Redirect) {
+        if (!$body["scopes"]) {
+            $body["scopes"] = @()
+        }
         $body.scopes += @{ type = 'REDIRECT'}
     }
 
@@ -62,20 +68,13 @@ function Set-OktaTrustedOrigin {
         [PSCustomObject] $TrustedOrigin
     )
 
-    Invoke-OktaApi -RelativeUri "trustedOrigins" -Body $TrustedOrigin -Method PUT
+    Invoke-OktaApi -RelativeUri "trustedOrigins/$($TrustedOrigin.Id)" -Body $TrustedOrigin -Method PUT
 }
 
-<#
-.SYNOPSIS
-Delete a trustedorigin
-
-.PARAMETER TrustedOriginId
-Id of the trustedorigin
-#>
 function Remove-OktaTrustedOrigin {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $TrustedOriginId
     )
@@ -83,8 +82,13 @@ function Remove-OktaTrustedOrigin {
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($TrustedOriginId,"Remove TrustedOrigin")) {
-            Invoke-OktaApi -RelativeUri "trustedOrigins/$TrustedOriginId" -Method DELETE
+        $to = Get-OktatrustedOrigin -Id $TrustedOriginId
+        if ($to) {
+            if ($PSCmdlet.ShouldProcess($to.name,"Remove TrustedOrigin")) {
+                Invoke-OktaApi -RelativeUri "trustedOrigins/$TrustedOriginId" -Method DELETE
+            }
+        } else {
+            Write-Warning "TrustedOrigin with id '$TrustedOriginId' not found"
         }
     }
 }

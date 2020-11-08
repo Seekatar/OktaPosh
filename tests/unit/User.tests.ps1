@@ -25,6 +25,13 @@ Describe "User" {
                     $Uri -like "*/users" -and $Method -eq 'GET'
                 }
     }
+    It "Tests Next" {
+        Test-OktaNext -ObjectName users | Should -Be $false
+        (Get-OktaNextUrl).Keys.Count | Should -Be 0
+    }
+    It "Tests RateLimit" {
+        (Get-OktaRateLimit).RateLimit | Should -Be $null
+    }
     It "Gets User By Email" {
         $null = Get-OktaUser -Query $email
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -38,6 +45,13 @@ Describe "User" {
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users/$($vars.user.Id)" -and $Method -eq 'GET'
+                }
+    }
+    It "Adds AuthProviderUser" {
+        $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users?provider=true" -and $Method -eq 'POST'
                 }
     }
 }

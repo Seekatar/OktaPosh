@@ -14,7 +14,7 @@ Create a new user in Okta
 
 ```
 New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
- [[-MobilePhone] <String>] [-Activate] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-MobilePhone] <String>] [-Activate] [-Pw <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -147,6 +147,21 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Pw
+Optional initial password
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

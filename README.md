@@ -5,6 +5,8 @@
 ![Platforms](https://img.shields.io/powershellgallery/p/OktaPosh)
 [![codecov](https://codecov.io/gh/Seekatar/OktaPosh/branch/main/graph/badge.svg?token=XX57WM7GY5)](https://codecov.io/gh/Seekatar/OktaPosh)
 
+[![graph](https://codecov.io/gh/Seekatar/OktaPosh/commit/fcd80da10f84355925898cd7e9a90179fc508ec2/graphs/tree.svg)](https://codecov.io/gh/Seekatar/OktaPosh/)
+
 This PowerShell module wraps the Okta REST API making it easy to manipulate objects in Okta individually. Use this in a CI/CD pipeline to configure multiple Okta environments consistently. Most of the functionality is also available on the Okta admin site, but not all.
 
 To get the complete list of the module's functions run `Get-Command -Module OktaPosh` (after installing and loading, of course)
@@ -47,45 +49,4 @@ The layout and building of this module and its help is based upon [Donovan Brown
 
 This module is built and published using GitHub Actions.
 
-### Updating Help
-
-After editing the help with `#include` platyPS won't be able to update it, so you need to create it anew and merged it.
-
-``` powershell
-# one -time
-Install-Module -Name platyPS -Scope CurrentUser
-
-Import-Module platyPS
-Import-Module .\OktaPosh\OktPosh.psd1 -Force
-Update-MarkdownHelp .\docs
-
-# sometimes you may have to generate new doc and compare
-New-MarkdownHelp -Module OktaPosh -OutputFolder .\temp\oktaposhdocs
-```
-
-### Running Pester v5
-
-This is run in the build, but you can run it locally like this:
-
-``` powershell
-cd tests/integration
-Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=$true}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
-```
-
-In code `coverage.xml`
-
-| Property | Description                       |
-|----------|-----------------------------------|
-| mi       | missed instructions (statements)  |
-| ci       | covered instructions (statements) |
-| mb       | missed branches                   |
-| cb       | covered branches                  |
-
-### Running The Script Analyzer
-
-This is also run in the build, but you can run it locally like this:
-
-``` powershell
-cd OktaPosh
-Invoke-ScriptAnalyzer -Path . -Recurse
-```
+A helper script `./run.ps1` makes running some of the commands from the GitHub Action locally easier, and some other functionality.

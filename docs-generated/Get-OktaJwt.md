@@ -15,7 +15,7 @@ Get an Okta JWT token for an Application or Okta User
 ```
 Get-OktaJwt [-ClientId <String>] [-Issuer <String>] [-RedirectUri <String>] [-Username <String>]
  [-ClientSecret <String>] [-SecureClientSecret <SecureString>] [-IdToken] -Scopes <String[]>
- -GrantType <String> [<CommonParameters>]
+ [-GrantType <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -93,7 +93,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
