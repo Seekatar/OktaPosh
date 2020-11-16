@@ -1,48 +1,60 @@
 function Export-OktaAuthorizationServer {
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory)]
-        [ValidateScript( { Test-Path $_ -PathType Container })]
         [string] $OutputFolder
     )
 
-    Push-Location $OutputFolder
-    try {
+    begin {
+        if (!(Test-Path $OutputFolder -PathType Container)) {
+            $null = mkdir $OutputFolder
+            Write-Warning "Created '$OutputFolder'"
+        }
+        Push-Location $OutputFolder
+    }
+
+    process {
         if ($PSVersionTable.PSVersion.Major -ge 7) {
             $encoding = [System.Text.Encoding]::ASCII
         } else {
             $encoding = "ascii"
         }
-        Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId -Json | Out-File auth.json -Encoding $encoding
+        $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId -Json
+        if (!$auth) {
+            throw "Auth server not found for '$AuthorizationServerId'"
+        }
+        $auth | Out-File auth.json -Encoding $encoding
+
         Join-Path $PWD "auth.json"
         $i = 1
         Get-OktaClaim -AuthorizationServerId $AuthorizationServerId -Json | ForEach-Object {
-            $_ | ConvertTo-Json -Depth 10 | out-file "claim_$i.json" -enc $encoding
+            $_ | out-file "claim_$i.json" -enc $encoding
             Join-Path $PWD "claim_$i.json"
             $i += 1
         }
         $i = 1
         Get-OktaScope -AuthorizationServerId $AuthorizationServerId -Json | ForEach-Object {
-            $_ | ConvertTo-Json -Depth 10 | out-file "scope_$i.json" -enc $encoding
+            $_ | out-file "scope_$i.json" -enc $encoding
             Join-Path $PWD "scope_$i.json"
             $i += 1
         }
         $i = 1
         Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId | ForEach-Object {
-            $_ | ConvertTo-Json -Depth 10 | out-file "policy_$i.json" -enc $encoding
+            $_ | out-file "policy_$i.json" -enc $encoding
             Join-Path $PWD "policy_$i.json"
-            $i += 1
             $j = 1
             Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id -Json | ForEach-Object {
-                $_ | ConvertTo-Json -Depth 10 | out-file "rule_${i}_$j.json" -enc $encoding
+                $_ | out-file "rule_${i}_$j.json" -enc $encoding
                 Join-Path $PWD "rule_${i}_$j.json"
-                $i += 1
+                $j += 1
             }
+            $i += 1
         }
     }
-    finally {
+
+    end {
         Pop-Location
     }
 }
