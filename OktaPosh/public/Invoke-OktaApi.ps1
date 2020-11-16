@@ -45,6 +45,9 @@ function Invoke-OktaApi {
         Headers = $headers
         Method = $Method
     }
+    if ($PSVersionTable.PSVersion.Major -ge 7) {
+        $parms['SkipHttpErrorCheck'] = $true
+    }
     Write-Verbose "$($parms.method) $($parms.Uri)"
 
     $result = $null
@@ -58,19 +61,27 @@ function Invoke-OktaApi {
         $prevPref = $progressPreference
         $progressPreference = "silentlyContinue"
         try {
-            $result = Invoke-WebRequest @parms
-            Test-OktaResult -Result $result -Json:$Json -Method $Method -ObjectPath $objectPath
+            $response = Invoke-WebRequest @parms
         } catch {
             $e = $_
-            # PS 5 throws on since dont have skipHttpErrorCheck
+            # PS 5 throws on since don't have skipHttpErrorCheck
             if (!($e | Get-Member -Name Exception) -or !($e.Exception | Get-Member -Name Response)) {
                 Write-Warning "Got unexpected exception"
                 throw $_
             }
-            Test-OktaResult -Result $e.Exception.Response -Json:$Json -Method $Method -ObjectPath $objectPath
+            $response = $e.Exception.Response
+            if ($PSVersionTable.PSVersion.Major -lt 6)
+            {
+                $result = $_.Exception.Response.GetResponseStream()
+                $reader = New-Object System.IO.StreamReader($result)
+                $reader.BaseStream.Position = 0
+                $reader.DiscardBufferedData()
+                $Response | Add-Member -NotePropertyName Content -NotePropertyValue $reader.ReadToEnd()
+            }
         } finally {
             $progressPreference = $prevPref
         }
+        Test-OktaResult -Result $response -Json:$Json -Method $Method -ObjectPath $objectPath
     }
 }
 

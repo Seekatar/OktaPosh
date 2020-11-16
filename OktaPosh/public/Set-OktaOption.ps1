@@ -13,11 +13,13 @@ function Set-OktaOption {
 
     if (!$ApiToken -or !$BaseUri) {
         Write-Warning "Must supply ApiToken and BaseUri"
+        $false
     } else {
         $script:apiToken = $ApiToken
         $script:baseUri = $BaseUri
         $env:OKTA_API_TOKEN = $ApiToken
         $env:OKTA_BASE_URI = $BaseUri
+        $true
     }
 }
 
@@ -41,7 +43,7 @@ function Get-OktaBaseUri {
         [string] $OktaBaseUri
     )
     if ($OktaBaseUri) {
-        return $baseUri
+        return $OktaBaseUri
     } elseif ($script:baseUri) {
         $script:baseUri
     } elseif ($env:OKTA_BASE_URI) {

@@ -28,20 +28,27 @@ $PSDefaultParameterValues = @{
     }
 }
 
-Describe "Setup" {
-    It 'Get API App' {
-
-        Set-OktaOption
-
-        # can't get secret to test getting JWT via API, so it must exist
-        $vars.app = Get-OktaApplication -q $testAppName
-        $vars.app | Should -Not -Be $null
-    }
+Describe "Cleanup" {
     It 'Removes AuthServer and App' {
         (Get-OktaUser -q $username) | Remove-OktaUser -Confirm:$false
         (Get-OktaApplication -q $appName) | Remove-OktaApplication -Confirm:$false
         (Get-OktaApplication -q $spaAppName) | Remove-OktaApplication -Confirm:$false
         (Get-OktaAuthorizationServer -q $authServerName) | Remove-OktaAuthorizationServer -Confirm:$false
+    }
+}
+
+Describe "Setup" {
+    It 'Set API App from env' {
+        Set-OktaOption | Should -Be $true
+    }
+    It 'Set API App from env' {
+        Set-OktaOption -ApiToken '' | Should -Be $false
+    }
+    It 'Get API token ' {
+        Get-OktaApiToken -ApiToken 'abc' | Should -Be 'abc'
+    }
+    It 'Get Base Uri ' {
+        Get-OktaBaseUri -OkatBaseUri 'abc' | Should -Be 'abc'
     }
 }
 
@@ -99,16 +106,25 @@ Describe "AuthorizationServer" {
         $vars.scopes | Should -Not -Be $null
         $vars.scopes.Count | Should -Be $scopeNames.Count
     }
-    It "Creates new Claim" {
+    It "Creates new Expression Claim" {
         $vars.claim = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
             -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE `
             -Value "app.profile.$claimName" -Scopes $scopeNames[0]
         $vars.claim | Should -Not -Be $null
     }
+    It "Creates new Group Claim" {
+        $claim = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
+            -Name $claimName -ValueType GROUPS -ClaimType ID_TOKEN `
+            -GroupFilterType STARTS_WITH -Value "casualty-group" -Scopes "access:token" `
+
+        $claim | Should -Not -Be $null
+    }
     It "Gets Claim" {
         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.id -Query $claimName
         $claim | Should -Not -Be $null
-        $claim.Name | Should -Be $claimName
+        $claim.Count | Should -Be 2
+        $claim[0].Name | Should -Be $claimName
+        $claim[1].Name | Should -Be $claimName
     }
     It "Gets Claim By Id" {
         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id

@@ -29,12 +29,26 @@ $PSDefaultParameterValues = @{
     }
 }
 
-Describe "Setup" {
-    It 'Get API App' {
-
-        Set-OktaOption
+Describe "Cleanup" {
+    It 'Removes AuthServer and App' {
     }
 }
+
+Describe "Setup" {
+    It 'Set API App from env' {
+        Set-OktaOption | Should -Be $true
+    }
+    It 'Set API App from env' {
+        Set-OktaOption -ApiToken '' | Should -Be $false
+    }
+    It 'Get API token ' {
+        Get-OktaApiToken -ApiToken 'abc' | Should -Be 'abc'
+    }
+    It 'Get Base Uri ' {
+        Get-OktaBaseUri -OktaBaseUri 'abc' | Should -Be 'abc'
+    }
+}
+
 Describe "AuthorizationServer" {
 
     It "Check for existing AuthServer" {
@@ -121,10 +135,20 @@ Describe "AuthorizationServer" {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes" -and $Method -eq 'GET'
                 }
     }
-    It "Creates new Claim" {
+    It "Creates new Expression Claim" {
         $null = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
-            -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE `
+            -Name $claimName -ValueType EXPRESSION -ClaimType ACCESS_TOKEN `
             -Value "app.profile.$claimName" -Scopes "access:token"
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims" -and $Method -eq 'POST'
+                }
+    }
+    It "Creates new Group Claim" {
+        $null = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
+            -Name $claimName -ValueType GROUPS -ClaimType ID_TOKEN `
+            -GroupFilterType STARTS_WITH -Value "casualty-group" -Scopes "access:token" `
+
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims" -and $Method -eq 'POST'
