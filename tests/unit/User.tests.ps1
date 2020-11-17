@@ -18,6 +18,7 @@ Describe "Cleanup" {
     It "Remove test user" {
     }
 }
+
 Describe "User" {
     It "Adds a user" {
         $null = New-OktaUser -FirstName test-user -LastName test-user -Email $email
@@ -30,9 +31,8 @@ Describe "User" {
         $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/users?provider=true" -and $Method -eq 'POST'
+                    $Uri -like "*/users?provider=true&activate=false*" -and $Method -eq 'POST'
                 }
-    }
     }
     It "Gets Users" {
         $null = @(Get-OktaUser)
@@ -66,20 +66,20 @@ Describe "User" {
                 }
         Test-OktaNext -ObjectName users | Should -Be $true
         Mock -CommandName Invoke-WebRequest `
-        -ModuleName OktaPosh `
-        -MockWith {
-            $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
-            $Content = '{"errorCode": "200", "name":"test", "system": "system", "id": "policyid", "access_token": "token", "sessionToken": "token" }'
-            $StatusCode = 200
+            -ModuleName OktaPosh `
+            -MockWith {
+                $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
+                $Content = '{"errorCode": "200", "name":"test", "system": "system", "id": "policyid", "access_token": "token", "sessionToken": "token" }'
+                $StatusCode = 200
 
-            $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
-            if ($PSVersionTable.PSVersion.Major -ge 7) {
-                $Response | Add-Member -NotePropertyName RelationLink -NotePropertyValue @{} -Force
+                $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
+                if ($PSVersionTable.PSVersion.Major -ge 7) {
+                    $Response | Add-Member -NotePropertyName RelationLink -NotePropertyValue @{} -Force
+                }
+                $Response | Add-Member -NotePropertyName Content -NotePropertyValue $Content -Force
+                $Response | Add-Member -NotePropertyName StatusCode -NotePropertyValue $StatusCode -Force
+                $Response
             }
-            $Response | Add-Member -NotePropertyName Content -NotePropertyValue $Content -Force
-            $Response | Add-Member -NotePropertyName StatusCode -NotePropertyValue $StatusCode -Force
-            $Response
-        }
         $null = @(Get-OktaUser -Next)
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
@@ -114,13 +114,105 @@ Describe "User" {
                     $Uri -like "*/users/$($vars.user.Id)" -and $Method -eq 'GET'
                 }
     }
+    It "Activates a user" {
+        Mock -CommandName Invoke-WebRequest `
+            -ModuleName OktaPosh `
+            -MockWith {
+                $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
+                $Content = '{"errorCode": "200", "Status":"STAGED" }'
+                $StatusCode = 200
+
+                $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
+                if ($PSVersionTable.PSVersion.Major -ge 7) {
+                    $Response | Add-Member -NotePropertyName RelationLink -NotePropertyValue @{} -Force
+                }
+                $Response | Add-Member -NotePropertyName Content -NotePropertyValue $Content -Force
+                $Response | Add-Member -NotePropertyName StatusCode -NotePropertyValue $StatusCode -Force
+                $Response
+            }
+
+        $null = Enable-OktaUser -Id $vars.user.Id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users/$($vars.user.Id)/lifecycle/*activate?sendEmail=false" -and $Method -eq 'POST'
+                }
+    }
+    It "Suspends a user" {
+        Mock -CommandName Invoke-WebRequest `
+            -ModuleName OktaPosh `
+            -MockWith {
+                $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
+                $Content = '{"errorCode": "200", "Status":"ACTIVE" }'
+                $StatusCode = 200
+
+                $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
+                if ($PSVersionTable.PSVersion.Major -ge 7) {
+                    $Response | Add-Member -NotePropertyName RelationLink -NotePropertyValue @{} -Force
+                }
+                $Response | Add-Member -NotePropertyName Content -NotePropertyValue $Content -Force
+                $Response | Add-Member -NotePropertyName StatusCode -NotePropertyValue $StatusCode -Force
+                $Response
+            }
+
+        $null = Suspend-OktaUser -Id $vars.user.Id -CheckCurrentStatus
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users/$($vars.user.Id)/lifecycle/suspend" -and $Method -eq 'POST'
+                }
+    }
+    It "Resumes a user" {
+        Mock -CommandName Invoke-WebRequest `
+            -ModuleName OktaPosh `
+            -MockWith {
+                $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
+                $Content = '{"errorCode": "200", "Status":"SUSPENDED" }'
+                $StatusCode = 200
+
+                $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
+                if ($PSVersionTable.PSVersion.Major -ge 7) {
+                    $Response | Add-Member -NotePropertyName RelationLink -NotePropertyValue @{} -Force
+                }
+                $Response | Add-Member -NotePropertyName Content -NotePropertyValue $Content -Force
+                $Response | Add-Member -NotePropertyName StatusCode -NotePropertyValue $StatusCode -Force
+                $Response
+            }
+
+        $null = Resume-OktaUser -Id $vars.user.Id -CheckCurrentStatus
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users/$($vars.user.Id)/lifecycle/unsuspend" -and $Method -eq 'POST'
+                }
+    }
+    It "Deactivates a user" {
+        Mock -CommandName Invoke-WebRequest `
+            -ModuleName OktaPosh `
+            -MockWith {
+                $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
+                $Content = '{"errorCode": "200", "Status":"ACTIVE" }'
+                $StatusCode = 200
+
+                $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force
+                if ($PSVersionTable.PSVersion.Major -ge 7) {
+                    $Response | Add-Member -NotePropertyName RelationLink -NotePropertyValue @{} -Force
+                }
+                $Response | Add-Member -NotePropertyName Content -NotePropertyValue $Content -Force
+                $Response | Add-Member -NotePropertyName StatusCode -NotePropertyValue $StatusCode -Force
+                $Response
+            }
+
+        $null = Disable-OktaUser -Id $vars.user.Id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users/$($vars.user.Id)/lifecycle/deactivate?sendEmail=false" -and $Method -eq 'POST'
+                }
+    }
 }
 
 Describe "Cleanup" {
     It "Remove test user" {
-        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{profile=@{email='test'}}}
+        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{profile=@{email='test'};Status='PROVISIONED'}}
         Remove-OktaUser -UserId $vars.user.id -Confirm:$false
-        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users/$($vars.user.Id)" -and $Method -eq 'DELETE'
                 }

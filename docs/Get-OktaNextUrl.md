@@ -17,16 +17,23 @@ Get-OktaNextUrl
 ```
 
 ## DESCRIPTION
-This is for diagnosing the -Next functionality. You can use this to see the url that will be run using -Next
+This is for diagnosing the -Next functionality.
+You can use this to see the url that will be run using -Next
 
 ## EXAMPLES
+
+### Example 1
+```powershell
+Get-OktaNextUrl
+```
+
+Get the list of NextUrls the module currently knows about.
 
 ## PARAMETERS
 
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

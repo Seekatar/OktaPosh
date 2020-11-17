@@ -220,34 +220,34 @@ Describe "AuthorizationServer" {
                     $Uri -like "$($vars.authServer.issuer)/v1/token" -and $Method -eq 'POST'
                 }
     }
-    # It "Adds SPA Access" {
-    #     $null = New-OktaSpaApplication -Label $spaAppName -RedirectUris $redirectUri -LoginUri "http://login"
-    #     Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-    #             -ParameterFilter {
-    #                 $Uri -like "*/apps" -and $Method -eq 'POST'
-    #             }
+    It "Adds SPA Access" {
+        $null = New-OktaSpaApplication -Label $spaAppName -RedirectUris $redirectUri -LoginUri "http://login"
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps" -and $Method -eq 'POST'
+                }
 
-    #     $null = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name "SPA-$policyName" -ClientIds $vars.spaApp.Id
-    #     Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-    #             -ParameterFilter {
-    #                 # Write-Warning "1>> $method $uri"
-    #                 # Write-Warning "1>> */authorizationServers/$($vars.authServer.id)/policies"
-    #                 # $Uri -like "*/authorizationServers" # /$($vars.authServer.id)/policies"# -and $Method -eq 'POST'
-    #                 $true
-    #             }
+        $null = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name "SPA-$policyName" -ClientIds $vars.spaApp.Id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    # Write-Warning "1>> $method $uri"
+                    # Write-Warning "1>> */authorizationServers/$($vars.authServer.id)/policies"
+                    # $Uri -like "*/authorizationServers" # /$($vars.authServer.id)/policies"# -and $Method -eq 'POST'
+                    $true
+                }
 
-    #     $null = New-OktaRule -AuthorizationServerId $vars.authServer.Id `
-    #         -PolicyId $policy.id `
-    #         -Name "Allow $($policyName)" `
-    #         -Priority 1 `
-    #         -GrantTypes implicit -Scopes $scopeNames
-    #     Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-    #             -ParameterFilter {
-    #                 Write-Warning "2>> $method $uri"
-    #                 Write-Warning "*/authorizationServers/$($vars.authServer.id)/policies/$($policy.id)/rules"
-    #                 $Uri -like "*/authorizationServers/$($vars.authServer.id)/policies/$($policy.id)/rules" -and $Method -eq 'POST'
-    #             }
-    # }
+        $null = New-OktaRule -AuthorizationServerId $vars.authServer.Id `
+            -PolicyId $policy.id `
+            -Name "Allow $($policyName)" `
+            -Priority 1 `
+            -GrantTypes implicit -Scopes $scopeNames
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    Write-Warning "2>> $method $uri"
+                    Write-Warning "*/authorizationServers/$($vars.authServer.id)/policies/$($policy.id)/rules"
+                    $Uri -like "*/authorizationServers/$($vars.authServer.id)/policies/$($policy.id)/rules" -and $Method -eq 'POST'
+                }
+    }
     It "Tests User JWT Access" {
         $null = New-OktaUser -FirstName Wilma -LastName Flintsone -Email $username -Activate -Pw $userPw
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `

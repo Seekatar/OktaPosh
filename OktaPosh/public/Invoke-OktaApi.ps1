@@ -16,7 +16,8 @@ function Invoke-OktaApi {
         [switch] $Json,
         [string] $OktaApiToken,
         [string] $OktaBaseUri,
-        [switch] $Next
+        [switch] $Next,
+        [switch] $NotFoundOk
     )
 
     if ($Body -isnot [String]) {
@@ -81,7 +82,7 @@ function Invoke-OktaApi {
         } finally {
             $progressPreference = $prevPref
         }
-        Test-OktaResult -Result $response -Json:$Json -Method $Method -ObjectPath $objectPath
+        Test-OktaResult -Result $response -Json:$Json -Method $Method -ObjectPath $objectPath -NotFoundOk:$NotFoundOk
     }
 }
 

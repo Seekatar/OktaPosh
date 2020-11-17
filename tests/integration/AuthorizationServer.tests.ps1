@@ -48,7 +48,7 @@ Describe "Setup" {
         Get-OktaApiToken -ApiToken 'abc' | Should -Be 'abc'
     }
     It 'Get Base Uri ' {
-        Get-OktaBaseUri -OkatBaseUri 'abc' | Should -Be 'abc'
+        Get-OktaBaseUri -OktaBaseUri 'abc' | Should -Be 'abc'
     }
 }
 
@@ -119,7 +119,7 @@ Describe "AuthorizationServer" {
 
         $claim | Should -Not -Be $null
     }
-    It "Gets Claim" {
+    It "Gets Claim By Name" {
         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.id -Query $claimName
         $claim | Should -Not -Be $null
         $claim.Count | Should -Be 2
@@ -198,21 +198,25 @@ Describe "AuthorizationServer" {
     It "Exports an auth server" {
         $result = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
         $result.Count | Should -BeGreaterThan 4
+        $result | ForEach-Object { Get-Content $_ -Raw | ConvertFrom-Json }
         $result | Remove-Item
+    }
+    It "Removes a Claim By Id" {
+        $null = Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
     }
 }
 
-# Describe "Cleanup" {
-#     It "Removes a Claim By Id" {
-#         Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
-#         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
-#         $claim | Should -Be $null
-#     }
-#     It 'Removes AuthServer and App' {
-#         Remove-OktaApplication -Id $vars.spaApp.id -Confirm:$false
-#         Remove-OktaUser -Id $vars.user.id -Confirm:$false
-#         Remove-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -Confirm:$false
-#     }
-# }
+Describe "Cleanup" {
+    It "Removes a Claim By Id" {
+        Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
+        $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
+        $claim | Should -Be $null
+    }
+    It 'Removes AuthServer and App' {
+        Remove-OktaApplication -Id $vars.spaApp.id -Confirm:$false
+        Remove-OktaUser -Id $vars.user.id -Confirm:$false
+        Remove-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -Confirm:$false
+    }
+}
 
 

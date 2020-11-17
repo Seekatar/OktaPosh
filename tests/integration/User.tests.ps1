@@ -24,11 +24,12 @@ Describe "User" {
     It "Adds a user" {
         $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
         $vars.user | Should -Not -Be $null
+        $vars.user.Status | Should -Be 'STAGED'
     }
     It "Adds AuthProviderUser" {
-        $vars.user2 = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email $email2 -ProviderType SOCIAL
+        $vars.user2 = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email $email2 -ProviderType FEDERATION -ProviderName FEDERATION -Activate
         $vars.user2 | Should -Not -Be $null
-        $vars.user2.status | Should -Be 'PROVISIONED'
+        $vars.user2.status | Should -Be 'ACTIVE'
     }
     It "Gets Users" {
         $result = @(Get-OktaUser)
@@ -63,6 +64,26 @@ Describe "User" {
         $result = Get-OktaUser -Id $vars.user.Id
         $result | Should -Not -Be $null
         $result.Id | Should -Be  $vars.user.Id
+    }
+    It "Activates a user" {
+        $result = Enable-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'PROVISIONED'
+    }
+    It "Suspends a user" {
+        $result = Suspend-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'SUSPENDED'
+    }
+    It "Resumes a user" {
+        $result = Resume-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'PROVISIONED'
+    }
+    It "Deactivates a user" {
+        $result = Disable-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'DEPROVISIONED'
     }
 }
 

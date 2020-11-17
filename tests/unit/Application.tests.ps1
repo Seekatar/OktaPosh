@@ -18,6 +18,10 @@ $PSDefaultParameterValues = @{
     }
 }
 
+Describe "Cleanup" {
+    It 'Removes Test Data' {
+    }
+}
 Describe "Application Tests" {
     It "Adds a server application" {
         $null = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }

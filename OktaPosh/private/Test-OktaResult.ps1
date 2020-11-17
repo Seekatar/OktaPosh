@@ -67,7 +67,8 @@ function Test-OktaResult {
         [string] $Method,
         [Parameter(Mandatory)]
         [string] $ObjectPath,
-        [switch] $Json
+        [switch] $Json,
+        [switch] $NotFoundOk
     )
     Set-RateLimit $Result.Headers
 
@@ -101,7 +102,7 @@ function Test-OktaResult {
             # The input object cannot be bound to any parameters for the command either because the command does not take pipeline input or the input and its properties do not match any of the parameters that take pipeline input
             return ($result.Content | ConvertFrom-Json @parms)
         }
-    } elseif ($result.StatusCode -eq 404 -and $Method -eq 'GET') {
+    } elseif ($result.StatusCode -eq 404 -and ($NotFoundOk -or $Method -eq 'GET')) {
         return $null
     } else {
         # 429 is rate limit, 20-100/minute depending on the request

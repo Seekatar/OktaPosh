@@ -3426,21 +3426,9 @@ Export-OktaAuthorizationServer  $authServer.id</dev:code>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>GrantType</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill GrantType Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>IdToken</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill IdToken Description }}</maml:para>
+            <maml:para>Set if want the Id token instead of the Access token</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3536,21 +3524,9 @@ Export-OktaAuthorizationServer  $authServer.id</dev:code>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>GrantType</maml:name>
-        <maml:Description>
-          <maml:para>{{ Fill GrantType Description }}</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>IdToken</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill IdToken Description }}</maml:para>
+          <maml:para>Set if want the Id token instead of the Access token</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3627,15 +3603,7 @@ Export-OktaAuthorizationServer  $authServer.id</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>$env:OktaClientSecret="..."
-Get-OktaJwt -ClientId "clientId" -Issuer https://dev-111111.okta.com/oauth2/aus3333333 -GrantType client_credentials -Scopes access:token</dev:code>
-        <dev:remarks>
-          <maml:para>Get a token for an Application</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get-OktaJwt -Issuer https://dev-111111.okta.com/oauth2/aus3333333 -ClientId clientId -RedirectUri http://localhost:8080/app/implicit/callback -Username Test -ClientSecret ****! -Scopes openid -GrantType implicit</dev:code>
+        <dev:code>Get-OktaJwt -Issuer https://dev-111111.okta.com/oauth2/aus3333333 -ClientId clientId -RedirectUri http://localhost:8080/app/implicit/callback -Username Test -ClientSecret ****! -Scopes openid</dev:code>
         <dev:remarks>
           <maml:para>Get a token for a user</maml:para>
         </dev:remarks>

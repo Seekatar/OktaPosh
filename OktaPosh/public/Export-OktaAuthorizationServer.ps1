@@ -41,7 +41,7 @@ function Export-OktaAuthorizationServer {
             $i += 1
         }
         $i = 1
-        Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId | ForEach-Object {
+        Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId -Json | ForEach-Object {
             $_ | out-file "policy_$i.json" -enc $encoding
             Join-Path $PWD "policy_$i.json"
             $j = 1

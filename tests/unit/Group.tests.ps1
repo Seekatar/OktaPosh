@@ -11,6 +11,10 @@ $PSDefaultParameterValues = @{
                         } }
 }
 
+Describe "Cleanup" {
+    It "Remove test group" {
+    }
+}
 Describe "Group" {
     It "Adds a group" {
         $null = New-OktaGroup -Name $groupName

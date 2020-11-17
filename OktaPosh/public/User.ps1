@@ -116,9 +116,20 @@ function Disable-OktaUser
         [switch] $SendEmail
     )
     process {
-        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/deactivate?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST
+        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/deactivate?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST -NotFoundOk
     }
 }
+<#
+    for federated, users created ACTIVE
+
+    new -> STAGED
+    STAGED -> Enable -> PROVISIONED
+    PROVISIONED -> user activates -> ACTIVE
+    STAGED|ACTIVE -> Disable -> DEPROVISIONED
+    Suspend -> SUSPENDED
+    Resume -> PROVISIONED
+    Can only delete if DEPROVISIONED
+#>
 
 function Enable-OktaUser
 {
@@ -155,14 +166,13 @@ function Suspend-OktaUser
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $UserId,
-        [switch] $SendEmail,
         [switch] $CheckCurrentStatus
     )
     process {
         if ($CheckCurrentStatus) {
             $user = Get-OktaUser -UserId $UserId
             if ($user) {
-                if ($user.Status -eq 'ACTIVE') {
+                if ($user.Status -ne 'ACTIVE') {
                     Write-Warning "User status is '$($user.Status)'. Can't suspend."
                     return
                 }
@@ -182,7 +192,6 @@ function Resume-OktaUser
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $UserId,
-        [switch] $SendEmail,
         [switch] $CheckCurrentStatus
     )
 
@@ -190,7 +199,7 @@ function Resume-OktaUser
         if ($CheckCurrentStatus) {
             $user = Get-OktaUser -UserId $UserId
             if ($user) {
-                if ($user.Status -eq 'SUSPENDED') {
+                if ($user.Status -ne 'SUSPENDED') {
                     Write-Warning "User status is '$($user.Status)'. Can't resume."
                     return
                 }
@@ -298,8 +307,9 @@ function Remove-OktaUser {
         $user = Get-OktaUser -UserId $UserId
         if ($user) {
             if ($PSCmdlet.ShouldProcess($user.profile.email,"Remove User")) {
-                # first call DEPROVISIONS the user, second permanently deletes it
-                $null = Disable-OktaUser -UserId $UserIdInvoke
+                if ($user.Status -ne 'DEPROVISIONED') {
+                    $null = Disable-OktaUser -UserId $UserId
+                }
                 Invoke-OktaApi -RelativeUri "users/$UserId" -Method DELETE
             }
         } else {

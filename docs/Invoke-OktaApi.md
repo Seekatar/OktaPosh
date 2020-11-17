@@ -15,7 +15,8 @@ Mainly used internally.
 
 ```
 Invoke-OktaApi [-RelativeUri] <String> [[-Method] <String>] [[-Body] <Object>] [-Json]
- [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-Next] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-Next] [-NotFoundOk] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -171,6 +172,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NotFoundOk
+Set if a non-Get call is ok to get 404, otherwise non-Get 404 will result in an error.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
