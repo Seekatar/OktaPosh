@@ -44,7 +44,7 @@ Describe "User" {
         $users = @(Get-OktaUser -Next)
         $users.Count | Should -BeGreaterThan 0
         Test-OktaNext -ObjectName users | Should -Be $false
-        $users = @(Get-OktaUser -Next)
+        $users = @(Get-OktaUser -Next 3> $null)
         $users | Should -Be $null
     }
     It "Tests Next" {

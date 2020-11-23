@@ -86,7 +86,7 @@ Describe "User" {
                     $Uri -like "*/users?after=*" -and $Method -eq 'GET'
                 }
         Test-OktaNext -ObjectName users | Should -Be $false
-        $null = @(Get-OktaUser -Next)
+        $null = @(Get-OktaUser -Next) 3> $null
         Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users*" -and $Method -eq 'GET'

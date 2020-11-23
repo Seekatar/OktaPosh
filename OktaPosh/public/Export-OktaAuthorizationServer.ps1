@@ -12,49 +12,48 @@ function Export-OktaAuthorizationServer {
             $null = mkdir $OutputFolder
             Write-Warning "Created '$OutputFolder'"
         }
-        Push-Location $OutputFolder
     }
 
     process {
-        if ($PSVersionTable.PSVersion.Major -ge 7) {
-            $encoding = [System.Text.Encoding]::ASCII
-        } else {
-            $encoding = "ascii"
-        }
-        $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId -Json
-        if (!$auth) {
-            throw "Auth server not found for '$AuthorizationServerId'"
-        }
-        $auth | Out-File auth.json -Encoding $encoding
+        Set-StrictMode -Version Latest
+        $ErrorActionPreference = "Stop"
 
-        Join-Path $PWD "auth.json"
-        $i = 1
-        Get-OktaClaim -AuthorizationServerId $AuthorizationServerId -Json | ForEach-Object {
-            $_ | out-file "claim_$i.json" -enc $encoding
-            Join-Path $PWD "claim_$i.json"
-            $i += 1
-        }
-        $i = 1
-        Get-OktaScope -AuthorizationServerId $AuthorizationServerId -Json | ForEach-Object {
-            $_ | out-file "scope_$i.json" -enc $encoding
-            Join-Path $PWD "scope_$i.json"
-            $i += 1
-        }
-        $i = 1
-        Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId -Json | ForEach-Object {
-            $_ | out-file "policy_$i.json" -enc $encoding
-            Join-Path $PWD "policy_$i.json"
+        Push-Location $OutputFolder
+        try {
+
+            if ($PSVersionTable.PSVersion.Major -ge 7) {
+                $encoding = [System.Text.Encoding]::ASCII
+            } else {
+                $encoding = "ascii"
+            }
+            $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId -Json
+            if (!$auth) {
+                throw "Auth server not found for '$AuthorizationServerId'"
+            }
+            $auth | Out-File authorizationServer.json -Encoding $encoding
+            Join-Path $PWD "authorizationServer.json"
+
+            Get-OktaClaim -AuthorizationServerId $AuthorizationServerId -Json | out-file "claims.json" -enc $encoding
+            Join-Path $PWD "claims.json"
+
+            Get-OktaScope -AuthorizationServerId $AuthorizationServerId -Json | out-file "scopes.json" -enc $encoding
+            Join-Path $PWD "scopes.json"
+
+            $policies = Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId -Json
+            $policies | out-file "policies.json" -enc $encoding
+            Join-Path $PWD "policies.json"
+
             $j = 1
-            Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id -Json | ForEach-Object {
-                $_ | out-file "rule_${i}_$j.json" -enc $encoding
-                Join-Path $PWD "rule_${i}_$j.json"
+            $temp = ConvertFrom-Json $policies # PS v5 quirk sends array through on next instead of each item, if don't use temp
+            $temp | ForEach-Object { Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id -Json } | ForEach-Object {
+                $_ | out-file "rules_$j.json" -enc $encoding
+                Join-Path $PWD "rules_$j.json"
                 $j += 1
             }
-            $i += 1
+        } catch {
+            Write-Error "$_`n$($_.ScriptStackTrace)"
+        } finally {
+            Pop-Location
         }
-    }
-
-    end {
-        Pop-Location
     }
 }

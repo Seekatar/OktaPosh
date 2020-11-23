@@ -22,7 +22,7 @@ Get-OktaAppJwt [[-ClientId] <String>] [[-Issuer] <String>] [[-ClientSecret] <Str
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Get-OktaAppJwt -ClientId $app.Id -ClientSecret $env:OKTA_CLIENT_SECRET -Scopes "access:token","object:read" -Issuer $authServer.issuer
 ```
 
@@ -111,11 +111,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.String as the JWT
-
 ## NOTES
 
 ## RELATED LINKS

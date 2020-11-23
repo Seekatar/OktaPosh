@@ -1,5 +1,20 @@
 # Change Log
 
+## 2020-11-23
+
+* Authorization Server Functions
+  * Fixes for Export-OktaAuthorizationServer
+* User Functions
+  * New-OktaAuthProviderUser added Activate and NextLogin parameters. The former can avoid emails sent on add by calling Enable-OktaUser afterwards.
+  * New-OktaUser added pw parameter
+  * Disable-OktaUser
+  * Enable-OktaUser
+  * Suspend-OktaUser
+  * Resume-OktaUser
+* Misc
+  * Set-OktaOption returns boolean indicating success
+  * Invoke-OktaApi added NotFoundOk parameter, PS v5 fixes
+
 ## 2020-11-09
 
 * Greatly increase test code coverage

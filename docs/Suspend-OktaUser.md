@@ -13,12 +13,10 @@ Suspend a user
 ## SYNTAX
 
 ```
-Suspend-OktaUser [-UserId] <String> [-SendEmail] [-CheckCurrentStatus] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Suspend-OktaUser [-UserId] <String> [-CheckCurrentStatus] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-
 
 ## EXAMPLES
 
@@ -53,21 +51,6 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SendEmail
-Set to send an email for activation. Otherwise details are output.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named

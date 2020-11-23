@@ -39,7 +39,8 @@ Describe "Setup" {
         Set-OktaOption | Should -Be $true
     }
     It 'Set API App from env' {
-        Set-OktaOption -ApiToken '' | Should -Be $false
+        # avoid warning message with 3>
+        (Set-OktaOption -ApiToken '' 3> $null) | Should -Be $false
     }
     It 'Get API token ' {
         Get-OktaApiToken -ApiToken 'abc' | Should -Be 'abc'
@@ -230,10 +231,7 @@ Describe "AuthorizationServer" {
         $null = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name "SPA-$policyName" -ClientIds $vars.spaApp.Id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    # Write-Warning "1>> $method $uri"
-                    # Write-Warning "1>> */authorizationServers/$($vars.authServer.id)/policies"
-                    # $Uri -like "*/authorizationServers" # /$($vars.authServer.id)/policies"# -and $Method -eq 'POST'
-                    $true
+                    $Uri -like "*/authorizationServers/$($vars.authServer.id)/policies" -and $Method -eq 'POST'
                 }
 
         $null = New-OktaRule -AuthorizationServerId $vars.authServer.Id `
@@ -243,8 +241,6 @@ Describe "AuthorizationServer" {
             -GrantTypes implicit -Scopes $scopeNames
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    Write-Warning "2>> $method $uri"
-                    Write-Warning "*/authorizationServers/$($vars.authServer.id)/policies/$($policy.id)/rules"
                     $Uri -like "*/authorizationServers/$($vars.authServer.id)/policies/$($policy.id)/rules" -and $Method -eq 'POST'
                 }
     }
@@ -280,6 +276,7 @@ Describe "AuthorizationServer" {
     }
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
+        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { @{id='123'} }
         $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
@@ -289,10 +286,7 @@ Describe "AuthorizationServer" {
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims" -and $Method -eq 'GET'
                 }
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-                -ParameterFilter {
-                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies" -and $Method -eq 'GET'
-                }
+        Should -Invoke Get-OktaPolicy -Times 1 -Exactly -ModuleName OktaPosh
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes" -and $Method -eq 'GET'

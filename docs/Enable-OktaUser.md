@@ -18,7 +18,6 @@ Enable-OktaUser [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<CommonPar
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

@@ -18,7 +18,6 @@ Disable-OktaUser [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<CommonPa
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

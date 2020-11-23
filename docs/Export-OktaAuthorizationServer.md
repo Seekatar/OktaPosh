@@ -70,7 +70,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### List of fully qualified path names.
-
 ## NOTES
 
 ## RELATED LINKS
