@@ -17,16 +17,15 @@ Get-OktaRateLimit
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Get-OktaRateLimit
 ```
 
-{{ Add example description here }}
+Get rate limit data returned from last API call
 
 ## PARAMETERS
 

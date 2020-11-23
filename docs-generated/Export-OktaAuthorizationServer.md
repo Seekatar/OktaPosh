@@ -42,7 +42,7 @@ Aliases: Id
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -68,8 +68,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### None
 ## OUTPUTS
-### List of fully qualified path names.
 
+### List of fully qualified path names.
 ## NOTES
 
 ## RELATED LINKS

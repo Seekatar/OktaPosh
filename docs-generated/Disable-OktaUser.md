@@ -5,16 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaAppJwt
+# Disable-OktaUser
 
 ## SYNOPSIS
-Get the JWT for client_credential (server-to-server)
+Disables (deactivates) a user
 
 ## SYNTAX
 
 ```
-Get-OktaAppJwt [[-ClientId] <String>] [[-Issuer] <String>] [[-ClientSecret] <String>]
- [[-SecureClientSecret] <SecureString>] [-Scopes] <String[]> [<CommonParameters>]
+Disable-OktaUser [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,84 +21,70 @@ Get-OktaAppJwt [[-ClientId] <String>] [[-Issuer] <String>] [[-ClientSecret] <Str
 ## EXAMPLES
 
 ### Example 1
-```
-Get-OktaAppJwt -ClientId $app.Id -ClientSecret $env:OKTA_CLIENT_SECRET -Scopes "access:token","object:read" -Issuer $authServer.issuer
+```powershell
+Disable-OktaUser -id 00u1etuu0flPrnIMK4x7
 ```
 
-Get the JWT for an App
+Disable a user
 
 ## PARAMETERS
 
-### -ClientId
-A server Application's id, retrieved with Get-OktaApplication
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ClientSecret
-The Application's secret from the web site.
+### -SendEmail
+Set to send an email for activation. Otherwise details are output.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: Pw
+Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Issuer
-Authorization server's Issuer
+### -UserId
+UserId retrieved from Get-OktaUser
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Scopes
-The request scopes for the JWT
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
+Aliases: Id
 
 Required: True
-Position: 4
+Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -SecureClientSecret
-The Application's secret from the web site as a secure string.
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: SecureString
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: Password
+Aliases: wi
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,10 +95,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+
 ## OUTPUTS
 
-### System.String as the JWT
+### System.Object
 ## NOTES
 
 ## RELATED LINKS
