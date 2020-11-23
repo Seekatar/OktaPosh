@@ -19,9 +19,16 @@ function New-OktaAuthProviderUser
         [ValidateSet('OKTA', 'ACTIVE_DIRECTORY', 'LDAP', 'FEDERATION', 'SOCIAL', 'IMPORT')]
         [string] $ProviderType,
         [string] $ProviderName,
-        [string[]] $GroupIds
+        [string[]] $GroupIds,
+        [switch] $Activate,
+        [switch] $NextLogin
     )
 
+    begin {
+        if ($NextLogin -and !$Activate) {
+            throw "Must set Activate to use NextLogin"
+        }
+    }
     process {
         Set-StrictMode -Version Latest
 
@@ -47,7 +54,7 @@ function New-OktaAuthProviderUser
         if ($GroupIds) {
             $body['groupIds'] = @($GroupIds)
         }
-        Invoke-OktaApi -RelativeUri "users?provider=true" -Body $body -Method POST
+        Invoke-OktaApi -RelativeUri "users?provider=true&activate=$(ternary $Activate 'true' 'false')&nextLogin=$(ternary $NextLogin 'true' 'false')" -Body $body -Method POST
     }
 }
 
@@ -97,6 +104,114 @@ function New-OktaUser
         Invoke-OktaApi -RelativeUri "users?activate=$(ternary $Activate 'true' 'false')" -Body $body -Method POST
     }
 }
+
+function Disable-OktaUser
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $UserId,
+        [switch] $SendEmail
+    )
+    process {
+        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/deactivate?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST -NotFoundOk
+    }
+}
+<#
+    for federated, users created ACTIVE
+
+    new -> STAGED
+    STAGED -> Enable -> PROVISIONED
+    PROVISIONED -> user activates -> ACTIVE
+    STAGED|ACTIVE -> Disable -> DEPROVISIONED
+    Suspend -> SUSPENDED
+    Resume -> PROVISIONED
+    Can only delete if DEPROVISIONED
+#>
+
+function Enable-OktaUser
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $UserId,
+        [switch] $SendEmail
+    )
+
+    process {
+        $user = Get-OktaUser -UserId $UserId
+        if ($user) {
+            if ($user.Status -eq 'STAGED') {
+                Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/activate?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST
+            } elseif ($user.Status -eq 'PROVISIONED') {
+                Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/reactivate?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST
+            } else {
+                Write-Warning "User status is '$($user.Status)'. Can't enable."
+            }
+        } else {
+            Write-Warning "UserId: '$UserId' not found"
+        }
+    }
+}
+
+function Suspend-OktaUser
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $UserId,
+        [switch] $CheckCurrentStatus
+    )
+    process {
+        if ($CheckCurrentStatus) {
+            $user = Get-OktaUser -UserId $UserId
+            if ($user) {
+                if ($user.Status -ne 'ACTIVE') {
+                    Write-Warning "User status is '$($user.Status)'. Can't suspend."
+                    return
+                }
+            } else {
+                Write-Warning "UserId: '$UserId' not found"
+                return
+            }
+        }
+        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/suspend" -Method POST
+    }
+}
+function Resume-OktaUser
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $UserId,
+        [switch] $CheckCurrentStatus
+    )
+
+    process {
+        if ($CheckCurrentStatus) {
+            $user = Get-OktaUser -UserId $UserId
+            if ($user) {
+                if ($user.Status -ne 'SUSPENDED') {
+                    Write-Warning "User status is '$($user.Status)'. Can't resume."
+                    return
+                }
+            } else {
+                Write-Warning "UserId: '$UserId' not found"
+                return
+            }
+        }
+        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/unsuspend" -Method POST
+    }
+}
+
 
 function Get-OktaUser {
     [CmdletBinding(DefaultParameterSetName="Query")]
@@ -192,8 +307,9 @@ function Remove-OktaUser {
         $user = Get-OktaUser -UserId $UserId
         if ($user) {
             if ($PSCmdlet.ShouldProcess($user.profile.email,"Remove User")) {
-                # first call DEPROVISIONS the user, second permanently deletes it
-                Invoke-OktaApi -RelativeUri "users/$UserId" -Method DELETE
+                if ($user.Status -ne 'DEPROVISIONED') {
+                    $null = Disable-OktaUser -UserId $UserId
+                }
                 Invoke-OktaApi -RelativeUri "users/$UserId" -Method DELETE
             }
         } else {

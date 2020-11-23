@@ -67,7 +67,8 @@ function Test-OktaResult {
         [string] $Method,
         [Parameter(Mandatory)]
         [string] $ObjectPath,
-        [switch] $Json
+        [switch] $Json,
+        [switch] $NotFoundOk
     )
     Set-RateLimit $Result.Headers
 
@@ -75,6 +76,8 @@ function Test-OktaResult {
 
         # PS 7+ :( $result.RelationLink["next"]
         if ($Method -eq 'Get' -and $result.Headers["link"]) {
+            # Looks like this
+            # <https://devcccis.oktapreview.com/api/v1/users?limit=3>; rel="self" <https://devcccis.oktapreview.com/api/v1/users?after=100uqe1z1959wX4LxJ0h7&limit=3>; rel="next"
             Write-Verbose "Link is $($result.Headers["link"])"
             $next = $result.Headers["link"] -split ',' | Where-Object {$_ -match "<.*($ObjectPath.*)>; rel=`"next`""}
             if ($next) {
@@ -99,7 +102,7 @@ function Test-OktaResult {
             # The input object cannot be bound to any parameters for the command either because the command does not take pipeline input or the input and its properties do not match any of the parameters that take pipeline input
             return ($result.Content | ConvertFrom-Json @parms)
         }
-    } elseif ($result.StatusCode -eq 404 -and $Method -eq 'GET') {
+    } elseif ($result.StatusCode -eq 404 -and ($NotFoundOk -or $Method -eq 'GET')) {
         return $null
     } else {
         # 429 is rate limit, 20-100/minute depending on the request
@@ -114,10 +117,11 @@ function Test-OktaResult {
             }
             $err = $result.Content | ConvertFrom-Json @parms
             if ($err | Get-Member -Name "errorCode") {
-                $oktaError = @{
+                $oktaError = [PSCustomObject]@{
                     statusCode = $result.StatusCode
                     oktaError = $err
-                } | ConvertTo-Json -Depth 10
+                    summary = "$($err.errorSummary):$($err.errorCauses.errorSummary -join ", ")"
+                }
             }
         } catch {
             Write-Warning $_

@@ -28,20 +28,28 @@ $PSDefaultParameterValues = @{
     }
 }
 
-Describe "Setup" {
-    It 'Get API App' {
-
-        Set-OktaOption
-
-        # can't get secret to test getting JWT via API, so it must exist
-        $vars.app = Get-OktaApplication -q $testAppName
-        $vars.app | Should -Not -Be $null
-    }
+Describe "Cleanup" {
     It 'Removes AuthServer and App' {
         (Get-OktaUser -q $username) | Remove-OktaUser -Confirm:$false
         (Get-OktaApplication -q $appName) | Remove-OktaApplication -Confirm:$false
         (Get-OktaApplication -q $spaAppName) | Remove-OktaApplication -Confirm:$false
         (Get-OktaAuthorizationServer -q $authServerName) | Remove-OktaAuthorizationServer -Confirm:$false
+    }
+}
+
+Describe "Setup" {
+    It 'Set API App from env' {
+        Set-OktaOption | Should -Be $true
+    }
+    It 'Set API App from env' {
+        # avoid warning message with 3>
+        (Set-OktaOption -ApiToken '' 3> $null) | Should -Be $false
+    }
+    It 'Get API token ' {
+        Get-OktaApiToken -ApiToken 'abc' | Should -Be 'abc'
+    }
+    It 'Get Base Uri ' {
+        Get-OktaBaseUri -OktaBaseUri 'abc' | Should -Be 'abc'
     }
 }
 
@@ -99,21 +107,38 @@ Describe "AuthorizationServer" {
         $vars.scopes | Should -Not -Be $null
         $vars.scopes.Count | Should -Be $scopeNames.Count
     }
-    It "Creates new Claim" {
+    It "Creates new Expression Claim" {
         $vars.claim = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
             -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE `
             -Value "app.profile.$claimName" -Scopes $scopeNames[0]
         $vars.claim | Should -Not -Be $null
     }
-    It "Gets Claim" {
+    It "Creates new Group Claim" {
+        $claim = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
+            -Name $claimName -ValueType GROUPS -ClaimType ID_TOKEN `
+            -GroupFilterType STARTS_WITH -Value "casualty-group" -Scopes "access:token" `
+
+        $claim | Should -Not -Be $null
+    }
+    It "Gets Claim By Name" {
         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.id -Query $claimName
         $claim | Should -Not -Be $null
-        $claim.Name | Should -Be $claimName
+        $claim.Count | Should -Be 2
+        $claim[0].Name | Should -Be $claimName
+        $claim[1].Name | Should -Be $claimName
     }
     It "Gets Claim By Id" {
         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
         $claim | Should -Not -Be $null
         $claim.Name | Should -Be $claimName
+    }
+    It "Adds a server application" {
+        $vars.app = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
+        $vars.app | Should -Not -Be $null
+    }
+    It "Adds a SPA application" {
+        $vars.spaApp = New-OktaSpaApplication -Label $spaAppName -RedirectUris "http://gohome" -LoginUri "http://login"
+        $vars.spaApp | Should -Not -Be $null
     }
     It "Adds a policy" {
         $vars.policy = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name $policyName -ClientIds $vars.app.Id
@@ -144,14 +169,7 @@ Describe "AuthorizationServer" {
         $vars.rule | Should -Not -Be $null
         $vars.rule.Id | Should -Be $vars.rule.Id
     }
-    It "Tests Server JWT Access" {
-        $jwt = Get-OktaAppJwt -ClientId $vars.app.Id -ClientSecret $env:OKTA_CLIENT_SECRET -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
-        [bool]$jwt | Should -Be $true
-    }
     It "Adds SPA Access" {
-        $vars.spaApp = New-OktaSpaApplication -Label $spaAppName -RedirectUris $redirectUri -LoginUri "http://login"
-        $vars.spaApp | Should -Not -Be $null
-
         $policy = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name "SPA-$policyName" -ClientIds $vars.spaApp.Id
         $policy | Should -Not -Be $null
 
@@ -162,6 +180,16 @@ Describe "AuthorizationServer" {
             -GrantTypes implicit -Scopes $scopeNames
             $vars.rule | Should -Not -Be $null
     }
+    It "Exports an auth server" {
+        $result = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
+        $result.Count | Should -BeGreaterThan 4
+        $result | ForEach-Object { Get-Content $_ -Raw | ConvertFrom-Json }
+        $result | Remove-Item
+    }
+    It "Tests Server JWT Access" {
+        $jwt = Get-OktaAppJwt -ClientId $vars.app.Id -ClientSecret $vars.app.credentials.oauthClient.client_secret -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
+        [bool]$jwt | Should -Be $true
+    } -Skip
     It "Tests User JWT Access" {
         $vars.user = New-OktaUser -FirstName Wilma -LastName Flintsone -Email $username -Activate -Pw $userPw
         $vars.user | Should -Not -Be $null
@@ -179,24 +207,20 @@ Describe "AuthorizationServer" {
             [bool]$jwt | Should -Be $true
         }
     }
-    It "Exports an auth server" {
-        $result = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
-        $result.Count | Should -BeGreaterThan 4
-        $result | Remove-Item
-    }
 }
 
-# Describe "Cleanup" {
-#     It "Removes a Claim By Id" {
-#         Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
-#         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
-#         $claim | Should -Be $null
-#     }
-#     It 'Removes AuthServer and App' {
-#         Remove-OktaApplication -Id $vars.spaApp.id -Confirm:$false
-#         Remove-OktaUser -Id $vars.user.id -Confirm:$false
-#         Remove-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -Confirm:$false
-#     }
-# }
+Describe "Cleanup" {
+    It "Removes a Claim By Id" {
+        Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
+        $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
+        $claim | Should -Be $null
+    }
+    It 'Removes AuthServer and App' {
+        Remove-OktaApplication -Id $vars.app.id -Confirm:$false
+        Remove-OktaApplication -Id $vars.spaApp.id -Confirm:$false
+        Remove-OktaUser -Id $vars.user.id -Confirm:$false
+        Remove-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -Confirm:$false
+    }
+}
 
 

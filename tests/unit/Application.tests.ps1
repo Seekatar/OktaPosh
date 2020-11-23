@@ -18,6 +18,10 @@ $PSDefaultParameterValues = @{
     }
 }
 
+Describe "Cleanup" {
+    It 'Removes Test Data' {
+    }
+}
 Describe "Application Tests" {
     It "Adds a server application" {
         $null = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
@@ -175,7 +179,7 @@ Describe "Application Tests" {
 Describe "Cleanup" {
     It 'Removes Application' {
         Mock Get-OktaApplication -ModuleName OktaPosh -MockWith { @{Label = $appName}}
-        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{profile=@{email="test"}}}
+        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{status='PROVISIONED';profile=@{email="test"}}}
         if ($vars.user) {
             Remove-OktaUser -UserId $vars.user.id -Confirm:$false
         }

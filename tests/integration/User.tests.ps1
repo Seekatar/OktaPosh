@@ -4,12 +4,19 @@
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{
                         email = 'testuser@mailinator.com'
-                        vars = @{user =$null} }
+                        email2 = 'testuser2@mailinator.com'
+                        vars = @{
+                            user = $null
+                            user2 = $null
+                            userCount = 0
+                        }
+                    }
 }
 
 Describe "Cleanup" {
     It "Remove test user" {
         (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
+	    (Get-OktaUser -q $email2) | Remove-OktaUser -Confirm:$false
     }
 }
 
@@ -17,12 +24,28 @@ Describe "User" {
     It "Adds a user" {
         $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
         $vars.user | Should -Not -Be $null
+        $vars.user.Status | Should -Be 'STAGED'
     }
-
+    It "Adds AuthProviderUser" {
+        $vars.user2 = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email $email2 -ProviderType FEDERATION -ProviderName FEDERATION -Activate
+        $vars.user2 | Should -Not -Be $null
+        $vars.user2.status | Should -Be 'ACTIVE'
+    }
     It "Gets Users" {
         $result = @(Get-OktaUser)
         $result | Should -Not -Be $null
         $result.Count | Should -BeGreaterThan 0
+        $vars.userCount = $result.Count
+    }
+    It "Gets Next Users" {
+        $users = @(Get-OktaUser -Limit ($vars.userCount - 1))
+        $users.Count | Should -BeGreaterThan 0
+        Test-OktaNext -ObjectName users | Should -Be $true
+        $users = @(Get-OktaUser -Next)
+        $users.Count | Should -BeGreaterThan 0
+        Test-OktaNext -ObjectName users | Should -Be $false
+        $users = @(Get-OktaUser -Next 3> $null)
+        $users | Should -Be $null
     }
     It "Tests Next" {
         Test-OktaNext -ObjectName users | Should -Be $false
@@ -42,18 +65,32 @@ Describe "User" {
         $result | Should -Not -Be $null
         $result.Id | Should -Be  $vars.user.Id
     }
-    It "Adds AuthProviderUser" {
-        $result = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL
-        $result | Should -Not -Be $null
-        $result.status | Should -Be 'PROVISIONED'
-
-        Remove-OktaUser -UserId $result.Id -Confirm:$false
+    It "Activates a user" {
+        $result = Enable-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'PROVISIONED'
+    }
+    It "Suspends a user" {
+        $result = Suspend-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'SUSPENDED'
+    }
+    It "Resumes a user" {
+        $result = Resume-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'PROVISIONED'
+    }
+    It "Deactivates a user" {
+        $result = Disable-OktaUser -Id $vars.user.Id
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result.Status | Should -Be 'DEPROVISIONED'
     }
 }
 
 Describe "Cleanup" {
     It "Remove test user" {
         Remove-OktaUser -UserId $vars.user.id -Confirm:$false
+        Remove-OktaUser -UserId $vars.user2.id -Confirm:$false
     }
 }
 
