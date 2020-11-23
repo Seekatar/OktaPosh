@@ -276,7 +276,7 @@ Describe "AuthorizationServer" {
     }
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
-        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { @{id='123'} }
+        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123"}' }
         $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
