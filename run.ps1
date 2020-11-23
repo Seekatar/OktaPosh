@@ -22,6 +22,10 @@ foreach ($t in $Task) {
         'build' {
             Push-Location (Join-Path $PSScriptRoot '/build')
             .\New-ModuleHelp.ps1
+            if (Test-Path \code\joat-powershell\New-HelpOutput.ps1) {
+                $Groups = "Authorization","Claim","User","Group","Policy","Rule","Scope","Application"
+                \code\joat-powershell\New-HelpOutput.ps1 -Folder ..\OktaPosh\ -GroupPrefix "Okta" -Groups $groups | Out-File ..\summary.md -Encoding ascii
+            }
             .\Update-Manifest.ps1
         }
         'analyze' {

@@ -10,7 +10,7 @@ on:
     - main
   pull_request:
     branches:
-    - release/**
+    - releases/**
     - main
   # workflow_dispatch: allows manually kicking off a build
   workflow_dispatch:

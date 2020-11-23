@@ -8,9 +8,13 @@
 
 ### [Disable-OktaAuthorizationServer](Disable-OktaAuthorizationServer.md)
 
+### [Disable-OktaUser](Disable-OktaUser.md)
+
 ### [Enable-OktaApplication](Enable-OktaApplication.md)
 
 ### [Enable-OktaAuthorizationServer](Enable-OktaAuthorizationServer.md)
+
+### [Enable-OktaUser](Enable-OktaUser.md)
 
 ### [Export-OktaAuthorizationServer](Export-OktaAuthorizationServer.md)
 
@@ -106,6 +110,8 @@
 
 ### [Remove-OktaUser](Remove-OktaUser.md)
 
+### [Resume-OktaUser](Resume-OktaUser.md)
+
 ### [Set-OktaApplication](Set-OktaApplication.md)
 
 ### [Set-OktaApplicationProperty](Set-OktaApplicationProperty.md)
@@ -119,6 +125,8 @@
 ### [Set-OktaOption](Set-OktaOption.md)
 
 ### [Set-OktaTrustedOrigin](Set-OktaTrustedOrigin.md)
+
+### [Suspend-OktaUser](Suspend-OktaUser.md)
 
 ### [Test-OktaNext](Test-OktaNext.md)
 
