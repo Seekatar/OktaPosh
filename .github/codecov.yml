@@ -1,0 +1,3 @@
+# turn this off since just blocks PRs unnecessarily
+github_checks:
+    annotations: false
