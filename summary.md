@@ -1,78 +1,121 @@
 # Command Synopses
 
-## OktaPosh Module
+## OktaPosh Module Functions
 
 ```PowerShell
 Import-Module C:\code\OktaPosh\OktaPosh\OktaPosh.psd1
 ```
 
+
+## Application Functions
+
 Command     | Synopsis
 ------------|---------|
 Add-OktaApplicationGroup | Adds a group to the application
 Add-OktaApplicationUser | Add a User to the Application
-Add-OktaGroupUser | Add a User to a Group
 Disable-OktaApplication | Disable the Application
-Disable-OktaAuthorizationServer | Disable the AuthorizationServer
-Disable-OktaUser | Disables (deactivates) a user
 Enable-OktaApplication | Enable the Application
-Enable-OktaAuthorizationServer | Enable the AuthorizationServer
-Enable-OktaUser | Enable (Activate) a user
-Export-OktaAuthorizationServer | Export the AuthorizationServer and its Claims, Scopes, Policies and their Rules
-Get-OktaApiToken | Get the API token set by Set-OktaOption or from environment, or passed in
-Get-OktaAppJwt | Get the JWT for client_credential (server-to-server)
 Get-OktaApplication | Get one or more Applications
 Get-OktaApplicationGroup | Get the list of groups attached to the application, or a specific group
 Get-OktaApplicationSchema | Get the schema (profile) for the Application
 Get-OktaApplicationUser | Get one or more users attached to the application
-Get-OktaAuthorizationServer | Get one or more AuthorizationServers
-Get-OktaBaseUri | Get the base Uri set by Set-OktaOption or from environment, or passed in
-Get-OktaClaim | Get one of more Claims for an AuthorizationServer
-Get-OktaGroup | Get one or more Groups
-Get-OktaGroupApp | Get the Applications attached to the Group
-Get-OktaGroupUser | Get the Users attached to the Group
-Get-OktaIdentityProvider | Gets Identity Providers. Useful for New-OktaAuthProviderUser
-Get-OktaJwt | Get an Okta JWT token for an Application or Okta User
-Get-OktaNextUrl | Get the list of NextUrls the module currently knows about.
-Get-OktaOpenIdConfig | Get the JSON from the configuration Url for an AuthorizationServer
-Get-OktaPolicy | Get one of more Policies for an AuthorizationServer
-Get-OktaRateLimit | Get the current rate limit values from the last request
-Get-OktaRule | Get one or more Rules for an AuthorizationServer and Policy
-Get-OktaScope | Get one or more Scopes for an AuthorizationServer
-Get-OktaTrustedOrigin | Get one or more TrustedOrigins
-Get-OktaUser | Get one or more Okta Users
-Get-OktaUserApplication | Get the list of Applications for a User
-Get-OktaUserGroup | Get a list of Groups for the User
-Invoke-OktaApi | Helper for calling the OktaApi. Mainly used internally.
-New-OktaAuthorizationServer | Create a new AuthorizationServer
-New-OktaAuthProviderUser | Add a user for an Authentication Provider
-New-OktaClaim | Create a new Claim on an AuthorizationServer
-New-OktaGroup | Create a new Group
-New-OktaPolicy | Create a new Policy on the AuthorizationServer
-New-OktaRule | Create a new Rule on the AuthorizationServer's Policy
-New-OktaScope | Create a new AuthorizationServer Scope
-New-OktaServerApplication | Create a new server-type OAuth Application
-New-OktaSpaApplication | Create a new SPA-type OAuth Application
-New-OktaTrustedOrigin | Create a new TrustedOrigin
-New-OktaUser | Create a new user in Okta
 Remove-OktaApplication | Remove an Application. It will disable it first.
 Remove-OktaApplicationGroup | Remove a Group from an Application
 Remove-OktaApplicationSchemaProperty | Remove a Property from a Schema
 Remove-OktaApplicationUser | Remove a User from the Application
-Remove-OktaAuthorizationServer | Remove an Authorization Server. Will disable it first.
-Remove-OktaClaim | Remove a Claim from an AuthorizationServer
-Remove-OktaGroup | Remove a Group
-Remove-OktaGroupUser | Remove a User from a Group
-Remove-OktaTrustedOrigin | Delete a trustedorigin
-Remove-OktaUser | Remove a user, permanently!
-Resume-OktaUser | Resume (Unsuspend) a user
 Set-OktaApplication | Update an Application
 Set-OktaApplicationProperty | Set an application property
 Set-OktaApplicationSchemaProperty | Set a Property on a Schema
+
+## Authorization Functions
+
+Command     | Synopsis
+------------|---------|
+Disable-OktaAuthorizationServer | Disable the AuthorizationServer
+Enable-OktaAuthorizationServer | Enable the AuthorizationServer
+Export-OktaAuthorizationServer | Export the AuthorizationServer and its Claims, Scopes, Policies and their Rules
+Get-OktaAuthorizationServer | Get one or more AuthorizationServers
+New-OktaAuthorizationServer | Create a new AuthorizationServer
+Remove-OktaAuthorizationServer | Remove an Authorization Server. Will disable it first.
 Set-OktaAuthorizationServer | Update an AuthorizationServer
+
+## Claim Functions
+
+Command     | Synopsis
+------------|---------|
+Get-OktaClaim | Get one of more Claims for an AuthorizationServer
+New-OktaClaim | Create a new Claim on an AuthorizationServer
+Remove-OktaClaim | Remove a Claim from an AuthorizationServer
+
+## Group Functions
+
+Command     | Synopsis
+------------|---------|
+Add-OktaGroupUser | Add a User to a Group
+Get-OktaGroup | Get one or more Groups
+Get-OktaGroupApp | Get the Applications attached to the Group
+Get-OktaGroupUser | Get the Users attached to the Group
+New-OktaGroup | Create a new Group
+Remove-OktaGroup | Remove a Group
+Remove-OktaGroupUser | Remove a User from a Group
 Set-OktaGroup | Update a Group's name or description
+
+## Misc Functions
+
+Command     | Synopsis
+------------|---------|
+Get-OktaApiToken | Get the API token set by Set-OktaOption or from environment, or passed in
+Get-OktaAppJwt | Get the JWT for client_credential (server-to-server)
+Get-OktaBaseUri | Get the base Uri set by Set-OktaOption or from environment, or passed in
+Get-OktaIdentityProvider | Gets Identity Providers. Useful for New-OktaAuthProviderUser
+Get-OktaJwt | Get an Okta JWT token for an Application or Okta User
+Get-OktaNextUrl | Get the list of NextUrls the module currently knows about.
+Get-OktaOpenIdConfig | Get the JSON from the configuration Url for an AuthorizationServer
+Get-OktaRateLimit | Get the current rate limit values from the last request
+Get-OktaTrustedOrigin | Get one or more TrustedOrigins
+Invoke-OktaApi | Helper for calling the OktaApi. Mainly used internally.
+New-OktaAuthProviderUser | Add a user for an Authentication Provider
+New-OktaServerApplication | Create a new server-type OAuth Application
+New-OktaSpaApplication | Create a new SPA-type OAuth Application
+New-OktaTrustedOrigin | Create a new TrustedOrigin
+Remove-OktaTrustedOrigin | Delete a trustedorigin
 Set-OktaOption | Set OktaOptions for accessing the API
 Set-OktaTrustedOrigin | Update a TrustedOrigin
-Suspend-OktaUser | Suspend a user
 Test-OktaNext | Checks to see if -Next will return anything for a give Okta object
 
-Generated by New-HelpOutput.ps1 on 11/23/2020 12:54:03
+## Policy Functions
+
+Command     | Synopsis
+------------|---------|
+Get-OktaPolicy | Get one of more Policies for an AuthorizationServer
+New-OktaPolicy | Create a new Policy on the AuthorizationServer
+
+## Rule Functions
+
+Command     | Synopsis
+------------|---------|
+Get-OktaRule | Get one or more Rules for an AuthorizationServer and Policy
+New-OktaRule | Create a new Rule on the AuthorizationServer's Policy
+
+## Scope Functions
+
+Command     | Synopsis
+------------|---------|
+Get-OktaScope | Get one or more Scopes for an AuthorizationServer
+New-OktaScope | Create a new AuthorizationServer Scope
+
+## User Functions
+
+Command     | Synopsis
+------------|---------|
+Disable-OktaUser | Disables (deactivates) a user
+Enable-OktaUser | Enable (Activate) a user
+Get-OktaUser | Get one or more Okta Users
+Get-OktaUserApplication | Get the list of Applications for a User
+Get-OktaUserGroup | Get a list of Groups for the User
+New-OktaUser | Create a new user in Okta
+Remove-OktaUser | Remove a user, permanently!
+Resume-OktaUser | Resume (Unsuspend) a user
+Suspend-OktaUser | Suspend a user
+
+Generated by New-HelpOutput.ps1 on 11/23/2020 13:25:27
