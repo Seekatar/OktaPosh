@@ -1,5 +1,7 @@
 Set-StrictMode -Version Latest
 
+$script:limitThreshold = 10
+
 function Get-OktaRateLimit {
     param ()
     return $script:rateLimit
@@ -17,7 +19,8 @@ function Invoke-OktaApi {
         [string] $OktaApiToken,
         [string] $OktaBaseUri,
         [switch] $Next,
-        [switch] $NotFoundOk
+        [switch] $NotFoundOk,
+        [switch] $NoRetryOnLimit
     )
 
     if ($Body -isnot [String]) {
@@ -62,6 +65,16 @@ function Invoke-OktaApi {
         $prevPref = $progressPreference
         $progressPreference = "silentlyContinue"
         try {
+            if (!$NoRetryOnLimit) {
+                $limits = Get-OktaRateLimit
+                if ($limits.RateLimitRemaining -and $limits.RateLimitRemaining -lt $script:limitThreshold) {
+                    $sleepMs = ($limits.RateLimitResetLocal - (Get-Date)).TotalMilliseconds
+                    if ($sleepMs -gt 0) {
+                        Write-Warning "Sleeping for ${sleepMs}ms since ratelimitRemaining is $($limits.RateLimitRemaining)"
+                        Start-Sleep -Milliseconds $sleepMs
+                    }
+                }
+            }
             $response = Invoke-WebRequest @parms
         } catch {
             $e = $_
