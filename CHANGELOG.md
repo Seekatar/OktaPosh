@@ -1,6 +1,10 @@
 # Change Log
 
-## 2020-11-23
+## 2020-12-09 0.2.1
+
+* Add retry logic for rate limit, and override switch of `Invoke-OktaApi`
+
+## 2020-11-23 0.2.0
 
 * Authorization Server Functions
   * Fixes for Export-OktaAuthorizationServer
