@@ -15,7 +15,7 @@ function Set-RateLimit {
         [object] $Headers
     )
 
-    Write-Verbose "Set-RateLimit Headers is $($Headers.GetType().FullName) $((Get-Member -InputObject $Headers -Name Contains))"
+    # Write-Verbose "Set-RateLimit Headers is $($Headers.GetType().FullName) $((Get-Member -InputObject $Headers -Name Contains))"
 
     # If the response is in an Exception vs return the headers are different. Arrrg!
     if (Get-Member -InputObject $Headers -Name GetValues) {
@@ -117,10 +117,14 @@ function Test-OktaResult {
             }
             $err = $result.Content | ConvertFrom-Json @parms
             if ($err | Get-Member -Name "errorCode") {
+                $summary = $err.errorSummary
+                if ($err.errorCauses) {
+                    $summary += ":$($err.errorCauses.errorSummary -join ", ")"
+                }
                 $oktaError = [PSCustomObject]@{
                     statusCode = $result.StatusCode
                     oktaError = $err
-                    summary = "$($err.errorSummary):$($err.errorCauses.errorSummary -join ", ")"
+                    summary = $summary
                 }
             }
         } catch {
