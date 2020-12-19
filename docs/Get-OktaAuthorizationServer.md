@@ -33,42 +33,12 @@ Get-OktaAuthorizationServer [-Next] [-Json] [<CommonParameters>]
 
 ### EXAMPLE 1
 ```
-PS > Get-OktaAuthorizationServer -Query Reliance
+PS > Get-OktaAuthorizationServer -Query Myapp
 ```
 
-Gets authorizations servers with Reliance in the name or description
+Gets authorizations servers with Myapp in the name or description
 
 ## PARAMETERS
-
-### -Query
-Searches the name and audiences of Authorization Servers for matching values
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Limit
-Limit the number of values returned
-
-```yaml
-Type: UInt32
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -AuthorizationServerId
 AuthorizationServerId retrieved from Get-OktaAuthorizationServer
@@ -100,6 +70,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Limit
+Limit the number of values returned
+
+```yaml
+Type: UInt32
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Next
 Set to get the next page from a previous call (if one exists)
 
@@ -115,12 +100,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Query
+Searches the name and audiences of Authorization Servers for matching values
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
+### String
+Pipe Ids in
+
+### PSCustomObject[]
+Pipe objects with Id
+
 ## OUTPUTS
+
+### PSCustomObject[]
+AuthorizationServer Objects
 
 ## NOTES
 

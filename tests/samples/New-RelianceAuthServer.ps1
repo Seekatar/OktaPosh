@@ -4,7 +4,7 @@ param()
 # CCC naming conventions
 # http://confluence.nix.cccis.com/display/IdAM/Entity+Naming+Conventions#EntityNamingConventions-Applications.1
 
-# script to add Okta object for the Reliance project
+# script to add Okta object for the Myapp project
 if (!(Get-Module OktaPosh)) {
     Write-Warning "Must Import-Module OktaPosh and call Set-OktaOption before running this script."
     return
@@ -13,15 +13,15 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 # what to set up
-$authServerName = "Casualty-Reliance-AS"
+$authServerName = "Casualty-Myapp-AS"
 $scopes = "access:token","get:item","save:item","remove:item"
 $claimName = "appName"
 
 $apps = @(
-    @{ Name = "CCC-CASReliance-DRE"; Scopes = "get:item","access:token","save:item" },
-    @{ Name = "CCC-CASReliance-Interface"; Scopes = "get:item","access:token","save:item" },
-    @{ Name = "CCC-CASReliance-ThirdParty"; Scopes = "get:item","access:token" },
-    @{ Name = "CICD-CASReliance-LoadTest-DEV"; Scopes = "get:item","access:token","save:item" }
+    @{ Name = "CCC-CASMyapp-DRE"; Scopes = "get:item","access:token","save:item" },
+    @{ Name = "CCC-CASMyapp-Interface"; Scopes = "get:item","access:token","save:item" },
+    @{ Name = "CCC-CASMyapp-ThirdParty"; Scopes = "get:item","access:token" },
+    @{ Name = "CICD-CASMyapp-LoadTest-DEV"; Scopes = "get:item","access:token","save:item" }
 )
 
 $authServer = Get-OktaAuthorizationServer -Query $authServerName
@@ -29,9 +29,9 @@ if ($authServer) {
     "Found '$authServerName'"
 } else {
     $authServer = New-OktaAuthorizationServer -Name $authServerName `
-        -Audiences "api://cccis/reliance/api" `
+        -Audiences "api://cccis/myapp/api" `
         -Issuer "$(Get-OktaBaseUri)/oauth2/default" `
-        -Description "Reliance Service Gateway Authorization Server"
+        -Description "Myapp Service Gateway Authorization Server"
     if ($authServer) {
         "Created '$authServerName'"
     } else {
@@ -86,7 +86,7 @@ foreach ( $newApp in $apps) {
                             -PolicyId $policy.id -Priority 1 `
                             -GrantTypes client_credentials `
                             -Scopes $newApp.Scopes
-                            
+
         "    Added 'Allow $($policyName)' Rule"
     }
 }

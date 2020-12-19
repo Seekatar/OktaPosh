@@ -23,16 +23,8 @@ Get-OktaGroupUser [-Limit <UInt32>] [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
-
-### Example 1
-```
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -101,10 +93,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+Pipe Ids in
+
+### PSCustomObject[]
+Pipe objects with Id
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject[]
+Group Objects
+
 ## NOTES
 
 ## RELATED LINKS

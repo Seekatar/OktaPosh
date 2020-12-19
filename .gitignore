@@ -1,2 +1,4 @@
 **/tests/**/coverage.xml
 debug.log
+docs-generated
+OktaPosh/**/OktaPosh-help.xml

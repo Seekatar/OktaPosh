@@ -17,16 +17,15 @@ Enable-OktaApplication [-AppId] <String> [-WhatIf] [-Confirm] [<CommonParameters
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Enable-OktaAuthorizationServer -Id $authServer.Id
 ```
 
-{{ Add example description here }}
+Enable an authorization server
 
 ## PARAMETERS
 
@@ -81,7 +80,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
 ### System.Object

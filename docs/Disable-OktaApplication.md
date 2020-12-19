@@ -17,16 +17,22 @@ Disable-OktaApplication [-AppId] <String> [-WhatIf] [-Confirm] [<CommonParameter
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Disable-OktaApplication -Id $app.Id
 ```
 
-{{ Add example description here }}
+Disables an application
+
+### Example 1
+```
+Get-OktaApplication -q Test | Disable-OktaApplication
+```
+
+Disables all applications with a label with the prefix Test
 
 ## PARAMETERS
 
@@ -81,7 +87,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
 ### System.Object

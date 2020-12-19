@@ -22,10 +22,10 @@ Add-OktaApplicationUser [-AppId] <String> [-UserId] <String> [-WhatIf] [-Confirm
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Add-OktaApplicationUser -AppId $spaApp.id -UserId $user.Id
 ```
 
-{{ Add example description here }}
+Add a user to an application
 
 ## PARAMETERS
 
@@ -95,10 +95,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+User Ids
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+User assignment Object
+
 ## NOTES
 
 ## RELATED LINKS

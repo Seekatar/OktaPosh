@@ -15,7 +15,7 @@ param(
         Get-Content $path | ForEach-Object { $_.TrimEnd() } | Out-File "$path.tmp"
         Copy-Item "$path.tmp" $path
         Remove-Item "$path.tmp"
-        "Updated module with $($publicFunctions.Count) functions"
+        "Updated module $path with $($publicFunctions.Count) functions"
         if ($publicAliases) {
             "   and $($publicAliases.Count) aliases"
         }

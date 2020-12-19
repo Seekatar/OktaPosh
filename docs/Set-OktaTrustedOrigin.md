@@ -17,16 +17,16 @@ Set-OktaTrustedOrigin [-TrustedOrigin] <PSObject> [-WhatIf] [-Confirm] [<CommonP
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+$trustedOrigin.name = "NewName"
+$origin = Set-OktatrustedOrigin -trustedOrigin $trustedOrigin
 ```
 
-{{ Add example description here }}
+Update the name of the trusted origin
 
 ## PARAMETERS
 
@@ -81,10 +81,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+
+Trusted origin object
+
 ## NOTES
 
 ## RELATED LINKS

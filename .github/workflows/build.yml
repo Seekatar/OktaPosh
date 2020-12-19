@@ -105,6 +105,12 @@ jobs:
           commitSHA: ${{ github.sha }}
           githubRef: ${{ github.ref }}
 
+    - name: Generate Help
+      shell: powershell
+      working-directory: build
+      run: |
+        .\New-ModuleHelp.ps1
+
     - name: Publish Module
       working-directory: OktaPosh
       env:

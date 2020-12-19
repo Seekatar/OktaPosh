@@ -19,16 +19,15 @@ New-OktaSpaApplication [-Label] <String> [-RedirectUris] <String[]> [-LoginUri] 
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+New-OktaSpaApplication -Label $spaAppName -RedirectUris "http://gohome","http://gohome2" -LoginUri "http://login"
 ```
 
-{{ Add example description here }}
+Add a new SPA Application
 
 ## PARAMETERS
 
@@ -173,10 +172,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+Application Object
+
 ## NOTES
 
 ## RELATED LINKS

@@ -20,13 +20,6 @@ Remove-OktaGroupUser [-GroupId] <String> [-UserId] <String> [-Json] [-WhatIf] [-
 
 ## EXAMPLES
 
-### Example 1
-```
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
-
 ## PARAMETERS
 
 ### -Confirm
@@ -45,7 +38,7 @@ Accept wildcard characters: False
 ```
 
 ### -GroupId
-{{ Fill GroupId Description }}
+GroupId retrieved from Get-OktaGroup
 
 ```yaml
 Type: String

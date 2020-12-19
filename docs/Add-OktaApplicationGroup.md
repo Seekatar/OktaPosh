@@ -18,16 +18,15 @@ Add-OktaApplicationGroup [-AppId] <String> [-GroupId] <String> [[-Priority] <Int
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Add-OktaApplicationGroup -AppId $app.id -GroupId $group.Id
 ```
 
-{{ Add example description here }}
+Add a group to an application
 
 ## PARAMETERS
 
@@ -127,10 +126,16 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+
+Group Ids
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+
+Group assignment Object
+
 ## NOTES
 
 ## RELATED LINKS

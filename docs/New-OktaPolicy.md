@@ -13,7 +13,7 @@ Create a new Policy on the AuthorizationServer
 ## SYNTAX
 
 ```
-New-OktaPolicy -AuthorizationServerId <String> [-Name] <String> [-Description <String>] [-Inactive]
+New-OktaPolicy [-AuthorizationServerId] <String> [-Name] <String> [[-Description] <String>] [-Inactive]
  [[-Priority] <UInt32>] [[-ClientIds] <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -37,7 +37,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -84,7 +84,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -156,10 +156,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+
+Policy object
+
 ## NOTES
 
 ## RELATED LINKS

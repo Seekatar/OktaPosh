@@ -14,8 +14,8 @@ Add a user for an Authentication Provider
 
 ```
 New-OktaAuthProviderUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
- -ProviderType <String> [-ProviderName <String>] [-GroupIds <String[]>] [-Activate] [-NextLogin] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-ProviderType] <String> [[-ProviderName] <String>] [[-GroupIds] <String[]>] [-Activate] [-NextLogin]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,7 +32,37 @@ New-OktaAuthProviderUser -FirstName Fred -LastName Flintstone -Email fflintstone
 
 Add's domain user fflintstone@myco.com to Okta.
 
+### Example 2
+$groupIds = (Get-OktaGroup -q Test).id
+
+
+```
+$profile = [PSCustomObject]@{
+    given_name = 'Sheryl'
+    family_name = 'Limor'
+    email = 'Sheryl_Limor@test.com'
+}
+$profile | New-OktaAuthProviderUser -ProviderType LDAP -ProviderName AZURAD -GroupIds $groupIds
+```
+
+Add user from an object, and adding to all Test groups at the same time
+
 ## PARAMETERS
+
+### -Activate
+Set to Activate (Enable) to use on add
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
@@ -79,6 +109,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -GroupIds
+Optional array of groups to add the user to
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LastName
 Last name
 
@@ -109,27 +154,11 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+### -NextLogin
+If Activate is set, for user to change password at next login.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GroupIds
-Optional array of groups to add the user to
-
-```yaml
-Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -149,7 +178,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -162,40 +191,27 @@ Type of Authentication Provider, use tab to see valid values
 Type: String
 Parameter Sets: (All)
 Aliases:
+Accepted values: OKTA, ACTIVE_DIRECTORY, LDAP, FEDERATION, SOCIAL, IMPORT
 
 Required: True
-Position: Named
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Activate
-Set to Activate (Enable) to use on add
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NextLogin
-If Activate is set, for user to change password at next login.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -205,8 +221,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### PSCustomObject
+User profile object with FirstName, LastName, Email, and optional Login
+
 ## OUTPUTS
+
+### PSCustomObject
+User object
 
 ### System.Object
 ## NOTES

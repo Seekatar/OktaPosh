@@ -13,7 +13,7 @@ Create a new Rule on the AuthorizationServer's Policy
 ## SYNTAX
 
 ```
-New-OktaRule -AuthorizationServerId <String> [-PolicyId] <String> [-Name] <String> [-Inactive]
+New-OktaRule [-AuthorizationServerId] <String> [-PolicyId] <String> [-Name] <String> [-Inactive]
  [[-Priority] <UInt32>] [-GrantTypes] <String[]> [[-Scopes] <String[]>] [[-UserIds] <String[]>]
  [[-GroupIds] <String[]>] [[-AccessTokenLifetimeMinutes] <UInt32>] [[-RefreshTokenLifetimeMinutes] <UInt32>]
  [[-RefreshTokenWindowDays] <UInt32>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -26,10 +26,25 @@ Long description
 
 ### EXAMPLE 1
 ```
-PS C:\> New-OktaRule -AuthorizationServerId $reliance.id -Name "Allow DRE" -PolicyId $drePolicy.id -Priority 1 -GrantTypes client_credentials -Scopes get_item,access_token,save_item
+PS C:\> New-OktaRule -AuthorizationServerId $myapp.id -Name "Allow DRE" -PolicyId $drePolicy.id -Priority 1 -GrantTypes client_credentials -Scopes get_item,access_token,save_item
 ```
 
 ## PARAMETERS
+
+### -AccessTokenLifetimeMinutes
+How long the access token is valid
+
+```yaml
+Type: UInt32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: 60
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -AuthorizationServerId
 AuthorizationServerId retrieved from Get-OktaAuthorizationServer
@@ -40,38 +55,54 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
 Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GrantTypes
+Types of grant for the Rule
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: authorization_code, password, refresh_token, client_credentials, implicit
+
+Required: True
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-Id of Policy to add to the rule from Get-OktaPolicy
+### -GroupIds
+GroupIds to add to the Rule
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Name
-Name
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
+Required: False
+Position: 7
+Default value: EVERYONE
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -91,6 +122,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Name
+Name
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyId
+Id of Policy to add to the rule from Get-OktaPolicy
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Priority
 Rule Priority
 
@@ -100,83 +161,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 3
 Default value: 1
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GrantTypes
-Types of grant for the Rule
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Scopes
-Scopes to add to the Rule
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UserIds
-UserIds to add to the Rule
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GroupIds
-GroupIds to add to the Rule
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: EVERYONE
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AccessTokenLifetimeMinutes
-How long the access token is valid
-
-```yaml
-Type: UInt32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 9
-Default value: 60
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -190,7 +176,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 9
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -205,8 +191,38 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 10
 Default value: 7
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Scopes
+Scopes to add to the Rule
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserIds
+UserIds to add to the Rule
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -227,21 +243,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -249,7 +250,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### PSCustomObject
+
+Rule object
+
 ## NOTES
-General notes
 
 ## RELATED LINKS

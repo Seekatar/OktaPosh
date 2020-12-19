@@ -95,11 +95,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+Pipe Ids in
+
+### PSCustomObject[]
+Pipe objects with Id
 
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+User object
+
 ## NOTES
 
 ## RELATED LINKS

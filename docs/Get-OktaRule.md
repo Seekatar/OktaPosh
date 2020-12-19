@@ -14,13 +14,12 @@ Get one or more Rules for an AuthorizationServer and Policy
 
 ### ById
 ```
-Get-OktaRule -AuthorizationServerId <String> [-PolicyId] <String> -RuleId <String> [-Json] [<CommonParameters>]
+Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> -RuleId <String> [-Json] [<CommonParameters>]
 ```
 
 ### Query
 ```
-Get-OktaRule -AuthorizationServerId <String> [-PolicyId] <String> [-Query <String>] [-Json]
- [<CommonParameters>]
+Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,6 +48,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -PolicyId
 Id of a Policy.
 Can be retrieved with Get-OktaPolicy
@@ -59,7 +73,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -76,21 +90,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Json
-Set to return JSON instead of PSCustomObject
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -115,10 +114,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### String
+Pipe Ids in
+
+### PSCustomObject[]
+Pipe objects with Id
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject[]
+Rule Objects
+
 ## NOTES
 
 ## RELATED LINKS

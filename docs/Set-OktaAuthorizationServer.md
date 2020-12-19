@@ -14,20 +14,21 @@ Update an AuthorizationServer
 
 ```
 Set-OktaAuthorizationServer [-AuthorizationServerId] <String> [-Name] <String> [-Audiences] <String[]>
- [-IssuerMode <String>] [[-Description] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-IssuerMode] <String>] [[-Description] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+$null = Set-OktaAuthorizationServer -Id $authServer.Id -Name $authServerName `
+    -Description "new description" `
+    -Audience $authServer.audiences[0]
 ```
 
-{{ Add example description here }}
+Update a auth servers details
 
 ## PARAMETERS
 
@@ -85,6 +86,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IssuerMode
+ORG_URL or CUSTOM_URL_DOMAIN. Indicates which value is specified in the issuer of the tokens that a Custom Authorization Server returns: the original Okta org domain URL or a custom domain URL.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: ORG_URL, CUSTOM_URL_DOMAIN
+
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: False
@@ -122,30 +139,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IssuerMode
-{{ Fill IssuerMode Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+
+Authorization server object
+
 ## NOTES
 
 ## RELATED LINKS

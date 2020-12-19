@@ -33,6 +33,13 @@ Invoke-OktaApi -RelativeUri "apps?filter=user.id+eq+%2200upwxy3icQiHJ3HN0h7%22+o
 This was lifted from the browser's dev tools to figure out how it was getting a user's apps.
 This was then turned into Get-OktaUserApplication
 
+### Example 1
+```
+Invoke-OktaApi -RelativeUri users/00....7/factors
+```
+
+Get a user's factors, which wasn't supported yet with a separate function.
+
 ## PARAMETERS
 
 ### -Body
@@ -67,6 +74,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Json
+Set to return raw content instead of converting from JSON to objects
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Method
 The HTTP method to use
 
@@ -78,6 +100,51 @@ Accepted values: Get, Head, Post, Put, Delete, Trace, Options, Merge, Patch
 
 Required: False
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoRetryOnLimit
+Set to false to fail on rate limit error, otherwise will wait and retry
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NotFoundOk
+Set if a non-Get call is ok to get 404, otherwise non-Get 404 will result in an error.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -115,21 +182,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Json
-Set to return raw content instead of converting from JSON to objects
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -RelativeUri
 Additional part of Uri to call, after base.
 
@@ -161,57 +213,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Next
-Set to get the next page from a previous call (if one exists)
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NotFoundOk
-Set if a non-Get call is ok to get 404, otherwise non-Get 404 will result in an error.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NoRetryOnLimit
-Set to false to fail on rate limit error, otherwise will wait and retry
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
 ### System.Object

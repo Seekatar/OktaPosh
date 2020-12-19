@@ -17,16 +17,8 @@ Remove-OktaApplicationGroup [-AppId] <String> [-GroupId] <String> [-WhatIf] [-Co
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
-
-### Example 1
-```
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -41,7 +33,7 @@ Aliases: ApplicationId, Id
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -71,7 +63,7 @@ Aliases:
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -96,10 +88,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### PSCustomObject
+Object with Id and GroupId
+
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

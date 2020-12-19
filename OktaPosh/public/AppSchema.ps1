@@ -19,6 +19,7 @@ function Get-OktaApplicationSchema
 # TODO Array support
 function Set-OktaApplicationSchemaProperty
 {
+    [OutputType([PSCustomObject])]
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]

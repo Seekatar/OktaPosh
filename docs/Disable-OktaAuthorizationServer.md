@@ -17,16 +17,15 @@ Disable-OktaAuthorizationServer [-AuthorizationServerId] <String> [-WhatIf] [-Co
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Disable-OktaAuthorizationServer -Id $authServer.Id -Confirm:$false
 ```
 
-{{ Add example description here }}
+Disable an auth server without prompting
 
 ## PARAMETERS
 
@@ -81,7 +80,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
 ### System.Object

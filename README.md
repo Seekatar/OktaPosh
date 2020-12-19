@@ -35,9 +35,11 @@ Get-OktaApplicationUser -AppId $app.Id | Add-OktaGroupUser -GroupId $group.Id
 
 The `tests` folder also has many more examples.
 
+A summary of all the functions is [here](Summary.md)
+
 ## High Level Functions
 
-The `tests` folder has some high-level functions currently not in the module that add an AuthorizationServer and all of its related objects in one shot. There are also some sample scripts used by the my specific situation, but may be useful for others to look at.
+The `tests/samples` folder has some high-level functions currently not in the module that add an AuthorizationServer and all of its related objects in one shot. There are also some sample scripts used by the my specific situation, but may be useful for others to look at.
 
 ## Technical Details
 

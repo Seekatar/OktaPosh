@@ -17,16 +17,17 @@ Set-OktaApplication [[-Application] <PSObject>] [-WhatIf] [-Confirm] [<CommonPar
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+$spaApp = Get-OktaApplication -Id 123
+$spaApp.label = "test-updated"
+$result = Set-OktaApplication -Application $spaApp
 ```
 
-{{ Add example description here }}
+Change an app's label
 
 ## PARAMETERS
 
@@ -81,10 +82,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+
+Application object
+
 ## NOTES
 
 ## RELATED LINKS

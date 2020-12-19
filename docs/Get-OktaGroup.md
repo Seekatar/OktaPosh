@@ -41,6 +41,21 @@ Get a group with id 123
 
 ## PARAMETERS
 
+### -Filter
+Expression for filtering on properties.  See https://developer.okta.com/docs/reference/api-overview/#filtering
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -GroupId
 GroupId from Okta.
 Can use query version to get it.
@@ -57,17 +72,17 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -Query
-Searches in the name property
+### -Json
+Set to return JSON instead of PSCustomObject
 
 ```yaml
-Type: String
-Parameter Sets: Query
+Type: SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -87,9 +102,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Filter
-Expression for filtering on properties. 
-See https://developer.okta.com/docs/reference/api-overview/#filtering
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Query
+Searches in the name property
 
 ```yaml
 Type: String
@@ -99,21 +128,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Json
-Set to return JSON instead of PSCustomObject
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -133,30 +147,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Next
-Set to get the next page from a previous call (if one exists)
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Next
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### System.String
+### String
+Pipe Ids in
+
+### PSCustomObject[]
+Pipe objects with Id
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject[]
+Group Objects
+
 ## NOTES
 
 ## RELATED LINKS

@@ -19,16 +19,19 @@ Set-OktaApplicationSchemaProperty [-AppId] <String> [-Name] <String> [[-Descript
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+$schema = Set-OktaApplicationSchemaProperty -AppId $app.id `
+                                    -Name oktaPosh `
+                                    -Type string `
+                                    -Min 1 `
+                                    -Max 10
 ```
 
-{{ Add example description here }}
+Set a schema property called oktaPosh on an app with a restricted string length
 
 ## PARAMETERS
 
@@ -71,7 +74,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,7 +104,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -116,7 +119,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -162,7 +165,7 @@ Aliases:
 Accepted values: string, boolean, number, integer
 
 Required: False
-Position: 4
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -204,10 +207,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+Schema object
+
 ## NOTES
 
 ## RELATED LINKS
+
+[Get-OktaApplicationSchemaProperty](Get-OktaApplicationSchemaProperty.md)

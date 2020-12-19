@@ -261,7 +261,7 @@ function Get-OktaApplicationGroup {
         [Parameter(Mandatory)]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(Mandatory,ValueFromPipeline,ParameterSetName="ById")]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,ParameterSetName="ById")]
         [Alias('Id')]
         [string] $GroupId,
         [Parameter(ParameterSetName="Query")]
@@ -289,7 +289,7 @@ function Get-OktaApplicationUser {
         [Parameter(Mandatory)]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(Mandatory,ValueFromPipeline,ParameterSetName="ById")]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,ParameterSetName="ById")]
         [Alias('Id')]
         [string] $UserId,
         [Parameter(ParameterSetName="Query")]
@@ -316,11 +316,11 @@ function Get-OktaApplicationUser {
 function Remove-OktaApplicationGroup {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(Mandatory,ValueFromPipeline)]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string] $GroupId
     )
 

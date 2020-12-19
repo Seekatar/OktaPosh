@@ -17,16 +17,15 @@ New-OktaGroup [-Name] <String> [[-Description] <String>] [-WhatIf] [-Confirm] [<
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+New-OktaGroup -Name "MyTestGroup"
 ```
 
-{{ Add example description here }}
+Create a new group
 
 ## PARAMETERS
 
@@ -56,7 +55,7 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -71,7 +70,7 @@ Aliases:
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -96,10 +95,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### String
+Group Name
+
+### PSCustomObject
+Object with Name and optional Description
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+Group object
+
 ## NOTES
 
 ## RELATED LINKS

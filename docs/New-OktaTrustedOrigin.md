@@ -18,16 +18,15 @@ New-OktaTrustedOrigin [-Name] <String> [-Origin] <String> [-CORS] [-Redirect] [-
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+New-OktatrustedOrigin -Name $trustedOriginName -Origin $trustedOriginName -CORS -Redirect
 ```
 
-{{ Add example description here }}
+Add a new origin with CORS and allows redirection.
 
 ## PARAMETERS
 
@@ -92,7 +91,7 @@ Accept wildcard characters: False
 ```
 
 ### -Redirect
-ASllows for browser redirection to 'Origin URL' after signing in or out.
+Allows for browser redirection to 'Origin URL' after signing in or out.
 
 ```yaml
 Type: SwitchParameter
@@ -127,10 +126,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+
+Trusted origin object
+
 ## NOTES
 
 ## RELATED LINKS

@@ -14,19 +14,12 @@ Will disable it first.
 ## SYNTAX
 
 ```
-Remove-OktaAuthorizationServer -AuthorizationServerId <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-OktaAuthorizationServer [-AuthorizationServerId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 ## EXAMPLES
-
-### Example 1
-```
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -39,7 +32,7 @@ Parameter Sets: (All)
 Aliases: Id
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
@@ -83,10 +76,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### String
+Id
+
+### PSCustomObject
+Object with Id
+
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

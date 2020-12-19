@@ -28,16 +28,8 @@ Get-OktaApplicationUser -AppId <String> [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
-
-### Example 1
-```
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -86,6 +78,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Query
 Value matched against an application user profile's userName, firstName, lastName, and email.
 Note: This operation only supports startsWith that matches what the string starts with to the query.
@@ -113,22 +120,7 @@ Aliases: Id
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Next
-Set to get the next page from a previous call (if one exists)
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Next
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -137,10 +129,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+Pipe Ids in
+
+### PSCustomObject[]
+Pipe objects with Id
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject[]
+User objects
+
 ## NOTES
 
 ## RELATED LINKS

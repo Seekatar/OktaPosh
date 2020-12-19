@@ -23,7 +23,7 @@ foreach ($t in $Task) {
             Push-Location (Join-Path $PSScriptRoot '/build')
             .\New-ModuleHelp.ps1
             if (Test-Path \code\joat-powershell\New-HelpOutput.ps1) {
-                $Groups = "Authorization","Claim","User","Group","Policy","Rule","Scope","Application"
+                $Groups = "Authorization","Claim","User","Group","Policy","Rule","Scope","Application","TrustedOrigin"
                 \code\joat-powershell\New-HelpOutput.ps1 -Folder ..\OktaPosh\ -GroupPrefix "Okta" -Groups $groups | Out-File ..\summary.md -Encoding ascii
             }
             .\Update-Manifest.ps1
@@ -53,7 +53,8 @@ foreach ($t in $Task) {
                 Install-Module platyPS -Scope CurrentUser -Force
             }
             Import-Module platyPS
-            Update-MarkdownHelp .\docs
+            Import-Module ./OktaPosh/OktaPosh.psd1 -Force
+            Update-MarkdownHelp .\docs -UpdateInputOutput:$false
         }
         Default {}
     }

@@ -28,16 +28,16 @@ Get-OktaApplicationGroup -AppId <String> [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Get-OktaApplicationGroup -AppId $appId -Limit 5
+Get-OktaApplicationGroup -Next
 ```
 
-{{ Add example description here }}
+Get the first and second pages of an application's groups
 
 ## PARAMETERS
 
@@ -67,7 +67,7 @@ Aliases: Id
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -121,10 +121,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+Pipe Ids in
+
+### PSCustomObject[]
+Pipe objects with Id
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject[]
+Group objects
+
 ## NOTES
 
 ## RELATED LINKS

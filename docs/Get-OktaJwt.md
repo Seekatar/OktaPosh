@@ -13,8 +13,8 @@ Get an Okta JWT token for an Application or Okta User
 ## SYNTAX
 
 ```
-Get-OktaJwt [-ClientId <String>] [-Issuer <String>] [-RedirectUri <String>] [-Username <String>]
- [-ClientSecret <String>] [-SecureClientSecret <SecureString>] [-IdToken] -Scopes <String[]>
+Get-OktaJwt [[-ClientId] <String>] [[-Issuer] <String>] [[-RedirectUri] <String>] [[-Username] <String>]
+ [[-ClientSecret] <String>] [[-SecureClientSecret] <SecureString>] [-IdToken] [-Scopes] <String[]>
  [<CommonParameters>]
 ```
 
@@ -41,7 +41,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 0
 Default value: $env:OktaClientId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -56,23 +56,8 @@ Parameter Sets: (All)
 Aliases: Pw
 
 Required: False
-Position: Named
+Position: 4
 Default value: $env:OktaClientSecret
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SecureClientSecret
-Client secret for the Application as a SecureString or user password
-
-```yaml
-Type: SecureString
-Parameter Sets: (All)
-Aliases: Password
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -101,7 +86,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -116,7 +101,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -131,7 +116,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SecureClientSecret
+Client secret for the Application as a SecureString or user password
+
+```yaml
+Type: SecureString
+Parameter Sets: (All)
+Aliases: Password
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -146,7 +146,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

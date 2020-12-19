@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-OktaApplicationSchemaProperty
 
 ## SYNOPSIS
-Remove a Property from a Schema
+Remove a Property from a Schema.
 
 ## SYNTAX
 
@@ -18,16 +18,15 @@ Remove-OktaApplicationSchemaProperty [-AppId] <String> [-Name] <String> [-Json] 
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+Remove-OktaApplicationSchemaProperty -AppId $app.id -Name oktaPosh
 ```
 
-{{ Add example description here }}
+Remove the oktaPosh property
 
 ## PARAMETERS
 
@@ -112,10 +111,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
+
+[Set-OktaApplicationSchemaProperty](Set-OktaApplicationSchemaProperty.md)

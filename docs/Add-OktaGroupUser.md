@@ -46,7 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### -GroupId
-{{ Fill GroupId Description }}
+GroupId retrieved from Get-OktaGroup
 
 ```yaml
 Type: String
@@ -111,10 +111,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+User Ids
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+Group assignment Object
+
 ## NOTES
 
 ## RELATED LINKS

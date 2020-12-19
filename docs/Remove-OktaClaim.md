@@ -18,16 +18,8 @@ Remove-OktaClaim [-AuthorizationServerId] <String> [-ClaimId] <String> [-Json] [
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
-
-### Example 1
-```
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -112,10 +104,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+Id
+
+### PSCustomObject
+Object with Id
+
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

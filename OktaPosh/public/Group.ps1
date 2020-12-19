@@ -35,19 +35,22 @@ function New-OktaGroup {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [string] $Name,
+        [Parameter(ValueFromPipelineByPropertyName)]
         [string] $Description
     )
 
-    $body = [PSCustomObject]@{
-        profile = @{
-            name        = $Name
-            description = ternary $Description $Description "Added by OktaPosh"
+    process {
+        $body = [PSCustomObject]@{
+            profile = @{
+                name        = $Name
+                description = ternary $Description $Description "Added by OktaPosh"
+            }
         }
-    }
 
-    Invoke-OktaApi -RelativeUri "groups" -Body $body -Method POST
+        Invoke-OktaApi -RelativeUri "groups" -Body $body -Method POST
+    }
 }
 
 function Set-OktaGroup {

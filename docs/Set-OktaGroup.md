@@ -23,16 +23,15 @@ Set-OktaGroup -Id <String> -Name <String> [-Description <String>] [-WhatIf] [-Co
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+$null = Set-OktaGroup -Id $group.Id -Name "NewName" -Description "new description"
 ```
 
-{{ Add example description here }}
+Update the name and description for a group
 
 ## PARAMETERS
 
@@ -132,10 +131,16 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### String
+
+Group id
+
 ## OUTPUTS
 
-### System.Object
+### PSCustomObject
+
+Group object
+
 ## NOTES
 
 ## RELATED LINKS

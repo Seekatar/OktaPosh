@@ -20,13 +20,6 @@ Remove-OktaApplicationUser [-AppId] <String> [-UserId] <String> [-WhatIf] [-Conf
 
 ## EXAMPLES
 
-### Example 1
-```
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
-
 ## PARAMETERS
 
 ### -AppId
