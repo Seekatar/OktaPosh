@@ -8,6 +8,7 @@ on:
   push:
     branches:
     - main
+    - releases/**
   pull_request:
     branches:
     - releases/**
@@ -106,7 +107,7 @@ jobs:
           githubRef: ${{ github.ref }}
 
     - name: Generate Help
-      shell: powershell
+      shell: pwsh
       working-directory: build
       run: |
         .\New-ModuleHelp.ps1
