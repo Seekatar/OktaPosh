@@ -29,6 +29,15 @@ $result = Set-OktaApplication -Application $spaApp
 
 Change an app's label
 
+### Example 2
+```
+$spaApp = Get-OktaApplication -Id 123
+$spaApp.settings.oauthClient.post_logout_redirect_uris += "http://localhost:8008/fp-ui/implicit/callback/fp-ui/"
+$result = Set-OktaApplication -Application $spaApp
+```
+
+Add the the list of logout uris
+
 ## PARAMETERS
 
 ### -Application
