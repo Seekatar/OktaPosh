@@ -108,7 +108,7 @@ function Remove-OktaClaim
 
         $claim = Get-OktaClaim -AuthorizationServerId $AuthorizationServerId -ClaimId $ClaimId
         if ($claim) {
-            if ($PSCmdlet.ShouldProcess("$($Claim.name)", "Remove claim"))
+            if ($PSCmdlet.ShouldProcess($Claim.name, "Remove claim"))
             {
                 Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$ClaimId" -Method DELETE -Json:$Json
             }

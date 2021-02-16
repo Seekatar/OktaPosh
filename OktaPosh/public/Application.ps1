@@ -145,7 +145,7 @@ function Remove-OktaApplication {
 
         $app = Get-OktaApplication -AppId $AppId
         if ($app) {
-            if ($PSCmdlet.ShouldProcess($($app.Label),"Remove Application")) {
+            if ($PSCmdlet.ShouldProcess($app.Label,"Remove Application")) {
                 Disable-OktaApplication -AppId $AppId
                 Invoke-OktaApi -RelativeUri "apps/$AppId" -Method DELETE
             }
