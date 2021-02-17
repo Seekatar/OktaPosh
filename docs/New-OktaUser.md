@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-OktaUser
 
 ## SYNOPSIS
-Create a new user in Okta
+Create a new user in Okta, with or without a password
 
 ## SYNTAX
 
@@ -26,12 +26,12 @@ New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Log
 New-OktaUser -FirstName test-user -LastName test-user -Email $email
 ```
 
-Add a new user
+Add a new user without a password. If activated an email is sent to the user.
 
 ## PARAMETERS
 
 ### -Activate
-Set to activate during add
+Set to activate during add. An email will be sent to the user.
 
 ```yaml
 Type: SwitchParameter

@@ -10,6 +10,7 @@ $PSDefaultParameterValues = @{
                         vars = @{
                             user = @{id = '123-234'}
                             user2 = @{id = '123-235'}
+                            group = @{id = "123-123-345";profile=@{description="test"}}
                         }
     }
 }
@@ -27,11 +28,41 @@ Describe "User" {
                     $Uri -like "*/users?activate=false" -and $Method -eq 'POST'
                 }
     }
+    It "Adds a user with recovery question" {
+        $null = New-OktaUser -FirstName test-user -LastName test-user -Email $email -RecoveryQuestion Why? -RecoveryAnswer "Answer is 42"
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $b = $Body | ConvertFrom-Json
+                    $Uri -like "*/users?activate=false" -and $Method -eq 'POST' -and $b.credentials.recovery_question.question -eq 'Why?'
+                }
+    }
+    It "Adds a user to login next" {
+        $null = New-OktaUser -FirstName test-user -LastName test-user -Email $email -NextLogin -Activate
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users?activate=true&nextLogin=changePassword" -and $Method -eq 'POST'
+                }
+    }
+    It "Adds a user to a group" {
+        $null = New-OktaUser -FirstName test-user -LastName test-user -Email $email -GroupIds @($vars.group.id)
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $b = $Body | ConvertFrom-Json
+                    $Uri -like "*/users?activate=false" -and $Method -eq 'POST' -and $b.groupIds[0] -eq $vars.group.id
+                }
+    }
     It "Adds AuthProviderUser" {
         $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/users?provider=true&activate=false*" -and $Method -eq 'POST'
+                    $Uri -like "*/users?activate=false&provider=true*" -and $Method -eq 'POST'
+                }
+    }
+    It "Adds AuthProviderUser to loginNext" {
+        $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL -Activate
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users?activate=true&provider=true" -and $Method -eq 'POST'
                 }
     }
     It "Gets Users" {

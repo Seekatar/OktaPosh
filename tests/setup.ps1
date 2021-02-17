@@ -10,7 +10,7 @@ if ($Unit) {
         -ModuleName OktaPosh `
         -MockWith {
             $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
-            $Content = '{"errorCode": "200", "name":"test", "system": "system", "id": "policyid", "access_token": "token", "sessionToken": "token" }'
+            $Content = '{"errorCode": "200", "name":"test", "system": "system", "id": "policyid", "access_token": "token", "sessionToken": "token", "profile":{"name": "test"} }'
             $StatusCode = 200
 
             $Response | Add-Member -NotePropertyName Headers -NotePropertyValue @{} -Force

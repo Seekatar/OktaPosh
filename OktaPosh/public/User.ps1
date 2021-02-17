@@ -1,5 +1,32 @@
 # https://developer.okta.com/docs/reference/api/users/
 
+<#
+.Synopsis
+    synopsis
+#>
+function addUser
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory)]
+        [HashTable] $body,
+        [ValidateCount(0,20)]
+        [string[]] $GroupIds,
+        [switch] $Activate,
+        [switch] $NextLogin,
+        [string] $Provider = ""
+    )
+
+    Set-StrictMode -Version Latest
+    if ($GroupIds) {
+        $body['groupIds'] = @($GroupIds)
+    }
+
+    Invoke-OktaApi -RelativeUri "users?activate=$(ternary $Activate 'true' 'false')$Provider$(ternary $NextLogin '&nextLogin=changePassword' '')" `
+                     -Body $body -Method POST
+
+}
 function New-OktaAuthProviderUser
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
@@ -19,16 +46,11 @@ function New-OktaAuthProviderUser
         [ValidateSet('OKTA', 'ACTIVE_DIRECTORY', 'LDAP', 'FEDERATION', 'SOCIAL', 'IMPORT')]
         [string] $ProviderType,
         [string] $ProviderName,
+        [ValidateCount(0,20)]
         [string[]] $GroupIds,
-        [switch] $Activate,
-        [switch] $NextLogin
+        [switch] $Activate
     )
 
-    begin {
-        if ($NextLogin -and !$Activate) {
-            throw "Must set Activate to use NextLogin"
-        }
-    }
     process {
         Set-StrictMode -Version Latest
 
@@ -51,10 +73,7 @@ function New-OktaAuthProviderUser
         if ($ProviderName) {
             $body.credentials.provider['name'] = $ProviderName
         }
-        if ($GroupIds) {
-            $body['groupIds'] = @($GroupIds)
-        }
-        Invoke-OktaApi -RelativeUri "users?provider=true&activate=$(ternary $Activate 'true' 'false')&nextLogin=$(ternary $NextLogin 'true' 'false')" -Body $body -Method POST
+        addUser -Body $body -GroupIds $GroupIds -Activate:$Activate -NextLogin:$false -Provider "&provider=true"
     }
 }
 
@@ -64,8 +83,10 @@ function New-OktaUser
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Alias("given_name")]
         [string] $FirstName,
         [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Alias("family_name")]
         [string] $LastName,
         [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
         [string] $Email,
@@ -75,8 +96,22 @@ function New-OktaUser
         [string] $MobilePhone,
         [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $Activate,
-        [string] $Pw
+        [string] $Pw,
+        [ValidateCount(0,20)]
+        [string[]] $GroupIds,
+        [switch] $NextLogin,
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [string] $RecoveryQuestion,
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [ValidateLength(4,1000)]
+        [string] $RecoveryAnswer
     )
+
+    begin {
+        if ($NextLogin -and !$Activate) {
+            throw "Must set Activate to use NextLogin"
+        }
+    }
 
     process {
         Set-StrictMode -Version Latest
@@ -100,8 +135,20 @@ function New-OktaUser
              }
           }
         }
+        if ($RecoveryQuestion -and $RecoveryQuestion) {
+            if (!$body["credentials"]) {
+                $body["credentials"] = @{}
+            } elseif ($RecoveryQuestion -and !$RecoveryQuestion -or
+                      !$RecoveryQuestion -and $RecoveryQuestion) {
+                throw "Must supply question and answer."
+            }
+            $body["credentials"]["recovery_question"] = @{
+                question = $RecoveryQuestion
+                answer = $RecoveryAnswer
+              }
+        }
 
-        Invoke-OktaApi -RelativeUri "users?activate=$(ternary $Activate 'true' 'false')" -Body $body -Method POST
+        addUser -Body $body -GroupIds $GroupIds -Activate:$Activate -NextLogin:$NextLogin
     }
 }
 
