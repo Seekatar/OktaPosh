@@ -132,13 +132,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### String
-
 Group id
 
 ## OUTPUTS
 
 ### PSCustomObject
-
 Group object
 
 ## NOTES

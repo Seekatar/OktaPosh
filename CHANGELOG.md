@@ -1,6 +1,6 @@
 # Change Log
 
-## 2021-02-17 0.2.2
+## 2021-02-17 0.2.3
 
 * New-OktaAuthProviderUser remove unusable NextLogin parameter since didn't make sense
 * New-OktaAuthUser added support for more parameters

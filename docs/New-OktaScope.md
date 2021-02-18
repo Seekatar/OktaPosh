@@ -145,13 +145,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Scope Name
 
 ### PSCustomObject
-
 Object with Name
 
 ## OUTPUTS
 
 ### PSCustomObject
-
 Scope object
 
 ## NOTES

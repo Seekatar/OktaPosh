@@ -13,7 +13,7 @@ Get the list of NextUrls the module currently knows about.
 ## SYNTAX
 
 ```
-Get-OktaNextUrl [<CommonParameters>]
+Get-OktaNextUrl
 ```
 
 ## DESCRIPTION
@@ -23,16 +23,13 @@ You can use this to see the url that will be run using -Next
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Get-OktaNextUrl
 ```
 
 Get the list of NextUrls the module currently knows about.
 
 ## PARAMETERS
-
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
