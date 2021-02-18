@@ -4,6 +4,14 @@ param (
     [switch] $PesterPassThru
 )
 
+function checkPester
+{
+    $p = Get-Module Pester
+    if (!$p -or $p.Version.Major -lt 5) {
+        throw "Must have Pester 5 or higher installed to run tests. (Install-Module Pester -force)"
+    }
+}
+
 foreach ($t in $Task) {
 
     try {
@@ -12,10 +20,12 @@ foreach ($t in $Task) {
 
     switch ($t) {
         'unit' {
+            checkPester
             Push-Location (Join-Path $PSScriptRoot '/tests/unit')
             Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
         }
         'integration' {
+            checkPester
             Push-Location (Join-Path $PSScriptRoot '/tests/integration')
             Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
         }
@@ -29,6 +39,9 @@ foreach ($t in $Task) {
             .\Update-Manifest.ps1
         }
         'analyze' {
+            if (!(Get-Module PSScriptAnalyzer)) {
+                throw "Must install PSScript Analyzer (Install-Module -Name PSScriptAnalyzer)"
+            }
             Push-Location (Join-Path $PSScriptRoot '/OktaPosh')
             Invoke-ScriptAnalyzer -Path . -Recurse
         }

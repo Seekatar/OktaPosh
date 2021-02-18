@@ -100,7 +100,7 @@ function Remove-OktaGroup {
 
         $group = Get-OktaGroup -GroupId $GroupId
         if ($group) {
-            if ($PSCmdlet.ShouldProcess("$group.profile.name","Remove Group")) {
+            if ($PSCmdlet.ShouldProcess($group.profile.name,"Remove Group")) {
                 Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method DELETE
             }
         } else {

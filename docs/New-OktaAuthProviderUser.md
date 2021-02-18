@@ -14,8 +14,8 @@ Add a user for an Authentication Provider
 
 ```
 New-OktaAuthProviderUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
- [-ProviderType] <String> [[-ProviderName] <String>] [[-GroupIds] <String[]>] [-Activate] [-NextLogin]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ProviderType] <String> [[-ProviderName] <String>] [[-GroupIds] <String[]>] [-Activate] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -151,21 +151,6 @@ Required: False
 Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -NextLogin
-If Activate is set, for user to change password at next login.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

@@ -21,7 +21,7 @@ Resume-OktaUser [-UserId] <String> [-CheckCurrentStatus] [-WhatIf] [-Confirm] [<
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Resume-OktaUser -id 00u1etuu0flPrnIMK4x7
 ```
 
@@ -96,7 +96,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

@@ -1,5 +1,15 @@
 # Change Log
 
+## 2021-02-17 0.2.3
+
+* New-OktaAuthProviderUser remove unusable NextLogin parameter since didn't make sense
+* New-OktaAuthUser added support for more parameters
+  * GroupIds
+  * NextLogin
+  * RecoveryQuestion
+  * RecoveryAnswer
+* Note that GroupIds is limited to a max of 20 in the API and enforced by parameter validation now
+
 ## 2020-12-09 0.2.1
 
 * Add retry logic for rate limit, and override switch of `Invoke-OktaApi`
