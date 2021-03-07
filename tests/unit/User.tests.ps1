@@ -241,7 +241,7 @@ Describe "User" {
 
 Describe "Cleanup" {
     It "Remove test user" {
-        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{profile=@{email='test'};Status='PROVISIONED'}}
+        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{profile=@{email='test';login='test'};Status='PROVISIONED'}}
         Remove-OktaUser -UserId $vars.user.id -Confirm:$false
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {

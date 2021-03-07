@@ -10,10 +10,10 @@ $PSDefaultParameterValues = @{
         groupName      = 'test-group-app'
         email          = 'apptestuser@mailinator.com'
         vars = @{
-            app 	= @{id = 'App-1234-4324';label="test-app"}
+            app        = @{id = 'App-1234-4324';label="test-app"}
             spaApp     = $null
             schema     = $null
-            user       	= @{id = 'User-123-123-345';}
+            user       = @{id = 'User-123-123-345';login='User123';email='user123@test.com'}
         }
     }
 }
@@ -179,7 +179,7 @@ Describe "Application Tests" {
 Describe "Cleanup" {
     It 'Removes Application' {
         Mock Get-OktaApplication -ModuleName OktaPosh -MockWith { @{Label = $appName}}
-        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{status='PROVISIONED';profile=@{email="test"}}}
+        Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{status='PROVISIONED';profile=@{email="test";login="test"}}}
         if ($vars.user) {
             Remove-OktaUser -UserId $vars.user.id -Confirm:$false
         }
