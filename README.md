@@ -35,7 +35,7 @@ Get-OktaApplicationUser -AppId $app.Id | Add-OktaGroupUser -GroupId $group.Id
 
 The `tests` folder also has many more examples.
 
-A summary of all the functions is [here](Summary.md)
+A summary of all the functions is [here](summary.md)
 
 ## High Level Functions
 
