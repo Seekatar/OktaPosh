@@ -48,7 +48,8 @@ param(
                                    -ValueType $c.valueType `
                                    -GroupFilterType $c['groupFilterType'] `
                                    -ClaimType $c.claimType `
-                                   -Value $c.value
+                                   -Value $c.value `
+                                   -Scopes $c.scopes
             Write-Host "    Added '$($c.name)' Claim"
         }
     }

@@ -29,6 +29,13 @@ New-OktaUser -FirstName test-user -LastName test-user -Email $email
 
 Add a new user without a password. If activated an email is sent to the user.
 
+### Example 2
+```
+New-OktaUser -FirstName test -LastName user -email test@mailinator.com -GroupIds '00g2903fezLwplKw14x7','00g2903fey8I2DoxQ4x7'
+```
+
+Add a new user, and add the user to groups
+
 ## PARAMETERS
 
 ### -Activate
@@ -241,5 +248,7 @@ Object with FirstName, LastName, Email and optional Login, MobilePhone, Activate
 User object
 
 ## NOTES
+
+If you add a user with -Activate an email will be sent to the user. In situations where you set the password, or for Federated users, you can avoid sending the email by adding the user without -Active, then calling Enable-User immediately afterwards.
 
 ## RELATED LINKS

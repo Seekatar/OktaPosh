@@ -11,7 +11,7 @@ if ($Environment -ne 'prod') {
     $domainSuffix = "-$Environment"
 }
 
-$name = "Tets"
+$name = "Test"
 $uiPath = "fp-ui"
 $nameLower = $name.ToLowerInvariant()
 
@@ -23,77 +23,93 @@ if (!(Get-Module OktaPosh)) {
 
 $AuthServer = @{
     authServerName = "Casualty-$name-AS"
-    audience = "https://myapp/$uiPath"
-    description = "$name UI for casualty"
-    scopes = @("casualty.$nameLower.client.usaa",
+    audience       = "https://myapp/$uiPath"
+    description    = "$name UI for casualty"
+    scopes         = @("casualty.$nameLower.client.usaa",
                 "casualty.$nameLower.client.den1",
                 "casualty.$nameLower.client.safeco",
                 "casualty.$nameLower.client.ins1", # this is junk test one
                 "casualty.$nameLower.client.nw")
 
-    claims = @(
+    claims         = @(
         @{
-            name = "roles"
-            valueType = "GROUPS"
+            name            = "roles"
+            valueType       = "GROUPS"
             groupFilterType = "STARTS_WITH"
-            value = "CCC-$name-Role-"
-            claimType= "ACCESS_TOKEN"
+            value           = "CCC-$name-Role-"
+            claimType       = "ACCESS_TOKEN"
+            scopes          = @()
         },
         @{
-            name = "clients"
-            valueType = "GROUPS"
+            name            = "clients"
+            valueType       = "GROUPS"
             groupFilterType = "STARTS_WITH"
-            value = "CCC-$name-Client-"
-            claimType= "ACCESS_TOKEN"
+            value           = "CCC-$name-Client-"
+            claimType       = "ACCESS_TOKEN"
+            scopes          = @()
         },
         @{
-            name = "email"
+            name      = "email"
             valueType = "EXPRESSION"
-            value = "user.email"
-            claimType= "ACCESS_TOKEN"
+            value     = "user.email"
+            claimType = "ACCESS_TOKEN"
+            scopes    = @()
         },
         @{
-            name = "friendlyName"
+            name      = "friendlyName"
             valueType = "EXPRESSION"
-            value = 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
-            claimType= "ACCESS_TOKEN"
+            value     = 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+            claimType = "ACCESS_TOKEN"
+            scopes    = @()
         },
         @{
-            name = "friendlyName"
+            name      = "friendlyName"
             valueType = "EXPRESSION"
-            value = 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
-            claimType= "ID_TOKEN"
+            value     = 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+            claimType = "ID_TOKEN"
+            scopes    = @()
         },
         @{
-            name = "login"
+            name      = "login"
             valueType = "EXPRESSION"
-            value = "user.email"
-            claimType= "ACCESS_TOKEN"
+            value     = "user.email"
+            claimType = "ACCESS_TOKEN"
+            scopes    = @()
         },
         @{
-            name = "pictureUrl"
+            name      = "pictureUrl"
             valueType = "EXPRESSION"
-            value = "appuser.picture"
-            claimType= "ID_TOKEN"
+            value     = "appuser.picture"
+            claimType = "ID_TOKEN"
+            scopes    = @()
         },
         @{
-            name = "profileUrl"
+            name      = "profileUrl"
             valueType = "EXPRESSION"
-            value = "user.profileUrl"
-            claimType= "ID_TOKEN"
+            value     = "user.profileUrl"
+            claimType = "ID_TOKEN"
+            scopes    = @()
+        }
+        @{
+            name            = "casualty.$nameLower.client.usaa"
+            valueType       = "GROUPS"
+            groupFilterType = "EQUALS"
+            value           = "casualty.$nameLower.client.usaa"
+            claimType       = "ACCESS_TOKEN"
+            scopes          = @("casualty.$nameLower.client.usaa")
         }
     )
 }
 
 $Applications = @(
-        @{ Name = "CCC-CAS$name-SPA"
-            RedirectUris = @(
+    @{ Name            = "CCC-CAS$name-SPA"
+        RedirectUris   = @(
             "https://myapp$domainSuffix.test.com/$uiPath/implicit/callback",
             "http://localhost:8080/$uiPath/implicit/callback"
             )
-            LoginUri = "https://myapp$domainSuffix.test.com/$uiPath/"
+        LoginUri       = "https://myapp$domainSuffix.test.com/$uiPath/"
             PostLogoutUris = "https://myapp$domainSuffix.test.com/$uiPath/"
-            Scopes = '*'
+        Scopes         = '*'
         }
     )
 
