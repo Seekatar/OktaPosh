@@ -1,3 +1,4 @@
+# https://developer.okta.com/docs/reference/api/policy/
 Set-StrictMode -Version Latest
 
 function Get-OktaPolicy
@@ -22,8 +23,6 @@ function Get-OktaPolicy
         }
     }
 }
-
-
 
 function New-OktaPolicy
 {
@@ -65,4 +64,38 @@ function New-OktaPolicy
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies" -Method POST -Body $body
 }
 
+function Remove-OktaPolicy
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $PolicyId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        $policy = Get-OktaPolicy -PolicyId $PolicyId
+        if ($policy) {
+            if ($PSCmdlet.ShouldProcess($policy.Name,"Remove Policy")) {
+                Invoke-OktaApi -RelativeUri "policies/$PolicyId" -Method DELETE
+            }
+        } else {
+            Write-Warning "Policy with id '$PolicyId' not found"
+        }
+    }
+}
+
+function Set-OktaPolicy {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [PSCustomObject] $Policy
+    )
+
+    if ($PSCmdlet.ShouldProcess("$($Policy.label)","Update Policy")) {
+        Invoke-OktaApi -RelativeUri "policies/$($Policy.id)" -Body $Policy -Method PUT
+    }
+}
 

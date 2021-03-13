@@ -1,3 +1,4 @@
+# https://developer.okta.com/docs/reference/api/authorization-servers/#policy-rule-operations
 Set-StrictMode -Version Latest
 
 function Get-OktaRule
@@ -92,3 +93,43 @@ function New-OktaRule
     }
     Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method POST -Body $body
 }
+
+function Remove-OktaRule
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [Parameter(Mandatory)]
+        [string] $PolicyId,
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $RuleId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        $rule = Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $PolicyId -RuleId $RuleId
+        if ($rule) {
+            if ($PSCmdlet.ShouldProcess($rule.Name,"Remove Rule")) {
+                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$RuleId" -Method DELETE
+            }
+        } else {
+            Write-Warning "Rule with id '$RuleId' not found for auth/policy $AuthorizationServerId/$PolicyId "
+        }
+    }
+}
+
+function Set-OktaRule {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [PSCustomObject] $Rule
+    )
+
+    if ($PSCmdlet.ShouldProcess("$($Rule.label)","Update Rule")) {
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$($Rule.id)" -Body $Rule -Method PUT
+    }
+}
+

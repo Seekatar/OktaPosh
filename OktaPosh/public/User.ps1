@@ -96,6 +96,7 @@ function New-OktaUser
         [string] $MobilePhone,
         [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $Activate,
+        [Parameter(ValueFromPipelineByPropertyName)]
         [string] $Pw,
         [ValidateCount(0,20)]
         [string[]] $GroupIds,
@@ -149,6 +150,10 @@ function New-OktaUser
         }
 
         addUser -Body $body -GroupIds $GroupIds -Activate:$Activate -NextLogin:$NextLogin
+
+        # Quirk! if don't pass in Login on a subsequent pipeline object
+        # Login is set to previous value!
+        $Login = $null
     }
 }
 
@@ -258,7 +263,6 @@ function Resume-OktaUser
         Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/unsuspend" -Method POST
     }
 }
-
 
 function Get-OktaUser {
     [CmdletBinding(DefaultParameterSetName="Query")]

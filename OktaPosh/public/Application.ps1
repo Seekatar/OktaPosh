@@ -1,4 +1,4 @@
-# https://developer.okta.com/docs/reference/api/apps/#application-properties
+# https://developer.okta.com/docs/reference/api/apps
 Set-StrictMode -Version Latest
 
 function Get-OktaApplication {
