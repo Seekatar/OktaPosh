@@ -5,30 +5,16 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaRule
+# Remove-OktaScope
 
 ## SYNOPSIS
-Get one or more Rules for an AuthorizationServer and Policy
+Remove a Scope from an AuthorizationServer
 
 ## SYNTAX
 
-### ById
 ```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> -RuleId <String> [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>] [-Json] [<CommonParameters>]
-```
-
-## DESCRIPTION
-
-## EXAMPLES
-
-### Example 1
-```
-PS C:\>
+Remove-OktaScope [-AuthorizationServerId] <String> [-ScopeId] <String> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## PARAMETERS
@@ -42,69 +28,55 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Json
-Set to return JSON instead of PSCustomObject
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-PolicyId retrieved from Get-OktaPolicy
+### -ScopeId
+Okta Scope Id from search version of Get-OktaScope
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: Id
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -Query
-Query for name and description
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RuleId
-RuleId retrieved from Get-OktaRule
-
-```yaml
-Type: String
-Parameter Sets: ById
-Aliases: Id
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -113,17 +85,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### String
-Pipe Ids in
-
-### PSCustomObject[]
-Pipe objects with Id
+### System.String
 
 ## OUTPUTS
 
-### PSCustomObject[]
-Rule Objects
-
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

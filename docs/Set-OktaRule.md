@@ -5,33 +5,76 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaRule
+# Set-OktaRule
 
 ## SYNOPSIS
-Get one or more Rules for an AuthorizationServer and Policy
+Update an AuthorizationServer's Policy
 
 ## SYNTAX
 
-### ById
 ```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> -RuleId <String> [-Json] [<CommonParameters>]
+Set-OktaRule -AuthorizationServerId <String> -PolicyId <String> [[-Rule] <PSObject>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
-
-### Query
-```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>] [-Json] [<CommonParameters>]
-```
-
-## DESCRIPTION
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\>
+```powershell
+$rules = Get-OktaRule -AuthorizationServerId $authId -PolicyId $policyId
+$rules[0].Name = "Updated name"
+$updatedRule = Set-OktaRule -AuthorizationServerId $authId -PolicyId $policyId -Rule $rules[0]
 ```
 
+Change the name of a rule
+
 ## PARAMETERS
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Rule
+Rule object retrieved from Get-OktaRule
+
+```yaml
+Type: PSObject
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -AuthorizationServerId
 AuthorizationServerId retrieved from Get-OktaAuthorizationServer
@@ -44,21 +87,6 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Json
-Set to return JSON instead of PSCustomObject
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -78,52 +106,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Query
-Query for name and description
-
-```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RuleId
-RuleId retrieved from Get-OktaRule
-
-```yaml
-Type: String
-Parameter Sets: ById
-Aliases: Id
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### String
-Pipe Ids in
-
-### PSCustomObject[]
-Pipe objects with Id
+### None
 
 ## OUTPUTS
 
-### PSCustomObject[]
-Rule Objects
-
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

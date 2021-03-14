@@ -71,13 +71,13 @@ function Remove-OktaScope
     process {
         Set-StrictMode -Version Latest
 
-        $scope = Get-OktaScope -AuthorizationServerId $AuthorizationServerId -PolicyId $PolicyId -ScopeId $ScopeId
+        $scope = Get-OktaScope -AuthorizationServerId $AuthorizationServerId -ScopeId $ScopeId
         if ($scope) {
             if ($PSCmdlet.ShouldProcess($scope.Name,"Remove Scope")) {
-                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/scopes/$ScopeId" -Method DELETE
+                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method DELETE
             }
         } else {
-            Write-Warning "Scope with id '$ScopeId' not found for auth/policy $AuthorizationServerId/$PolicyId "
+            Write-Warning "Scope with id '$ScopeId' not found for auth $AuthorizationServerId "
         }
     }
 }
@@ -85,10 +85,12 @@ function Remove-OktaScope
 function Set-OktaScope {
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
         [PSCustomObject] $Scope
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Scope.label)","Update Scope")) {
+    if ($PSCmdlet.ShouldProcess("$($Scope.Name)","Update Scope")) {
         Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$($Scope.id)" -Body $Scope -Method PUT
     }
 }

@@ -69,6 +69,8 @@ function Remove-OktaPolicy
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $PolicyId
@@ -77,10 +79,10 @@ function Remove-OktaPolicy
     process {
         Set-StrictMode -Version Latest
 
-        $policy = Get-OktaPolicy -PolicyId $PolicyId
+        $policy = Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId -PolicyId $PolicyId
         if ($policy) {
             if ($PSCmdlet.ShouldProcess($policy.Name,"Remove Policy")) {
-                Invoke-OktaApi -RelativeUri "policies/$PolicyId" -Method DELETE
+                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId" -Method DELETE
             }
         } else {
             Write-Warning "Policy with id '$PolicyId' not found"
@@ -91,11 +93,13 @@ function Remove-OktaPolicy
 function Set-OktaPolicy {
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
         [PSCustomObject] $Policy
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Policy.label)","Update Policy")) {
-        Invoke-OktaApi -RelativeUri "policies/$($Policy.id)" -Body $Policy -Method PUT
+    if ($PSCmdlet.ShouldProcess("$($Policy.Name)","Update Policy")) {
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$($Policy.id)" -Body $Policy -Method PUT
     }
 }
 

@@ -1,5 +1,16 @@
 # Change Log
 
+## 2021-03-14 0.2.4
+
+* Show-Okta will launch browser with the Get-OktaBaseUri
+* New auth server functions
+  * Set-OktaScope
+  * Remove-OktaScope
+  * Set-OktaPolicy
+  * Remove-OktaPolicy
+  * Set-OktaRule
+  * Remove-OktaRule
+
 ## 2021-02-17 0.2.3
 
 * New-OktaAuthProviderUser remove unusable NextLogin parameter since didn't make sense

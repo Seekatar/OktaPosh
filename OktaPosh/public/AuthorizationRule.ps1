@@ -125,10 +125,14 @@ function Remove-OktaRule
 function Set-OktaRule {
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [Parameter(Mandatory)]
+        [string] $PolicyId,
         [PSCustomObject] $Rule
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Rule.label)","Update Rule")) {
+    if ($PSCmdlet.ShouldProcess("$($Rule.Name)","Update Rule")) {
         Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$($Rule.id)" -Body $Rule -Method PUT
     }
 }
