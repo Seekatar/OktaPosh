@@ -85,7 +85,7 @@ Have RedirectUrl: $(!$Username -or $RedirectUri)
         $e = $_
         try {
             if ($_.Exception.Response.StatusCode -eq 'Unauthorized') {
-                Write-Warning "Unauthorzied response. Proabably base userName or password"
+                Write-Warning "Unauthorized response. Probably bad userName or password"
                 return
             } else {
                 throw $e

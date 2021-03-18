@@ -102,7 +102,7 @@ function New-OktaSpaApplication {
                 post_logout_redirect_uris = $PostLogoutUris
                 initiate_login_uri = $LoginUri
                 response_types = @(
-                    "token","id_token"
+                    "token","id_token","code"
                 )
                 grant_types = @(
                     "implicit"
