@@ -82,7 +82,7 @@ function Remove-OktaTrustedOrigin {
     process {
         Set-StrictMode -Version Latest
 
-        $to = Get-OktatrustedOrigin -Id $TrustedOriginId
+        $to = Get-OktaTrustedOrigin -Id $TrustedOriginId
         if ($to) {
             if ($PSCmdlet.ShouldProcess($to.name,"Remove TrustedOrigin")) {
                 Invoke-OktaApi -RelativeUri "trustedOrigins/$TrustedOriginId" -Method DELETE

@@ -106,6 +106,12 @@
 
 ### [Remove-OktaGroupUser](Remove-OktaGroupUser.md)
 
+### [Remove-OktaPolicy](Remove-OktaPolicy.md)
+
+### [Remove-OktaRule](Remove-OktaRule.md)
+
+### [Remove-OktaScope](Remove-OktaScope.md)
+
 ### [Remove-OktaTrustedOrigin](Remove-OktaTrustedOrigin.md)
 
 ### [Remove-OktaUser](Remove-OktaUser.md)
@@ -120,11 +126,21 @@
 
 ### [Set-OktaAuthorizationServer](Set-OktaAuthorizationServer.md)
 
+### [Set-OktaClaim](Set-OktaClaim.md)
+
 ### [Set-OktaGroup](Set-OktaGroup.md)
 
 ### [Set-OktaOption](Set-OktaOption.md)
 
+### [Set-OktaPolicy](Set-OktaPolicy.md)
+
+### [Set-OktaRule](Set-OktaRule.md)
+
+### [Set-OktaScope](Set-OktaScope.md)
+
 ### [Set-OktaTrustedOrigin](Set-OktaTrustedOrigin.md)
+
+### [Show-Okta](Show-Okta.md)
 
 ### [Suspend-OktaUser](Suspend-OktaUser.md)
 

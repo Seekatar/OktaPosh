@@ -19,11 +19,11 @@ $PSDefaultParameterValues = @{
         vars           = @{
             app        = @{ id = "app-987-343-434"}
             spaApp     = @{ id = "SpaApp-987-343-434"}
-            claim      = @{ id = "claim-987-343-4234"}
+            claim      = @{ id = "claim-987-343-4234"; name="test"}
             authServer = @{ id = "server-123-234-234";audiences=@("test");issuer="http://issuer"}
-            scopes     = @{ id = "scope-123-276-234"}
-            policy     = @{ id = "policy-123-234-266"}
-            rule       = @{ id = "rule-186-674-234"}
+            scope      = @{ id = "scope-123-276-234"; name="test"}
+            policy     = @{ id = "policy-123-234-266"; name="test"}
+            rule       = @{ id = "rule-186-674-234"; name="test"}
             user       = @{ id = "user-186-674-234"}
         }
     }
@@ -136,6 +136,13 @@ Describe "AuthorizationServer" {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes" -and $Method -eq 'GET'
                 }
     }
+    It "Updates a scope" {
+        $null = Set-OktaScope -AuthorizationServerId $vars.authServer.id -Scope $vars.scope
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes/$($vars.scope.id)" -and $Method -eq 'PUT'
+                }
+    }
     It "Creates new Expression Claim" {
         $null = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
             -Name $claimName -ValueType EXPRESSION -ClaimType ACCESS_TOKEN `
@@ -169,6 +176,13 @@ Describe "AuthorizationServer" {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims/$($vars.claim.id)" -and $Method -eq 'GET'
                 }
     }
+    It "Updates a Claim" {
+        $null = Set-OktaClaim -AuthorizationServerId $vars.authServer.Id -Claim $vars.claim
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims/$($vars.claim.id)" -and $Method -eq 'PUT'
+                }
+    }
     It "Adds a policy" {
         $null = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name $policyName -ClientIds $vars.app.Id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -195,6 +209,13 @@ Describe "AuthorizationServer" {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.Id)" -and $Method -eq 'GET'
                 }
     }
+    It "Updates a policy" {
+        $null = Set-OktaPolicy -AuthorizationServerId $vars.authServer.id -Policy $vars.policy
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.id)" -and $Method -eq 'PUT'
+                }
+    }
     It "Adds a rule" {
         $null = New-OktaRule -AuthorizationServerId $vars.authServer.Id `
             -PolicyId $vars.policy.id `
@@ -214,11 +235,11 @@ Describe "AuthorizationServer" {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.Id)/rules" -and $Method -eq 'GET'
                 }
     }
-    It "Tests Server JWT Access" {
-        $null = Get-OktaAppJwt -ClientId $vars.app.Id -ClientSecret "Test1233!" -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
+    It "Updates a rule" {
+        $null = Set-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -Rule $vars.rule
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "$($vars.authServer.issuer)/v1/token" -and $Method -eq 'POST'
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.Id)/rules/$($vars.rule.id)" -and $Method -eq 'PUT'
                 }
     }
     It "Adds SPA Access" {
@@ -242,6 +263,32 @@ Describe "AuthorizationServer" {
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.id)/policies/$($policy.id)/rules" -and $Method -eq 'POST'
+                }
+    }
+    It "Exports an auth server" {
+        Mock Out-File -ModuleName OktaPosh -MockWith {}
+        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123"}' }
+        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'
+                }
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims" -and $Method -eq 'GET'
+                }
+        Should -Invoke Get-OktaPolicy -Times 1 -Exactly -ModuleName OktaPosh
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes" -and $Method -eq 'GET'
+                }
+        Should -Invoke Out-File -Times 5 -Exactly -ModuleName OktaPosh `
+    }
+    It "Tests Server JWT Access" {
+        $null = Get-OktaAppJwt -ClientId $vars.app.Id -ClientSecret "Test1233!" -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "$($vars.authServer.issuer)/v1/token" -and $Method -eq 'POST'
                 }
     }
     It "Tests User JWT Access" {
@@ -274,26 +321,28 @@ Describe "AuthorizationServer" {
                     }
         }
     }
-    It "Exports an auth server" {
-        Mock Out-File -ModuleName OktaPosh -MockWith {}
-        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123"}' }
-        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
+    It "Removes a Policy Rule" {
+        $null = Remove-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -RuleId $vars.rule.id -Confirm:$false
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.Id)/rules/$($vars.rule.id)" -and $Method -eq 'DELETE'
                 }
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-                -ParameterFilter {
-                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims" -and $Method -eq 'GET'
-                }
-        Should -Invoke Get-OktaPolicy -Times 1 -Exactly -ModuleName OktaPosh
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-                -ParameterFilter {
-                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes" -and $Method -eq 'GET'
-                }
-        Should -Invoke Out-File -Times 5 -Exactly -ModuleName OktaPosh `
     }
-    It "Removes a Claim By Id" {
+    It "Removes a Policy" {
+        $null = Remove-OktaPolicy -AuthorizationServerId $vars.authServer.Id -PolicyId $vars.policy.id -Confirm:$false
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.id)" -and $Method -eq 'DELETE'
+                }
+    }
+    It "Removes a scope" {
+        $null = Remove-OktaScope -AuthorizationServerId $vars.authServer.id -ScopeId $vars.scope.id -Confirm:$false
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes/$($vars.scope.id)" -and $Method -eq 'DELETE'
+                }
+    }
+    It "Removes a Claim" {
         $null = Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {

@@ -108,13 +108,26 @@ function Remove-OktaClaim
 
         $claim = Get-OktaClaim -AuthorizationServerId $AuthorizationServerId -ClaimId $ClaimId
         if ($claim) {
-            if ($PSCmdlet.ShouldProcess($Claim.name, "Remove claim"))
+            if ($PSCmdlet.ShouldProcess($Claim.Name, "Remove claim"))
             {
                 Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$ClaimId" -Method DELETE -Json:$Json
             }
         } else {
             Write-Warning "Claim with id '$ClaimId' not found"
         }
+    }
+}
+
+function Set-OktaClaim {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [PSCustomObject] $Claim
+    )
+
+    if ($PSCmdlet.ShouldProcess("$($Claim.Name)","Update Claim")) {
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$($Claim.id)" -Body $Claim -Method PUT
     }
 }
 

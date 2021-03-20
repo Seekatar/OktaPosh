@@ -138,7 +138,7 @@ Accept wildcard characters: False
 ```
 
 ### -PolicyId
-Id of Policy to add to the rule from Get-OktaPolicy
+PolicyId retrieved from Get-OktaPolicy
 
 ```yaml
 Type: String

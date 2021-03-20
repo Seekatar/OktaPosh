@@ -14,8 +14,8 @@ Create a new SPA-type OAuth Application
 
 ```
 New-OktaSpaApplication [-Label] <String> [-RedirectUris] <String[]> [-LoginUri] <String>
- [[-PostLogoutUris] <String[]>] [-Inactive] [[-SignOnMode] <String>] [[-Properties] <Hashtable>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-PostLogoutUris] <String[]>] [-Inactive] [[-SignOnMode] <String>] [[-Properties] <Hashtable>]
+ [-GrantTypes <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -163,6 +163,21 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GrantTypes
+Grant types for the application, defaults to 'Implicit','Code'
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

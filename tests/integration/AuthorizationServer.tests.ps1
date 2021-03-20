@@ -10,7 +10,7 @@ $PSDefaultParameterValues = @{
         appName         = "test-policy-app"
         spaAppName      = "test-spa-app"
         userPw          = "Test123!"
-        authServerName  = "Okta-Posh-Test"
+        authServerName  = "OktaPosh-Test"
         scopeNames      = "access:token", "get:item", "save:item", "remove:item"
         claimName       = "test-claim"
         policyName      = "test-policy"
@@ -76,7 +76,7 @@ Describe "AuthorizationServer" {
         $result.Id | Should -Be $vars.authServer.Id
     }
     It "Gets Authorization Server By Query" {
-        $result = Get-OktaAuthorizationServer -Query 'test'
+        $result = Get-OktaAuthorizationServer -Query 'OktaPosh'
         $result | Should -Not -Be $null
         $result.Id | Should -Be $vars.authServer.Id
     }
@@ -107,6 +107,11 @@ Describe "AuthorizationServer" {
         $vars.scopes | Should -Not -Be $null
         $vars.scopes.Count | Should -Be $scopeNames.Count
     }
+    It "Updates a scope" {
+        $vars.scopes[0].description = 'Updated description'
+        $update = Set-OktaScope -AuthorizationServerId $vars.authServer.id -Scope $vars.scopes[0]
+        $update.description | Should -Be $vars.scopes[0].description
+    }
     It "Creates new Expression Claim" {
         $vars.claim = New-OktaClaim -AuthorizationServerId $vars.authServer.id `
             -Name $claimName -ValueType EXPRESSION -ClaimType RESOURCE `
@@ -132,6 +137,11 @@ Describe "AuthorizationServer" {
         $claim | Should -Not -Be $null
         $claim.Name | Should -Be $claimName
     }
+    It "Updates a Claim" {
+        $vars.claim.name = "Updated"
+        $update = Set-OktaClaim -AuthorizationServerId $vars.authServer.Id -Claim $vars.claim
+        $update.name | Should -Be $vars.claim.name
+    }
     It "Adds a server application" {
         $vars.app = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
         $vars.app | Should -Not -Be $null
@@ -155,6 +165,11 @@ Describe "AuthorizationServer" {
         $vars.policy = Get-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Id $vars.policy.Id
         $vars.policy.Name | Should -Be $policyName
     }
+    It "Updates a policy" {
+        $vars.policy.description = "Updated policy"
+        $update = Set-OktaPolicy -AuthorizationServerId $vars.authServer.id -Policy $vars.policy
+        $update.description | Should -Be $vars.policy.description
+    }
     It "Adds a rule" {
         $vars.rule = New-OktaRule -AuthorizationServerId $vars.authServer.Id `
             -PolicyId $vars.policy.id `
@@ -169,16 +184,21 @@ Describe "AuthorizationServer" {
         $vars.rule | Should -Not -Be $null
         $vars.rule.Id | Should -Be $vars.rule.Id
     }
+    It "Updates a rule" {
+        $vars.rule.name = "Updated description"
+        $update = Set-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -Rule $vars.rule
+        $update.name | Should -Be $vars.rule.name
+    }
     It "Adds SPA Access" {
         $policy = New-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Name "SPA-$policyName" -ClientIds $vars.spaApp.Id
         $policy | Should -Not -Be $null
 
-        $vars.rule = New-OktaRule -AuthorizationServerId $vars.authServer.Id `
+        $rule = New-OktaRule -AuthorizationServerId $vars.authServer.Id `
             -PolicyId $policy.id `
             -Name "Allow $($policyName)" `
             -Priority 1 `
             -GrantTypes implicit -Scopes $scopeNames
-            $vars.rule | Should -Not -Be $null
+        $rule | Should -Not -Be $null
     }
     It "Exports an auth server" {
         $result = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
@@ -207,6 +227,18 @@ Describe "AuthorizationServer" {
             [bool]$jwt | Should -Be $true
         }
     }
+    It "Removes a Policy Rule" {
+        Remove-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -RuleId $vars.rule.id -Confirm:$false
+    }
+    It "Removes a Policy" {
+        Remove-OktaPolicy -AuthorizationServerId $vars.authServer.Id -PolicyId $vars.policy.id -Confirm:$false
+    }
+    It "Removes a scope" {
+        Remove-OktaScope -AuthorizationServerId $vars.authServer.id -ScopeId $vars.scopes[0].id -Confirm:$false
+    }
+    It "Removes a Claim" {
+        Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
+    }
 }
 
 Describe "Cleanup" {
@@ -222,5 +254,3 @@ Describe "Cleanup" {
         Remove-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -Confirm:$false
     }
 }
-
-

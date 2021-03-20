@@ -1,3 +1,4 @@
+# https://developer.okta.com/docs/reference/api/authorization-servers/#scope-operations
 Set-StrictMode -Version Latest
 
 function Get-OktaScope
@@ -55,3 +56,42 @@ function New-OktaScope
     }
 
 }
+function Remove-OktaScope
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $ScopeId
+    )
+
+    process {
+        Set-StrictMode -Version Latest
+
+        $scope = Get-OktaScope -AuthorizationServerId $AuthorizationServerId -ScopeId $ScopeId
+        if ($scope) {
+            if ($PSCmdlet.ShouldProcess($scope.Name,"Remove Scope")) {
+                Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method DELETE
+            }
+        } else {
+            Write-Warning "Scope with id '$ScopeId' not found for auth $AuthorizationServerId "
+        }
+    }
+}
+
+function Set-OktaScope {
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory)]
+        [string] $AuthorizationServerId,
+        [PSCustomObject] $Scope
+    )
+
+    if ($PSCmdlet.ShouldProcess("$($Scope.Name)","Update Scope")) {
+        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$($Scope.id)" -Body $Scope -Method PUT
+    }
+}
+

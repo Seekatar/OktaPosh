@@ -122,7 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-Searches by first name, last name and email
+Searches by first name, last name and email starting with Query
 
 ```yaml
 Type: String
