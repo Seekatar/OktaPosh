@@ -78,7 +78,10 @@ function New-OktaSpaApplication {
         [string[]] $PostLogoutUris,
         [switch] $Inactive,
         [string] $SignOnMode = "OPENID_CONNECT",
-        [hashtable] $Properties
+        [hashtable] $Properties,
+        [ValidateRange(1,3)]
+        [ValidateSet('Implicit','Code','Refresh')]
+        [string[]] $GrantTypes = @('Implicit','Code')
     )
 
     $Name = "oidc_client" # https://developer.okta.com/docs/reference/api/apps/#app-names-and-settings
@@ -101,16 +104,25 @@ function New-OktaSpaApplication {
                 redirect_uris = $RedirectUris
                 post_logout_redirect_uris = $PostLogoutUris
                 initiate_login_uri = $LoginUri
-                response_types = @(
-                    "token","id_token","code"
-                )
-                grant_types = @(
-                    "implicit"
-                )
+                # if code, must include authorization_code
+                response_types = @()
+                grant_types = @()
                 application_type = "browser"
                 consent_method = "REQUIRED"
             }
         }
+    }
+    if ('Implicit' -in $GrantTypes) {
+        $body.settings.oauthClient.response_types += "token","id_token"
+        $body.settings.oauthClient.grant_types += 'implicit'
+    }
+    if ('Code' -in $GrantTypes) {
+        $body.settings.oauthClient.response_types += "code"
+        $body.settings.oauthClient.grant_types += 'authorization_code'
+    }
+    if ('Refresh' -in $GrantTypes) {
+        $body.settings.oauthClient.response_types += "token","id_token"
+        $body.settings.oauthClient.grant_types += 'refresh_token'
     }
 
     Add-PropertiesToObject -Object $body -Properties $Properties

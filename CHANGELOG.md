@@ -1,9 +1,9 @@
 # Change Log
 
-## 2021-03-18 0.2.4
+## 2021-03-19 0.2.4
 
 * Show-Okta will launch browser with the Get-OktaBaseUri
-* Support for SPA Apps and Authorization Code flow
+* Support for SPA Apps and Authorization Code flow in New-OktaSpaApp
 * New auth server functions
   * Set-OktaScope
   * Remove-OktaScope
