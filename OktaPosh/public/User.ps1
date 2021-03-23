@@ -372,3 +372,13 @@ function Remove-OktaUser {
         }
     }
 }
+
+function Set-OktaUser {
+    param (
+        [Parameter(Mandatory)]
+        [PSCustomObject]$User
+    )
+
+    Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
+
+}
