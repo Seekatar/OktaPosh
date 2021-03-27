@@ -98,6 +98,11 @@ Describe "AuthorizationServer" {
         $result = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
         $result.status | Should -Be 'ACTIVE'
     }
+    It "Get OktaOpenIdConfig" {
+        $result = Get-OktaOpenIdConfig -AuthorizationServerId $vars.authServer.Id
+        $result | Should -Not -Be $null
+        $result.issuer | Should -Be $vars.authServer.issuer
+    }
     It "Creates new scopes" {
         $newScopes = $scopeNames | New-OktaScope -AuthorizationServerId $vars.authServer.id
         $newScopes.Count | Should -Be $scopeNames.Count
@@ -145,6 +150,8 @@ Describe "AuthorizationServer" {
     It "Adds a server application" {
         $vars.app = New-OktaServerApplication -Label $appName -Properties @{appName = $appName }
         $vars.app | Should -Not -Be $null
+        $vars.app = Set-OktaApplication $vars.app # to get the secret
+        $vars.app.credentials.oauthClient.client_secret | Should -Not -Be $null
     }
     It "Adds a SPA application" {
         $vars.spaApp = New-OktaSpaApplication -Label $spaAppName -RedirectUris "http://gohome" -LoginUri "http://login"
@@ -209,7 +216,14 @@ Describe "AuthorizationServer" {
     It "Tests Server JWT Access" {
         $jwt = Get-OktaAppJwt -ClientId $vars.app.Id -ClientSecret $vars.app.credentials.oauthClient.client_secret -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
         [bool]$jwt | Should -Be $true
-    } -Skip
+    }
+    It "Tests Server JWT Access With SecureString" {
+        $jwt = Get-OktaAppJwt -ClientId $vars.app.Id -SecureClientSecret (ConvertTo-SecureString $vars.app.credentials.oauthClient.client_secret -AsPlainText -Force) -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
+        [bool]$jwt | Should -Be $true
+    }
+    It "Tests Server JWT Access Invalid Parameter" {
+        { Get-OktaAppJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
+    }
     It "Tests User JWT Access" {
         $vars.user = New-OktaUser -FirstName Wilma -LastName Flintsone -Email $username -Activate -Pw $userPw
         $vars.user | Should -Not -Be $null
@@ -223,6 +237,19 @@ Describe "AuthorizationServer" {
                         -Issuer $vars.authServer.issuer `
                         -ClientSecret $userPw `
                         -Username $userName -Scopes $scopeNames[0] `
+                        -RedirectUri $redirectUri
+            [bool]$jwt | Should -Be $true
+        }
+    }
+    It "Tests User JWT Access with SecureString" {
+        # not working on 5 for some reason
+        if ($PSVersionTable.PSVersion.Major -ge 7) {
+            # Write-Warning "Get-OktaJwt -ClientId $($vars.spaApp.id) -Issuer $($vars.authServer.issuer) -ClientSecret $userPw -Username $userName -Scopes $($scopeNames[0]) -RedirectUri $redirectUri"
+            $jwt = Get-OktaJwt -ClientId $vars.spaApp.id `
+                        -Issuer $vars.authServer.issuer `
+                        -SecureClientSecret (ConvertTo-SecureString $userPw -AsPlainText -Force) `
+                        -Username $userName `
+                        -Scopes $scopeNames[0] `
                         -RedirectUri $redirectUri
             [bool]$jwt | Should -Be $true
         }

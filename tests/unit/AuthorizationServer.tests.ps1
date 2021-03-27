@@ -91,7 +91,6 @@ Describe "AuthorizationServer" {
     }
     It "Updates an AuthorizationServer" {
         $null = Set-OktaAuthorizationServer -Id $vars.authServer.Id -Name $authServerName `
-            -Description "new description" `
             -Audience $vars.authServer.audiences[0]
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
@@ -121,7 +120,14 @@ Describe "AuthorizationServer" {
                 }
         $result = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
     }
-
+    It "Get OktaOpenIdConfig" {
+        Mock -CommandName Invoke-RestMethod -ModuleName OktaPosh
+        $null = Get-OktaOpenIdConfig -AuthorizationServerId $vars.authServer.Id
+        Should -Invoke Invoke-RestMethod -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/oauth2/$($vars.authServer.Id)/.well-known/openid-configuration" -and $Method -eq $null
+                }
+    }
     It "Creates new scopes" {
         $null = New-OktaScope -AuthorizationServerId $vars.authServer.id -Name "scope-name"
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -268,7 +274,9 @@ Describe "AuthorizationServer" {
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
         Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123"}' }
-        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder ([System.IO.Path]::GetTempPath())
+        $output = (Join-Path ([System.IO.Path]::GetTempPath()) ([Guid]::NewGuid().ToString()) )
+        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $output
+        Remove-Item $output
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'
@@ -291,6 +299,16 @@ Describe "AuthorizationServer" {
                     $Uri -like "$($vars.authServer.issuer)/v1/token" -and $Method -eq 'POST'
                 }
     }
+    It "Tests Server JWT Access With SecureString" {
+        $null = Get-OktaAppJwt -ClientId $vars.app.Id -SecureClientSecret (ConvertTo-SecureString "Test1233!" -AsPlainText -Force) -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "$($vars.authServer.issuer)/v1/token" -and $Method -eq 'POST'
+                }
+    }
+    It "Tests Server JWT Access Invalid Parameter" {
+        { Get-OktaAppJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
+    }
     It "Tests User JWT Access" {
         $null = New-OktaUser -FirstName Wilma -LastName Flintsone -Email $username -Activate -Pw $userPw
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -309,7 +327,8 @@ Describe "AuthorizationServer" {
             $null = Get-OktaJwt -ClientId $vars.spaApp.id `
                         -Issuer $vars.authServer.issuer `
                         -ClientSecret $userPw `
-                        -Username $userName -Scopes $scopeNames[0] `
+                        -Username $userName `
+                        -Scopes $scopeNames[0] `
                         -RedirectUri $redirectUri
             Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                     -ParameterFilter {
@@ -320,6 +339,27 @@ Describe "AuthorizationServer" {
                         $Uri -like "*v1/authorize*"
                     }
         }
+    }
+    It "Tests User JWT Access with SecureString" {
+        if ($PSVersionTable.PSVersion.Major -ge 7) {
+            $null = Get-OktaJwt -ClientId $vars.spaApp.id `
+                        -Issuer $vars.authServer.issuer `
+                        -SecureClientSecret (ConvertTo-SecureString "Test1233!" -AsPlainText -Force) `
+                        -Username $userName `
+                        -Scopes $scopeNames[0] `
+                        -RedirectUri $redirectUri
+            Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                    -ParameterFilter {
+                        $Uri -like "*/api/v1/authn" -and $Method -eq 'POST'
+                    }
+            Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                    -ParameterFilter {
+                        $Uri -like "*v1/authorize*"
+                    }
+        }
+    }
+    It "Tests User JWT Access Invalid arg" {
+        { Get-OktaJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
     }
     It "Removes a Policy Rule" {
         $null = Remove-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -RuleId $vars.rule.id -Confirm:$false
