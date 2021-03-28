@@ -359,7 +359,9 @@ Describe "AuthorizationServer" {
         }
     }
     It "Tests User JWT Access Invalid arg" {
-        { Get-OktaJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
+        if ($PSVersionTable.PSVersion.Major -ge 7) {
+            { Get-OktaJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
+        }
     }
     It "Removes a Policy Rule" {
         $null = Remove-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -RuleId $vars.rule.id -Confirm:$false
