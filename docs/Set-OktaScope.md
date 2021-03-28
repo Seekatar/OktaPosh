@@ -13,8 +13,10 @@ Update an AuthorizationServer's Scope
 ## SYNTAX
 
 ```
-Set-OktaScope [[-Scope] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaScope -AuthorizationServerId <String> [[-Scope] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
@@ -69,6 +71,21 @@ Parameter Sets: (All)
 Aliases: wi
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AuthorizationServerId
+AuthorizationServerId retrieved from Get-OktaAuthorizationServer
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

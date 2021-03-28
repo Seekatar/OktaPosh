@@ -140,6 +140,8 @@
 
 ### [Set-OktaTrustedOrigin](Set-OktaTrustedOrigin.md)
 
+### [Set-OktaUser](Set-OktaUser.md)
+
 ### [Show-Okta](Show-Okta.md)
 
 ### [Suspend-OktaUser](Suspend-OktaUser.md)

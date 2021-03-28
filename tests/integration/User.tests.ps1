@@ -105,7 +105,15 @@ Describe "User" {
     It "Gets User By Id" {
         $result = Get-OktaUser -Id $vars.user.Id
         $result | Should -Not -Be $null
-        $result.Id | Should -Be  $vars.user.Id
+        $result.Id | Should -Be $vars.user.Id
+    }
+    It "Updates a User" {
+        $result = Get-OktaUser -Id $vars.user.Id
+        $result | Should -Not -Be $null
+        $result.profile.mobilePhone = '123-345'
+        $newResult = Set-OktaUser $result
+        $newResult.Id | Should -Be $vars.user.Id
+        $newResult.profile.mobilePhone | Should -Be '123-345'
     }
     It "Activates a user" {
         $result = Enable-OktaUser -Id $vars.user.Id

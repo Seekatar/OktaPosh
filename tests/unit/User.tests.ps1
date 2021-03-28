@@ -145,6 +145,13 @@ Describe "User" {
                     $Uri -like "*/users/$($vars.user.Id)" -and $Method -eq 'GET'
                 }
     }
+    It "Updates a User" {
+        $null = Set-OktaUser $vars.user
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users/$($vars.user.Id)" -and $Method -eq 'PUT'
+                }
+    }
     It "Activates a user" {
         Mock -CommandName Invoke-WebRequest `
             -ModuleName OktaPosh `

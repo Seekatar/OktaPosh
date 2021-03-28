@@ -1,5 +1,11 @@
 # Change Log
 
+## 2021-03-27 0.2.5
+
+* Add Set-OktaUser
+* Add auth and app to Show-Okta
+* Fix for passing secure strings
+
 ## 2021-03-19 0.2.4
 
 * Show-Okta will launch browser with the Get-OktaBaseUri

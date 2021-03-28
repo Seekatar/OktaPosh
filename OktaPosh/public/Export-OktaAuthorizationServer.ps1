@@ -9,8 +9,8 @@ function Export-OktaAuthorizationServer {
 
     begin {
         if (!(Test-Path $OutputFolder -PathType Container)) {
-            $null = mkdir $OutputFolder
-            Write-Warning "Created '$OutputFolder'"
+            $null = New-Item $OutputFolder -ItemType Directory
+            Write-Warning "Created output folder '$OutputFolder'"
         }
     }
 

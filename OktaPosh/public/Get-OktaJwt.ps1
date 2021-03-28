@@ -48,7 +48,7 @@ Have RedirectUrl: $(!$Username -or $RedirectUri)
         # (from VSTeam)
         # Convert the securestring to a normal string
         # this was the one technique that worked on Mac, Linux and Windows
-        $credential = New-Object System.Management.Automation.PSCredential $account, $SecurePersonalAccessToken
+        $credential = New-Object System.Management.Automation.PSCredential "ClientSecret", $SecureClientSecret
         $secret = $credential.GetNetworkCredential().Password
     } else {
         $secret = $ClientSecret
@@ -189,7 +189,7 @@ Have ClientId: $([bool]$ClientId)
         # (from VSTeam)
         # Convert the securestring to a normal string
         # this was the one technique that worked on Mac, Linux and Windows
-        $credential = New-Object System.Management.Automation.PSCredential $account, $SecurePersonalAccessToken
+        $credential = New-Object System.Management.Automation.PSCredential "ClientSecret", $SecureClientSecret
         $secret = $credential.GetNetworkCredential().Password
     } else {
         $secret = $ClientSecret
