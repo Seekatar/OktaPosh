@@ -105,7 +105,8 @@ function New-OktaUser
         [string] $RecoveryQuestion,
         [Parameter(ValueFromPipelineByPropertyName)]
         [ValidateLength(4,1000)]
-        [string] $RecoveryAnswer
+        [string] $RecoveryAnswer,
+        [HashTable] $PasswordHash
     )
 
     begin {
@@ -117,6 +118,9 @@ function New-OktaUser
     process {
         Set-StrictMode -Version Latest
 
+        if ($Pw -and $PasswordHash) {
+            throw "Can't supply both Pw and PasswordHash parameters"
+        }
         if (!$Login) {
             $Login = $Email
         }
@@ -135,6 +139,10 @@ function New-OktaUser
                     value = $Pw
              }
           }
+        } elseif ($PasswordHash) {
+            $body["credentials"] = @{
+                password = $PasswordHash
+            }
         }
         if ($RecoveryQuestion -and $RecoveryQuestion) {
             if (!$body["credentials"]) {

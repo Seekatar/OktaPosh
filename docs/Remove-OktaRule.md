@@ -17,6 +17,10 @@ Remove-OktaRule [-AuthorizationServerId] <String> [-PolicyId] <String> [-RuleId]
  [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
+## EXAMPLES
+
 ## PARAMETERS
 
 ### -AuthorizationServerId

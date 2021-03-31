@@ -17,6 +17,8 @@ Set-OktaRule -AuthorizationServerId <String> -PolicyId <String> [[-Rule] <PSObje
  [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1

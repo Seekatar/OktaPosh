@@ -13,7 +13,7 @@ Launch the browser with the Get-OktaBaseUri, or auth server, or app
 ## SYNTAX
 
 ```
-Show-Okta [-AuthorizationServerId <String>] [-ApplicationId <String>] [<CommonParameters>]
+Show-Okta [-AuthorizationServerId <String>] [-AppId <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
