@@ -118,6 +118,9 @@ function New-OktaUser
     process {
         Set-StrictMode -Version Latest
 
+        if ($Pw -and $PasswordHash) {
+            throw "Can't supply both Pw and PasswordHash parameters"
+        }
         if (!$Login) {
             $Login = $Email
         }

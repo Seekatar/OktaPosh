@@ -17,6 +17,10 @@ Remove-OktaScope [-AuthorizationServerId] <String> [-ScopeId] <String> [-WhatIf]
  [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
+## EXAMPLES
+
 ## PARAMETERS
 
 ### -AuthorizationServerId

@@ -15,7 +15,8 @@ Create a new user in Okta, with or without a password
 ```
 New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Login] <String>]
  [[-MobilePhone] <String>] [-Activate] [[-Pw] <String>] [-GroupIds <String[]>] [-NextLogin]
- [-RecoveryQuestion <String>] [-RecoveryAnswer <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RecoveryQuestion <String>] [-RecoveryAnswer <String>] [-PasswordHash <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,6 +36,31 @@ New-OktaUser -FirstName test -LastName user -email test@mailinator.com -GroupIds
 ```
 
 Add a new user, and add the user to groups
+
+### Example 2
+```
+$pw = "testing123"
+$salt = "this is the salt"
+$value = [System.Text.Encoding]::UTF8.GetBytes($pw)
+$saltValue = [System.Text.Encoding]::UTF8.GetBytes($salt)
+
+$saltedValue = $value + $saltValue
+
+$pwValue = (New-Object 'System.Security.Cryptography.SHA256Managed').ComputeHash($saltedValue)
+
+$passwordHash = @{
+    hash = @{
+      algorithm = "SHA-256"
+      salt = ([System.Convert]::ToBase64String([System.Text.Encoding]::utf8.GetBytes($salt)))
+      saltOrder = "POSTFIX"
+      value = ([System.Convert]::ToBase64String($pwValue))
+    }
+  }
+
+New-OktaUser -Login "test1234" -FirstName Test -LastName User -Email test-123@mailinator.com -PasswordHash $passwordHash -verbose
+```
+
+Add a new user with a SHA-256 salted password
 
 ## PARAMETERS
 
@@ -234,6 +260,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -PasswordHash
+HashTable of password hash settings. See notes and examples
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -251,4 +292,9 @@ User object
 
 If you add a user with -Activate an email will be sent to the user. In situations where you set the password, or for Federated users, you can avoid sending the email by adding the user without -Active, then calling Enable-User immediately afterwards.
 
+For adding with a hash, see the related links for the data in the hashtable for various algorithms
+
 ## RELATED LINKS
+
+[The Ultimate Guide to Password Hashing in Okta](https://developer.okta.com/blog/2021/03/05/ultimate-guide-to-password-hashing-in-okta)
+[Creating user with hashed password](https://developer.okta.com/docs/reference/api/users/#create-user-with-imported-hashed-password)

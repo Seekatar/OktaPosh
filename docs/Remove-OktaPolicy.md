@@ -17,6 +17,10 @@ Remove-OktaPolicy -AuthorizationServerId <String> [-PolicyId] <String> [-WhatIf]
  [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
+## EXAMPLES
+
 ## PARAMETERS
 
 ### -Confirm

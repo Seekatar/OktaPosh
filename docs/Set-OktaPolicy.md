@@ -16,6 +16,8 @@ Update an Authorization server's Policy
 Set-OktaPolicy -AuthorizationServerId <String> [[-Policy] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1

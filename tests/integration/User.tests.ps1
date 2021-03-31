@@ -11,6 +11,7 @@ $PSDefaultParameterValues = @{
                         email4 = 'testuser4@mailinator.com'
                         email5 = 'testuser5@mailinator.com'
                         email6 = 'testuser6@mailinator.com'
+                        email7 = 'testuser7@mailinator.com'
                         vars = @{
                             user = $null
                             user2 = $null
@@ -18,6 +19,7 @@ $PSDefaultParameterValues = @{
                             user4= $null
                             user5 = $null
                             user6 = $null
+                            user7 = $null
                             group = $null
                             userCount = 0
                         }
@@ -32,6 +34,7 @@ Describe "Cleanup" {
 	    (Get-OktaUser -q $email4) | Remove-OktaUser -Confirm:$false
 	    (Get-OktaUser -q $email5) | Remove-OktaUser -Confirm:$false
 	    (Get-OktaUser -q $email6) | Remove-OktaUser -Confirm:$false
+	    (Get-OktaUser -q $email7) | Remove-OktaUser -Confirm:$false
         $vars.group = Get-OktaGroup -Query "userTestGroup"
         if (!$vars.group) {
             $vars.group = New-OktaGroup -Name "userTestGroup"
@@ -44,6 +47,32 @@ Describe "User" {
         $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
         $vars.user | Should -Not -Be $null
         $vars.user.Status | Should -Be 'STAGED'
+    }
+    It "Adds a with hashed pw" {
+        $pw = "testing123"
+        $salt = "this is the salt"
+        $value = [System.Text.Encoding]::UTF8.GetBytes($pw)
+        $saltValue = [System.Text.Encoding]::UTF8.GetBytes($salt)
+
+        $saltedValue = $value + $saltValue
+
+        $pwValue = (New-Object 'System.Security.Cryptography.SHA256Managed').ComputeHash($saltedValue)
+
+        $passwordHash = @{
+            hash = @{
+              algorithm = "SHA-256"
+              salt = ([System.Convert]::ToBase64String([System.Text.Encoding]::utf8.GetBytes($salt)))
+              saltOrder = "POSTFIX"
+              value = ([System.Convert]::ToBase64String($pwValue))
+            }
+          }
+
+        $vars.user7 = New-OktaUser -Login $email7 -FirstName test-user -LastName test-user -Email $email7 -PasswordHash $passwordHash
+        $vars.user7 | Should -Not -Be $null
+        $vars.user7.Status | Should -Be 'STAGED'
+    }
+    It "Tries to use pw and has" {
+        { New-OktaUser -Login $email -FirstName Test -LastName User -Email $email -PasswordHash @{} -Pw 'test' } | Should -Throw 'Can''t supply both*'
     }
     It "Adds a user with recovery question" {
         $vars.user3 = New-OktaUser -FirstName test-user -LastName test-user -Email $email3 -RecoveryQuestion Why? -RecoveryAnswer "Answer is 42"
@@ -145,6 +174,7 @@ Describe "Cleanup" {
         if ($vars.user4) { Remove-OktaUser -UserId $vars.user4.id -Confirm:$false }
         if ($vars.user5) { Remove-OktaUser -UserId $vars.user5.id -Confirm:$false }
         if ($vars.user6) { Remove-OktaUser -UserId $vars.user6.id -Confirm:$false }
+        if ($vars.user7) { Remove-OktaUser -UserId $vars.user7.id -Confirm:$false }
         if ($vars.group) { Remove-OktaGroup -GroupId $vars.group.id -Confirm:$false }
     }
 }

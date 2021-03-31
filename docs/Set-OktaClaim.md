@@ -16,6 +16,8 @@ Update an AuthorizationServer's Claim
 Set-OktaClaim [-AuthorizationServerId] <String> [[-Claim] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1
