@@ -279,7 +279,7 @@ function Get-OktaUser {
         [Alias("Id")]
         [Alias("Login")]
         [string] $UserId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [Parameter(ParameterSetName="Search")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
@@ -314,9 +314,9 @@ function Get-OktaUser {
 }
 
 function Get-OktaUserApplication {
-    [CmdletBinding(DefaultParameterSetName="Limit")]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [Alias("Login")]
         [string] $UserId,
@@ -334,9 +334,9 @@ function Get-OktaUserApplication {
 }
 
 function Get-OktaUserGroup {
-    [CmdletBinding(DefaultParameterSetName="Limit")]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [Alias("Login")]
         [string] $UserId,

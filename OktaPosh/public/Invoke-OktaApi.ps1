@@ -102,12 +102,19 @@ function Invoke-OktaApi {
 function Test-OktaNext
 {
     param(
-        [ValidateSet('groups','users','apps','authorizationServers')]
         [string] $ObjectName
     )
 
     return [bool]$script:nextUrls[$ObjectName]
 }
+
+Register-ArgumentCompleter -CommandName "Test-OktaNext" `
+        -ParameterName "ObjectName" `
+        -ScriptBlock {
+            param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
+
+            (Get-OktaNextUrl).keys
+        }
 
 function Get-OktaNextUrl
 {

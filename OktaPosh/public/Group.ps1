@@ -8,7 +8,7 @@ function Get-OktaGroup
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $GroupId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [string] $Filter,
@@ -111,12 +111,12 @@ function Remove-OktaGroup {
 
 function Get-OktaGroupApp
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $GroupId,
-        [Parameter()]
+        [Parameter(ParameterSetName="Limit")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
@@ -130,12 +130,12 @@ function Get-OktaGroupApp
 
 function Get-OktaGroupUser
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $GroupId,
-        [Parameter()]
+        [Parameter(ParameterSetName="Limit")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,

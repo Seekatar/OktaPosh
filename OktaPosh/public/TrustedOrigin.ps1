@@ -8,7 +8,7 @@ function Get-OktaTrustedOrigin
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $TrustedOriginId,
-        [Parameter(ParameterSetName="Filter")]
+        [Parameter(ParameterSetName="Filter",Position=0)]
         [string] $Filter,
         [Parameter(ParameterSetName="Filter")]
         [uint32] $Limit,

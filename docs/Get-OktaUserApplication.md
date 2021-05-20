@@ -12,7 +12,12 @@ Get the list of Applications for a User
 
 ## SYNTAX
 
-### Limit (Default)
+### Other (Default)
+```
+Get-OktaUserApplication -UserId <String> [-Json] [<CommonParameters>]
+```
+
+### Limit
 ```
 Get-OktaUserApplication -UserId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```

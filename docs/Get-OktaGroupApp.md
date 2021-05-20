@@ -12,14 +12,19 @@ Get the Applications attached to the Group
 
 ## SYNTAX
 
-### ById
+### Other (Default)
+```
+Get-OktaGroupApp -GroupId <String> [-Json] [<CommonParameters>]
+```
+
+### Limit
 ```
 Get-OktaGroupApp -GroupId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### Next
 ```
-Get-OktaGroupApp [-Limit <UInt32>] [-Next] [-Json] [<CommonParameters>]
+Get-OktaGroupApp -GroupId <String> [-Next] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,7 +38,7 @@ GroupId retrieved from Get-OktaGroup
 
 ```yaml
 Type: String
-Parameter Sets: ById
+Parameter Sets: (All)
 Aliases: Id
 
 Required: True
@@ -63,7 +68,7 @@ Specifies the number of results to return
 
 ```yaml
 Type: UInt32
-Parameter Sets: (All)
+Parameter Sets: Limit
 Aliases:
 
 Required: False

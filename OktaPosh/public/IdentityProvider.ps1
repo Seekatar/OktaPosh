@@ -5,7 +5,7 @@ function Get-OktaIdentityProvider
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $IdpId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,

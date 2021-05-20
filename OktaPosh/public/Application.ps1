@@ -4,11 +4,11 @@ Set-StrictMode -Version Latest
 function Get-OktaApplication {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(ParameterSetName="ById",Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
@@ -273,10 +273,10 @@ function Get-OktaApplicationGroup {
         [Parameter(Mandatory)]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,ParameterSetName="ById")]
+        [Parameter(ParameterSetName="ById",Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $GroupId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
@@ -301,10 +301,10 @@ function Get-OktaApplicationUser {
         [Parameter(Mandatory)]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,ParameterSetName="ById")]
+        [Parameter(ParameterSetName="ById",Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $UserId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,

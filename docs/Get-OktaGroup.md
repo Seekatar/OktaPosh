@@ -39,6 +39,13 @@ PS C:\> Get-OktaGroup -GroupId 123
 
 Get a group with id 123
 
+### Example 2
+```
+Get-OktaGroup -Search 'profile.name eq "MyGroupName"'
+```
+
+Get a group with MyGroupName
+
 ## PARAMETERS
 
 ### -Filter

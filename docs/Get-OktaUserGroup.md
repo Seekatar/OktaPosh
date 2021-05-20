@@ -12,7 +12,12 @@ Get a list of Groups for the User
 
 ## SYNTAX
 
-### Limit (Default)
+### Other (Default)
+```
+Get-OktaUserGroup -UserId <String> [-Json] [<CommonParameters>]
+```
+
+### Limit
 ```
 Get-OktaUserGroup -UserId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
