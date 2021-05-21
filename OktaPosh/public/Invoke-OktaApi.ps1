@@ -20,7 +20,8 @@ function Invoke-OktaApi {
         [string] $OktaBaseUri,
         [switch] $Next,
         [switch] $NotFoundOk,
-        [switch] $NoRetryOnLimit
+        [switch] $NoRetryOnLimit,
+        [switch] $NoWarn
     )
 
     if ($Body -isnot [String]) {
@@ -38,7 +39,9 @@ function Invoke-OktaApi {
         if ($script:nextUrls[$objectPath]) {
             $RelativeUri = $script:nextUrls[$objectPath]
         } else {
-            Write-Warning "Nothing available for next '$objectPath'"
+            if (!$NoWarn) {
+                Write-Warning "Nothing available for next '$objectPath'"
+            }
             return $null
         }
     }
@@ -102,12 +105,17 @@ function Invoke-OktaApi {
 function Test-OktaNext
 {
     param(
-        [ValidateSet('groups','users','apps','authorizationServers')]
         [string] $ObjectName
     )
 
     return [bool]$script:nextUrls[$ObjectName]
 }
+
+Register-ArgumentCompleter -CommandName "Test-OktaNext" `
+        -ParameterName "ObjectName" `
+        -ScriptBlock {
+            (Get-OktaNextUrl).keys
+        }
 
 function Get-OktaNextUrl
 {

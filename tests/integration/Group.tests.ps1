@@ -6,14 +6,17 @@ BeforeAll {
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{ groupName = "test-group"
                         email = 'grouptestuser@mailinator.com'
+                        email2 = 'grouptestuser2@mailinator.com'
                         vars = @{group =$null
                                  user = $null
+                                 user2 = $null
                         } }
 }
 
 Describe "Cleanup" {
     It "Remove test group" {
         (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
+        (Get-OktaUser -q $email2) | Remove-OktaUser -Confirm:$false
         (Get-OktaGroup -q $groupName) | Remove-OktaGroup -Confirm:$false
     }
 }
@@ -52,14 +55,24 @@ Describe "Group" {
         $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
         $vars.user | Should -Not -Be $null
 
+        $vars.user2 = New-OktaUser -FirstName test-user-2 -LastName test-user-2 -Email $email2
+        $vars.user2 | Should -Not -Be $null
+
         $null = Add-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
-        $users = @(Get-OktaGroupUser -GroupId $vars.group.id)
+        $null = Add-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user2.id
+        $users = @(Get-OktaGroupUser -GroupId $vars.group.id -limit 1)
         $users.Count | Should -Be 1
+
+        Test-OktaNext -ObjectName "groups/$($vars.group.id)/users" | Should -Be $true
+        Get-OktaGroupUser -GroupId $vars.group.id -next
+         # | Should -Not -Be $null
+        Test-OktaNext -ObjectName "groups/$($vars.group.id)/users" | Should -Be $false
 
         $groups = @(Get-OktaUserGroup -UserId $vars.user.id)
         $groups.Count | Should -BeGreaterThan 0
 
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
+        Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user2.id
         $users = Get-OktaGroupUser -GroupId $vars.group.id
         ($users -eq $null -or $users.Count -eq 0) | Should -Be $true
     }
@@ -69,6 +82,9 @@ Describe "Cleanup" {
     It "Remove test group" {
         if ($vars.user) {
             Remove-OktaUser -UserId $vars.user.id -Confirm:$false
+        }
+        if ($vars.user2) {
+            Remove-OktaUser -UserId $vars.user2.id -Confirm:$false
         }
         if ($vars.group) {
             Remove-OktaGroup -GroupId $vars.group.id -Confirm:$false

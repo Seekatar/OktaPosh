@@ -279,7 +279,7 @@ function Get-OktaUser {
         [Alias("Id")]
         [Alias("Login")]
         [string] $UserId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [Parameter(ParameterSetName="Search")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
@@ -297,7 +297,9 @@ function Get-OktaUser {
         [Parameter(ParameterSetName="Search")]
         [ValidateSet("asc","desc")]
         [string] $SortOrder,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
@@ -308,15 +310,15 @@ function Get-OktaUser {
                                 -Query $Query -Limit $Limit `
                                 -Filter $Filter `
                                 -Search $Search -SortBy $SortBy -SortOrder $SortOrder `
-                                )" -Json:$Json -Next:$Next
+                                )" -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }
 
 function Get-OktaUserApplication {
-    [CmdletBinding(DefaultParameterSetName="Limit")]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [Alias("Login")]
         [string] $UserId,
@@ -324,19 +326,21 @@ function Get-OktaUserApplication {
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
         $query = Get-QueryParameters -Filter "user.id eq `"$UserId`"" -Limit $Limit
-        Invoke-OktaApi -RelativeUri "apps$query&expand=user%2F$UserId" -Json:$Json -Next:$Next
+        Invoke-OktaApi -RelativeUri "apps$query&expand=user%2F$UserId" -Json:$Json -Next:$Next -NoWarn:$NoWarn
     }
 }
 
 function Get-OktaUserGroup {
-    [CmdletBinding(DefaultParameterSetName="Limit")]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [Alias("Login")]
         [string] $UserId,
@@ -344,11 +348,13 @@ function Get-OktaUserGroup {
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
-        Invoke-OktaApi -RelativeUri "users/$UserId/groups$(Get-QueryParameters -Limit $Limit)" -Json:$Json -Next:$Next
+        Invoke-OktaApi -RelativeUri "users/$UserId/groups$(Get-QueryParameters -Limit $Limit)" -Json:$Json -Next:$Next -NoWarn:$NoWarn
     }
 }
 
@@ -382,11 +388,13 @@ function Remove-OktaUser {
 }
 
 function Set-OktaUser {
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [PSCustomObject]$User
     )
 
-    Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
-
+    if ($PSCmdlet.ShouldProcess($User.id,"Update User")) {
+        Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
+    }
 }

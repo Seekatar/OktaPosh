@@ -24,7 +24,7 @@ Get-OktaApplication -AppId <String> [-Json] [<CommonParameters>]
 
 ### Next
 ```
-Get-OktaApplication [-Next] [-Json] [<CommonParameters>]
+Get-OktaApplication [-Next] [-Json] [-NoWarn][<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -106,6 +106,21 @@ Searches the name or label property of applications
 ```yaml
 Type: String
 Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
 Aliases:
 
 Required: False

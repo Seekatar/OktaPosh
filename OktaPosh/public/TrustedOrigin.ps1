@@ -8,20 +8,22 @@ function Get-OktaTrustedOrigin
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $TrustedOriginId,
-        [Parameter(ParameterSetName="Filter")]
+        [Parameter(ParameterSetName="Filter",Position=0)]
         [string] $Filter,
         [Parameter(ParameterSetName="Filter")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
         if ($TrustedOriginId) {
             Invoke-OktaApi -RelativeUri "trustedOrigins/$TrustedOriginId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "trustedOrigins$(Get-QueryParameters -Limit $Limit -Filter $Filter)" -Method GET -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "trustedOrigins$(Get-QueryParameters -Limit $Limit -Filter $Filter)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }

@@ -30,7 +30,7 @@ Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-Search <St
 
 ### Next
 ```
-Get-OktaUser [-Next] [-Json] [<CommonParameters>]
+Get-OktaUser [-Next] [-Json] [-NoWarn][<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -195,6 +195,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

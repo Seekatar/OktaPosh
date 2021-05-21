@@ -12,14 +12,19 @@ Get the Users attached to the Group
 
 ## SYNTAX
 
-### ById
+### Other (Default)
 ```
-Get-OktaGroupUser -GroupId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
+Get-OktaGroupUser [-GroupId <String>] [-Json] [<CommonParameters>]
+```
+
+### Limit
+```
+Get-OktaGroupUser [-GroupId <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### Next
 ```
-Get-OktaGroupUser [-Limit <UInt32>] [-Next] [-Json] [<CommonParameters>]
+Get-OktaGroupUser [-GroupId <String>] [-Next] [-Json] [-NoWarn][<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,10 +38,10 @@ GroupId retrieved from Get-OktaGroup
 
 ```yaml
 Type: String
-Parameter Sets: ById
+Parameter Sets: (All)
 Aliases: Id
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
@@ -63,7 +68,7 @@ Specifies the number of results to return
 
 ```yaml
 Type: UInt32
-Parameter Sets: (All)
+Parameter Sets: Limit
 Aliases:
 
 Required: False
@@ -84,6 +89,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

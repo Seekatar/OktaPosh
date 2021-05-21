@@ -29,12 +29,12 @@ $PSDefaultParameterValues = @{
 Describe "Cleanup" {
     It "Remove test user" {
         (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
-	    (Get-OktaUser -q $email2) | Remove-OktaUser -Confirm:$false
-	    (Get-OktaUser -q $email3) | Remove-OktaUser -Confirm:$false
-	    (Get-OktaUser -q $email4) | Remove-OktaUser -Confirm:$false
-	    (Get-OktaUser -q $email5) | Remove-OktaUser -Confirm:$false
-	    (Get-OktaUser -q $email6) | Remove-OktaUser -Confirm:$false
-	    (Get-OktaUser -q $email7) | Remove-OktaUser -Confirm:$false
+        (Get-OktaUser -q $email2) | Remove-OktaUser -Confirm:$false
+        (Get-OktaUser -q $email3) | Remove-OktaUser -Confirm:$false
+        (Get-OktaUser -q $email4) | Remove-OktaUser -Confirm:$false
+        (Get-OktaUser -q $email5) | Remove-OktaUser -Confirm:$false
+        (Get-OktaUser -q $email6) | Remove-OktaUser -Confirm:$false
+        (Get-OktaUser -q $email7) | Remove-OktaUser -Confirm:$false
         $vars.group = Get-OktaGroup -Query "userTestGroup"
         if (!$vars.group) {
             $vars.group = New-OktaGroup -Name "userTestGroup"
@@ -91,6 +91,13 @@ Describe "User" {
         $vars.user5.Status | Should -Be 'STAGED'
         $groups = Get-OktaUserGroup -UserId $vars.user5.id
         $groups.id -contains $vars.group.id | Should -Be $true
+
+        $groups = @(Get-OktaUserGroup -UserId $vars.user5.id -limit 1) # in Everyone group, too so 2 groups
+        $groups.Count | Should -Be 1
+        Test-OktaNext "users/$($vars.user5.id)/groups" | Should -Be $true
+        $groups = @(Get-OktaUserGroup -UserId $vars.user5.id -next)
+        $groups.Count | Should -Be 1
+        Test-OktaNext "users/$($vars.user5.id)/groups" | Should -Be $false
     }
     It "Adds AuthProviderUser" {
         $vars.user2 = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email $email2 -ProviderType FEDERATION -ProviderName FEDERATION -Activate
@@ -110,15 +117,14 @@ Describe "User" {
     }
     It "Gets Next Users" {
         $users = @(Get-OktaUser -Limit ($vars.userCount - 1))
-        $users.Count | Should -BeGreaterThan 0
+        $users.Count | Should -Be ($vars.userCount - 1)
         Test-OktaNext -ObjectName users | Should -Be $true
         $users = @(Get-OktaUser -Next)
         $users.Count | Should -BeGreaterThan 0
         Test-OktaNext -ObjectName users | Should -Be $false
-        $users = @(Get-OktaUser -Next 3> $null)
+        $users = @(Get-OktaUser -Next -NoWarn)
         $users | Should -Be $null
-    }
-    It "Tests Next" {
+
         Test-OktaNext -ObjectName users | Should -Be $false
         (Get-OktaNextUrl).Keys.Count | Should -Be 0
     }
