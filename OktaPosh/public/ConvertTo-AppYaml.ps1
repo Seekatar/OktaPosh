@@ -1,22 +1,38 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER Query
+Parameter description
+
+.EXAMPLE
+$apps = Get-OktaApplication -q CCC-CA
+$apps | sort -property label | ConvertTo-AppYaml | out-file applications.yaml
+
+.NOTES
+General notes
+#>
 function ConvertTo-AppYaml
 {
     [CmdletBinding()]
     param (
-        [string] $Query
+        [Parameter(Mandatory,ValueFromPipeline)]
+        [PSCustomObject] $Application
     )
 
-    $params = @{}
-    if ($Query) {
-        $params["q"] = $Query
+    begin {
+        "applications:"
     }
-    $apps = Get-OktaApplication @params
 
-    "applications:"
-    foreach ($app in $apps | Sort-Object label) {
-    @"
-    - label: $($app.label)
-      status: $($app.status)
-      name: $($app.name)
+    process {
+
+        @"
+  - label: $($Application.label)
+    status: $($Application.status)
+    name: $($Application.name)
 "@
     }
 }

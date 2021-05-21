@@ -1,3 +1,21 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER Folder
+Parameter description
+
+.EXAMPLE
+dir -Directory | % { ConvertTo-AuthorizationYaml -Folder $_ | Out-file "$_/$($_.name).yaml" && "$_/$($_.name).yaml" }
+
+Convert all the exported folders under current one to yaml
+
+.NOTES
+General notes
+#>
 function ConvertTo-AuthorizationYaml
 {
     [CmdletBinding()]
@@ -24,10 +42,9 @@ authServer:
   name: $($auth.name)
   status: $($auth.status)
   audiences: $($auth.audiences -join ", ")
-  issuer: $($auth.issuer)
   claims:
 "@
-    foreach ($c in $claims | Where-Object valueType -ne 'SYSTEM') {
+    foreach ($c in $claims | Where-Object valueType -ne 'SYSTEM' | Sort-Object -Property name) {
         @"
     - name: $($c.name)
       status: $($c.status)
