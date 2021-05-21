@@ -8,20 +8,22 @@ function Get-OktaAuthorizationServer
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $AuthorizationServerId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
         if ($AuthorizationServerId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "authorizationServers$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }

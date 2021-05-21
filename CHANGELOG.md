@@ -3,7 +3,8 @@
 ## 2021-03-27 0.2.6
 
 * Update Test-OktaNext to work for any type of object. Tab completion dynamically shows available ObjectNames. See about_oktaposh_paging
-* Parameter fixes for ambiguous parameter sets
+* For functions with -Next there's -NoWarn to suppress warning with no results returned
+* Parameter updates for ambiguous parameter sets
 
 ## 2021-03-27 0.2.5
 

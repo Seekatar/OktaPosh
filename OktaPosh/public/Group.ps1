@@ -18,14 +18,16 @@ function Get-OktaGroup
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters -Query $Query -Limit $Limit -Filter $Filter -Search $Search)" -Method GET -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters -Query $Query -Limit $Limit -Filter $Filter -Search $Search)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }
@@ -120,11 +122,13 @@ function Get-OktaGroupApp
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
-        Invoke-OktaApi -RelativeUri "groups/$GroupId/apps$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/apps$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
     }
 }
 
@@ -139,11 +143,13 @@ function Get-OktaGroupUser
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
-        Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
     }
 }
 

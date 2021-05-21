@@ -11,14 +11,16 @@ function Get-OktaIdentityProvider
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
         if ($IdpId) {
             Invoke-OktaApi -RelativeUri "idps/$IdpId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "idps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "idps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }
