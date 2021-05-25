@@ -25,7 +25,7 @@ Get-OktaIdentityProvider -IdpId <String> [-Json] [<CommonParameters>]
 
 ### Next
 ```
-Get-OktaIdentityProvider [-Next] [-Json] [<CommonParameters>]
+Get-OktaIdentityProvider [-Next] [-Json] [-NoWarn][<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -100,6 +100,21 @@ Searches the name
 ```yaml
 Type: String
 Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
 Aliases:
 
 Required: False

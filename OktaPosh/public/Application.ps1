@@ -4,24 +4,26 @@ Set-StrictMode -Version Latest
 function Get-OktaApplication {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(ParameterSetName="ById",Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
         if ($AppId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId" -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }
@@ -273,14 +275,16 @@ function Get-OktaApplicationGroup {
         [Parameter(Mandatory)]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,ParameterSetName="ById")]
+        [Parameter(ParameterSetName="ById",Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $GroupId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
@@ -289,7 +293,7 @@ function Get-OktaApplicationGroup {
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId/groups/$GroupId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "apps/$AppId/groups$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "apps/$AppId/groups$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }
@@ -301,16 +305,18 @@ function Get-OktaApplicationUser {
         [Parameter(Mandatory)]
         [Alias("ApplicationId")]
         [string] $AppId,
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,ParameterSetName="ById")]
+        [Parameter(ParameterSetName="ById",Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $UserId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
@@ -319,7 +325,7 @@ function Get-OktaApplicationUser {
         if ($UserId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId/users/$UserId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "apps/$AppId/users$(Get-QueryParameters -Query $Query -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "apps/$AppId/users$(Get-QueryParameters -Query $Query -Limit $Limit)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }

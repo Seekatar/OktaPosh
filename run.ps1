@@ -39,7 +39,7 @@ foreach ($t in $Task) {
             .\Update-Manifest.ps1
         }
         'analyze' {
-            if (!(Get-Module PSScriptAnalyzer)) {
+            if (!(Get-Module PSScriptAnalyzer -ListAvailable)) {
                 throw "Must install PSScript Analyzer (Install-Module -Name PSScriptAnalyzer)"
             }
             Push-Location (Join-Path $PSScriptRoot '/OktaPosh')

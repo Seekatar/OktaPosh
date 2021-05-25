@@ -15,8 +15,8 @@ Mainly used internally.
 
 ```
 Invoke-OktaApi [-RelativeUri] <String> [[-Method] <String>] [[-Body] <Object>] [-Json]
- [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-Next] [-NotFoundOk] [-NoRetryOnLimit] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-Next] [-NotFoundOk] [-NoRetryOnLimit] [-NoWarn]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -209,6 +209,21 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

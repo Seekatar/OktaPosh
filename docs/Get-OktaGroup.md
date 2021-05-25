@@ -25,7 +25,7 @@ Get-OktaGroup -GroupId <String> [-Json] [<CommonParameters>]
 
 ### Next
 ```
-Get-OktaGroup [-Next] [-Json] [<CommonParameters>]
+Get-OktaGroup [-Next] [-Json] [-NoWarn][<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -145,6 +145,21 @@ Searches for groups with a supported filtering expression for all attributes exc
 ```yaml
 Type: String
 Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
 Aliases:
 
 Required: False

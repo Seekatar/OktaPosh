@@ -4,7 +4,7 @@
 
 # SHORT DESCRIPTION
 
-The -limit and -next parameters control paging in OktaPosh functions
+The -Limit and -Next parameters control paging in OktaPosh functions
 
 # LONG DESCRIPTION
 
@@ -12,28 +12,50 @@ Many of the OktaPosh Get-* API calls have a preset default and max limit for the
 
 The current documentation has the following defaults and max limits.
 
-Authorization Server: 200/200
-Application: 20/200
-Application Groups: 20/200
-Application Users: 50/500
-Groups: 200/200
-Group Apps: 20/?
-Group Users: 1000/1000
-Group Rules: 50/300
-Identity Providers: 20/
-User: 200/200, 10/200 if -Query used
-User Grants, Tokens: 20/200
+* Authorization Server: 200/200
+* Application: 20/200
+* Application Groups: 20/200
+* Application Users: 50/500
+* Groups: 200/200
+* Group Apps: 20/?
+* Group Users: 1000/1000
+* Group Rules: 50/300
+* Identity Providers: 20/
+* User: 200/200, 10/200 if -Query used
+* User Grants, Tokens: 20/200
+
+The following functions support -Next and the Test-OktaNext features
+
+* Get-OktaApplication
+* Get-OktaApplicationGroup
+* Get-OktaApplicationUser
+* Get-OktaAuthorizationServer
+* Get-OktaGroup
+* Get-OktaGroupApp
+* Get-OktaGroupUser
+* Get-OktaIdentityProvider
+* Get-OktaTrustedOrigin
+* Get-OktaUser
+* Get-OktaUserApplication
+* Get-OktaUserGroup
 
 # EXAMPLES
 ```
-Get-OktaGroup -limit 10
-while (Get-OktaGroup -next) { "Got some groups" }
+$groups = Get-OktaGroup -limit 10
+while ($groups) {
+    "Got $($groups.Count) groups"
+    $groups = Get-OktaGroup -Next
+}
 ```
-A rather contrived example that keeps running until nothing returned.
+Using the result to test for any more returned.
 
 ```
-Get-OktaGroup -limit 10
-while (Test-OktaNext groups) { Get-OktaGroup -next }
+$users = Get-OktaApplicationUser -AppId 0oa33x1af1LkY3p3j4x7 -limit 5
+"Got $($users.Count) users"
+while (Test-OktaNext apps/0oa33x1af1LkY3p3j4x7/users) {
+    $users = Get-OktaApplicationUser -AppId 0oa33x1af1LkY3p3j4x7 -next
+    "Got $($users.Count) users"
+}
 ```
 Using the Test-OktaNext to determine if there is more data.
 

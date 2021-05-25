@@ -12,14 +12,19 @@ Get a list of Groups for the User
 
 ## SYNTAX
 
-### Limit (Default)
+### Other (Default)
+```
+Get-OktaUserGroup -UserId <String> [-Json] [<CommonParameters>]
+```
+
+### Limit
 ```
 Get-OktaUserGroup -UserId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>]
 ```
 
 ### Next
 ```
-Get-OktaUserGroup -UserId <String> [-Next] [-Json] [<CommonParameters>]
+Get-OktaUserGroup -UserId <String> [-Next] [-Json] [-NoWarn][<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -85,6 +90,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

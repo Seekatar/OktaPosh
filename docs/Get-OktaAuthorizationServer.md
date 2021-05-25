@@ -24,7 +24,7 @@ Get-OktaAuthorizationServer -AuthorizationServerId <String> [-Json] [<CommonPara
 
 ### Next
 ```
-Get-OktaAuthorizationServer [-Next] [-Json] [<CommonParameters>]
+Get-OktaAuthorizationServer [-Next] [-Json] [-NoWarn][<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -106,6 +106,21 @@ Searches the name and audiences of Authorization Servers for matching values
 ```yaml
 Type: String
 Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
 Aliases:
 
 Required: False

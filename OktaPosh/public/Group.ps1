@@ -8,7 +8,7 @@ function Get-OktaGroup
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $GroupId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [string] $Filter,
@@ -18,14 +18,16 @@ function Get-OktaGroup
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET -Json:$Json
         } else {
-            Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters -Query $Query -Limit $Limit -Filter $Filter -Search $Search)" -Method GET -Json:$Json -Next:$Next
+            Invoke-OktaApi -RelativeUri "groups$(Get-QueryParameters -Query $Query -Limit $Limit -Filter $Filter -Search $Search)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
         }
     }
 }
@@ -111,39 +113,43 @@ function Remove-OktaGroup {
 
 function Get-OktaGroupApp
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $GroupId,
-        [Parameter()]
+        [Parameter(ParameterSetName="Limit")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
-        Invoke-OktaApi -RelativeUri "groups/$GroupId/apps$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/apps$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
     }
 }
 
 function Get-OktaGroupUser
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Other")]
     param (
-        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $GroupId,
-        [Parameter()]
+        [Parameter(ParameterSetName="Limit")]
         [uint32] $Limit,
         [Parameter(ParameterSetName="Next")]
         [switch] $Next,
-        [switch] $Json
+        [switch] $Json,
+        [Parameter(ParameterSetName="Next")]
+        [switch] $NoWarn
     )
 
     process {
-        Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next
+        Invoke-OktaApi -RelativeUri "groups/$GroupId/users$(Get-QueryParameters -Limit $Limit)" -Method GET -Json:$Json -Next:$Next -NoWarn:$NoWarn
     }
 }
 
