@@ -49,7 +49,7 @@ Get a group with MyGroupName
 ## PARAMETERS
 
 ### -Filter
-Expression for filtering on properties. See https://developer.okta.com/docs/reference/api-overview/#Filter
+Expression for filtering on properties. See https://developer.okta.com/docs/reference/api-overview/#filter
 
 ```yaml
 Type: String
