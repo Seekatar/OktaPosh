@@ -419,7 +419,7 @@ function Remove-OktaPasswordPolicy {
     process {
         Set-StrictMode -Version Latest
 
-        $Policy = Get-OktaPolicy -PolicyId $PolicyId
+        $Policy = Get-OktaPasswordPolicy -PolicyId $PolicyId
         if ($Policy) {
             if ($PSCmdlet.ShouldProcess($Policy.name, "Remove Policy")) {
                 Invoke-OktaApi -RelativeUri "policies/$PolicyId" -Method DELETE

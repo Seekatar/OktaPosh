@@ -1,7 +1,7 @@
-$policies = Get-OktaPolicy -Type PASSWORD
+$policies = Get-OktaPasswordPolicy -Type PASSWORD
 $groups = (Get-OktaGroup -q CCC-Casualty-Pw-)
 
-$name = "Casualty Policy - Others - Jim"
+$name = "Casualty Policy - Others"
 $hasRules = $false
 $policy = $policies | ? name -eq $name
 if (!$policy) {
@@ -17,7 +17,7 @@ if (!$policy) {
     "Added policy $Name"
 } else {
     "Found policy '$Name' Id = $($policy.id)"
-    $hasRules = (Get-OktaPolicy -Id $policy.id -WithRules)._embedded.rules.count
+    $hasRules = (Get-OktaPasswordPolicy -Id $policy.id -WithRules)._embedded.rules.count
 }
 if (!$hasRules) {
     New-OktaPasswordPolicyRule -PolicyId $policy.id -Name $Name -AllowPasswordChange -AllowSelfServicePasswordReset -AllowSelfServiceUnlock
@@ -26,7 +26,7 @@ if (!$hasRules) {
     "Policy $Name has rules"
 }
 
-$name = "Casualty USAA Policy Only. - Jim"
+$name = "Casualty USAA Policy Only."
 $hasRules = $false
 $policy = $policies | ? name -eq $name
 if (!$policy) {
@@ -47,7 +47,7 @@ if (!$policy) {
     "Added policy $Name"
 } else {
     "Found policy '$Name' Id = $($policy.id)"
-    $hasRules = (Get-OktaPolicy -Id $policy.id -WithRules)._embedded.rules.count
+    $hasRules = (Get-OktaPasswordPolicy -Id $policy.id -WithRules)._embedded.rules.count
 }
 if (!$hasRules) {
     New-OktaPasswordPolicyRule -PolicyId $policy.id -Name $Name -AllowPasswordChange -AllowSelfServicePasswordReset -AllowSelfServiceUnlock
