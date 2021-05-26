@@ -35,7 +35,7 @@ Get-OktaTrustedOrigin [-Next] [-Json] [-NoWarn][<CommonParameters>]
 
 ### -Filter
 Expression for filtering on properties.
-See https://developer.okta.com/docs/reference/api-overview/#filtering
+See https://developer.okta.com/docs/reference/api-overview/#filter
 
 ```yaml
 Type: String
