@@ -1,7 +1,7 @@
 # https://developer.okta.com/docs/reference/api/policy
 Set-StrictMode -Version Latest
 
-function Get-OktaPassswordPolicy {
+function Get-OktaPasswordPolicy {
     [CmdletBinding(DefaultParameterSetName="ById")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]

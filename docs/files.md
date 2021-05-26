@@ -54,6 +54,8 @@
 
 ### [Get-OktaOpenIdConfig](Get-OktaOpenIdConfig.md)
 
+### [Get-OktaPassswordPolicy](Get-OktaPassswordPolicy.md)
+
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
 
 ### [Get-OktaPolicyRule](Get-OktaPolicyRule.md)
