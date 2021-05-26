@@ -1,7 +1,7 @@
 # https://developer.okta.com/docs/reference/api/policy
-Set-StrictMode -Version Latest 
+Set-StrictMode -Version Latest
 
-function Get-OktaPolicy {
+function Get-OktaPassswordPolicy {
     [CmdletBinding(DefaultParameterSetName="ById")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
@@ -80,12 +80,12 @@ function New-OktaPasswordPolicy {
         [ValidateSet("OKTA","Active Directory")]
         [string] $Provider = "OKTA"
     )
-    Set-StrictMode -Version Latest 
+    Set-StrictMode -Version Latest
 
     $body = @{
         status = ternary $Inactive "INACTIVE" "ACTIVE"
         name = $Name
-        description = $Description
+        description = ternary $Description $Description "Added by OktaPosh"
         priority = $Priority
         system = $false
         conditions = @{
@@ -408,7 +408,7 @@ function Set-OktaPasswordPolicy {
     }
 
 }
-function Remove-OktaPolicy {
+function Remove-OktaPasswordPolicy {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
