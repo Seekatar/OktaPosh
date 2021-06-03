@@ -1,4 +1,4 @@
-BeforeAll {
+ BeforeAll {
     . (Join-Path $PSScriptRoot '../setup.ps1') -Unit
 }
 
@@ -29,14 +29,14 @@ Describe "Zone" {
                 }
     }
     It "Adds a block zone" {
-        $null = New-OktaBlockListZone -Name $blockName -GatewayCIDR '192.168.1.1','192.168.1.22' -GatewayRange '192.168.1.1-192.168.1.22' -ProxyCIDR '192.168.1.1','192.168.1.22' -ProxyRange 'a-b'
+        $null = New-OktaBlockListZone -Name $blockName -GatewayIps '192.168.1.1/24','192.168.1.22/24','192.168.1.1-192.168.1.22'
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/zones" -and $Method -eq 'POST'
                 }
     }
     It "Adds a policy zone" {
-        $null = New-OktaPolicyZone -Name $policyName -GatewayCIDR '192.168.1.1','192.168.1.22' -GatewayRange '192.168.1.1-192.168.1.22' -ProxyCIDR '192.168.1.1','192.168.1.22' -ProxyRange 'a-b'
+        $null = New-OktaPolicyZone -Name $policyName -GatewayIps '192.168.1.1','192.168.1.22','192.168.1.1-192.168.1.22','192.168.1.1','192.168.1.22' -ProxyIps '192.168.1.1/24','192.168.1.22/24','192.168.1.1-192.168.1.22'
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/zones" -and $Method -eq 'POST'
@@ -53,7 +53,7 @@ Describe "Zone" {
         $null = Get-OktaZone -Usage POLICY
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/zones?filter=usage+eq+%22POLICY%22" -and $Method -eq 'GET'
+                    $Uri -like "*/zones?filter=usage+eq+`"POLICY`"" -and $Method -eq 'GET'
                 }
     }
     It "Gets Zone By Id" {

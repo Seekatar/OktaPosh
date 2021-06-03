@@ -58,9 +58,15 @@ function Get-OktaZone
     }
 }
 
-function ipAddresses( $cidr, $range) {
-    @(($cidr | ForEach-Object { @{type = "CIDR"; value = $_}}) +
-      ($range | ForEach-Object { @{type = "RANGE"; value = $_}}))
+function ipAddresses( $ips) {
+
+    $ips | ForEach-Object {
+        if ($_ -like '*/*') {
+            @{type = "CIDR"; value = $_}
+        } else {
+            @{type = "RANGE"; value = $_}
+        }
+    }
 }
 
 function New-OktaBlockListZone {
@@ -69,10 +75,7 @@ function New-OktaBlockListZone {
     param (
         [Parameter(Mandatory)]
         [string] $Name,
-        [string[]] $GatewayCIDR = @(),
-        [string[]] $GatewayRange = @(),
-        [string[]] $ProxyCIDR = @(),
-        [string[]] $ProxyRange = @(),
+        [string[]] $GatewayIps = @(),
         [switch] $Inactive
     )
 
@@ -80,10 +83,9 @@ function New-OktaBlockListZone {
         $body = [PSCustomObject]@{
             type = "IP"
             name = $Name
-            status = ternary [bool]$Inactive "INACTIVE" "ACTIVE"
-            usage = "POLICY"
-            gateways = ipAddresses $GatewayCIDR $GatewayRange
-            proxies = ipAddresses $ProxyCIDR $ProxyRange
+            status = ternary $Inactive "INACTIVE" "ACTIVE"
+            usage = "BLOCKLIST"
+            gateways = ipAddresses $GatewayIps
         }
         Invoke-OktaApi -RelativeUri "zones" -Body $body -Method POST
     }
@@ -97,18 +99,27 @@ function New-OktaDynamicZone {
         [string] $Name,
         [hashtable[]] $Locations = @(),
         [string[]] $ASNs = @(),
-        [ValidateSet('Any','Tor','NotTorAnonymizer','')]
-        [string] $ProxyType = '',
+        [ValidateSet('Any','AnyProxy', 'Tor','NotTorAnonymizer',IgnoreCase=$false)]
+        [string] $ProxyType = 'Any',
+        [ValidateSet('BLOCKLIST','POLICY',IgnoreCase=$false)]
+        [string] $Usage = 'POLICY',
         [switch] $Inactive
     )
 
     process {
+        $MyProxyType = $ProxyType
+        if ($ProxyType -eq 'AnyProxy') {
+            $MyProxyType = 'Any'
+        } elseif ($ProxyType -eq 'Any') {
+            $MyProxyType = $null
+        }
         $body = [PSCustomObject]@{
             type = "DYNAMIC"
             name = $Name
-            status = ternary [bool]$Inactive "INACTIVE" "ACTIVE"
+            status = ternary $Inactive "INACTIVE" "ACTIVE"
+            usage = $Usage
             locations = $Locations
-            proxyType = $ProxyType
+            proxyType = $MyProxyType
             asns = $ASNs
         }
         Invoke-OktaApi -RelativeUri "zones" -Body $body -Method POST
@@ -121,10 +132,8 @@ function New-OktaPolicyZone {
     param (
         [Parameter(Mandatory)]
         [string] $Name,
-        [string[]] $GatewayCIDR = @(),
-        [string[]] $GatewayRange = @(),
-        [string[]] $ProxyCIDR = @(),
-        [string[]] $ProxyRange = @(),
+        [string[]] $GatewayIps = @(),
+        [string[]] $ProxyIps = @(),
         [switch] $Inactive
     )
 
@@ -132,10 +141,10 @@ function New-OktaPolicyZone {
         $body = [PSCustomObject]@{
             type = "IP"
             name = $Name
-            status = ternary [bool]$Inactive "INACTIVE" "ACTIVE"
-            usage = "BLOCKLIST"
-            gateways = ipAddresses $GatewayCIDR $GatewayRange
-            proxies = ipAddresses $ProxyCIDR $ProxyRange
+            status = ternary $Inactive "INACTIVE" "ACTIVE"
+            usage = "POLICY"
+            gateways = ipAddresses $GatewayIps
+            proxies = ipAddresses $ProxyIps
         }
 
         Invoke-OktaApi -RelativeUri "zones" -Body $body -Method POST

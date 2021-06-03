@@ -5,43 +5,29 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaRule
+# Get-OktaZone
 
 ## SYNOPSIS
-Get one or more Rules for an AuthorizationServer and Policy
+Get one or more zones by id or usage
 
 ## SYNTAX
 
+### Query (Default)
+```
+Get-OktaZone [-Usage <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
+```
+
 ### ById
 ```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> -RuleId <String> [-Json] [<CommonParameters>]
+Get-OktaZone -ZoneId <String> [-Json] [<CommonParameters>]
 ```
 
-### Query
+### Next
 ```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>] [-Json] [<CommonParameters>]
+Get-OktaZone [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
-
-## DESCRIPTION
-
-## EXAMPLES
 
 ## PARAMETERS
-
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Json
 Set to return JSON instead of PSCustomObject
@@ -53,31 +39,16 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PolicyId
-PolicyId retrieved from Get-OktaPolicy
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Query
-Query for name and description
+### -Limit
+Set to return JSON instead of PSCustomObject
 
 ```yaml
-Type: String
+Type: UInt32
 Parameter Sets: Query
 Aliases:
 
@@ -88,8 +59,54 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RuleId
-RuleId retrieved from Get-OktaRule
+### -Next
+Set to get the next page from a previous call (if one exists)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWarn
+For -Next when no results, do not show warning
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Next
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Usage
+For -Next when no results, do not show warning
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+Accepted values: BLOCKLIST, POLICY
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ZoneId
+Zone id retrieved from Get-OktaZone
 
 ```yaml
 Type: String
@@ -108,17 +125,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### String
-Pipe Ids in
-
-### PSCustomObject[]
-Pipe objects with Id
+### System.String
 
 ## OUTPUTS
 
-### PSCustomObject[]
-Rule Objects
-
+### System.Object
 ## NOTES
 
 ## RELATED LINKS
