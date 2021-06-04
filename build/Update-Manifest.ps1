@@ -8,8 +8,8 @@ param(
 
     Push-Location (Join-Path $PSScriptRoot "../*/public")
     try {
-        $publicFunctions = Select-String 'function\s+([\w-]*)' *.ps1 | ForEach-Object { $_.Matches.Groups[1].Value }
-        $publicAliases = Select-String 'New-Alias\s+([\w-]*)' *.ps1 | ForEach-Object { $_.Matches.Groups[1].Value }
+        $publicFunctions = Select-String 'function\s+(\w+-\w+)' *.ps1 | ForEach-Object { $_.Matches.Groups[1].Value }
+        $publicAliases = Select-String 'New-Alias\s+(\w+-\w+)' *.ps1 | ForEach-Object { $_.Matches.Groups[1].Value }
         $path = Get-ChildItem ../*.psd1
         Update-ModuleManifest -Path $path -FunctionsToExport $publicFunctions -AliasesToExport $publicAliases
         Get-Content $path | ForEach-Object { $_.TrimEnd() } | Out-File "$path.tmp"

@@ -20,9 +20,10 @@ Function Groups:
 * [Scope](#Scope-Functions)
 * [TrustedOrigin](#TrustedOrigin-Functions)
 * [User](#User-Functions)
+* [Zone](#Zone-Functions)
 
 ## Application Functions
-
+ 
 Command     | Synopsis
 ------------|---------|
 Add-OktaApplicationGroup | Adds a group to the application
@@ -33,6 +34,9 @@ Get-OktaApplication | Get one or more Applications
 Get-OktaApplicationGroup | Get the list of groups attached to the application, or a specific group
 Get-OktaApplicationSchema | Get the schema (profile) for the Application
 Get-OktaApplicationUser | Get one or more users attached to the application
+Get-OktaUserApplication | Get the list of Applications for a User
+New-OktaServerApplication | Create a new server-type OAuth Application
+New-OktaSpaApplication | Create a new SPA-type OAuth Application
 Remove-OktaApplication | Remove an Application. It will disable it first.
 Remove-OktaApplicationGroup | Remove a Group from an Application
 Remove-OktaApplicationSchemaProperty | Remove a Property from a Schema.
@@ -42,7 +46,7 @@ Set-OktaApplicationProperty | Set an application property
 Set-OktaApplicationSchemaProperty | Set a Property on a Schema
 
 ## Authorization Functions
-
+ 
 Command     | Synopsis
 ------------|---------|
 Disable-OktaAuthorizationServer | Disable the AuthorizationServer
@@ -54,7 +58,7 @@ Remove-OktaAuthorizationServer | Remove an Authorization Server. Will disable it
 Set-OktaAuthorizationServer | Update an AuthorizationServer
 
 ## Claim Functions
-
+ 
 Command     | Synopsis
 ------------|---------|
 Get-OktaClaim | Get one of more Claims for an AuthorizationServer
@@ -63,26 +67,27 @@ Remove-OktaClaim | Remove a Claim from an AuthorizationServer
 Set-OktaClaim | Update an AuthorizationServer's Claim
 
 ## Group Functions
-
+ 
 Command     | Synopsis
 ------------|---------|
+Add-OktaApplicationGroup | Adds a group to the application
 Add-OktaGroupUser | Add a User to a Group
+Get-OktaApplicationGroup | Get the list of groups attached to the application, or a specific group
 Get-OktaGroup | Get one or more Groups
 Get-OktaGroupApp | Get the Applications attached to the Group
 Get-OktaGroupUser | Get the Users attached to the Group
+Get-OktaUserGroup | Get a list of Groups for the User
 New-OktaGroup | Create a new Group
+Remove-OktaApplicationGroup | Remove a Group from an Application
 Remove-OktaGroup | Remove a Group
 Remove-OktaGroupUser | Remove a User from a Group
 Set-OktaGroup | Update a Group's name or description
 
 ## Misc Functions
-
+ 
 Command     | Synopsis
 ------------|---------|
-addUser | synopsis
 ConvertTo-NewPolicyName | Update scripts to the 0.3.0 policy function renames.
-Disable-OktaZone | Disable a zone
-Enable-OktaZone | Disable a zone
 Get-OktaApiToken | Get the API token set by Set-OktaOption or from environment, or passed in
 Get-OktaAppJwt | Get the JWT for client_credential (server-to-server)
 Get-OktaBaseUri | Get the base Uri set by Set-OktaOption or from environment, or passed in
@@ -91,17 +96,8 @@ Get-OktaJwt | Get an Okta JWT token for an Application or Okta User
 Get-OktaNextUrl | Get the list of NextUrls the module currently knows about.
 Get-OktaOpenIdConfig | Get the JSON from the configuration Url for an AuthorizationServer
 Get-OktaRateLimit | Get the current rate limit values from the last request
-Get-OktaZone | Get one or more zones by id or usage
 Invoke-OktaApi | Helper for calling the OktaApi. Mainly used internally.
-ipAddresses | ipAddresses [[-ips] <Object>]
-New-OktaAuthProviderUser | Add a user for an Authentication Provider
-New-OktaBlockListZone | Create a new zone to block ips
-New-OktaDynamicZone | Create a new dynamic policy for blocklist zone
-New-OktaServerApplication | Create a new server-type OAuth Application
-New-OktaSpaApplication | Create a new SPA-type OAuth Application
-Remove-OktaZone | Delete a zone
 Set-OktaOption | Set OktaOptions for accessing the API
-Set-OktaZone | Update an existing zone
 Show-Okta | Launch the browser with the Get-OktaBaseUri, or auth server, or app
 Test-OktaNext | Checks to see if -Next will return anything for a give Okta object
 
@@ -118,14 +114,35 @@ Set-OktaPolicy | Update an Authorization server's Policy
 
 Command     | Synopsis
 ------------|---------|
+Get-OktaAuthorizationServerPolicy | Get one of more Policies for an AuthorizationServer
 Get-OktaRule | Get one or more Rules for an AuthorizationServer and Policy
+New-OktaAuthorizationServerPolicy | Create a new Policy on the AuthorizationServer
+New-OktaPasswordPolicy | Create a new Okta password policy
+New-OktaPasswordPolicyRule | Create a new password policy rule for a password policy
 New-OktaPolicyZone | Create a new policy zone
+Remove-OktaAuthorizationServerPolicy | Remove a Policy from an AuthorizationServer
 New-OktaRule | Create a new Rule on the AuthorizationServer's Policy
 Remove-OktaRule | Remove a Rule from an AuthorizationServer's Policy
+Set-OktaAuthorizationServerPolicy | Update an Authorization server's Policy
 Set-OktaRule | Update an AuthorizationServer's Policy
 
-## Scope Functions
+## Rule Functions
+ 
+Command     | Synopsis
+------------|---------|
+Disable-OktaPolicyRule | Disable a policy rule
+Enable-OktaPolicyRule | Enable a policy rule
+Get-OktaAuthorizationServerRule | Get one or more Rules for an AuthorizationServer and Policy
+Get-OktaPolicyRule | Get the rules for an Okta Policy
+New-OktaAuthorizationServerRule | Create a new Rule on the AuthorizationServer's Policy
+New-OktaPasswordPolicyRule | Create a new password policy rule for a password policy
+Remove-OktaAuthorizationServerRule | Remove a Rule from an AuthorizationServer's Policy
+Remove-OktaPolicyRule | Remove a policy rule from a policy
+Set-OktaAuthorizationServerRule | Update an AuthorizationServer's Policy
+Set-OktaPolicyRule | Update a policy rule
 
+## Scope Functions
+ 
 Command     | Synopsis
 ------------|---------|
 Get-OktaScope | Get one or more Scopes for an AuthorizationServer
@@ -134,7 +151,7 @@ Remove-OktaScope | Remove a Scope from an AuthorizationServer
 Set-OktaScope | Update an AuthorizationServer's Scope
 
 ## TrustedOrigin Functions
-
+ 
 Command     | Synopsis
 ------------|---------|
 Get-OktaTrustedOrigin | Get one or more TrustedOrigins
@@ -143,19 +160,39 @@ Remove-OktaTrustedOrigin | Delete a TrustedOrigin
 Set-OktaTrustedOrigin | Update a TrustedOrigin
 
 ## User Functions
-
+ 
 Command     | Synopsis
 ------------|---------|
+Add-OktaApplicationUser | Add a User to the Application
+Add-OktaGroupUser | Add a User to a Group
 Disable-OktaUser | Disables (deactivates) a user
 Enable-OktaUser | Enable (Activate) a user
+Get-OktaApplicationUser | Get one or more users attached to the application
+Get-OktaGroupUser | Get the Users attached to the Group
 Get-OktaUser | Get one or more Okta Users
 Get-OktaUserApplication | Get the list of Applications for a User
 Get-OktaUserGroup | Get a list of Groups for the User
+New-OktaAuthProviderUser | Add a user for an Authentication Provider
 New-OktaUser | Create a new user in Okta, with or without a password
+Remove-OktaApplicationUser | Remove a User from the Application
+Remove-OktaGroupUser | Remove a User from a Group
 Remove-OktaUser | Remove a user, permanently!
 Resume-OktaUser | Resume (Unsuspend) a user
 Set-OktaUser | Updates a user object in Okta
 Suspend-OktaUser | Suspend a user
 
+## Zone Functions
+ 
+Command     | Synopsis
+------------|---------|
+Disable-OktaZone | Disable a zone
+Enable-OktaZone | Disable a zone
+Get-OktaZone | Get one or more zones by id or usage
+New-OktaBlockListZone | Create a new zone to block ips
+New-OktaDynamicZone | Create a new dynamic policy for blocklist zone
+New-OktaPolicyZone | Create a new policy zone
+Remove-OktaZone | Delete a zone
+Set-OktaZone | Update an existing zone
+
 ---
-Generated by New-HelpOutput.ps1 on 05/31/2021 16:20:13
+Generated by New-HelpOutput.ps1 on 06/02/2021 21:13:01

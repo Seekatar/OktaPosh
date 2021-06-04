@@ -1,7 +1,7 @@
 # https://developer.okta.com/docs/reference/api/policy
 Set-StrictMode -Version Latest
 
-function Get-OktaPassswordPolicy {
+function Get-OktaPolicy {
     [CmdletBinding(DefaultParameterSetName="ById")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
@@ -60,23 +60,35 @@ function New-OktaPasswordPolicy {
         [string] $Description,
         [switch] $Inactive,
         [int] $Priority = 1,
+        # complexity
         [int] $MinLength = 8,
-        [int] $MinLowerCase = 1,
-        [int] $MinUpperCase = 1,
-        [int] $MinNumber = 1,
-        [int] $MinSymbol = 0,
-        [int] $MaxAgeDays = 60,
-        [int] $ExpireWarnDays = 0,
-        [int] $MinAgeMinutes = 0,
-        [int] $HistoryCount = 5,
-        [int] $MaxAttempts = 3,
-        [int] $AutoUnlockMinutes = 5,
-        [switch] $ExcludeUserName,
+        [switch] $NoLowerCase,
+        [switch] $NoUpperCase,
+        [switch] $NoNumber,
+        [switch] $NoSymbol,
+        [switch] $DontExcludeUserName,
         [switch] $ExcludeDictionaryCommon,
         [string[]] $ExcludeAttributes = @(),
-        [string[]] $IncludeGroups = @(),
-        [ValidateSet("ACTIVE","INACTIVE")]
+        # age
+        [int] $MaxAgeDays = 0,
+        [int] $ExpireWarnDays = 0,
+        [int] $MinAgeMinutes = 0,
+        [int] $HistoryCount = 0,
+        # lockout
+        [int] $MaxAttempts = 0,
+        [int] $AutoUnlockMinutes = 0,
+        [switch] $ShowLockoutFailures,
+        # recovery
+        [ValidateSet("ACTIVE","INACTIVE",IgnoreCase=$false)]
         [string] $RecoveryQuestionStatus = "ACTIVE",
+        [int] $MinRecoveryQuestionLength = 4,
+        [ValidateSet("ACTIVE","INACTIVE",IgnoreCase=$false)]
+        [string] $RecoverySmsStatus = "INACTIVE",
+        [ValidateSet("ACTIVE","INACTIVE",IgnoreCase=$false)]
+        [string] $RecoveryCallStatus = "INACTIVE",
+        [int] $EmailTokenLifetime = 10080,
+        [switch] $SkipUnlock,
+        [string[]] $IncludeGroupIds = @(),
         [ValidateSet("OKTA","Active Directory")]
         [string] $Provider = "OKTA"
     )
@@ -102,11 +114,11 @@ function New-OktaPasswordPolicy {
             password = @{
                 complexity = @{
                     minLength = $MinLength
-                    minLowerCase = $MinLowerCase
-                    minUpperCase = $MinUpperCase
-                    minNumber = $MinNumber
-                    minSymbol = $MinSymbol
-                    excludeUsername = [bool]$ExcludeUserName
+                    minLowerCase = ternary $NoLowerCase 0 1
+                    minUpperCase = ternary $NoUpperCase 0 1
+                    minNumber = ternary $NoNumber 0 1
+                    minSymbol = ternary $NoSymbol 0 1
+                    excludeUsername = [bool]!$DontExcludeUserName
                     dictionary = @{
                         common = @{
                             exclude = [bool]$ExcludeDictionaryCommon
@@ -124,7 +136,7 @@ function New-OktaPasswordPolicy {
                     maxAttempts = $MaxAttempts
                     autoUnlockMinutes = $AutoUnlockMinutes
                     userLockoutNotificationChannels = @()
-                    showLockoutFailures = $false
+                    showLockoutFailures = $ShowLockoutFailures
                 }
             }
             recovery = @{
@@ -133,7 +145,7 @@ function New-OktaPasswordPolicy {
                         status = $RecoveryQuestionStatus
                         properties = @{
                             complexity = @{
-                                minLength = 4
+                                minLength = $MinRecoveryQuestionLength
                             }
                         }
                     }
@@ -141,21 +153,21 @@ function New-OktaPasswordPolicy {
                         status = "ACTIVE"
                         properties = @{
                             recoveryToken = @{
-                                tokenLifetimeMinutes = 60
+                                tokenLifetimeMinutes = $EmailTokenLifetime
                             }
                         }
                     }
                     okta_sms = @{
-                        status = "INACTIVE"
+                        status = $RecoverySmsStatus
                     }
                     okta_call = @{
-                        status = "INACTIVE"
+                        status = $RecoveryCallStatus
                     }
                 }
             }
             delegation = @{
                 options = @{
-                    skipUnlock = $false
+                    skipUnlock = $SkipUnlock
                 }
             }
         }
