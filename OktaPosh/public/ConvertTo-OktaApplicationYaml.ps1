@@ -9,7 +9,7 @@ function ConvertTo-OktaApplicationYaml
 
     function getProp( $object, $name )
     {
-        if (Get-Member -InputObject $object -Name name) {
+        if (Get-Member -InputObject $object -Name $name) {
             $object.$name
         } else {
             $null

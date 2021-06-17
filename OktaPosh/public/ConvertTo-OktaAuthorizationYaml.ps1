@@ -25,7 +25,6 @@ authServer:
   name: $($auth.name)
   status: $($auth.status)
   audiences: $($auth.audiences -join ", ")
-  issuer: $($auth.issuer)
   policies:
 "@
     if ($policies) {
@@ -33,7 +32,6 @@ authServer:
       @"
     - name: $($p.name)
       status: $($p.status)
-      priority: $($p.priority)
       clients:
 "@
         if ($p.conditions.clients.include -and $p.conditions.clients.include[0] -eq 'ALL_CLIENTS') {
