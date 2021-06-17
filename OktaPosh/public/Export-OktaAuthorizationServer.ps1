@@ -1,3 +1,26 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AuthorizationServerId
+Parameter description
+
+.PARAMETER OutputFolder
+Parameter description
+
+.EXAMPLE
+$auths = Get-OktaAuthorizationServer -q 'Casualty-' | ? name -like 'Casualty-*'
+mkdir \oktadev
+$auths | % { Export-OktaAuthorizationServer $_.id -output "\temp\oktadev\$($_.name)" }
+
+Export all the casualty auth servers to folders
+
+.NOTES
+General notes
+#>
 function Export-OktaAuthorizationServer {
     param (
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
