@@ -1,10 +1,11 @@
 function ternary {
     param (
         [Parameter(Mandatory)]
-        [boolean] $value,
+        $value,
         $ifTrue,
         $ifFalse
     )
+
     if ($PSBoundParameters.Count -lt 3) {
         throw "Must supply 3 arguments to ternary, even if `$null"
     }

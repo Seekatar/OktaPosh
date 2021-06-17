@@ -39,24 +39,33 @@ Get-OktaUser [-Next] [-Json] [-NoWarn][<CommonParameters>]
 
 ### Example 1
 ```
-Get-Oktauser  -limit 1 -filter 'profile.firstName eq "jim"'
+Get-OktaUser -limit 1 -filter 'profile.firstName eq "jim"'
 ```
 
 Get first user who has firstname of 'jim'
 
 ### Example 2
 ```
-Get-Oktauser  -Login testuser@test.com
+Get-OktaUser  -Login testuser@test.com
 ```
 
 Get a user by login
 
 ### Example 3
 ```
-Get-Oktauser -Id 000012224444555
+Get-OktaUser -Id 000012224444555
 ```
 
 Get a user by id
+
+### Example 4
+```
+$existingUsers = @(Get-OktaUser -limit 100)
+while (Test-OktaNext -ObjectName users) { $existingUsers += Get-OktaUser -Next; $existingUsers.Count }​​​​​​
+$existingUsers.Count
+```
+
+Get all the users, using Test-OktaNext
 
 ## PARAMETERS
 
