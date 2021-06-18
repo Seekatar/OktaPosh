@@ -1,6 +1,13 @@
 # Change Log
 
-## 2021-03-27 0.2.6
+## 2021-03-27 0.2.8
+
+* New functions
+  * *-OktaZone for managing zones
+  * ConvertTo-Okta*Yaml functions to generate easily compared configuration
+  * Get-OktaLog for retrieving system logs
+
+## 2021-03-27 0.2.7
 
 * Update Test-OktaNext to work for any type of object. Tab completion dynamically shows available ObjectNames. See about_oktaposh_paging
 * For functions with -Next there's -NoWarn to suppress warning with no results returned

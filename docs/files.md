@@ -58,6 +58,8 @@
 
 ### [Get-OktaOpenIdConfig](Get-OktaOpenIdConfig.md)
 
+### [Get-OktaPassswordPolicy](Get-OktaPassswordPolicy.md)
+
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
 
 ### [Get-OktaPolicyRule](Get-OktaPolicyRule.md)
@@ -96,6 +98,9 @@
 
 ### [New-OktaPasswordPolicyRule](New-OktaPasswordPolicyRule.md)
 
+### [New-OktaPolicy](New-OktaPolicy.md)
+
+### [New-OktaPolicyZone](New-OktaPolicyZone.md)
 
 ### [New-OktaRule](New-OktaRule.md)
 
