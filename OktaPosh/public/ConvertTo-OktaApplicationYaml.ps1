@@ -3,7 +3,10 @@ function ConvertTo-OktaApplicationYaml
 {
     [CmdletBinding()]
     param (
-        [string] $Query
+        [string] $Query,
+        [Parameter(Mandatory)]
+        [ValidateScript({Test-Path $_ -PathType Container})]
+        [string] $OutputFolder
     )
     Set-StrictMode -Version Latest
 
@@ -21,19 +24,18 @@ function ConvertTo-OktaApplicationYaml
     }
     $apps = Get-OktaApplication @params
 
-    Write-Verbose "Getttng groups"
+    Write-Verbose "Getting groups"
     $groups = @(Get-OktaGroup -limit 100)
     while (Test-OktaNext -ObjectName groups) { $groups += Get-OktaGroup -Next }
 
-    "applications:"
     foreach ($app in $apps | Sort-Object label) {
-    @"
+    $output = @"
     - label: $($app.label)
       status: $($app.status)
       name: $($app.name)
       settings:
         oauthClient:
-          redirectUris: $(($app.settings.oauthClient.redirect_uris | Sort-Object)-join ', ')
+          redirectUris: $(($app.settings.oauthClient.redirect_uris | Sort-Object) -join ', ')
           post_logout_redirect_uris: $(((getProp $app.settings.oauthClient 'post_logout_redirect_uris') | Sort-Object) -join ', ')
           grant_types: $(($app.settings.oauthClient?.grant_types | Sort-Object) -join ', ')
           response_types: $(($app.settings.oauthClient?.response_types | Sort-Object) -join ', ')
@@ -42,17 +44,16 @@ function ConvertTo-OktaApplicationYaml
           consent_method: $($app.settings.oauthClient?.consent_method)
       groups:
 "@
-        Write-Verbose "Gettting appGroups"
+        Write-Verbose "Getting appGroups"
         $appGroups = Get-OktaApplicationGroup -AppId $app.id -Limit 1000
         while (Test-OktaNext -ObjectName groups) { $appGroups += Get-OktaApplicationGroup -AppId $app.id -Next }
 
         Write-Verbose "Writing output"
         $appGroups | ForEach-Object { ($groups | Where-Object id -eq $_.id).profile.name } | Sort-Object | ForEach-Object {
-@"
-      - $_
-"@
+            $output += "      - $_"
         }
-        Write-Verbose "Done"
-
+        $output | Out-File (Join-Path $OutputFolder "app-$($app.label).yaml") -Encoding ascii
+        Write-Host (Join-Path $OutputFolder "app-$($app.label).yaml")
     }
+    Write-Verbose "Done"
 }

@@ -24,7 +24,7 @@ function ConvertTo-OktaAuthorizationYaml
 authServer:
   name: $($auth.name)
   status: $($auth.status)
-  audiences: $($auth.audiences -join ", ")
+  audiences: $(($auth.audiences | Sort-Object) -join ", ")
   policies:
 "@
     if ($policies) {
@@ -53,15 +53,15 @@ authServer:
           conditions:
             people:
               users:
-                include: $($r.conditions.people.users.include -join ', ')
-                exclude: $($r.conditions.people.users.exclude -join ', ')
+                include: $(($r.conditions.people.users.include | Sort-Object) -join ', ')
+                exclude: $(($r.conditions.people.users.exclude | Sort-Object) -join ', ')
               groups:
-                include: $($r.conditions.people.groups.include -join ', ')
-                exclude: $($r.conditions.people.groups.exclude -join ', ')
+                include: $(($r.conditions.people.groups.include | Sort-Object) -join ', ')
+                exclude: $(($r.conditions.people.groups.exclude | Sort-Object) -join ', ')
               grantTypes:
-                include: $($r.conditions.grantTypes.include -join ', ')
+                include: $(($r.conditions.grantTypes.include | Sort-Object) -join ', ')
               scopes:
-                include: $($r.conditions.scopes.include -join ', ')
+                include: $(($r.conditions.scopes.include | Sort-Object) -join ', ')
           actions:
             token:
               accessTokenLifetimeMinutes: $($r.actions.token.accessTokenLifetimeMinutes)

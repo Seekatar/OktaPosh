@@ -8,7 +8,7 @@ function ConvertTo-OktaYaml {
         [string] $OriginMask = '*',
         [switch] $WipeFolder
     )
-
+try {
     Set-StrictMode -Version Latest
 
     if ((Test-Path $Folder) -and $WipeFolder ) {
@@ -31,7 +31,7 @@ function ConvertTo-OktaYaml {
     }
     Write-Host "-- Processing applications"
 
-    ConvertTo-OktaApplicationYaml @params | Out-File (Join-Path $Folder applications.yaml)
+    ConvertTo-OktaApplicationYaml @params -OutputFolder "$folder"
 
     $params = @{}
     if ($ApplicationQuery) {
@@ -40,5 +40,7 @@ function ConvertTo-OktaYaml {
 
     Write-Host "-- Processing trusted origins"
     ConvertTo-OktaTrustedOriginYaml -Mask $OriginMask | Out-File (Join-Path $folder trustedOrigins.yaml)
-
+} catch {
+    Write-Error "$_`n$($_.ScriptStackTrace)"
+}
 }
