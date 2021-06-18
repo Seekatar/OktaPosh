@@ -4,6 +4,14 @@
 
 ### [Add-OktaGroupUser](Add-OktaGroupUser.md)
 
+### [ConvertTo-OktaApplicationYaml](ConvertTo-OktaApplicationYaml.md)
+
+### [ConvertTo-OktaAuthorizationYaml](ConvertTo-OktaAuthorizationYaml.md)
+
+### [ConvertTo-OktaTrustedOriginYaml](ConvertTo-OktaTrustedOriginYaml.md)
+
+### [ConvertTo-OktaYaml](ConvertTo-OktaYaml.md)
+
 ### [Disable-OktaApplication](Disable-OktaApplication.md)
 
 ### [Disable-OktaAuthorizationServer](Disable-OktaAuthorizationServer.md)
@@ -45,6 +53,8 @@
 ### [Get-OktaIdentityProvider](Get-OktaIdentityProvider.md)
 
 ### [Get-OktaJwt](Get-OktaJwt.md)
+
+### [Get-OktaLog](Get-OktaLog.md)
 
 ### [Get-OktaNextUrl](Get-OktaNextUrl.md)
 

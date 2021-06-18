@@ -37,11 +37,11 @@ function ConvertTo-OktaApplicationYaml
         oauthClient:
           redirectUris: $(($app.settings.oauthClient.redirect_uris | Sort-Object) -join ', ')
           post_logout_redirect_uris: $(((getProp $app.settings.oauthClient 'post_logout_redirect_uris') | Sort-Object) -join ', ')
-          grant_types: $(($app.settings.oauthClient?.grant_types | Sort-Object) -join ', ')
-          response_types: $(($app.settings.oauthClient?.response_types | Sort-Object) -join ', ')
-          initiate_login_uri: $((getProp $app.settings.oauthClient 'initiate_login_uri'))
-          application_type: $($app.settings.oauthClient?.application_type)
-          consent_method: $($app.settings.oauthClient?.consent_method)
+          grant_types: $(((ternary $app.settings.oauthClient $app.settings.oauthClient.grant_types '') | Sort-Object) -join ', ')
+          response_types: $(((ternary $app.settings.oauthClient $app.settings.oauthClient.response_types '') | Sort-Object) -join ', ')
+          initiate_login_uri: $(getProp $app.settings.oauthClient 'initiate_login_uri')
+          application_type: $(ternary $app.settings.oauthClient $app.settings.oauthClient.application_type '')
+          consent_method: $(ternary $app.settings.oauthClient $app.settings.oauthClient.consent_method '')
       groups:
 "@
         Write-Verbose "Getting appGroups"

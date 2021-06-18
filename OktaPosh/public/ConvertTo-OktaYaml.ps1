@@ -6,6 +6,7 @@ function ConvertTo-OktaYaml {
         [string] $AuthServerQuery,
         [string] $ApplicationQuery,
         [string] $OriginMask = '*',
+        [string[]] $GroupQueries,
         [switch] $WipeFolder
     )
 try {
@@ -40,6 +41,13 @@ try {
 
     Write-Host "-- Processing trusted origins"
     ConvertTo-OktaTrustedOriginYaml -Mask $OriginMask | Out-File (Join-Path $folder trustedOrigins.yaml)
+
+    Write-Host "-- Processing groups"
+    foreach ($g in $GroupQueries) {
+        Get-OktaGroup -q $g | ForEach-Object { $_.profile.name } | Sort-Object | Out-File (Join-Path $folder "groups-$g.yaml")
+        ConvertTo-OktaTrustedOriginYaml -Mask $OriginMask | Out-File (Join-Path $folder trustedOrigins.yaml)
+    }
+
 } catch {
     Write-Error "$_`n$($_.ScriptStackTrace)"
 }
