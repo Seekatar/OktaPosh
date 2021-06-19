@@ -16,13 +16,21 @@
 
 ### [Disable-OktaAuthorizationServer](Disable-OktaAuthorizationServer.md)
 
+### [Disable-OktaPolicy](Disable-OktaPolicy.md)
+
 ### [Disable-OktaUser](Disable-OktaUser.md)
+
+### [Disable-OktaZone](Disable-OktaZone.md)
 
 ### [Enable-OktaApplication](Enable-OktaApplication.md)
 
 ### [Enable-OktaAuthorizationServer](Enable-OktaAuthorizationServer.md)
 
+### [Enable-OktaPolicy](Enable-OktaPolicy.md)
+
 ### [Enable-OktaUser](Enable-OktaUser.md)
+
+### [Enable-OktaZone](Enable-OktaZone.md)
 
 ### [Export-OktaAuthorizationServer](Export-OktaAuthorizationServer.md)
 
@@ -60,7 +68,11 @@
 
 ### [Get-OktaOpenIdConfig](Get-OktaOpenIdConfig.md)
 
+### [Get-OktaPassswordPolicy](Get-OktaPassswordPolicy.md)
+
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
+
+### [Get-OktaPolicyRule](Get-OktaPolicyRule.md)
 
 ### [Get-OktaRateLimit](Get-OktaRateLimit.md)
 
@@ -76,17 +88,29 @@
 
 ### [Get-OktaUserGroup](Get-OktaUserGroup.md)
 
+### [Get-OktaZone](Get-OktaZone.md)
+
 ### [Invoke-OktaApi](Invoke-OktaApi.md)
 
 ### [New-OktaAuthorizationServer](New-OktaAuthorizationServer.md)
 
 ### [New-OktaAuthProviderUser](New-OktaAuthProviderUser.md)
 
+### [New-OktaBlockListZone](New-OktaBlockListZone.md)
+
 ### [New-OktaClaim](New-OktaClaim.md)
+
+### [New-OktaDynamicZone](New-OktaDynamicZone.md)
 
 ### [New-OktaGroup](New-OktaGroup.md)
 
+### [New-OktaPasswordPolicy](New-OktaPasswordPolicy.md)
+
+### [New-OktaPasswordPolicyRule](New-OktaPasswordPolicyRule.md)
+
 ### [New-OktaPolicy](New-OktaPolicy.md)
+
+### [New-OktaPolicyZone](New-OktaPolicyZone.md)
 
 ### [New-OktaRule](New-OktaRule.md)
 
@@ -116,7 +140,11 @@
 
 ### [Remove-OktaGroupUser](Remove-OktaGroupUser.md)
 
+### [Remove-OktaPasswordPolicy](Remove-OktaPasswordPolicy.md)
+
 ### [Remove-OktaPolicy](Remove-OktaPolicy.md)
+
+### [Remove-OktaPolicyRule](Remove-OktaPolicyRule.md)
 
 ### [Remove-OktaRule](Remove-OktaRule.md)
 
@@ -125,6 +153,8 @@
 ### [Remove-OktaTrustedOrigin](Remove-OktaTrustedOrigin.md)
 
 ### [Remove-OktaUser](Remove-OktaUser.md)
+
+### [Remove-OktaZone](Remove-OktaZone.md)
 
 ### [Resume-OktaUser](Resume-OktaUser.md)
 
@@ -142,6 +172,8 @@
 
 ### [Set-OktaOption](Set-OktaOption.md)
 
+### [Set-OktaPasswordPolicy](Set-OktaPasswordPolicy.md)
+
 ### [Set-OktaPolicy](Set-OktaPolicy.md)
 
 ### [Set-OktaRule](Set-OktaRule.md)
@@ -151,6 +183,8 @@
 ### [Set-OktaTrustedOrigin](Set-OktaTrustedOrigin.md)
 
 ### [Set-OktaUser](Set-OktaUser.md)
+
+### [Set-OktaZone](Set-OktaZone.md)
 
 ### [Show-Okta](Show-Okta.md)
 

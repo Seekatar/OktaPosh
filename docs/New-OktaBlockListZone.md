@@ -5,21 +5,16 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaRule
+# New-OktaBlockListZone
 
 ## SYNOPSIS
-Get one or more Rules for an AuthorizationServer and Policy
+Create a new zone to block ips
 
 ## SYNTAX
 
-### ById
 ```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> -RuleId <String> [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>] [-Json] [<CommonParameters>]
+New-OktaBlockListZone [-Name] <String> [[-GatewayCIDR] <String[]>] [[-GatewayRange] <String[]>] [-Inactive]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,23 +23,38 @@ Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>
 
 ## PARAMETERS
 
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Json
-Set to return JSON instead of PSCustomObject
+### -GatewayIps
+Array of ips in CIDR format, an ip address, or a range composed of two ips separated by a dash
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Inactive
+Set to add as inactive
 
 ```yaml
 Type: SwitchParameter
@@ -53,13 +63,13 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-PolicyId retrieved from Get-OktaPolicy
+### -Name
+Name of the new zone.
 
 ```yaml
 Type: String
@@ -67,19 +77,20 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Query
-Query for name and description
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: String
-Parameter Sets: Query
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named
@@ -88,37 +99,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RuleId
-RuleId retrieved from Get-OktaRule
-
-```yaml
-Type: String
-Parameter Sets: ById
-Aliases: Id
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### String
-Pipe Ids in
-
-### PSCustomObject[]
-Pipe objects with Id
+### None
 
 ## OUTPUTS
 
-### PSCustomObject[]
-Rule Objects
-
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

@@ -96,11 +96,14 @@ FunctionsToExport = 'Get-OktaApplication', 'New-OktaServerApplication',
                'Test-OktaNext', 'Get-OktaNextUrl', 'Set-OktaOption',
                'Get-OktaApiToken', 'Get-OktaBaseUri', 'Show-Okta',
                'Get-OktaTrustedOrigin', 'New-OktaTrustedOrigin',
-               'Set-OktaTrustedOrigin', 'Remove-OktaTrustedOrigin', 'addUser',
+               'Set-OktaTrustedOrigin', 'Remove-OktaTrustedOrigin',
                'New-OktaAuthProviderUser', 'New-OktaUser', 'Disable-OktaUser',
                'Enable-OktaUser', 'Suspend-OktaUser', 'Resume-OktaUser',
                'Get-OktaUser', 'Get-OktaUserApplication', 'Get-OktaUserGroup',
-               'Remove-OktaUser', 'Set-OktaUser'
+               'Remove-OktaUser', 'Set-OktaUser', 'Disable-OktaZone',
+               'Enable-OktaZone', 'Get-OktaZone', 'New-OktaBlockListZone',
+               'New-OktaDynamicZone', 'New-OktaPolicyZone', 'Set-OktaZone',
+               'Remove-OktaZone'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()

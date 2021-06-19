@@ -49,7 +49,7 @@ Get a group with MyGroupName
 ## PARAMETERS
 
 ### -Filter
-Expression for filtering on properties.  See https://developer.okta.com/docs/reference/api-overview/#filtering
+Expression for filtering on properties. See https://developer.okta.com/docs/reference/api-overview/#filter
 
 ```yaml
 Type: String
@@ -140,7 +140,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-Searches for groups with a supported filtering expression for all attributes except for _embedded, _links, and objectClass
+Searches for groups with a supported filtering expression for all attributes except for _embedded, _links, and objectClass. See https://developer.okta.com/docs/reference/api/groups/#list-groups-with-search
 
 ```yaml
 Type: String
