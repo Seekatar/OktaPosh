@@ -35,3 +35,55 @@ Describe "Misc tests" {
                 }
     }
 }
+Describe "Log tests" {
+    It "Tests Get-OktaLog" {
+        Get-OktaLog
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like "*/logs?limit=50&sortorder=ASCENDING&since=*" -and $Method -eq 'GET'
+            }
+    }
+    It "Tests Get-OktaLog Errors" {
+        Get-OktaLog -Severity ERROR
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like '*/logs?limit=50&sortorder=ASCENDING&filter=severity+eq+"ERROR"&since=*' -and $Method -eq 'GET'
+            }
+    }
+    It "Tests Get-OktaLog Limit Warn" {
+        Get-OktaLog -Severity WARN -Limit 7 -Since 10h -SortOrder DESCENDING
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like '*/logs?limit=7&sortorder=DESCENDING&filter=severity+eq+"WARN"&since=*' -and $Method -eq 'GET'
+            }
+    }
+}
+
+Describe "Yaml tests" {
+    It "Tests Get-OktaLog" {
+        ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml -WipeFolder
+        Should -Invoke Invoke-WebRequest -Times 1 -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like '*/apps/*/groups?limit=100' -and $Method -eq 'GET'
+            }
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like '*/authorizationServers' -and $Method -eq 'GET'
+            }
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like '*/apps' -and $Method -eq 'GET'
+            }
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like '*/groups?limit=100' -and $Method -eq 'GET'
+            }
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+            -ParameterFilter {
+                $Uri -like '*/trustedOrigins' -and $Method -eq 'GET'
+            }
+    }
+    It "CleansUp" {
+        Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
+    }
+} -Skip # ugh, required lots of code to Mock

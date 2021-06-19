@@ -36,11 +36,11 @@ Describe "Cleanup" {
 
 Describe "Setup" {
     It 'Set API App from env' {
-        Set-OktaOption | Should -Be $true
+        Set-OktaOption | Should -BeTrue
     }
     It 'Set API App from env' {
         # avoid warning message with 3>
-        (Set-OktaOption -ApiToken '' 3> $null) | Should -Be $false
+        (Set-OktaOption -ApiToken '' 3> $null) | Should -BeFalse
     }
     It 'Get API token ' {
         Get-OktaApiToken -ApiToken 'abc' | Should -Be 'abc'

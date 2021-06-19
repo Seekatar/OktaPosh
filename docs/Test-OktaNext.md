@@ -27,6 +27,26 @@ Test-OktaNext users
 
 Checks to see if Get-OktaUser -Next will return anything without making a call.
 
+### EXAMPLE 2
+```
+$app = Get-OktaApplication MyApp
+$users = Get-OktaApplicationUser -AppId $app.id -limit 10
+while (Test-OktaNext -ObjectName "apps/$($app.id)/users" ) { $users += Get-OktaApplicationUser -AppId $app.id -Next; $users.Count }​​​​​​
+$users.credentials.username | Sort-Object
+```
+
+Get all the users for MyApp
+
+### EXAMPLE 3
+```
+$app = Get-OktaApplication MyApp
+$users = Get-OktaApplicationUser -AppId $app.id -limit 10
+while (Test-OktaNext -ObjectName "apps/$($app.id)/users" ) { $users += Get-OktaApplicationUser -AppId $app.id -Next; $users.Count }​​​​​​
+$users.credentials.username | Sort-Object
+```
+
+Get all the users for MyApp
+
 ## PARAMETERS
 
 ### -ObjectName
