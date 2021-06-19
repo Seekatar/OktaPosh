@@ -8,7 +8,8 @@ schema: 2.0.0
 # Get-OktaLog
 
 ## SYNOPSIS
-Get Okta system log entries. Defaults to getting 50 within last 10 minutes
+Get Okta system log entries.
+Defaults to getting 50 within last 10 minutes
 
 ## DESCRIPTION
 By default this returns text output with local time, severity, actor, displayMessage, result, reason, and uuid. If you want to get the raw log to get more data, use -JSON or -Object.
@@ -78,7 +79,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -108,7 +109,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -123,7 +124,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -138,7 +139,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -175,7 +176,9 @@ Accept wildcard characters: False
 ```
 
 ### -Since
-Get records since a time. Format it \d+(h|m|s) for recent hours, minutes or seconds. Defaults to 10m
+Get records since a time.
+Format it \d+(h|m|s) for recent hours, minutes or seconds.
+Defaults to 10m
 
 ```yaml
 Type: String

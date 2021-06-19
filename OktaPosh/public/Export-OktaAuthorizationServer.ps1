@@ -1,26 +1,3 @@
-<#
-.SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
-
-.PARAMETER AuthorizationServerId
-Parameter description
-
-.PARAMETER OutputFolder
-Parameter description
-
-.EXAMPLE
-$auths = Get-OktaAuthorizationServer -q 'Casualty-' | ? name -like 'Casualty-*'
-mkdir \oktadev
-$auths | % { Export-OktaAuthorizationServer $_.id -output "\temp\oktadev\$($_.name)" }
-
-Export all the casualty auth servers to folders
-
-.NOTES
-General notes
-#>
 function Export-OktaAuthorizationServer {
     param (
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
@@ -42,9 +19,6 @@ function Export-OktaAuthorizationServer {
         $ErrorActionPreference = "Stop"
 
         Push-Location $OutputFolder
-        $params = @{}
-        $params['Depth'] = 10
-
         try {
 
             if ($PSVersionTable.PSVersion.Major -ge 7) {
@@ -52,32 +26,29 @@ function Export-OktaAuthorizationServer {
             } else {
                 $encoding = "ascii"
             }
-            $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId | ConvertTo-Json @params
+            $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId -Json
             if (!$auth) {
                 throw "Auth server not found for '$AuthorizationServerId'"
             }
             $auth | Out-File authorizationServer.json -Encoding $encoding
             Join-Path $PWD "authorizationServer.json"
 
-            Get-OktaClaim -AuthorizationServerId $AuthorizationServerId | ConvertTo-Json @params | out-file "claims.json" -enc $encoding
+            Get-OktaClaim -AuthorizationServerId $AuthorizationServerId -Json | out-file "claims.json" -enc $encoding
             Join-Path $PWD "claims.json"
 
-            Get-OktaScope -AuthorizationServerId $AuthorizationServerId | ConvertTo-Json @params | out-file "scopes.json" -enc $encoding
+            Get-OktaScope -AuthorizationServerId $AuthorizationServerId -Json | out-file "scopes.json" -enc $encoding
             Join-Path $PWD "scopes.json"
 
-            $policies = @(Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId)
-            $policies | ConvertTo-Json @params | Out-File "policies.json" -enc $encoding
+            $policies = Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId -Json
+            $policies | out-file "policies.json" -enc $encoding
             Join-Path $PWD "policies.json"
 
-            if ($policies) {
-                $policies | ForEach-Object {
-                    $policyName = $_.name
-                    $rules = Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id
-                    if ($rules) {
-                        $rules | ConvertTo-Json @params | out-file "rules_$policyName.json" -enc $encoding
-                    }
-                    Join-Path $PWD "rules_$policyName.json"
-                }
+            $j = 1
+            $temp = ConvertFrom-Json $policies # PS v5 quirk sends array through on next instead of each item, if don't use temp
+            $temp | ForEach-Object { Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id -Json } | ForEach-Object {
+                $_ | out-file "rules_$j.json" -enc $encoding
+                Join-Path $PWD "rules_$j.json"
+                $j += 1
             }
         } catch {
             Write-Error "$_`n$($_.ScriptStackTrace)"

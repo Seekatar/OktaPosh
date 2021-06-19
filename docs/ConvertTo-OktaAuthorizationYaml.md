@@ -8,7 +8,8 @@ schema: 2.0.0
 # ConvertTo-OktaAuthorizationYaml
 
 ## SYNOPSIS
-Get Authorization Server objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
+Get Authorization Server objects as Yaml for easy comparison between Okta instances.
+Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
@@ -29,12 +30,14 @@ $auth | ForEach-Object { Export-OktaAuthorizationServer -AuthorizationServerId $
 Get-ChildItem $OutputFolder -Directory | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }
 ```
 
-Export test auth servers then get the yaml for each. Note that ConvertTo-OktaYaml calls this.
+Export test auth servers then get the yaml for each.
+Note that ConvertTo-OktaYaml calls this.
 
 ## PARAMETERS
 
 ### -OutputFolder
-Folder for the output. It will be created if it doesn't exist
+Folder for the output.
+It will be created if it doesn't exist
 
 ```yaml
 Type: String
@@ -54,7 +57,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

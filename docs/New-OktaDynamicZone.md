@@ -1,7 +1,7 @@
 ---
 external help file: OktaPosh-help.xml
 Module Name: OktaPosh
-online version:
+online version: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 schema: 2.0.0
 ---
 
@@ -48,7 +48,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -63,13 +63,15 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Locations
-Array of hashtables like  @{ "country": "AX", "region": null }. Region is optional. See links section.
+Array of hashtables like  @{ "country": "AX", "region": null }.
+Region is optional.
+See links section.
 
 ```yaml
 Type: Hashtable[]
@@ -99,7 +101,8 @@ Accept wildcard characters: False
 ```
 
 ### -ProxyType
-Type of proxy, Any, AnyProxy, Tor, NotTorAnonymizer. Defaults to Any
+Type of proxy, Any, AnyProxy, Tor, NotTorAnonymizer.
+Defaults to Any
 
 ```yaml
 Type: String
@@ -141,7 +144,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

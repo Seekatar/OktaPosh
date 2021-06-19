@@ -8,13 +8,16 @@ schema: 2.0.0
 # ConvertTo-OktaApplicationYaml
 
 ## SYNOPSIS
-Get Application objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
+Get Application objects as Yaml for easy comparison between Okta instances.
+Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
 ```
 ConvertTo-OktaApplicationYaml [[-Query] <String>] [-OutputFolder] <String> [<CommonParameters>]
 ```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
@@ -23,12 +26,14 @@ ConvertTo-OktaApplicationYaml [[-Query] <String>] [-OutputFolder] <String> [<Com
 ConvertTo-OktaApplicationYaml -q test -OutputFolder c:\temp\okta
 ```
 
-Get yaml for test applications into c:\temp\okta. Note that ConvertTo-OktaYaml calls this.
+Get yaml for test applications into c:\temp\okta.
+Note that ConvertTo-OktaYaml calls this.
 
 ## PARAMETERS
 
 ### -OutputFolder
-Folder for the output. It will be created if it doesn't exist
+Folder for the output.
+It will be created if it doesn't exist
 
 ```yaml
 Type: String
@@ -63,7 +68,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

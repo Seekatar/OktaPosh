@@ -26,12 +26,12 @@ Describe "Log tests" {
 
 Describe "Yaml tests" {
     It "Tests Get-OktaLog" {
-        ConvertTo-OktaYaml -
+        ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml -WipeFolder
+        (Test-Path $env:TMP/oktaposh-yaml) | Should -BeTrue
+        (Get-ChildItem $env:TMP/oktaposh-yaml/app-*).Count | Should -BeGreaterThan 1
+        (Test-Path $env:TMP/oktaposh-yaml/trustedOrigins.yaml) | Should -BeTrue
     }
-    It "Tests Get-OktaLog Errors" {
-        Get-OktaLog -Severity ERROR
-    }
-    It "Tests Get-OktaLog Limit Warn" {
-        Get-OktaLog -Severity WARN -Limit 7 -Since 10h -SortOrder DESCENDING
+    It "CleansUp" {
+        Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
     }
 }

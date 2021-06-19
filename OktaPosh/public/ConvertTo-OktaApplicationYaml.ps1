@@ -50,7 +50,7 @@ function ConvertTo-OktaApplicationYaml
         $output += "`n      groups:`n"
 
         Write-Verbose "Getting appGroups"
-        $appGroups = Get-OktaApplicationGroup -AppId $app.id -Limit 1000
+        $appGroups = Get-OktaApplicationGroup -AppId $app.id -Limit 100
         while (Test-OktaNext -ObjectName groups) { $appGroups += Get-OktaApplicationGroup -AppId $app.id -Next }
 
         Write-Verbose "Writing output"

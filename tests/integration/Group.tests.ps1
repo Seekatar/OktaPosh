@@ -63,10 +63,10 @@ Describe "Group" {
         $users = @(Get-OktaGroupUser -GroupId $vars.group.id -limit 1)
         $users.Count | Should -Be 1
 
-        Test-OktaNext -ObjectName "groups/$($vars.group.id)/users" | Should -Be $true
+        Test-OktaNext -ObjectName "groups/$($vars.group.id)/users" | Should -BeTrue
         Get-OktaGroupUser -GroupId $vars.group.id -next
          # | Should -Not -Be $null
-        Test-OktaNext -ObjectName "groups/$($vars.group.id)/users" | Should -Be $false
+        Test-OktaNext -ObjectName "groups/$($vars.group.id)/users" | Should -BeFalse
 
         $groups = @(Get-OktaUserGroup -UserId $vars.user.id)
         $groups.Count | Should -BeGreaterThan 0
@@ -74,7 +74,7 @@ Describe "Group" {
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id
         Remove-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user2.id
         $users = Get-OktaGroupUser -GroupId $vars.group.id
-        ($users -eq $null -or $users.Count -eq 0) | Should -Be $true
+        ($users -eq $null -or $users.Count -eq 0) | Should -BeTrue
     }
 }
 

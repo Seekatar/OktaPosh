@@ -17,6 +17,8 @@ ConvertTo-OktaYaml [-OutputFolder] <String> [[-AuthServerQuery] <String>] [[-App
  [[-OriginLike] <String>] [-GroupQueries <String[]>] [-WipeFolder] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1
@@ -125,7 +127,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

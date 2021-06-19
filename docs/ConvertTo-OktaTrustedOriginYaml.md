@@ -8,13 +8,16 @@ schema: 2.0.0
 # ConvertTo-OktaTrustedOriginYaml
 
 ## SYNOPSIS
-Get Trusted Origin objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
+Get Trusted Origin objects as Yaml for easy comparison between Okta instances.
+Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
 ```
 ConvertTo-OktaTrustedOriginYaml [[-OriginLike] <String>] [<CommonParameters>]
 ```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
@@ -48,7 +51,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

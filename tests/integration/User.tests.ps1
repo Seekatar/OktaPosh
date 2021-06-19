@@ -90,14 +90,14 @@ Describe "User" {
         $vars.user5 | Should -Not -Be $null
         $vars.user5.Status | Should -Be 'STAGED'
         $groups = Get-OktaUserGroup -UserId $vars.user5.id
-        $groups.id -contains $vars.group.id | Should -Be $true
+        $groups.id -contains $vars.group.id | Should -BeTrue
 
         $groups = @(Get-OktaUserGroup -UserId $vars.user5.id -limit 1) # in Everyone group, too so 2 groups
         $groups.Count | Should -Be 1
-        Test-OktaNext "users/$($vars.user5.id)/groups" | Should -Be $true
+        Test-OktaNext "users/$($vars.user5.id)/groups" | Should -BeTrue
         $groups = @(Get-OktaUserGroup -UserId $vars.user5.id -next)
         $groups.Count | Should -Be 1
-        Test-OktaNext "users/$($vars.user5.id)/groups" | Should -Be $false
+        Test-OktaNext "users/$($vars.user5.id)/groups" | Should -BeFalse
     }
     It "Adds AuthProviderUser" {
         $vars.user2 = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email $email2 -ProviderType FEDERATION -ProviderName FEDERATION -Activate
@@ -118,14 +118,14 @@ Describe "User" {
     It "Gets Next Users" {
         $users = @(Get-OktaUser -Limit ($vars.userCount - 1))
         $users.Count | Should -Be ($vars.userCount - 1)
-        Test-OktaNext -ObjectName users | Should -Be $true
+        Test-OktaNext -ObjectName users | Should -BeTrue
         $users = @(Get-OktaUser -Next)
         $users.Count | Should -BeGreaterThan 0
-        Test-OktaNext -ObjectName users | Should -Be $false
+        Test-OktaNext -ObjectName users | Should -BeFalse
         $users = @(Get-OktaUser -Next -NoWarn)
         $users | Should -Be $null
 
-        Test-OktaNext -ObjectName users | Should -Be $false
+        Test-OktaNext -ObjectName users | Should -BeFalse
         (Get-OktaNextUrl).Keys.Count | Should -Be 0
     }
     It "Tests RateLimit" {

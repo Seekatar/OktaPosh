@@ -40,9 +40,9 @@ Describe "Zone" {
     }
     It "Gets Zone By Usage" {
         $zones = Get-OktaZone -Usage POLICY
-        $policyName -in $zones.name | Should -Be $true
+        $policyName -in $zones.name | Should -BeTrue
         $zones = Get-OktaZone -Usage BLOCKLIST
-        $blockName -in $zones.name | Should -Be $true
+        $blockName -in $zones.name | Should -BeTrue
     }
     It "Gets Zone By Id" {
         (Get-OktaZone -Id $vars.dynamicZone.Id).id | Should -Be $vars.dynamicZone.Id

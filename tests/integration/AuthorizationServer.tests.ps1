@@ -39,11 +39,11 @@ Describe "Cleanup" {
 
 Describe "Setup" {
     It 'Set API App from env' {
-        Set-OktaOption | Should -Be $true
+        Set-OktaOption | Should -BeTrue
     }
     It 'Set API App from env' {
         # avoid warning message with 3>
-        (Set-OktaOption -ApiToken '' 3> $null) | Should -Be $false
+        (Set-OktaOption -ApiToken '' 3> $null) | Should -BeFalse
     }
     It 'Get API token ' {
         Get-OktaApiToken -ApiToken 'abc' | Should -Be 'abc'
@@ -215,11 +215,11 @@ Describe "AuthorizationServer" {
     }
     It "Tests Server JWT Access" {
         $jwt = Get-OktaAppJwt -ClientId $vars.app.Id -ClientSecret $vars.app.credentials.oauthClient.client_secret -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
-        [bool]$jwt | Should -Be $true
+        [bool]$jwt | Should -BeTrue
     }
     It "Tests Server JWT Access With SecureString" {
         $jwt = Get-OktaAppJwt -ClientId $vars.app.Id -SecureClientSecret (ConvertTo-SecureString $vars.app.credentials.oauthClient.client_secret -AsPlainText -Force) -Scopes $scopeNames[0] -Issuer $vars.authServer.issuer
-        [bool]$jwt | Should -Be $true
+        [bool]$jwt | Should -BeTrue
     }
     It "Tests Server JWT Access Invalid Parameter" {
         { Get-OktaAppJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
@@ -238,7 +238,7 @@ Describe "AuthorizationServer" {
                         -ClientSecret $userPw `
                         -Username $userName -Scopes $scopeNames[0] `
                         -RedirectUri $redirectUri
-            [bool]$jwt | Should -Be $true
+            [bool]$jwt | Should -BeTrue
         }
     }
     It "Tests User JWT Access with SecureString" {
@@ -251,7 +251,7 @@ Describe "AuthorizationServer" {
                         -Username $userName `
                         -Scopes $scopeNames[0] `
                         -RedirectUri $redirectUri
-            [bool]$jwt | Should -Be $true
+            [bool]$jwt | Should -BeTrue
         }
     }
     It "Removes a Policy Rule" {

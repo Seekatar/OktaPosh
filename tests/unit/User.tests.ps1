@@ -123,7 +123,7 @@ Describe "User" {
                 -ParameterFilter {
                     $Uri -like "*/users?limit=1" -and $Method -eq 'GET'
                 }
-        Test-OktaNext -ObjectName users | Should -Be $true
+        Test-OktaNext -ObjectName users | Should -BeTrue
         Mock -CommandName Invoke-WebRequest `
             -ModuleName OktaPosh `
             -MockWith {
@@ -144,7 +144,7 @@ Describe "User" {
                 -ParameterFilter {
                     $Uri -like "*/users?after=*" -and $Method -eq 'GET'
                 }
-        Test-OktaNext -ObjectName users | Should -Be $false
+        Test-OktaNext -ObjectName users | Should -BeFalse
         $null = @(Get-OktaUser -Next) 3> $null
         Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
@@ -152,7 +152,7 @@ Describe "User" {
                 }
     }
     It "Tests Next" {
-        Test-OktaNext -ObjectName users | Should -Be $false
+        Test-OktaNext -ObjectName users | Should -BeFalse
         (Get-OktaNextUrl).Keys.Count | Should -Be 0
     }
     It "Tests RateLimit" {
