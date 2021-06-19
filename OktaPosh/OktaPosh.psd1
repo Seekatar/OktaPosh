@@ -118,8 +118,15 @@ CmdletsToExport = @()
 # VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = 'Disable-OktaPasswordPolicy', 'Disable-OktaPasswordPolicyRule',
-               'Enable-OktaPasswordPolicy', 'Enable-OktaPasswordPolicyRule'
+AliasesToExport = 'Add-OktaAppGroup', 'Add-OktaAppUser', 'ConvertTo-OktaAppYaml',
+               'Disable-OktaApp', 'Enable-OktaApp', 'Get-OktaApp', 'Get-OktaAppGroup',
+               'Get-OktaAppSchema', 'Get-OktaAppUser', 'Remove-OktaApp',
+               'Remove-OktaAppGroup', 'Remove-OktaAppSchemaProperty',
+               'Remove-OktaAppUser', 'Set-OktaApp', 'Set-OktaAppProperty',
+               'Set-OktaAppSchemaProperty', 'Disable-OktaPasswordPolicy',
+               'Disable-OktaPasswordPolicyRule', 'Enable-OktaPasswordPolicy',
+               'Enable-OktaPasswordPolicyRule', 'Get-OktaPasswordPolicyRule',
+               'Remove-OktaPasswordPolicyRule'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()

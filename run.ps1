@@ -33,7 +33,7 @@ foreach ($t in $Task) {
             Push-Location (Join-Path $PSScriptRoot '/build')
             .\New-ModuleHelp.ps1
             if (Test-Path \code\joat-powershell\New-HelpOutput.ps1) {
-                $Groups = "Authorization","Claim","User","Group","Policy","Rule","Scope","Application","TrustedOrigin","Zone"
+                $Groups = "Authorization","Claim","User","Group","Policy","Rule","Scope","Application","TrustedOrigin","PasswordPolicy","Zone"
                 \code\joat-powershell\New-HelpOutput.ps1 -Folder ..\OktaPosh\ -GroupPrefix "Okta" -Groups $groups | Out-File ..\summary.md -Encoding ascii
             } else {
                 Write-Warning "\code\joat-powershell\New-HelpOutput.ps1 not found, won't update summary"

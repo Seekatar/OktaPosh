@@ -1,11 +1,13 @@
 # Change Log
 
-## 2021-06-18 0.2.8
+## 2021-06-19 0.2.8
 
 * New functions
-  * *-OktaZone for managing zones
   * ConvertTo-Okta*Yaml functions to generate easily compared configuration
-  * Get-OktaLog for retrieving system logs
+  * *-OktaZone
+  * Get-OktaLog
+  * *-OktaPasswordPolicy
+  * *-OktaPasswordPolicyRule
 
 ## 2021-03-27 0.2.7
 

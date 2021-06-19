@@ -350,3 +350,52 @@ function Remove-OktaApplicationGroup {
         }
     }
 }
+
+if (!(Test-Path alias:Add-OktaAppGroup)) {
+    New-Alias -Name Add-OktaAppGroup -Value Add-OktaApplicationGroup
+}
+if (!(Test-Path alias:Add-OktaAppUser)) {
+    New-Alias -Name Add-OktaAppUser -Value Add-OktaApplicationUser
+}
+if (!(Test-Path alias:ConvertTo-OktaAppYaml)) {
+    New-Alias -Name ConvertTo-OktaAppYaml -Value ConvertTo-OktaApplicationYaml
+}
+if (!(Test-Path alias:Disable-OktaApp)) {
+    New-Alias -Name Disable-OktaApp -Value Disable-OktaApplication
+}
+if (!(Test-Path alias:Enable-OktaApp)) {
+    New-Alias -Name Enable-OktaApp -Value Enable-OktaApplication
+}
+if (!(Test-Path alias:Get-OktaApp)) {
+    New-Alias -Name Get-OktaApp -Value Get-OktaApplication
+}
+if (!(Test-Path alias:Get-OktaAppGroup)) {
+    New-Alias -Name Get-OktaAppGroup -Value Get-OktaApplicationGroup
+}
+if (!(Test-Path alias:Get-OktaAppSchema)) {
+    New-Alias -Name Get-OktaAppSchema -Value Get-OktaApplicationSchema
+}
+if (!(Test-Path alias:Get-OktaAppUser)) {
+    New-Alias -Name Get-OktaAppUser -Value Get-OktaApplicationUser
+}
+if (!(Test-Path alias:Remove-OktaApp)) {
+    New-Alias -Name Remove-OktaApp -Value Remove-OktaApplication
+}
+if (!(Test-Path alias:Remove-OktaAppGroup)) {
+    New-Alias -Name Remove-OktaAppGroup -Value Remove-OktaApplicationGroup
+}
+if (!(Test-Path alias:Remove-OktaAppSchemaProperty)) {
+    New-Alias -Name Remove-OktaAppSchemaProperty -Value Remove-OktaApplicationSchemaProperty
+}
+if (!(Test-Path alias:Remove-OktaAppUser)) {
+    New-Alias -Name Remove-OktaAppUser -Value Remove-OktaApplicationUser
+}
+if (!(Test-Path alias:Set-OktaApp)) {
+    New-Alias -Name Set-OktaApp -Value Set-OktaApplication
+}
+if (!(Test-Path alias:Set-OktaAppProperty)) {
+    New-Alias -Name Set-OktaAppProperty -Value Set-OktaApplicationProperty
+}
+if (!(Test-Path alias:Set-OktaAppSchemaProperty)) {
+    New-Alias -Name Set-OktaAppSchemaProperty -Value Set-OktaApplicationSchemaProperty
+}

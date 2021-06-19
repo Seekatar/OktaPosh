@@ -3,6 +3,7 @@ function ConvertTo-OktaApplicationYaml
 {
     [CmdletBinding()]
     param (
+        [Parameter(Position=0)]
         [string] $Query,
         [Parameter(Mandatory)]
         [ValidateScript({Test-Path $_ -PathType Container})]

@@ -2,16 +2,16 @@
 Set-StrictMode -Version Latest
 
 function Get-OktaPasswordPolicy {
-    [CmdletBinding(DefaultParameterSetName="ById")]
+    [CmdletBinding(DefaultParameterSetName="ByType")]
     param (
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $PolicyId,
         [Parameter(ParameterSetName="ById")]
         [switch] $WithRules, # returns max 20, if > 20 an error
-        [Parameter(Mandatory,ParameterSetName="ByType")]
+        [Parameter(ParameterSetName="ByType")]
         [ValidateSet('OKTA_SIGN_ON', 'PASSWORD', 'MFA_ENROLL', 'OAUTH_AUTHORIZATION_POLICY', 'IDP_DISCOVERY','USER_LIFECYCLE')]
-        [string] $Type,
+        [string] $Type = 'PASSWORD',
         [switch] $JSON
     )
 
@@ -272,6 +272,9 @@ function Get-OktaPolicyRule {
         Invoke-OktaApi -RelativeUri "policies/$PolicyId/rules" -Json:$JSON
     }
 }
+if (!(Test-Path alias:Get-OktaPasswordPolicyRule)) {
+    New-Alias -Name Get-OktaPasswordPolicyRule -Value Get-OktaPolicyRule
+}
 
 # function New-OktaPolicyTask {
     # [CmdletBinding()]
@@ -499,5 +502,7 @@ function Remove-OktaPolicyRule {
         }
     }
 }
-
+if (!(Test-Path alias:Remove-OktaPasswordPolicyRule)) {
+    New-Alias -Name Remove-OktaPasswordPolicyRule -Value Remove-OktaPolicyRule
+}
 

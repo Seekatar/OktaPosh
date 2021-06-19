@@ -7,7 +7,7 @@
 
 This PowerShell module wraps the Okta REST API making it easy to manipulate objects in Okta individually. Use this in a CI/CD pipeline to configure multiple Okta environments consistently. Most of the functionality is also available on the Okta admin site, but not all.
 
-To get the complete list of the module's functions run `Get-Command -Module OktaPosh` (after installing and loading, of course)
+To get the complete list of the module's functions run `Get-Command -Module OktaPosh` (after installing and loading, of course). A summary of all the functions is [here](summary.md)
 
 ## Installing
 
@@ -22,7 +22,7 @@ Install-Module -Name OktaPosh
 The module was design to make getting objects and running then through the pipeline as easy as possible.
 
 ```PowerShell
-# Delete all test apps (by default deletes will prompt)
+# Delete all test apps (use standard -Confirm:$false to avoid any prompting)
 (Get-OktaApplication -q TestApp) | Remove-OktaApplication
 ```
 
@@ -33,9 +33,11 @@ $group = Get-OktaGroup -q my-cool-group
 Get-OktaApplicationUser -AppId $app.Id | Add-OktaGroupUser -GroupId $group.Id
 ```
 
-The `tests` folder also has many more examples.
+The `tests` folder also has more examples.
 
-A summary of all the functions is [here](summary.md)
+## Comparing Okta Configuration
+
+`ConvertTo-OktaYaml` will get and dump out much of the configuration from Okta into Yaml files that are easy to compare with another system. This is very useful when verifying the configuration in one environment matches another (such as Dev, QA, Prod).
 
 ## High Level Functions
 

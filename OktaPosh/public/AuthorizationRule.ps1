@@ -3,7 +3,7 @@ Set-StrictMode -Version Latest
 
 function Get-OktaRule
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
@@ -12,7 +12,7 @@ function Get-OktaRule
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $RuleId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [switch] $Json
     )
@@ -21,7 +21,7 @@ function Get-OktaRule
         if ($RuleId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$RuleId" -Method GET -Json:$Json
         } else {
-	        Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET -Json:$Json)
+            Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules" -Method GET -Json:$Json)
         }
 
     }
