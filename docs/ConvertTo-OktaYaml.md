@@ -8,31 +8,28 @@ schema: 2.0.0
 # ConvertTo-OktaYaml
 
 ## SYNOPSIS
-Get auth, app, trusted origin objects as Yaml for easy comparison between Okta instances
+Get auth, app, trusted origin, and group objects as Yaml for easy comparison between Okta instances
 
 ## SYNTAX
 
 ```
-ConvertTo-OktaYaml [-Folder] <String> [[-AuthServerQuery] <String>] [[-ApplicationQuery] <String>]
- [[-OriginMask] <String>] [-WipeFolder] [<CommonParameters>]
+ConvertTo-OktaYaml [-OutputFolder] <String> [[-AuthServerQuery] <String>] [[-ApplicationQuery] <String>]
+ [[-OriginLike] <String>] [-GroupQueries <String[]>] [-WipeFolder] [<CommonParameters>]
 ```
-
-## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+ConvertTo-OktaYaml -OutputFolder c:\temp\okta -AuthServerQuery test -ApplicationQuery test -OriginLike * -GroupQueries abc,test -WipeFolder
 ```
 
-{{ Add example description here }}
+Get all test apps and auth servers,  all origins, and groups matching abc or test
 
 ## PARAMETERS
 
 ### -ApplicationQuery
-{{ Fill ApplicationQuery Description }}
+Searches the name or label property of applications
 
 ```yaml
 Type: String
@@ -47,7 +44,7 @@ Accept wildcard characters: False
 ```
 
 ### -AuthServerQuery
-{{ Fill AuthServerQuery Description }}
+Searches the name and audiences of Authorization Servers for matching values
 
 ```yaml
 Type: String
@@ -61,8 +58,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Folder
-{{ Fill Folder Description }}
+### -OutputFolder
+Folder for the output.
+It will be created if it doesn't exist
 
 ```yaml
 Type: String
@@ -76,8 +74,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OriginMask
-{{ Fill OriginMask Description }}
+### -OriginLike
+Get origins urls like this pattern, defaults to '*'
 
 ```yaml
 Type: String
@@ -92,10 +90,25 @@ Accept wildcard characters: False
 ```
 
 ### -WipeFolder
-{{ Fill WipeFolder Description }}
+Set to delete everything in the Output folder
 
 ```yaml
 Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GroupQueries
+Array of query strings for getting groups
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 

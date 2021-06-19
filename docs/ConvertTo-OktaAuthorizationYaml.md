@@ -8,30 +8,33 @@ schema: 2.0.0
 # ConvertTo-OktaAuthorizationYaml
 
 ## SYNOPSIS
-Get Authorization Server objects as Yaml for easy comparison between Okta instances
+Get Authorization Server objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
 ```
-ConvertTo-OktaAuthorizationYaml [-Folder] <String> [<CommonParameters>]
+ConvertTo-OktaAuthorizationYaml [-OutputFolder] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Get all the authorization server settings as yaml
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+$auth = Get-OktaAuthorizationServer -q test
+$auth | ForEach-Object { Export-OktaAuthorizationServer -AuthorizationServerId $_.id -OutputFolder "$OutputFolder\$($_.name)" }
+
+Get-ChildItem $OutputFolder -Directory | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }
 ```
 
-{{ Add example description here }}
+Export test auth servers then get the yaml for each. Note that ConvertTo-OktaYaml calls this.
 
 ## PARAMETERS
 
-### -Folder
-{{ Fill Folder Description }}
+### -OutputFolder
+Folder for the output. It will be created if it doesn't exist
 
 ```yaml
 Type: String

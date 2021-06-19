@@ -3,7 +3,7 @@ function ConvertTo-OktaTrustedOriginYaml
 {
     [CmdletBinding()]
     param (
-        [string] $Mask = '*'
+        [string] $OriginLike = '*'
     )
     Set-StrictMode -Version Latest
 
@@ -15,7 +15,7 @@ function ConvertTo-OktaTrustedOriginYaml
             $null
         }
     }
-    $tos = Get-OktaTrustedOrigin | Where-Object origin -like $Mask
+    $tos = Get-OktaTrustedOrigin | Where-Object origin -like $OriginLike
 
     "trustedOrigins:"
     foreach ($to in $tos | Sort-Object label) {
@@ -30,5 +30,5 @@ function ConvertTo-OktaTrustedOriginYaml
             "        - $type"
         }
     }
-    
+
 }

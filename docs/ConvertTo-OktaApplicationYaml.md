@@ -8,7 +8,7 @@ schema: 2.0.0
 # ConvertTo-OktaApplicationYaml
 
 ## SYNOPSIS
-Get Application objects as Yaml for easy comparison between Okta instances
+Get Application objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
@@ -20,15 +20,15 @@ ConvertTo-OktaApplicationYaml [[-Query] <String>] [-OutputFolder] <String> [<Com
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+ConvertTo-OktaApplicationYaml -q test -OutputFolder c:\temp\okta
 ```
 
-{{ Add example description here }}
+Get yaml for test applications into c:\temp\okta. Note that ConvertTo-OktaYaml calls this.
 
 ## PARAMETERS
 
 ### -OutputFolder
-{{ Fill OutputFolder Description }}
+Folder for the output. It will be created if it doesn't exist
 
 ```yaml
 Type: String
@@ -43,7 +43,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-{{ Fill Query Description }}
+Searches the name or label property of applications
 
 ```yaml
 Type: String

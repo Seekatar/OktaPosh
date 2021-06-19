@@ -8,30 +8,27 @@ schema: 2.0.0
 # ConvertTo-OktaTrustedOriginYaml
 
 ## SYNOPSIS
-Get Trusted Origin objects as Yaml for easy comparison between Okta instances
+Get Trusted Origin objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
 ```
-ConvertTo-OktaTrustedOriginYaml [[-Mask] <String>] [<CommonParameters>]
+ConvertTo-OktaTrustedOriginYaml [[-OriginLike] <String>] [<CommonParameters>]
 ```
-
-## DESCRIPTION
-{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+ConvertTo-OktaTrustedOriginYaml -OriginLike '*cas*'
 ```
 
-{{ Add example description here }}
+Get all the origins having cas in the origin
 
 ## PARAMETERS
 
-### -Mask
-{{ Fill Mask Description }}
+### -OriginLike
+Get origins urls like this pattern, defaults to '*'
 
 ```yaml
 Type: String

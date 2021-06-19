@@ -10,6 +10,9 @@ schema: 2.0.0
 ## SYNOPSIS
 Get Okta system log entries. Defaults to getting 50 within last 10 minutes
 
+## DESCRIPTION
+By default this returns text output with local time, severity, actor, displayMessage, result, reason, and uuid. If you want to get the raw log to get more data, use -JSON or -Object.
+
 ## SYNTAX
 
 ### Query (Default)
@@ -27,7 +30,7 @@ Get-OktaLog [-Json] [-Objects] [-Next] [-NoWarn] [<CommonParameters>]
 
 ### Example 1
 ```powershell
-Get-OktaLog 
+Get-OktaLog
 ```
 
 Get most recent 10 minutes of logs
@@ -43,15 +46,15 @@ Get log that are errors, then get next twice
 
 ### Example 3
 ```powershell
-Get-OktaLog -filter 'uuid eq "ccac98c4-d026-11eb-8ea5-a5b75f62156a"' -object 
+Get-OktaLog -filter 'uuid eq "ccac98c4-d026-11eb-8ea5-a5b75f62156a"' -object
 ```
 
-Get log filtered by one id as an object
+Get log filtered by one id as an object. This is useful to get details about one record.
 
 ## PARAMETERS
 
 ### -Filter
-{{ Fill Filter Description }}
+Filter for event logs. 'event_type eq "user.session.start"'
 
 ```yaml
 Type: String
@@ -66,7 +69,7 @@ Accept wildcard characters: False
 ```
 
 ### -Json
-{{ Fill Json Description }}
+Set to return JSON instead of text.
 
 ```yaml
 Type: SwitchParameter
@@ -81,7 +84,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+Limit the number of values returned, defaults to 50
 
 ```yaml
 Type: Int32
@@ -96,7 +99,7 @@ Accept wildcard characters: False
 ```
 
 ### -Next
-{{ Fill Next Description }}
+Set to get the next page from a previous call (if one exists)
 
 ```yaml
 Type: SwitchParameter
@@ -111,7 +114,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoWarn
-{{ Fill NoWarn Description }}
+For -Next when no results, do not show warning
 
 ```yaml
 Type: SwitchParameter
@@ -126,7 +129,7 @@ Accept wildcard characters: False
 ```
 
 ### -Objects
-{{ Fill Objects Description }}
+Set to return JSON instead of text
 
 ```yaml
 Type: SwitchParameter
@@ -141,7 +144,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-{{ Fill Query Description }}
+Query for searching in the log
 
 ```yaml
 Type: String
@@ -156,7 +159,7 @@ Accept wildcard characters: False
 ```
 
 ### -Severity
-{{ Fill Severity Description }}
+Add severity to the filter
 
 ```yaml
 Type: String
@@ -172,7 +175,7 @@ Accept wildcard characters: False
 ```
 
 ### -Since
-{{ Fill Since Description }}
+Get records since a time. Format it \d+(h|m|s) for recent hours, minutes or seconds. Defaults to 10m
 
 ```yaml
 Type: String
@@ -181,13 +184,13 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: 10m
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -SortOrder
-{{ Fill SortOrder Description }}
+DESCENDING or ASCENDING, defaults to ASCENDING
 
 ```yaml
 Type: String
@@ -197,7 +200,7 @@ Accepted values: DESCENDING, ASCENDING
 
 Required: False
 Position: Named
-Default value: None
+Default value: ASCENDING
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -4,15 +4,15 @@ function ConvertTo-OktaAuthorizationYaml
     param (
         [Parameter(Mandatory)]
         [ValidateScript({Test-Path $_ -PathType Container})]
-        [string] $Folder
+        [string] $OutputFolder
     )
     Set-StrictMode -Version Latest
 
   try {
-      Push-Location $Folder
+      Push-Location $OutputFolder
 
       if (!(Test-Path authorizationServer.json)) {
-        Write-Warning "'$(Join-Path $Folder authorizationServer.json)' was not found. Use Export-OktaAuthorizationServer to populate $Folder"
+        Write-Warning "'$(Join-Path $OutputFolder authorizationServer.json)' was not found. Use Export-OktaAuthorizationServer to populate $OutputFolder"
         return
       }
       $auth = Get-Content authorizationServer.json -raw | ConvertFrom-Json
@@ -93,10 +93,12 @@ authServer:
 
 
   "  scopes:"
-    foreach ($s in $scopes | Where-Object system -eq $false | Sort-Object -Property name) {
+    if ($scopes) {
+      foreach ($s in $scopes | Where-Object system -eq $false | Sort-Object -Property name) {
         @"
     - name: $($s.name)
 "@
+    }
   }
 
   } catch {
