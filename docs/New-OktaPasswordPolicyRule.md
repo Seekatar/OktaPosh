@@ -5,16 +5,17 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaAuthorizationServer
+# New-OktaPasswordPolicyRule
 
 ## SYNOPSIS
-Update an AuthorizationServer
+Create a new password policy rule for a password policy
 
 ## SYNTAX
 
 ```
-Set-OktaAuthorizationServer [-AuthorizationServerId] <String> [-Name] <String> [-Audiences] <String[]>
- [[-IssuerMode] <String>] [[-Description] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaPasswordPolicyRule [-PolicyId] <String> [-Name] <String> [-AllowPasswordChange]
+ [-AllowSelfServicePasswordReset] [-AllowSelfServiceUnlock] [-Inactive] [[-Priority] <Int32>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,41 +23,55 @@ Set-OktaAuthorizationServer [-AuthorizationServerId] <String> [-Name] <String> [
 ## EXAMPLES
 
 ### Example 1
-```
-$null = Set-OktaAuthorizationServer -Id $authServer.Id -Name $authServerName `
-    -Description "new description" `
-    -Audience $authServer.audiences[0]
+```powershell
+    New-OktaPasswordPolicyRule -PolicyId $policy.id -Name $Name -AllowPasswordChange -AllowSelfServicePasswordReset -AllowSelfServiceUnlock
+
 ```
 
-Update a auth servers details
+Add a rule
 
 ## PARAMETERS
 
-### -Audiences
-Audience value for the AuthorizationServer
+### -AllowPasswordChange
+AllowPasswordChange
 
 ```yaml
-Type: String[]
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 2
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
+### -AllowSelfServicePasswordReset
+AllowSelfServicePasswordReset
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: Id
+Aliases:
 
-Required: True
-Position: 0
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AllowSelfServiceUnlock
+AllowSelfServiceUnlock
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -72,45 +87,28 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Description
-Optional description
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IssuerMode
-ORG_URL or CUSTOM_URL_DOMAIN.
-Indicates which value is specified in the issuer of the tokens that a Custom Authorization Server returns: the original Okta org domain URL or a custom domain URL.
+### -Inactive
+{{ Fill Inactive Description }}
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
-Accepted values: ORG_URL, CUSTOM_URL_DOMAIN
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Name
-Name of the item
+{{ Fill Name Description }}
 
 ```yaml
 Type: String
@@ -119,6 +117,36 @@ Aliases:
 
 Required: True
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyId
+The policy id retrieved from Get-OktaPolicy
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Priority
+{{ Fill Priority Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -135,7 +163,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -145,11 +173,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### None
+
 ## OUTPUTS
 
-### PSCustomObject
-Authorization server object
-
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

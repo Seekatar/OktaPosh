@@ -69,7 +69,9 @@ Accept wildcard characters: False
 ```
 
 ### -Locations
-Array of hashtables like  @{ "country": "AX", "region": null }. Region is optional. See links section.
+Array of hashtables like  @{ "country": "AX", "region": null }.
+Region is optional.
+See links section.
 
 ```yaml
 Type: Hashtable[]
@@ -99,7 +101,8 @@ Accept wildcard characters: False
 ```
 
 ### -ProxyType
-Type of proxy, Any, AnyProxy, Tor, NotTorAnonymizer. Defaults to Any
+Type of proxy, Any, AnyProxy, Tor, NotTorAnonymizer.
+Defaults to Any
 
 ```yaml
 Type: String

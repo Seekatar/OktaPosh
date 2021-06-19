@@ -93,14 +93,14 @@ function Test-OktaResult {
         if ($Json) {
             return $Result.Content
         } else {
-            $parms = @{}
+            $params = @{}
             if ($PSVersionTable.PSVersion.Major -ge 7) {
-                $parms['Depth'] = 10
+                $params['Depth'] = 10
             }
             # PS v5 if don't have parens, can't use ValueFromPipeline
             # Get this error piping Get-OktaApplication | Remove-OktaApplication
             # The input object cannot be bound to any parameters for the command either because the command does not take pipeline input or the input and its properties do not match any of the parameters that take pipeline input
-            return ($result.Content | ConvertFrom-Json @parms)
+            return ($result.Content | ConvertFrom-Json @params)
         }
     } elseif ($result.StatusCode -eq 404 -and ($NotFoundOk -or $Method -eq 'GET')) {
         return $null
@@ -111,11 +111,11 @@ function Test-OktaResult {
         Write-Verbose "StatusCode is $($result.StatusCode)"
         $oktaError = $result
         try {
-            $parms = @{}
+            $params = @{}
             if ($PSVersionTable.PSVersion.Major -ge 7) {
-                $parms['Depth'] = 10
+                $params['Depth'] = 10
             }
-            $err = $result.Content | ConvertFrom-Json @parms
+            $err = $result.Content | ConvertFrom-Json @params
             if ($err | Get-Member -Name "errorCode") {
                 $summary = $err.errorSummary
                 if ($err.errorCauses) {

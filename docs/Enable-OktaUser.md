@@ -45,7 +45,8 @@ Accept wildcard characters: False
 ```
 
 ### -SendEmail
-Set to send an email for activation. Otherwise details are output.
+Set to send an email for activation.
+Otherwise details are output.
 
 ```yaml
 Type: SwitchParameter

@@ -1,7 +1,7 @@
 ---
 external help file: OktaPosh-help.xml
 Module Name: OktaPosh
-online version:
+online version: https://developer.okta.com/blog/2021/03/05/ultimate-guide-to-password-hashing-in-okta
 schema: 2.0.0
 ---
 
@@ -28,7 +28,8 @@ New-OktaUser [-FirstName] <String> [-LastName] <String> [-Email] <String> [[-Log
 New-OktaUser -FirstName test-user -LastName test-user -Email $email
 ```
 
-Add a new user without a password. If activated an email is sent to the user.
+Add a new user without a password.
+If activated an email is sent to the user.
 
 ### Example 2
 ```
@@ -65,7 +66,8 @@ Add a new user with a SHA-256 salted password
 ## PARAMETERS
 
 ### -Activate
-Set to activate during add. An email will be sent to the user.
+Set to activate during add.
+An email will be sent to the user.
 
 ```yaml
 Type: SwitchParameter
@@ -225,13 +227,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -RecoveryAnswer
-RecoveryQuestion answer. Must be at least four characters.
+RecoveryQuestion answer.
+Must be at least four characters.
 
 ```yaml
 Type: String
@@ -261,7 +264,8 @@ Accept wildcard characters: False
 ```
 
 ### -PasswordHash
-HashTable of password hash settings. See notes and examples
+HashTable of password hash settings.
+See notes and examples
 
 ```yaml
 Type: Hashtable
@@ -289,8 +293,8 @@ Object with FirstName, LastName, Email and optional Login, MobilePhone, Activate
 User object
 
 ## NOTES
-
-If you add a user with -Activate an email will be sent to the user. In situations where you set the password, or for Federated users, you can avoid sending the email by adding the user without -Active, then calling Enable-User immediately afterwards.
+If you add a user with -Activate an email will be sent to the user.
+In situations where you set the password, or for Federated users, you can avoid sending the email by adding the user without -Active, then calling Enable-User immediately afterwards.
 
 For adding with a hash, see the related links for the data in the hashtable for various algorithms
 

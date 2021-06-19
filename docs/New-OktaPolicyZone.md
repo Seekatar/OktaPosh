@@ -13,8 +13,8 @@ Create a new policy zone
 ## SYNTAX
 
 ```
-New-OktaPolicyZone [-Name] <String> [[-GatewayCIDR] <String[]>] [[-GatewayRange] <String[]>]
- [[-ProxyCIDR] <String[]>] [[-ProxyRange] <String[]>] [-Inactive] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaPolicyZone [-Name] <String> [[-GatewayIps] <String[]>] [[-ProxyIps] <String[]>] [-Inactive] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

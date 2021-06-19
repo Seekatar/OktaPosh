@@ -10,6 +10,8 @@
 
 ### [Disable-OktaPolicy](Disable-OktaPolicy.md)
 
+### [Disable-OktaPolicyRule](Disable-OktaPolicyRule.md)
+
 ### [Disable-OktaUser](Disable-OktaUser.md)
 
 ### [Disable-OktaZone](Disable-OktaZone.md)
@@ -19,6 +21,8 @@
 ### [Enable-OktaAuthorizationServer](Enable-OktaAuthorizationServer.md)
 
 ### [Enable-OktaPolicy](Enable-OktaPolicy.md)
+
+### [Enable-OktaPolicyRule](Enable-OktaPolicyRule.md)
 
 ### [Enable-OktaUser](Enable-OktaUser.md)
 
@@ -58,7 +62,7 @@
 
 ### [Get-OktaOpenIdConfig](Get-OktaOpenIdConfig.md)
 
-### [Get-OktaPassswordPolicy](Get-OktaPassswordPolicy.md)
+### [Get-OktaPasswordPolicy](Get-OktaPasswordPolicy.md)
 
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
 

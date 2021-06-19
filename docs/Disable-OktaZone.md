@@ -16,6 +16,10 @@ Disable a zone
 Disable-OktaZone [-ZoneId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
+## EXAMPLES
+
 ## PARAMETERS
 
 ### -Confirm

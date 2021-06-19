@@ -5,20 +5,28 @@ online version:
 schema: 2.0.0
 ---
 
-# Enable-OktaZone
+# Remove-OktaPasswordPolicy
 
 ## SYNOPSIS
-Disable a zone
+Delete a password policy
 
 ## SYNTAX
 
 ```
-Enable-OktaZone [-ZoneId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-OktaPasswordPolicy [-PolicyId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+PolicyId retrieved from Get-OktaPasswordPolicy
 
 ## EXAMPLES
+
+### Example 1
+```powershell
+Get-OktaPolicy -Type PASSWORD | ? system -eq $false | Remove-OktaPolicy
+```
+
+Remove all non-system policies
 
 ## PARAMETERS
 
@@ -34,6 +42,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyId
+{{ Fill PolicyId Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -53,27 +76,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ZoneId
-Zone id retrieved from Get-OktaZone
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Id
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None
+### System.String
 
 ## OUTPUTS
 

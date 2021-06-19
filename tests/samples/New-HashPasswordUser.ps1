@@ -22,5 +22,5 @@ $passwordHash = @{
     }
   }
 
-New-OktaUser -Login "test1234" -FirstName Test -LastName User -Email test-123@mailinator.com -PasswordHash $passwordHash -verbose
+New-OktaUser -Login "test1234" -FirstName Test -LastName User -Email test-123@mailinator.com -PasswordHash $passwordHash
 

@@ -13,8 +13,8 @@ Create a new zone to block ips
 ## SYNTAX
 
 ```
-New-OktaBlockListZone [-Name] <String> [[-GatewayCIDR] <String[]>] [[-GatewayRange] <String[]>] [-Inactive]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaBlockListZone [-Name] <String> [[-GatewayIps] <String[]>] [-Inactive] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
