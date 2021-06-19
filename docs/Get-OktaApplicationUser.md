@@ -31,6 +31,16 @@ Get-OktaApplicationUser -AppId <String> [-Next] [-Json] [-NoWarn][<CommonParamet
 
 ## EXAMPLES
 
+### EXAMPLE 1
+```
+$app = Get-OktaApplication MyApp
+$users = Get-OktaApplicationUser -AppId $app.id -limit 10
+while (Test-OktaNext -ObjectName "apps/$($app.id)/users" ) { $users += Get-OktaApplicationUser -AppId $app.id -Next; $users.Count }​​​​​​
+$users.credentials.username | Sort-Object
+```
+
+Get all the users for MyApp
+
 ## PARAMETERS
 
 ### -AppId
@@ -134,7 +144,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

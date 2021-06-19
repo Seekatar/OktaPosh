@@ -5,15 +5,16 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaUser
+# ConvertTo-OktaApplicationYaml
 
 ## SYNOPSIS
-Updates a user object in Okta
+Get Application objects as Yaml for easy comparison between Okta instances.
+Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
 ```
-Set-OktaUser [-User] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+ConvertTo-OktaApplicationYaml [[-Query] <String>] [-OutputFolder] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,57 +23,41 @@ Set-OktaUser [-User] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ### Example 1
 ```powershell
-$result = Get-OktaUser -Id $userId
-$result.profile.mobilePhone = '123-345'
-$newResult = Set-OktaUser $result
+ConvertTo-OktaApplicationYaml -q test -OutputFolder c:\temp\okta
 ```
 
-Update a user's mobile phone
+Get yaml for test applications into c:\temp\okta.
+Note that ConvertTo-OktaYaml calls this.
 
 ## PARAMETERS
 
-### -User
-User object retrieve with Get-OktaUser
+### -OutputFolder
+Folder for the output.
+It will be created if it doesn't exist
 
 ```yaml
-Type: PSObject
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 0
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
+### -Query
+Searches the name or label property of applications
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
-Aliases: cf
+Aliases:
 
 Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: False
+Position: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -83,7 +68,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### None
-
 ## OUTPUTS
 
 ### System.Object

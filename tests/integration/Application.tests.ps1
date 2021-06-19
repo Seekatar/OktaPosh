@@ -50,10 +50,10 @@ Describe "Application Tests" {
         $limit = [int]($total/2)+1
         $result = Get-OktaApplication -Limit $limit
         $result.Count | Should -Be $limit
-        Test-OktaNext apps | Should -Be $true
+        Test-OktaNext apps | Should -BeTrue
         $result = Get-OktaApplication -Next
         $result.Count | Should -Be ($total - $limit)
-        Test-OktaNext apps | Should -Be $false
+        Test-OktaNext apps | Should -BeFalse
     }
     It "Gets Application by Id" {
         $result = Get-OktaApplication -ApplicationId $vars.app.Id
@@ -124,20 +124,20 @@ Describe "Application Tests" {
 
         $groups = @(Get-OktaApplicationGroup -AppId $vars.app.id -limit 1)
         $groups.Count | Should -Be 1
-        Test-OktaNext "apps/$($vars.app.id)/groups" | Should -Be $true
+        Test-OktaNext "apps/$($vars.app.id)/groups" | Should -BeTrue
         $groups = @(Get-OktaApplicationGroup -AppId $vars.app.id -next)
         $groups.Count | Should -Be 1
-        Test-OktaNext "apps/$($vars.app.id)/groups" | Should -Be $false
+        Test-OktaNext "apps/$($vars.app.id)/groups" | Should -BeFalse
 
         $apps = @(Get-OktaGroupApp -GroupId $group.Id)
         $apps.Count | Should -BeGreaterThan 0
 
         $apps = @(Get-OktaGroupApp -GroupId $group2.Id -Limit 1)
         $apps.Count | Should -Be 1
-        Test-OktaNext "groups/$($group2.id)/apps" | Should -Be $true
+        Test-OktaNext "groups/$($group2.id)/apps" | Should -BeTrue
         $apps = @(Get-OktaGroupApp -GroupId $group2.Id -next)
         $apps.Count | Should -Be 1
-        Test-OktaNext "groups/$($group2.id)/apps" | Should -Be $false
+        Test-OktaNext "groups/$($group2.id)/apps" | Should -BeFalse
 
         Remove-OktaApplicationGroup -AppId $vars.app.id -GroupId $group.Id -Confirm:$false
         Remove-OktaApplicationGroup -AppId $vars.app.id -GroupId $group2.Id -Confirm:$false
@@ -160,17 +160,17 @@ Describe "Application Tests" {
 
         $users = @(Get-OktaApplicationUser -AppId $vars.app.id -limit 1)
         $users.Count | Should -Be 1
-        Test-OktaNext "apps/$($vars.app.id)/users" | Should -Be $true
+        Test-OktaNext "apps/$($vars.app.id)/users" | Should -BeTrue
         $users = @(Get-OktaApplicationUser -AppId $vars.app.id -next)
         $users.Count | Should -Be 1
-        Test-OktaNext "apps/$($vars.app.id)/users" | Should -Be $false
+        Test-OktaNext "apps/$($vars.app.id)/users" | Should -BeFalse
 
         $result = Get-OktaUserApplication -UserId $vars.user.id
         $result | Should -Not -Be $null
         Remove-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
         Remove-OktaApplicationUser -AppId $vars.app.id -UserId $user2.id
         $users = Get-OktaApplicationUser -AppId $vars.app.id
-        ($users -eq $null -or $users.Count -eq 0) | Should -Be $true
+        ($users -eq $null -or $users.Count -eq 0) | Should -BeTrue
     }
 }
 

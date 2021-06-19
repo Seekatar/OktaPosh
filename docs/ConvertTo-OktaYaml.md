@@ -1,82 +1,37 @@
 ---
 external help file: OktaPosh-help.xml
 Module Name: OktaPosh
-online version: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+online version:
 schema: 2.0.0
 ---
 
-# New-OktaScope
+# ConvertTo-OktaYaml
 
 ## SYNOPSIS
-Create a new AuthorizationServer Scope
+Get auth, app, trusted origin, and group objects as Yaml for easy comparison between Okta instances
 
 ## SYNTAX
 
 ```
-New-OktaScope [-AuthorizationServerId] <String> [-Name] <String> [[-Description] <String>] [-MetadataPublish]
- [-DefaultScope] [-WhatIf] [-Confirm] [<CommonParameters>]
+ConvertTo-OktaYaml [-OutputFolder] <String> [[-AuthServerQuery] <String>] [[-ApplicationQuery] <String>]
+ [[-OriginLike] <String>] [-GroupQueries <String[]>] [-WipeFolder] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 ## EXAMPLES
 
-### EXAMPLE 1
-```
-PS C:\> "access_token","get_item","save_item","remove_item" | New-OktaScope -AuthorizationServerId ausoqi2fqgcUpYHBS4x6 -Description "Added via script"
+### Example 1
+```powershell
+ConvertTo-OktaYaml -OutputFolder c:\temp\okta -AuthServerQuery test -ApplicationQuery test -OriginLike * -GroupQueries abc,test -WipeFolder
 ```
 
-Add four scopes
+Get all test apps and auth servers,  all origins, and groups matching abc or test
 
 ## PARAMETERS
 
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DefaultScope
-Set to include in the default scope
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Description
-Description
+### -ApplicationQuery
+Searches the name or label property of applications
 
 ```yaml
 Type: String
@@ -90,8 +45,54 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MetadataPublish
-Set to publish in public metadata
+### -AuthServerQuery
+Searches the name and audiences of Authorization Servers for matching values
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputFolder
+Folder for the output.
+It will be created if it doesn't exist
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OriginLike
+Get origins urls like this pattern, defaults to '*'
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WipeFolder
+Set to delete everything in the Output folder
 
 ```yaml
 Type: SwitchParameter
@@ -105,33 +106,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Name of the new Scope
+### -GroupQueries
+Array of query strings for getting groups
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -141,17 +126,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### String
-Scope Name
-
-### PSCustomObject
-Object with Name
-
+### None
 ## OUTPUTS
 
-### PSCustomObject
-Scope object
-
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

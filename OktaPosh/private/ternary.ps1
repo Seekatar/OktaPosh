@@ -7,7 +7,7 @@ function ternary {
     )
 
     if ($PSBoundParameters.Count -lt 3) {
-        throw "Must supply 3 arguments, even if `$null"
+        throw "Must supply 3 arguments to ternary, even if `$null"
     }
     if ($value) { $ifTrue } else { $ifFalse }
 }

@@ -4,11 +4,17 @@
 
 ### [Add-OktaGroupUser](Add-OktaGroupUser.md)
 
+### [ConvertTo-OktaApplicationYaml](ConvertTo-OktaApplicationYaml.md)
+
+### [ConvertTo-OktaAuthorizationYaml](ConvertTo-OktaAuthorizationYaml.md)
+
+### [ConvertTo-OktaTrustedOriginYaml](ConvertTo-OktaTrustedOriginYaml.md)
+
+### [ConvertTo-OktaYaml](ConvertTo-OktaYaml.md)
+
 ### [Disable-OktaApplication](Disable-OktaApplication.md)
 
 ### [Disable-OktaAuthorizationServer](Disable-OktaAuthorizationServer.md)
-
-### [Disable-OktaPolicy](Disable-OktaPolicy.md)
 
 ### [Disable-OktaUser](Disable-OktaUser.md)
 
@@ -17,8 +23,6 @@
 ### [Enable-OktaApplication](Enable-OktaApplication.md)
 
 ### [Enable-OktaAuthorizationServer](Enable-OktaAuthorizationServer.md)
-
-### [Enable-OktaPolicy](Enable-OktaPolicy.md)
 
 ### [Enable-OktaUser](Enable-OktaUser.md)
 
@@ -54,15 +58,13 @@
 
 ### [Get-OktaJwt](Get-OktaJwt.md)
 
+### [Get-OktaLog](Get-OktaLog.md)
+
 ### [Get-OktaNextUrl](Get-OktaNextUrl.md)
 
 ### [Get-OktaOpenIdConfig](Get-OktaOpenIdConfig.md)
 
-### [Get-OktaPassswordPolicy](Get-OktaPassswordPolicy.md)
-
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
-
-### [Get-OktaPolicyRule](Get-OktaPolicyRule.md)
 
 ### [Get-OktaRateLimit](Get-OktaRateLimit.md)
 
@@ -93,10 +95,6 @@
 ### [New-OktaDynamicZone](New-OktaDynamicZone.md)
 
 ### [New-OktaGroup](New-OktaGroup.md)
-
-### [New-OktaPasswordPolicy](New-OktaPasswordPolicy.md)
-
-### [New-OktaPasswordPolicyRule](New-OktaPasswordPolicyRule.md)
 
 ### [New-OktaPolicy](New-OktaPolicy.md)
 
@@ -130,11 +128,7 @@
 
 ### [Remove-OktaGroupUser](Remove-OktaGroupUser.md)
 
-### [Remove-OktaPasswordPolicy](Remove-OktaPasswordPolicy.md)
-
 ### [Remove-OktaPolicy](Remove-OktaPolicy.md)
-
-### [Remove-OktaPolicyRule](Remove-OktaPolicyRule.md)
 
 ### [Remove-OktaRule](Remove-OktaRule.md)
 
@@ -161,8 +155,6 @@
 ### [Set-OktaGroup](Set-OktaGroup.md)
 
 ### [Set-OktaOption](Set-OktaOption.md)
-
-### [Set-OktaPasswordPolicy](Set-OktaPasswordPolicy.md)
 
 ### [Set-OktaPolicy](Set-OktaPolicy.md)
 

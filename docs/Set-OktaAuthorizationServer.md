@@ -93,7 +93,8 @@ Accept wildcard characters: False
 ```
 
 ### -IssuerMode
-ORG_URL or CUSTOM_URL_DOMAIN. Indicates which value is specified in the issuer of the tokens that a Custom Authorization Server returns: the original Okta org domain URL or a custom domain URL.
+ORG_URL or CUSTOM_URL_DOMAIN.
+Indicates which value is specified in the issuer of the tokens that a Custom Authorization Server returns: the original Okta org domain URL or a custom domain URL.
 
 ```yaml
 Type: String
