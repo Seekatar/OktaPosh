@@ -1,7 +1,7 @@
 ---
 external help file: OktaPosh-help.xml
 Module Name: OktaPosh
-online version:
+online version: https://developer.okta.com/blog/2021/03/05/ultimate-guide-to-password-hashing-in-okta
 schema: 2.0.0
 ---
 

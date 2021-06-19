@@ -93,8 +93,14 @@ FunctionsToExport = 'Get-OktaApplication', 'New-OktaServerApplication',
                'Remove-OktaGroup', 'Get-OktaGroupApp', 'Get-OktaGroupUser',
                'Add-OktaGroupUser', 'Remove-OktaGroupUser',
                'Get-OktaIdentityProvider', 'Get-OktaRateLimit', 'Invoke-OktaApi',
-               'Test-OktaNext', 'Get-OktaNextUrl', 'Set-OktaOption',
-               'Get-OktaApiToken', 'Get-OktaBaseUri', 'Show-Okta',
+               'Test-OktaNext', 'Get-OktaNextUrl', 'Get-OktaPasswordPolicy',
+               'Disable-OktaPolicy', 'Disable-OktaPolicyRule', 'Enable-OktaPolicy',
+               'Enable-OktaPolicyRule', 'New-OktaPasswordPolicy',
+               'New-OktaPasswordPolicyRule', 'Get-OktaPolicyRule',
+               'New-OktaPolicyTask', 'Remove-OktaPolicyTask', 'Remove-OktaTask',
+               'New-OktaAutomation', 'New-OktaPolicyRule', 'Set-OktaPasswordPolicy',
+               'Remove-OktaPasswordPolicy', 'Remove-OktaPolicyRule',
+               'Set-OktaOption', 'Get-OktaApiToken', 'Get-OktaBaseUri', 'Show-Okta',
                'Get-OktaTrustedOrigin', 'New-OktaTrustedOrigin',
                'Set-OktaTrustedOrigin', 'Remove-OktaTrustedOrigin',
                'New-OktaAuthProviderUser', 'New-OktaUser', 'Disable-OktaUser',
@@ -112,7 +118,15 @@ CmdletsToExport = @()
 # VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = @()
+AliasesToExport = 'Add-OktaAppGroup', 'Add-OktaAppUser', 'ConvertTo-OktaAppYaml',
+               'Disable-OktaApp', 'Enable-OktaApp', 'Get-OktaApp', 'Get-OktaAppGroup',
+               'Get-OktaAppSchema', 'Get-OktaAppUser', 'Remove-OktaApp',
+               'Remove-OktaAppGroup', 'Remove-OktaAppSchemaProperty',
+               'Remove-OktaAppUser', 'Set-OktaApp', 'Set-OktaAppProperty',
+               'Set-OktaAppSchemaProperty', 'Disable-OktaPasswordPolicy',
+               'Disable-OktaPasswordPolicyRule', 'Enable-OktaPasswordPolicy',
+               'Enable-OktaPasswordPolicyRule', 'Get-OktaPasswordPolicyRule',
+               'Remove-OktaPasswordPolicyRule'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()

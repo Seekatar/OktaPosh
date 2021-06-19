@@ -46,22 +46,22 @@ function Invoke-OktaApi {
         }
     }
 
-    $parms = @{
+    $params = @{
         Uri = "$baseUri/api/v1/$RelativeUri"
         ContentType = "application/json"
         Headers = $headers
         Method = $Method
     }
     if ($PSVersionTable.PSVersion.Major -ge 7) {
-        $parms['SkipHttpErrorCheck'] = $true
+        $params['SkipHttpErrorCheck'] = $true
     }
-    Write-Verbose "$($parms.method) $($parms.Uri)"
+    Write-Verbose "$($params.method) $($params.Uri)"
 
     $result = $null
     $writeMethod = $Method -in "Post", "Put", "Patch", "Merge"
     if ($writeMethod -and $body) {
         Write-Verbose "Doing $method with body $body"
-        $parms["Body"] = $body
+        $params["Body"] = $body
     }
 
     if (!$writeMethod -or $PSCmdlet.ShouldProcess($RelativeUri,"Invoke API")) {
@@ -78,7 +78,7 @@ function Invoke-OktaApi {
                     }
                 }
             }
-            $response = Invoke-WebRequest @parms
+            $response = Invoke-WebRequest @params
         } catch {
             $e = $_
             # PS 5 throws on since don't have skipHttpErrorCheck

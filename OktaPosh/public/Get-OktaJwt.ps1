@@ -76,11 +76,11 @@ Have RedirectUrl: $(!$Username -or $RedirectUri)
                                 } `
                         -Body (ConvertTo-Json $body) `
                         -MaximumRedirection 0
-        $parms = @{}
+        $params = @{}
         if ($PSVersionTable.PSVersion.Major -ge 7) {
-            $parms['Depth'] = 10
+            $params['Depth'] = 10
         }
-        $session = $trans.Content | ConvertFrom-Json @parms
+        $session = $trans.Content | ConvertFrom-Json @params
     } catch {
         $e = $_
         try {
@@ -202,9 +202,9 @@ Have ClientId: $([bool]$ClientId)
 
     $body = "grant_type=$GrantType&scope=$($Scopes -join '%20')" # space-separated scopes
 
-    $parms = @{}
+    $params = @{}
     if ($PSVersionTable.PSVersion.Major -ge 7) {
-        $parms['SkipHttpErrorCheck'] = $true
+        $params['SkipHttpErrorCheck'] = $true
     }
     $jwt = ""
     Write-Verbose $body
@@ -214,7 +214,7 @@ Have ClientId: $([bool]$ClientId)
     $prevPref = $progressPreference
     $progressPreference = "silentlyContinue"
     try {
-        $result = Invoke-WebRequest $Issuer -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader @parms
+        $result = Invoke-WebRequest $Issuer -Method Post -Body $body -ContentType "application/x-www-form-urlencoded" -Headers $oktaHeader @params
         if ($result.StatusCode -ne 200)
         {
             Write-Warning "Couldn't get JWT"
@@ -222,11 +222,11 @@ Have ClientId: $([bool]$ClientId)
         }
         else
         {
-            $parms = @{}
+            $params = @{}
             if ($PSVersionTable.PSVersion.Major -ge 7) {
-                $parms['Depth'] = 5
+                $params['Depth'] = 5
             }
-            $jwt = (ConvertFrom-Json $result.Content @parms).access_token
+            $jwt = (ConvertFrom-Json $result.Content @params).access_token
         }
         $jwt
     } finally {

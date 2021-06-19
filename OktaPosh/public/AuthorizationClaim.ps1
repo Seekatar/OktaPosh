@@ -3,14 +3,14 @@ Set-StrictMode -Version Latest
 
 function Get-OktaClaim
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ParameterSetName = "ById", ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $ClaimId,
-        [Parameter(ParameterSetName = "Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [switch] $Json
     )

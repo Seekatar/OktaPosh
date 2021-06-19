@@ -3,14 +3,14 @@ Set-StrictMode -Version Latest
 
 function Get-OktaScope
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(Mandatory)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $ScopeId,
-        [Parameter(ParameterSetName="Query")]
+        [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [switch] $IncludeSystem,
         [switch] $Json

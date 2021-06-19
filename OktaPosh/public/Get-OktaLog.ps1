@@ -6,7 +6,6 @@ function Get-OktaLog {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
         [Parameter(ParameterSetName="Query")]
-        [Alias("Q")]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
         [ValidatePattern("^\d+(h|m|s)$")]

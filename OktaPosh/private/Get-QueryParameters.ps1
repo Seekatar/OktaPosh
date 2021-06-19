@@ -8,14 +8,14 @@ function Get-QueryParameters {
         [string] $SortBy,
         [string] $SortOrder
     )
-    $parms = @()
+    $params = @()
     foreach ($p in $PSBoundParameters.Keys) {
         if ($PSBoundParameters[$p]) {
-            $parms += "$($p.ToLower())=$([System.Web.HttpUtility]::UrlEncode($PSBoundParameters[$p]))"
+            $params += "$($p.ToLower())=$([System.Web.HttpUtility]::UrlEncode($PSBoundParameters[$p]))"
         }
     }
-    if ($parms) {
-        return "?$($parms -join '&')"
+    if ($params) {
+        return "?$($params -join '&')"
     } else {
         return ''
     }
