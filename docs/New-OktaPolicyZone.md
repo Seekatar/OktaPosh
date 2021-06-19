@@ -5,28 +5,22 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-OktaPasswordPolicy
+# New-OktaPolicyZone
 
 ## SYNOPSIS
-Delete a password policy
+Create a new policy zone
 
 ## SYNTAX
 
 ```
-Remove-OktaPasswordPolicy [-PolicyId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+New-OktaPolicyZone [-Name] <String> [[-GatewayCIDR] <String[]>] [[-GatewayRange] <String[]>]
+ [[-ProxyCIDR] <String[]>] [[-ProxyRange] <String[]>] [-Inactive] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-PolicyId retrieved from Get-OktaPasswordPolicy
+
 
 ## EXAMPLES
-
-### Example 1
-```powershell
-Get-OktaPolicy -Type PASSWORD | ? system -eq $false | Remove-OktaPolicy
-```
-
-Remove all non-system policies
 
 ## PARAMETERS
 
@@ -45,18 +39,64 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-{{ Fill PolicyId Description }}
+### -GatewayIps
+Array of ips in CIDR format, an ip address, or a range composed of two ips separated by a dash
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Inactive
+Set to add as inactive
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+Name of the new zone.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Id
+Aliases:
 
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProxyIps
+Array of ips in CIDR format, an ip address, or a range composed of two ips separated by a dash
+
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -81,7 +121,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### None
 
 ## OUTPUTS
 

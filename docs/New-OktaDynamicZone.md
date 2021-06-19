@@ -5,71 +5,34 @@ online version:
 schema: 2.0.0
 ---
 
-# New-OktaPasswordPolicyRule
+# New-OktaDynamicZone
 
 ## SYNOPSIS
-Create a new password policy rule for a password policy
+Create a new dynamic policy for blocklist zone
 
 ## SYNTAX
 
 ```
-New-OktaPasswordPolicyRule [-PolicyId] <String> [-Name] <String> [-AllowPasswordChange]
- [-AllowSelfServicePasswordReset] [-AllowSelfServiceUnlock] [-Inactive] [[-Priority] <Int32>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+New-OktaDynamicZone [-Name] <String> [[-Locations] <Hashtable[]>] [[-ASNs] <String[]>] [[-ProxyType] <String>]
+ [[-Usage] <String>] [-Inactive] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
+
+## DESCRIPTION
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-    New-OktaPasswordPolicyRule -PolicyId $policy.id -Name $Name -AllowPasswordChange -AllowSelfServicePasswordReset -AllowSelfServiceUnlock
-
-```
-
-Add a rule
-
 ## PARAMETERS
 
-### -AllowPasswordChange
-AllowPasswordChange
+### -ASNs
+Array of string representation of an ASN numeric value
 
 ```yaml
-Type: SwitchParameter
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AllowSelfServicePasswordReset
-AllowSelfServicePasswordReset
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AllowSelfServiceUnlock
-AllowSelfServiceUnlock
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -91,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -Inactive
-{{ Fill Inactive Description }}
+Set to add as inactive
 
 ```yaml
 Type: SwitchParameter
@@ -105,23 +68,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-{{ Fill Name Description }}
+### -Locations
+Array of hashtables like  @{ "country": "AX", "region": null }. Region is optional. See links section.
 
 ```yaml
-Type: String
+Type: Hashtable[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -Name
+Name of the new zone.
 
 ```yaml
 Type: String
@@ -135,16 +98,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Priority
-{{ Fill Priority Description }}
+### -ProxyType
+Type of proxy, Any, AnyProxy, Tor, NotTorAnonymizer. Defaults to Any
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
+Accepted values: Any, AnyProxy, Tor, NotTorAnonymizer
 
 Required: False
-Position: 2
+Position: 3
+Default value: Any
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Usage
+BLOCKLIST or POLICY, defaults to POLICY
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: BLOCKLIST, POLICY
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -179,3 +159,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+[Country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+[Region codes](https://en.wikipedia.org/wiki/ISO_3166-2)
+[ASN Lookup](https://www.ultratools.com/tools/asnInfoResult)

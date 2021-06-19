@@ -5,26 +5,26 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaPolicyRule
+# Disable-OktaZone
 
 ## SYNOPSIS
-Get the rules for an Okta Policy
+Disable a zone
 
 ## SYNTAX
 
 ```
-Get-OktaPolicyRule [-PolicyId] <String> [-JSON] [<CommonParameters>]
+Disable-OktaZone [-ZoneId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## PARAMETERS
 
-### -JSON
-Set to return JSON instead of PSCustomObject
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
@@ -33,13 +33,29 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ZoneId
+Zone id retrieved from Get-OktaZone
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: Id
 
 Required: True
 Position: 0

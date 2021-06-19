@@ -5,18 +5,16 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaPasswordPolicy
+# Enable-OktaZone
 
 ## SYNOPSIS
-Update the password policy
+Disable a zone
 
 ## SYNTAX
 
 ```
-Set-OktaPasswordPolicy [[-Policy] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Enable-OktaZone [-ZoneId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
-
-## EXAMPLES
 
 ## PARAMETERS
 
@@ -35,21 +33,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Policy
-Policy object retrieved from Get-OktaPasswordPolicy
-
-```yaml
-Type: PSObject
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
@@ -61,6 +44,21 @@ Aliases: wi
 
 Required: False
 Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ZoneId
+Zone id retrieved from Get-OktaZone
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: True
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

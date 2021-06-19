@@ -5,16 +5,21 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-OktaPolicyRule
+# Set-OktaZone
 
 ## SYNOPSIS
-Remove a policy rule from a policy
+Update an existing zone
 
 ## SYNTAX
 
 ```
-Remove-OktaPolicyRule [-PolicyId] <String> [-RuleId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaZone -Zone <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
+
+## DESCRIPTION
+
+
+## EXAMPLES
 
 ## PARAMETERS
 
@@ -30,36 +35,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -RuleId
-Id of a rule retrieved from Get-OktaPolicyRule
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Id
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -79,12 +54,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Zone
+Zone object retrieve from Get-OktaZone
+
+```yaml
+Type: PSObject
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### System.String
+### None
 
 ## OUTPUTS
 

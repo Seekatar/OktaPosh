@@ -5,39 +5,56 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaPassswordPolicy
+# New-OktaBlockListZone
 
 ## SYNOPSIS
-PolicyId retrieved from Get-OktaPasswordPolicy
+Create a new zone to block ips
 
 ## SYNTAX
 
-### ById (Default)
 ```
-Get-OktaPassswordPolicy [-PolicyId] <String> [-WithRules] [-JSON] [<CommonParameters>]
-```
-
-### ByType
-```
-Get-OktaPassswordPolicy -Type <String> [-JSON] [<CommonParameters>]
+New-OktaBlockListZone [-Name] <String> [[-GatewayCIDR] <String[]>] [[-GatewayRange] <String[]>] [-Inactive]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get policies based on the type or id
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-$policies = Get-OktaPolicy -Type PASSWORD
-```
-
-Get password policies
-
 ## PARAMETERS
 
-### -JSON
-Set to return JSON instead of PSCustomObject
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GatewayIps
+Array of ips in CIDR format, an ip address, or a range composed of two ips separated by a dash
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Inactive
+Set to add as inactive
 
 ```yaml
 Type: SwitchParameter
@@ -51,44 +68,29 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-PolicyId retrieved from Get-OktaPasswordPolicy
+### -Name
+Name of the new zone.
 
 ```yaml
 Type: String
-Parameter Sets: ById
-Aliases: Id
+Parameter Sets: (All)
+Aliases:
 
 Required: True
 Position: 0
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
-### -Type
-Type of policy to retrieve
-
-```yaml
-Type: String
-Parameter Sets: ByType
-Aliases:
-Accepted values: OKTA_SIGN_ON, PASSWORD, MFA_ENROLL, OAUTH_AUTHORIZATION_POLICY, IDP_DISCOVERY, USER_LIFECYCLE
-
-Required: True
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WithRules
-Also return the rules. If there are more than 20 Okta will return an error.
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: ById
-Aliases:
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named
@@ -102,7 +104,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### None
 
 ## OUTPUTS
 

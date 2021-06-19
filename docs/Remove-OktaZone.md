@@ -5,21 +5,59 @@ online version:
 schema: 2.0.0
 ---
 
-# Disable-OktaPolicy
+# Remove-OktaZone
 
 ## SYNOPSIS
-Disables an Okta Policy
+Delete a zone
 
 ## SYNTAX
 
 ```
-Disable-OktaPolicy -PolicyId <String> [<CommonParameters>]
+Remove-OktaZone [-ZoneId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
+
+## DESCRIPTION
+
+
+## EXAMPLES
+
+### Example 1
 
 ## PARAMETERS
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ZoneId
+Zone id retrieved from Get-OktaZone
 
 ```yaml
 Type: String
@@ -27,7 +65,7 @@ Parameter Sets: (All)
 Aliases: Id
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
