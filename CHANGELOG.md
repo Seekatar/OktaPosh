@@ -1,5 +1,9 @@
 # Change Log
 
+## 2021-06-21 0.2.9
+
+* Fix for yaml for newlines and trusted origins
+
 ## 2021-06-19 0.2.8
 
 * New functions
