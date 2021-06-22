@@ -7,18 +7,11 @@ function ConvertTo-OktaTrustedOriginYaml
     )
     Set-StrictMode -Version Latest
 
-    function getProp( $object, $name )
-    {
-        if (Get-Member -InputObject $object -Name name) {
-            $object.$name
-        } else {
-            $null
-        }
-    }
-    $tos = Get-OktaTrustedOrigin | Where-Object origin -like $OriginLike
+    $tos = Get-OktaTrustedOrigin
+    while (Test-OktaNext -ObjectName trustedOrigins) { $tos += Get-OktaTrustedOrigin -Next }
 
     "trustedOrigins:"
-    foreach ($to in $tos | Sort-Object label) {
+    foreach ($to in $tos | Where-Object origin -like $OriginLike | Sort-Object label) {
     @"
   - name: $($to.name)
     origin: $($to.origin)
