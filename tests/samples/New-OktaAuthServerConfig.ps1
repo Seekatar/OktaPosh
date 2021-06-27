@@ -1,57 +1,60 @@
+
 function New-OktaAuthServerConfig
 {
+[CmdletBinding(SupportsShouldProcess)]
 param(
     [Parameter(Mandatory)]
-    [string] $authServerName,
+    [string] $AuthServerName,
     [Parameter(Mandatory)]
-    [string[]] $scopes,
+    [string[]] $Scopes,
     [Parameter(Mandatory)]
-    [string] $audience,
+    [string] $Audience,
     [Parameter(Mandatory)]
-    [string] $description,
-    [HashTable[]] $claims
+    [string] $Description,
+    [HashTable[]] $Claims,
+    [Parameter(Mandatory)]
+    [string[]] $GroupNames
 )
     Set-StrictMode -Version Latest
+    $prevErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = "Stop"
 
-    $authServer = Get-OktaAuthorizationServer -Query $authServerName
-    if ($authServer) {
-        Write-Host "Found auth server '$authServerName' $($authServer.id)"
-    } else {
-        $authServer = New-OktaAuthorizationServer -Name $authServerName `
-            -Audiences $audience `
-            -Description $description
+    try {
+
+        $authServer = Get-OktaAuthorizationServer -Query $AuthServerName
         if ($authServer) {
-            Write-Host "Created '$authServerName' $($authServer.id)"
+            Write-Host "Found auth server '$AuthServerName' $($authServer.id)"
         } else {
-            throw "Failed to create '$authServer'"
+            $authServer = New-OktaAuthorizationServer -Name $AuthServerName `
+                -Audiences $audience `
+                -Description $Description
+            if ($authServer) {
+                Write-Host "Created '$AuthServerName' $($authServer.id)"
+            } else {
+                throw "Failed to create '$authServer'"
+            }
         }
-    }
 
-    $existingScopes = Get-OktaScope -AuthorizationServerId $authServer.id | Select-Object -ExpandProperty name
-    $scopes = $scopes | Where-Object { $_ -notin $existingScopes }
-    if ($scopes) {
-        $null = $scopes | New-OktaScope -AuthorizationServerId $authServer.id
-        Write-Host "    Scopes added: $($scopes -join ',')"
-    } else {
-        Write-Host "    All scopes found"
-    }
-
-    # add appname claim to all scopes
-    foreach($c in $claims) {
-        $claim = Get-OktaClaim -AuthorizationServerId $authServer.id -Query $c.name
-        if ($claim) {
-            Write-Host "    Found '$($c.name)' Claim"
+        $existingScopes = Get-OktaScope -AuthorizationServerId $authServer.id | Select-Object -ExpandProperty name
+        $scopesToAdd = $Scopes | Where-Object { $_ -notin $existingScopes }
+        if ($scopesToAdd) {
+            $null = $scopesToAdd | New-OktaScope -AuthorizationServerId $authServer.id
+            Write-Host "    Scopes added: $($scopesToAdd -join ',')"
         } else {
-            $claim = New-OktaClaim -AuthorizationServerId $authServer.id `
-                                   -Name $c.name `
-                                   -ValueType $c.valueType `
-                                   -GroupFilterType $c['groupFilterType'] `
-                                   -ClaimType $c.claimType `
-                                   -Value $c.value `
-                                   -Scopes $c.scopes
-            Write-Host "    Added '$($c.name)' Claim"
+            Write-Host "    All scopes found"
         }
+
+        $existingClaims = Get-OktaClaim -AuthorizationServerId $authServer.id | Select-Object -ExpandProperty name
+        $Claims = $Claims | Where-Object { $_.name -notin $existingClaims }
+        if ($Claims) {
+            $null = $Claims | ForEach-Object { [PSCustomObject]$_ } | New-OktaClaim -AuthorizationServerId $authServer.id
+            Write-Host "    Claims added: $($Claims.name -join ',')"
+        } else {
+            Write-Host "    All claims found"
+        }
+
+        return $authServer
+    } finally {
+        $ErrorActionPreference = $prevErrorActionPreference
     }
-    return $authServer
 }

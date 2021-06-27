@@ -23,7 +23,20 @@ function New-OktaAppConfig {
 
     $app = Get-OktaApplication -Query $appName
     if ($app) {
-        Write-Host "Found app '$appName' $($app.id)"
+        Write-Host "Found and updating app '$appName' $($app.id)"
+        $app.settings.oauthClient.redirect_uris = $RedirectUris
+        $app.settings.oauthClient.post_logout_redirect_uris = $PostLogoutUris
+        $app.settings.oauthClient.grant_types = $GrantTypes
+        $app.settings.oauthClient.initiate_login_uri = $LoginUri
+        $app.settings.oauthClient.response_types = @()
+        if ('implicit' -in $GrantTypes) {
+            $app.settings.oauthClient.response_types += @('id_token', 'token')
+        }
+        if ('authorization_code' -in $GrantTypes) {
+            $app.settings.oauthClient.response_types += 'code'
+        }
+        
+        $app = Set-OktaApplication -Application $app
     } else {
         $app = New-OktaSpaApplication `
                     -Label $appName `
