@@ -58,7 +58,8 @@ settings:
 
         Write-Verbose "Writing output"
         $appGroups | ForEach-Object {
-                $groups = ($groups | Where-Object id -eq $_.id)
+                $appGroupId = $_.id
+                $groups = ($groups | Where-Object { $_.id -eq $appGroupId } )
                 if ($groups) {
                     $groups.profile.name | Sort-Object | ForEach-Object {
                         $output += "  - $_$nl"
