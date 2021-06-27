@@ -1,5 +1,9 @@
 # Change Log
 
+## 2021-06-28 0.3.0
+
+* Add unit test for yaml
+
 ## 2021-06-21 0.2.9
 
 * Fix for yaml for newlines and trusted origins
