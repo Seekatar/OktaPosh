@@ -2,7 +2,15 @@
 
 ## 2021-06-28 0.3.0
 
+* New functions for linking users
+  * Get-OktaLink
+  * Get-OktaLinkDefinition
+  * New-OktaLinkDefinition
+  * Remove-OktaLink
+  * Remove-OktaLinkDefinition
+  * Set-OktaLink
 * Add unit test for yaml
+* More parameter index cleanup
 
 ## 2021-06-21 0.2.9
 
