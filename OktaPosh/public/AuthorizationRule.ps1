@@ -5,9 +5,9 @@ function Get-OktaRule
 {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=1)]
         [string] $PolicyId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]

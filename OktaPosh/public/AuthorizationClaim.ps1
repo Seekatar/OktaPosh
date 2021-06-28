@@ -5,7 +5,7 @@ function Get-OktaClaim
 {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ParameterSetName = "ById", ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -33,7 +33,7 @@ function New-OktaClaim
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [string] $Name,
@@ -94,7 +94,7 @@ function Remove-OktaClaim
 {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -121,7 +121,7 @@ function Remove-OktaClaim
 function Set-OktaClaim {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [PSCustomObject] $Claim
     )

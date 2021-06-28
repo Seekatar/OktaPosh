@@ -259,7 +259,7 @@ function New-OktaPasswordPolicyRule {
 function Get-OktaPolicyRule {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $PolicyId,
         [Alias('Id')]
         [string] $RuleId,

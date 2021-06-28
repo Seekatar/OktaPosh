@@ -5,7 +5,7 @@ function Get-OktaPolicy
 {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -29,7 +29,7 @@ function New-OktaPolicy
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory)]
         [string] $Name,
@@ -69,7 +69,7 @@ function Remove-OktaPolicy
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -93,7 +93,7 @@ function Remove-OktaPolicy
 function Set-OktaPolicy {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [PSCustomObject] $Policy
     )
