@@ -66,11 +66,13 @@ function Set-OktaTrustedOrigin {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0,ValueFromPipeline)]
         [PSCustomObject] $TrustedOrigin
     )
 
-    Invoke-OktaApi -RelativeUri "trustedOrigins/$($TrustedOrigin.Id)" -Body $TrustedOrigin -Method PUT
+    process {
+        Invoke-OktaApi -RelativeUri "trustedOrigins/$($TrustedOrigin.Id)" -Body $TrustedOrigin -Method PUT
+    }
 }
 
 function Remove-OktaTrustedOrigin {

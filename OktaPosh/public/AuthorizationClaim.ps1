@@ -123,11 +123,14 @@ function Set-OktaClaim {
     param (
         [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
+        [Parameter(Mandatory,Position=1,ValueFromPipeline)]
         [PSCustomObject] $Claim
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Claim.Name)","Update Claim")) {
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$($Claim.id)" -Body $Claim -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Claim.Name)","Update Claim")) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$($Claim.id)" -Body $Claim -Method PUT
+        }
     }
 }
 

@@ -390,11 +390,13 @@ function Remove-OktaUser {
 function Set-OktaUser {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0,ValueFromPipeline)]
         [PSCustomObject]$User
     )
 
-    if ($PSCmdlet.ShouldProcess($User.id,"Update User")) {
-        Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
+    process {
+        if ($PSCmdlet.ShouldProcess($User.id,"Update User")) {
+            Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
+        }
     }
 }

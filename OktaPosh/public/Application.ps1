@@ -136,9 +136,9 @@ function Set-OktaApplicationProperty {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [PSCustomObject] $Application,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=1)]
         [hashtable] $Properties
     )
 
@@ -196,6 +196,7 @@ function Enable-OktaApplication
 function Set-OktaApplication {
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory,Position=0)]
         [PSCustomObject] $Application
     )
 

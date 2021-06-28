@@ -95,11 +95,14 @@ function Set-OktaPolicy {
     param (
         [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
+        [Parameter(Mandatory,Position=1,ValueFromPipeline)]
         [PSCustomObject] $Policy
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Policy.Name)","Update Policy")) {
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$($Policy.id)" -Body $Policy -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Policy.Name)","Update Policy")) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$($Policy.id)" -Body $Policy -Method PUT
+        }
     }
 }
 

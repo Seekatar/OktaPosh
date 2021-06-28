@@ -449,6 +449,7 @@ if (!(Test-Path alias:Get-OktaPasswordPolicyRule)) {
 function Set-OktaPasswordPolicy {
     [CmdletBinding(SupportsShouldProcess)]
     param(
+        [Parameter(Mandatory,Position=0)]
         [PSCustomObject] $Policy
     )
 

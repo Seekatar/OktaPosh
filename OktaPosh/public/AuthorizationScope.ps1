@@ -87,11 +87,14 @@ function Set-OktaScope {
     param (
         [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
+        [Parameter(Mandatory,Position=1,ValueFromPipeline)]
         [PSCustomObject] $Scope
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Scope.Name)","Update Scope")) {
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$($Scope.id)" -Body $Scope -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Scope.Name)","Update Scope")) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$($Scope.id)" -Body $Scope -Method PUT
+        }
     }
 }
 
