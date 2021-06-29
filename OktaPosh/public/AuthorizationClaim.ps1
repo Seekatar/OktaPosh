@@ -17,12 +17,10 @@ function Get-OktaClaim
 
     process
     {
-        if ($ClaimId)
-        {
+        $ClaimId = testQueryForId $ClaimId $Query 'ocl'
+        if ($ClaimId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$ClaimId" -Method GET -Json:$Json
-        }
-        else
-        {
+        } else {
             Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method GET -Json:$Json)
         }
     }

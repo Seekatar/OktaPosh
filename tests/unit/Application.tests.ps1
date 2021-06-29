@@ -10,10 +10,10 @@ $PSDefaultParameterValues = @{
         groupName      = 'test-group-app'
         email          = 'apptestuser@mailinator.com'
         vars = @{
-            app        = @{id = 'App-1234-4324';label="test-app"}
+            app        = @{id = '0oa3mo3swhHpQbzOw4u7';label="test-app"}
             spaApp     = $null
             schema     = $null
-            user       = @{id = 'User-123-123-345';login='User123';email='user123@test.com'}
+            user       = @{id = '00u3mo3swhHpQbzOw4u7';login='User123';email='user123@test.com'}
         }
     }
 }
@@ -49,6 +49,20 @@ Describe "Application Tests" {
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/apps/$($vars.app.Id)" -and $Method -eq 'GET'
+                }
+    }
+    It "Gets Application by as Query as Id" {
+        $null = Get-OktaApplication -Query $vars.app.Id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps/$($vars.app.Id)" -and $Method -eq 'GET'
+                }
+    }
+    It "Gets Application by as Query" {
+        $null = Get-OktaApplication -Query test
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps?q=test" -and $Method -eq 'GET'
                 }
     }
     It "Disables Application" {
@@ -159,6 +173,19 @@ Describe "Application Tests" {
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/apps/$($vars.app.Id)/users" -and $Method -eq 'GET'
+                }
+
+        $null = Get-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
+        $null = Get-OktaApplicationUser -AppId $vars.app.id -Query $vars.user.id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps/$($vars.app.Id)/users/$($vars.user.id)" -and $Method -eq 'GET'
+                }
+
+        $null = Get-OktaApplicationUser -AppId $vars.app.id -Query test
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/apps/$($vars.app.Id)/users?q=test" -and $Method -eq 'GET'
                 }
 
         $null = Get-OktaUserApplication -UserId $vars.user.id

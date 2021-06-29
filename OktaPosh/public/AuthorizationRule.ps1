@@ -18,6 +18,7 @@ function Get-OktaRule
     )
 
     process {
+        $RuleId = testQueryForId $RuleId $Query '0pr'
         if ($RuleId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$RuleId" -Method GET -Json:$Json
         } else {

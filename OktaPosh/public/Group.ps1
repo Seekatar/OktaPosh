@@ -24,6 +24,7 @@ function Get-OktaGroup
     )
 
     process {
+        $GroupId = testQueryForId $GroupId $Query '00g'
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET -Json:$Json
         } else {

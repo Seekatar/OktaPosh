@@ -20,6 +20,7 @@ function Get-OktaApplication {
     )
 
     process {
+        $AppId = testQueryForId $AppId $Query '0oa'
         if ($AppId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId" -Json:$Json
         } else {
@@ -323,6 +324,7 @@ function Get-OktaApplicationUser {
     process {
         Set-StrictMode -Version Latest
 
+        $UserId = testQueryForId $UserId $Query '00u'
         if ($UserId) {
             Invoke-OktaApi -RelativeUri "apps/$AppId/users/$UserId" -Method GET -Json:$Json
         } else {

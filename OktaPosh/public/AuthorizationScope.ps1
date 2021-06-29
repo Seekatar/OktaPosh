@@ -17,6 +17,7 @@ function Get-OktaScope
     )
 
     process {
+        $ScopeId = testQueryForId $ScopeId $Query 'scp'
         if ($ScopeId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method GET -Json:$Json
         } else {

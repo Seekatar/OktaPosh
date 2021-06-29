@@ -266,6 +266,7 @@ function Get-OktaPolicyRule {
         [switch] $JSON
     )
 
+    $RuleId = testQueryForId $RuleId $Query '0pr'
     if ($RuleId) {
         Invoke-OktaApi -RelativeUri "policies/$PolicyId/rules/$RuleId" -Json:$JSON
     } else {

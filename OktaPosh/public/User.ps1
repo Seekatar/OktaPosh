@@ -303,6 +303,7 @@ function Get-OktaUser {
     )
 
     process {
+        $UserId = testQueryForId $UserId $Query '00u'
         if ($UserId) {
             Invoke-OktaApi -RelativeUri "users/$UserId" -Json:$Json
         } else {

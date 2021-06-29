@@ -82,6 +82,13 @@ Describe "AuthorizationServer" {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'
                 }
     }
+    It "Gets Authorization Server By Id as Query" {
+        $null = Get-OktaAuthorizationServer -Query $vars.authServer.Id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'
+                }
+    }
     It "Gets Authorization Server By Query" {
         $null = Get-OktaAuthorizationServer -Query 'test'
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
