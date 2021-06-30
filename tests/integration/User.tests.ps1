@@ -30,7 +30,7 @@ $PSDefaultParameterValues = @{
 
 Describe "Cleanup" {
     It "Remove test link definition" {
-        Remove-OktaLinkDefinition -Name $primaryLink -Confirm:$false
+        Remove-OktaLinkDefinition -PrimaryName $primaryLink -Confirm:$false
     }
     It "Remove test user" {
         Get-OktaUser -q testuser | Remove-OktaUser -Confirm:$false
@@ -140,6 +140,9 @@ Describe "User" {
         $result = Get-OktaUser -Id $vars.user.Id
         $result | Should -Not -Be $null
         $result.Id | Should -Be $vars.user.Id
+        $result = Get-OktaUser -Query $vars.user.Id
+        $result | Should -Not -Be $null
+        $result.Id | Should -Be $vars.user.Id
     }
     It "Updates a User" {
         $result = Get-OktaUser -Id $vars.user.Id
@@ -179,13 +182,13 @@ Describe "LinkTests" {
         $ld.associated.name | Should -Be $associatedLink
     }
     It 'Gets a link definition by primary' {
-        $ld = Get-OktaLinkDefinition -Name $primaryLink
+        $ld = Get-OktaLinkDefinition -PrimaryName $primaryLink
         $ld | Should -Not -BeNullOrEmpty
         $ld.primary.name | Should -Be $primaryLink
         $ld.associated.name | Should -Be $associatedLink
     }
     It 'Gets a link definition by associated' {
-        $ld = Get-OktaLinkDefinition -Name $associatedLink
+        $ld = Get-OktaLinkDefinition -PrimaryName $associatedLink
         $ld | Should -Not -BeNullOrEmpty
         $ld.primary.name | Should -Be $primaryLink
         $ld.associated.name | Should -Be $associatedLink
@@ -232,7 +235,7 @@ Describe "LinkTests" {
 
 Describe "Cleanup" {
     It "Remove test link definition" {
-        Remove-OktaLinkDefinition -Name $primaryLink -Confirm:$false
+        Remove-OktaLinkDefinition -PrimaryName $primaryLink -Confirm:$false
     }
     It "Remove test users" {
         if ($vars.user) { Remove-OktaUser -UserId $vars.user.id -Confirm:$false }

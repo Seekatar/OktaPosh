@@ -5,28 +5,29 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-OktaPasswordPolicy
+# Get-OktaLink
 
 ## SYNOPSIS
-Delete a password policy
+Get the users linked to this one
 
 ## SYNTAX
 
 ```
-Remove-OktaPasswordPolicy [-PolicyId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Get-OktaLink [-UserId] <String> [-LinkName] <String> [-GetUser] [-Json] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
-
-## DESCRIPTION
-PolicyId retrieved from Get-OktaPasswordPolicy
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
-Get-OktaPolicy -Type PASSWORD | ? system -eq $false | Remove-OktaPolicy
-```
+Get-OktaLink -UserId $boss.id -LinkName Workerbee
 
-Remove all non-system policies
+Get all the worker bees for the boss
+
+### Example 2
+Get-OktaLink -UserId $worker.id -LinkName TheBoss
+
+Get the boss of the worker bee
 
 ## PARAMETERS
 
@@ -45,18 +46,63 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -GetUser
+Instead of just returning the id of the users, return the User object
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Json
+Set to return JSON instead of PSCustomObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LinkName
+Case sensitive name of the link (not title) relative to this user.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Id
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserId
+UserId retrieved from Get-OktaUser
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -81,7 +127,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### None
 
 ## OUTPUTS
 

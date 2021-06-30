@@ -16,7 +16,7 @@ function Get-OktaPolicy
     )
 
     process {
-        $PolicyId = testQueryForId $AppId $PolicyId '00p'
+        $PolicyId = testQueryForId $PolicyId $Query '00p'
         if ($PolicyId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId" -Method GET -Json:$Json
         } else {

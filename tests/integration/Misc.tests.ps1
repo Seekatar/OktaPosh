@@ -23,15 +23,3 @@ Describe "Log tests" {
         Get-OktaLog -Severity WARN -Limit 7 -Since 10h -SortOrder DESCENDING
     }
 }
-
-Describe "Yaml tests" {
-    It "Tests Get-OktaLog" {
-        ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml -WipeFolder
-        (Test-Path $env:TMP/oktaposh-yaml) | Should -BeTrue
-        (Get-ChildItem $env:TMP/oktaposh-yaml/app-*).Count | Should -BeGreaterThan 1
-        (Test-Path $env:TMP/oktaposh-yaml/trustedOrigins.yaml) | Should -BeTrue
-    }
-    It "CleansUp" {
-        Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
-    }
-}

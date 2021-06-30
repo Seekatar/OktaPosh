@@ -12,14 +12,14 @@ Get one or more Rules for an AuthorizationServer and Policy
 
 ## SYNTAX
 
+### Query (Default)
+```
+Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>] [-Json] [<CommonParameters>]
+```
+
 ### ById
 ```
 Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> -RuleId <String> [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaRule -AuthorizationServerId <String> -PolicyId <String> [-Query <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

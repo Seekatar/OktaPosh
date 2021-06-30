@@ -46,14 +46,8 @@ Describe "Application Tests" {
     }
     It "Gets Application by Id" {
         $null = Get-OktaApplication -ApplicationId $vars.app.Id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-                -ParameterFilter {
-                    $Uri -like "*/apps/$($vars.app.Id)" -and $Method -eq 'GET'
-                }
-    }
-    It "Gets Application by as Query as Id" {
         $null = Get-OktaApplication -Query $vars.app.Id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/apps/$($vars.app.Id)" -and $Method -eq 'GET'
                 }

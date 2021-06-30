@@ -5,30 +5,47 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-OktaPasswordPolicy
+# Set-OktaLink
 
 ## SYNOPSIS
-Delete a password policy
+Create a link between two users
 
 ## SYNTAX
 
 ```
-Remove-OktaPasswordPolicy [-PolicyId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaLink [-PrimaryUserId] <String> [-AssociatedUserId] <String> [-PrimaryName] <String> [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-PolicyId retrieved from Get-OktaPasswordPolicy
+
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-Get-OktaPolicy -Type PASSWORD | ? system -eq $false | Remove-OktaPolicy
+
+$assoc | Set-OktaLink -PrimaryUserId $boss.id -PrimaryName TheBoss
 ```
 
-Remove all non-system policies
+Associate an array of users in $assoc to associate to a $boss user
 
 ## PARAMETERS
+
+### -AssociatedUserId
+UserId retrieved from Get-OktaUser for the associated user
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
 
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
@@ -45,18 +62,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -PrimaryName
+Case sensitive primary name of link definition
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Id
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PrimaryUserId
+UserId retrieved from Get-OktaUser for the primary user
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

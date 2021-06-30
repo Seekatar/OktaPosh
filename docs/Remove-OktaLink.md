@@ -5,88 +5,82 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaClaim
+# Remove-OktaLink
 
 ## SYNOPSIS
-Get one of more Claims for an AuthorizationServer
+Remove the link from a user
 
 ## SYNTAX
 
-### Query (Default)
 ```
-Get-OktaClaim -AuthorizationServerId <String> [-Query <String>] [-Json] [<CommonParameters>]
-```
-
-### ById
-```
-Get-OktaClaim -AuthorizationServerId <String> -ClaimId <String> [-Json] [<CommonParameters>]
+Remove-OktaLink [-UserId] <String> [-PrimaryName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
+
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> Get-OktaClaim -AuthorizationServerId $id
-```
+Remove-OktaLink -UserId $assoc.id -PrimaryName TheBoss
 
-Get all the claims for that authorization server
+Remove a TheBoss-WorkerBee link from $assoc user
 
 ## PARAMETERS
 
-### -AuthorizationServerId
-AuthorizationServerId retrieved from Get-OktaAuthorizationServer
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ClaimId
-ClaimId for an Authorization Server
-
-```yaml
-Type: String
-Parameter Sets: ById
-Aliases: Id
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
-### -Json
-Set to return JSON instead of PSCustomObject
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Query
-Searches within the name within the results
+### -PrimaryName
+Case sensitive primary name of the link
 
 ```yaml
 Type: String
-Parameter Sets: Query
+Parameter Sets: (All)
 Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserId
+UserId retrieved from Get-OktaUser
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named
@@ -100,17 +94,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### String
-Pipe Ids in
-
-### PSCustomObject[]
-Pipe objects with Id
+### None
 
 ## OUTPUTS
 
-### PSCustomObject[]
-Claim objects
-
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

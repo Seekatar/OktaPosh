@@ -1,6 +1,6 @@
 # Change Log
 
-## 2021-06-28 0.3.0
+## 2021-06-29 0.3.0
 
 * New functions for linking users
   * Get-OktaLink
@@ -9,6 +9,7 @@
   * Remove-OktaLink
   * Remove-OktaLinkDefinition
   * Set-OktaLink
+* All Get-Okta* function with a -Query parameter now will use heuristics to determine if it's an id. This may be turned off with `Set-OktaQueryForId $false`
 * Add unit test for yaml
 * More parameter index cleanup
 

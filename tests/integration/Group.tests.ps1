@@ -39,6 +39,8 @@ Describe "Group" {
     It "Gets Group By Id" {
         $result = Get-OktaGroup -Id $vars.group.Id
         $result.Id | Should -Be  $vars.group.Id
+        $result = Get-OktaGroup -Query $vars.group.Id
+        $result.Id | Should -Be  $vars.group.Id
     }
     It "Updates Group Separate params" {
         $null = Set-OktaGroup -Id $vars.group.Id -Name $groupName -Description "new description"

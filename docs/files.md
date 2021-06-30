@@ -66,6 +66,10 @@
 
 ### [Get-OktaJwt](Get-OktaJwt.md)
 
+### [Get-OktaLink](Get-OktaLink.md)
+
+### [Get-OktaLinkDefinition](Get-OktaLinkDefinition.md)
+
 ### [Get-OktaLog](Get-OktaLog.md)
 
 ### [Get-OktaNextUrl](Get-OktaNextUrl.md)
@@ -77,6 +81,8 @@
 ### [Get-OktaPolicy](Get-OktaPolicy.md)
 
 ### [Get-OktaPolicyRule](Get-OktaPolicyRule.md)
+
+### [Get-OktaQueryForId](Get-OktaQueryForId.md)
 
 ### [Get-OktaRateLimit](Get-OktaRateLimit.md)
 
@@ -107,6 +113,8 @@
 ### [New-OktaDynamicZone](New-OktaDynamicZone.md)
 
 ### [New-OktaGroup](New-OktaGroup.md)
+
+### [New-OktaLinkDefinition](New-OktaLinkDefinition.md)
 
 ### [New-OktaPasswordPolicy](New-OktaPasswordPolicy.md)
 
@@ -144,6 +152,10 @@
 
 ### [Remove-OktaGroupUser](Remove-OktaGroupUser.md)
 
+### [Remove-OktaLink](Remove-OktaLink.md)
+
+### [Remove-OktaLinkDefinition](Remove-OktaLinkDefinition.md)
+
 ### [Remove-OktaPasswordPolicy](Remove-OktaPasswordPolicy.md)
 
 ### [Remove-OktaPolicy](Remove-OktaPolicy.md)
@@ -173,6 +185,8 @@
 ### [Set-OktaClaim](Set-OktaClaim.md)
 
 ### [Set-OktaGroup](Set-OktaGroup.md)
+
+### [Set-OktaLink](Set-OktaLink.md)
 
 ### [Set-OktaOption](Set-OktaOption.md)
 

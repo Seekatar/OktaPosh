@@ -5,15 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaPolicyRule
+# Remove-OktaLinkDefinition
 
 ## SYNOPSIS
-Get the rules for an Okta Policy
+Remove a link definition
 
 ## SYNTAX
 
 ```
-Get-OktaPolicyRule [-PolicyId] <String> [-RuleId <String>] [-JSON] [<CommonParameters>]
+Remove-OktaLinkDefinition [-PrimaryName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,23 +22,23 @@ Get-OktaPolicyRule [-PolicyId] <String> [-RuleId <String>] [-JSON] [<CommonParam
 
 ## PARAMETERS
 
-### -JSON
-Set to return JSON instead of PSCustomObject
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -PrimaryName
+Case sensitive primary name of the definition to delete
 
 ```yaml
 Type: String
@@ -48,17 +48,18 @@ Aliases:
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -RuleId
-RuleId retrieved from Get-OktaRule
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: Id
+Aliases: wi
 
 Required: False
 Position: Named
@@ -72,7 +73,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
 
 ## OUTPUTS
 

@@ -30,13 +30,13 @@ function Get-OktaLinkDefinition
 {
     [CmdletBinding()]
     param (
-        [string] $Name,
+        [string] $PrimaryName,
         [switch] $Json
     )
 
     process {
-        if ($Name) {
-            Invoke-OktaApi -RelativeUri "meta/schemas/user/linkedObjects/$Name" -Method GET -Json:$Json
+        if ($PrimaryName) {
+            Invoke-OktaApi -RelativeUri "meta/schemas/user/linkedObjects/$PrimaryName" -Method GET -Json:$Json
         } else {
             Invoke-OktaApi -RelativeUri "meta/schemas/user/linkedObjects" -Method GET -Json:$Json
         }
@@ -102,15 +102,15 @@ function Remove-OktaLink {
 function Remove-OktaLinkDefinition {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [string] $Name
+        [Parameter(Mandatory,ValueFromPipeline)]
+        [string] $PrimaryName
     )
 
     process {
         Set-StrictMode -Version Latest
 
-        if ($PSCmdlet.ShouldProcess($Name,"Remove Link Definition")) {
-            Invoke-OktaApi -RelativeUri "meta/schemas/user/linkedObjects/$Name" -Method DELETE -NotFoundOk
+        if ($PSCmdlet.ShouldProcess($PrimaryName,"Remove Link Definition")) {
+            Invoke-OktaApi -RelativeUri "meta/schemas/user/linkedObjects/$PrimaryName" -Method DELETE -NotFoundOk
         }
     }
 }

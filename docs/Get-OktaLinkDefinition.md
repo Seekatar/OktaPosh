@@ -5,24 +5,29 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-OktaPolicyRule
+# Get-OktaLinkDefinition
 
 ## SYNOPSIS
-Get the rules for an Okta Policy
+Get one or all a user-to-user link definitions
 
 ## SYNTAX
 
 ```
-Get-OktaPolicyRule [-PolicyId] <String> [-RuleId <String>] [-JSON] [<CommonParameters>]
+Get-OktaLinkDefinition [[-PrimaryName] <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 ## EXAMPLES
 
+### Example 1
+(Get-OktaLinkDefinition).primary.name | Remove-OktaLinkDefinition
+
+Get all the link definitions and remove them
+
 ## PARAMETERS
 
-### -JSON
+### -Json
 Set to return JSON instead of PSCustomObject
 
 ```yaml
@@ -32,36 +37,21 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -PrimaryName
+The case sensitive primary name of the link definition. Leave empty for all link definitions.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RuleId
-RuleId retrieved from Get-OktaRule
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Id
-
 Required: False
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

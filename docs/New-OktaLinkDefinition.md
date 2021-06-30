@@ -1,42 +1,42 @@
 ---
 external help file: OktaPosh-help.xml
 Module Name: OktaPosh
-online version:
+online version: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 schema: 2.0.0
 ---
 
-# New-OktaPasswordPolicyRule
+# New-OktaLinkDefinition
 
 ## SYNOPSIS
-Create a new password policy rule for a password policy
+Create a new user-to-link definition.
 
 ## SYNTAX
 
 ```
-New-OktaPasswordPolicyRule [-PolicyId] <String> [-Name] <String> [-AllowPasswordChange]
- [-AllowSelfServicePasswordReset] [-AllowSelfServiceUnlock] [-Inactive] [[-Priority] <Int32>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+New-OktaLinkDefinition [-PrimaryTitle] <String> [-PrimaryName <String>] [-PrimaryDescription <String>]
+ [-AssociatedTitle] <String> [-AssociatedName <String>] [-AssociatedDescription <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+Links are one-to-many relationships with a primary and associated part. For example manager, employee where a manager will have many employees and an employee will have only one manager.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-    New-OktaPasswordPolicyRule -PolicyId $policy.id -Name $Name -AllowPasswordChange -AllowSelfServicePasswordReset -AllowSelfServiceUnlock
-
+New-OktaLinkDefinition -PrimaryTitle boss -PrimaryName TheBoss -AssociatedTitle minon -PrimaryDescription WorkerBee
 ```
 
-Add a rule
+Create a link definition 'boss' with the primary called 'boss' and associated called 'minon'
 
 ## PARAMETERS
 
-### -AllowPasswordChange
-AllowPasswordChange
+### -AssociatedDescription
+Optional associated description
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -47,11 +47,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AllowSelfServicePasswordReset
-AllowSelfServicePasswordReset
+### -AssociatedName
+Optional associated name, will be set to AssociatedTitle if not supplied
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -62,16 +62,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AllowSelfServiceUnlock
-AllowSelfServiceUnlock
+### -AssociatedTitle
+Title of the associated part of the link
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -92,11 +92,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Inactive
-Add the policy inactive
+### -PrimaryDescription
+Optional primary description
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -107,23 +107,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Name of the new password policy
+### -PrimaryName
+Optional primary name, will be set to PrimaryTitle if not supplied
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyId
-The policy id retrieved from Get-OktaPolicy
+### -PrimaryTitle
+Title of the primary part of the link
 
 ```yaml
 Type: String
@@ -132,21 +132,6 @@ Aliases:
 
 Required: True
 Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Priority
-Priority of the rule
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -13,7 +13,7 @@ Update an Application
 ## SYNTAX
 
 ```
-Set-OktaApplication [[-Application] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaApplication [-Application] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

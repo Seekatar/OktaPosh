@@ -17,14 +17,14 @@ $PSDefaultParameterValues = @{
         redirectUri     = "http://gohome"
         policy         = @{ id = "policy-123-4675-67"}
         vars           = @{
-            app        = @{ id = "app-987-343-434"}
-            spaApp     = @{ id = "SpaApp-987-343-434"}
-            claim      = @{ id = "claim-987-343-4234"; name="test"}
-            authServer = @{ id = "server-123-234-234";audiences=@("test");issuer="http://issuer"}
-            scope      = @{ id = "scope-123-276-234"; name="test"}
-            policy     = @{ id = "policy-123-234-266"; name="test"}
-            rule       = @{ id = "rule-186-674-234"; name="test"}
-            user       = @{ id = "user-186-674-234"}
+            app        = @{ id = "00u3mo3swhHpQbzOw4u7"}
+            spaApp     = @{ id = "00a3mo3swhHpQbzOw4u7"}
+            claim      = @{ id = "ocl3mo3swhHpQbzOw4u7"; name="test"}
+            authServer = @{ id = "aus3mo3swhHpQbzOw4u7";audiences=@("test");issuer="http://issuer"}
+            scope      = @{ id = "scpu3mo3swhHpQbzOwu7"; name="test"}
+            policy     = @{ id = "00p3mo3swhHpQbzOw4u7"; name="test"}
+            rule       = @{ id = "0pr3mo3swhHpQbzOw4u7"; name="test"}
+            user       = @{ id = "00u3mo3swhHpQbzOw4u7"}
         }
     }
 }
@@ -77,17 +77,21 @@ Describe "AuthorizationServer" {
     }
     It "Gets Authorization Server By Id" {
         $null = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+        $null = Get-OktaAuthorizationServer -Query $vars.authServer.Id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'
                 }
-    }
-    It "Gets Authorization Server By Id as Query" {
+        Get-OktaQueryForId | Should -BeTrue
+        Set-OktaQueryForId $false
+        Get-OktaQueryForId | Should -BeFalse
         $null = Get-OktaAuthorizationServer -Query $vars.authServer.Id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)" -and $Method -eq 'GET'
+                    $Uri -like "*/authorizationServers?q=$($vars.authServer.Id)" -and $Method -eq 'GET'
                 }
+        Set-OktaQueryForId $true
+        Get-OktaQueryForId | Should -BeTrue
     }
     It "Gets Authorization Server By Query" {
         $null = Get-OktaAuthorizationServer -Query 'test'
@@ -149,6 +153,14 @@ Describe "AuthorizationServer" {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes" -and $Method -eq 'GET'
                 }
     }
+    It "Gets scopes by Id" {
+        $null = Get-OktaScope -AuthorizationServerId $vars.authServer.id -Query $vars.scope.Id
+        $null = Get-OktaScope -AuthorizationServerId $vars.authServer.id -ScopeId $vars.scope.Id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes/$($vars.scope.Id)" -and $Method -eq 'GET'
+                }
+    }
     It "Updates a scope" {
         $null = Set-OktaScope -AuthorizationServerId $vars.authServer.id -Scope $vars.scope
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
@@ -184,7 +196,8 @@ Describe "AuthorizationServer" {
     }
     It "Gets Claim By Id" {
         $null = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+        $null = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -Query $vars.claim.id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims/$($vars.claim.id)" -and $Method -eq 'GET'
                 }
@@ -217,7 +230,8 @@ Describe "AuthorizationServer" {
     }
     It "Get a policy by Id" {
         $null = Get-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Id $vars.policy.Id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+        $null = Get-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Query $vars.policy.Id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.Id)" -and $Method -eq 'GET'
                 }
@@ -246,6 +260,14 @@ Describe "AuthorizationServer" {
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.Id)/rules" -and $Method -eq 'GET'
+                }
+    }
+    It "Gets a rule by Id" {
+        $null = Get-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -Id $vars.rule.id
+        $null = Get-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -Query $vars.rule.id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies/$($vars.policy.Id)/rules/$($vars.rule.id)" -and $Method -eq 'GET'
                 }
     }
     It "Updates a rule" {

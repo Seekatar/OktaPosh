@@ -6,8 +6,8 @@ BeforeAll {
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{ groupName = "test-group"
                         email = 'grouptestuser@mailinator.com'
-                        vars = @{group = @{id = "123-123-345";profile=@{description="test"}}
-                                 user = @{id = "432-675-567"}
+                        vars = @{group = @{id = "00g3mo3swhHpQbzOw4u7";profile=@{description="test"}}
+                                 user = @{id = "00u3mo3swhHpQbzOw4u7"}
                         } }
 }
 
@@ -39,7 +39,8 @@ Describe "Group" {
     }
     It "Gets Group By Id" {
         $null = Get-OktaGroup -Id $vars.group.Id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+        $null = Get-OktaGroup -Query $vars.group.Id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/groups/$($vars.group.Id)" -and $Method -eq 'GET'
                 }

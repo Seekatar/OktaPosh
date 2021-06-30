@@ -13,7 +13,7 @@ Set OktaOptions for accessing the API
 ## SYNTAX
 
 ```
-Set-OktaOption [[-ApiToken] <String>] [[-BaseUri] <String>] [<CommonParameters>]
+Set-OktaOption [[-ApiToken] <String>] [[-BaseUri] <String>] [-UseQueryForId <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,6 +53,21 @@ Aliases:
 Required: False
 Position: 1
 Default value: $env:OKTA_BASE_URI
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseQueryForId
+Set to false to turn off the QueryForId feature. See Get-OktaUserForId
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

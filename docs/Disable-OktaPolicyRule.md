@@ -25,7 +25,7 @@ Disable-OktaPolicyRule [-PolicyId] <String> [-RuleId] <String> [<CommonParameter
 ## PARAMETERS
 
 ### -PolicyId
-{{ Fill PolicyId Description }}
+The policy id retrieved from Get-OktaPolicy
 
 ```yaml
 Type: String
@@ -40,7 +40,7 @@ Accept wildcard characters: False
 ```
 
 ### -RuleId
-{{ Fill RuleId Description }}
+RuleId retrieved from Get-OktaRule
 
 ```yaml
 Type: String

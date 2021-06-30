@@ -11,9 +11,6 @@ schema: 2.0.0
 Get Okta system log entries.
 Defaults to getting 50 within last 10 minutes
 
-## DESCRIPTION
-By default this returns text output with local time, severity, actor, displayMessage, result, reason, and uuid. If you want to get the raw log to get more data, use -JSON or -Object.
-
 ## SYNTAX
 
 ### Query (Default)
@@ -26,6 +23,10 @@ Get-OktaLog [-Query <String>] [-Since <String>] [-SortOrder <String>] [-Filter <
 ```
 Get-OktaLog [-Json] [-Objects] [-Next] [-NoWarn] [<CommonParameters>]
 ```
+
+## DESCRIPTION
+By default this returns text output with local time, severity, actor, displayMessage, result, reason, and uuid.
+If you want to get the raw log to get more data, use -JSON or -Object.
 
 ## EXAMPLES
 
@@ -50,12 +51,14 @@ Get log that are errors, then get next twice
 Get-OktaLog -filter 'uuid eq "ccac98c4-d026-11eb-8ea5-a5b75f62156a"' -object
 ```
 
-Get log filtered by one id as an object. This is useful to get details about one record.
+Get log filtered by one id as an object.
+This is useful to get details about one record.
 
 ## PARAMETERS
 
 ### -Filter
-Filter for event logs. 'event_type eq "user.session.start"'
+Filter for event logs.
+'event_type eq "user.session.start"'
 
 ```yaml
 Type: String
@@ -150,7 +153,7 @@ Query for searching in the log
 ```yaml
 Type: String
 Parameter Sets: Query
-Aliases: Q
+Aliases:
 
 Required: False
 Position: Named
