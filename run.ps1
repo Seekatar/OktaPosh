@@ -22,12 +22,12 @@ foreach ($t in $Task) {
         'unit' {
             checkPester
             Push-Location (Join-Path $PSScriptRoot '/tests/unit')
-            Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
+            Invoke-Pester -Configuration @{Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
         }
         'integration' {
             checkPester
             Push-Location (Join-Path $PSScriptRoot '/tests/integration')
-            Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
+            Invoke-Pester -Configuration @{Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
         }
         'build' {
             Push-Location (Join-Path $PSScriptRoot '/build')
