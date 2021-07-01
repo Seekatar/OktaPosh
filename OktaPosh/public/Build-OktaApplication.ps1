@@ -1,48 +1,55 @@
-function New-OktaAppConfig {
+function Build-OktaSpaApplication {
     param (
         [Parameter(Mandatory)]
-        [string] $Name,
+        [string] $Label,
         [Parameter(Mandatory)]
         [string[]] $RedirectUris,
         [Parameter(Mandatory)]
         [string] $LoginUri,
         [string[]] $PostLogoutUris,
+        [switch] $Inactive,
+        [string] $SignOnMode = "OPENID_CONNECT",
+        [hashtable] $Properties,
+        [ValidateCount(1,3)]
+        [ValidateSet('implicit','authorization_code','refresh_token')]
+        [string[]] $GrantTypes = @('implicit','refresh_token'),
         [Parameter(Mandatory)]
         [string[]] $Scopes,
         [Parameter(Mandatory)]
-        [string] $AuthServerId,
-        [Parameter(Mandatory)]
-        [ValidateSet("authorization_code", "password", "refresh_token", "client_credentials", "implicit")]
-        [string[]] $GrantTypes
+        [string] $AuthServerId
     )
 
     Set-StrictMode -Version Latest
     $ErrorActionPreference = "Stop"
 
-    $appName = $Name
+    $appName = $Label
 
     $app = Get-OktaApplication -Query $appName
     if ($app) {
-        Write-Host "Found and updating app '$appName' $($app.id)"
+        Write-Host "Found and updating app '$($app.label)' $($app.id)"
         $app.settings.oauthClient.redirect_uris = $RedirectUris
         $app.settings.oauthClient.post_logout_redirect_uris = $PostLogoutUris
         $app.settings.oauthClient.grant_types = $GrantTypes
         $app.settings.oauthClient.initiate_login_uri = $LoginUri
         $app.settings.oauthClient.response_types = @()
-        if ('implicit' -in $GrantTypes) {
+        if ('Implicit' -in $GrantTypes) {
             $app.settings.oauthClient.response_types += @('id_token', 'token')
         }
-        if ('authorization_code' -in $GrantTypes) {
+        if ('Code' -in $GrantTypes) {
             $app.settings.oauthClient.response_types += 'code'
         }
-        
+
         $app = Set-OktaApplication -Application $app
     } else {
         $app = New-OktaSpaApplication `
                     -Label $appName `
                     -RedirectUris $RedirectUris `
                     -LoginUri $LoginUri `
-                    -PostLogoutUris $PostLogoutUris
+                    -PostLogoutUris $PostLogoutUris `
+                    -Inactive:$Inactive `
+                    -SignOnMode $SignOnMode `
+                    -Properties $Properties `
+                    -GrantTypes $GrantTypes
         Write-Host "Added app '$appName' $($app.id)"
     }
 
@@ -68,4 +75,8 @@ function New-OktaAppConfig {
         Write-Host "    Added 'Allow $($policyName)' Rule"
     }
     return $app
+}
+
+if (!(Test-Path alias:Build-OktaSpaApp)) {
+    New-Alias -Name Build-OktaSpaApp -Value Build-OktaSpaApplication
 }

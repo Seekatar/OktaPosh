@@ -1,16 +1,16 @@
 
-function New-OktaAuthServerConfig
+function Build-OktaAuthorizationServer
 {
 [CmdletBinding(SupportsShouldProcess)]
 param(
     [Parameter(Mandatory)]
-    [string] $AuthServerName,
-    [Parameter(Mandatory)]
-    [string[]] $Scopes,
+    [string] $Name,
     [Parameter(Mandatory)]
     [string] $Audience,
     [Parameter(Mandatory)]
     [string] $Description,
+    [Parameter(Mandatory)]
+    [string[]] $Scopes,
     [HashTable[]] $Claims,
     [Parameter(Mandatory)]
     [string[]] $GroupNames
@@ -21,15 +21,15 @@ param(
 
     try {
 
-        $authServer = Get-OktaAuthorizationServer -Query $AuthServerName
+        $authServer = Get-OktaAuthorizationServer -Query $Name
         if ($authServer) {
-            Write-Host "Found auth server '$AuthServerName' $($authServer.id)"
+            Write-Host "Found auth server '$Name' $($authServer.id)"
         } else {
-            $authServer = New-OktaAuthorizationServer -Name $AuthServerName `
-                -Audiences $audience `
-                -Description $Description
+            $authServer = New-OktaAuthorizationServer -Name $Name `
+                                    -Audiences $audience `
+                                    -Description $Description
             if ($authServer) {
-                Write-Host "Created '$AuthServerName' $($authServer.id)"
+                Write-Host "Created '$Name' $($authServer.id)"
             } else {
                 throw "Failed to create '$authServer'"
             }

@@ -10,7 +10,7 @@ function Get-OktaPolicy
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $PolicyId,
-        [Parameter(ParameterSetName="Query",Position=0)]
+        [Parameter(ParameterSetName="Query",Position=1)]
         [string] $Query,
         [switch] $Json
     )

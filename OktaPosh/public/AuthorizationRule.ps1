@@ -12,7 +12,7 @@ function Get-OktaRule
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $RuleId,
-        [Parameter(ParameterSetName="Query",Position=0)]
+        [Parameter(ParameterSetName="Query",Position=2)]
         [string] $Query,
         [switch] $Json
     )

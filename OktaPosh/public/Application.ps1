@@ -82,8 +82,8 @@ function New-OktaSpaApplication {
         [switch] $Inactive,
         [string] $SignOnMode = "OPENID_CONNECT",
         [hashtable] $Properties,
-        [ValidateRange(1,3)]
-        [ValidateSet('Implicit','Code','Refresh')]
+        [ValidateCount(1,3)]
+        [ValidateSet('Implicit','Code','Refresh','authorization_code','refresh_token')]
         [string[]] $GrantTypes = @('Implicit','Code')
     )
 
@@ -115,15 +115,15 @@ function New-OktaSpaApplication {
             }
         }
     }
-    if ('Implicit' -in $GrantTypes) {
+    if ('Implicit' -in $GrantTypes ) {
         $body.settings.oauthClient.response_types += "token","id_token"
         $body.settings.oauthClient.grant_types += 'implicit'
     }
-    if ('Code' -in $GrantTypes) {
+    if ('Code' -in $GrantTypes -or 'authorization_code' -in $GrantTypes) {
         $body.settings.oauthClient.response_types += "code"
         $body.settings.oauthClient.grant_types += 'authorization_code'
     }
-    if ('Refresh' -in $GrantTypes) {
+    if ('Refresh' -in $GrantTypes -or 'refresh_token' -in $GrantTypes) {
         $body.settings.oauthClient.response_types += "token","id_token"
         $body.settings.oauthClient.grant_types += 'refresh_token'
     }
