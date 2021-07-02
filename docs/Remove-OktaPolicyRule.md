@@ -16,6 +16,10 @@ Remove a policy rule from a policy
 Remove-OktaPolicyRule [-PolicyId] <String> [-RuleId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
+## EXAMPLES
+
 ## PARAMETERS
 
 ### -Confirm

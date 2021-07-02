@@ -5,19 +5,20 @@ function Get-OktaRule
 {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=1)]
         [string] $PolicyId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $RuleId,
-        [Parameter(ParameterSetName="Query",Position=0)]
+        [Parameter(ParameterSetName="Query",Position=2)]
         [string] $Query,
         [switch] $Json
     )
 
     process {
+        $RuleId = testQueryForId $RuleId $Query '0pr'
         if ($RuleId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$RuleId" -Method GET -Json:$Json
         } else {
@@ -125,15 +126,18 @@ function Remove-OktaRule
 function Set-OktaRule {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=1)]
         [string] $PolicyId,
+        [Parameter(Mandatory,Position=2,ValueFromPipeline)]
         [PSCustomObject] $Rule
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Rule.Name)","Update Rule")) {
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$($Rule.id)" -Body $Rule -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Rule.Name)","Update Rule")) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId/rules/$($Rule.id)" -Body $Rule -Method PUT
+        }
     }
 }
 

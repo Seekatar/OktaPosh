@@ -5,17 +5,18 @@ function Get-OktaPolicy
 {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $PolicyId,
-        [Parameter(ParameterSetName="Query",Position=0)]
+        [Parameter(ParameterSetName="Query",Position=1)]
         [string] $Query,
         [switch] $Json
     )
 
     process {
+        $PolicyId = testQueryForId $PolicyId $Query '00p'
         if ($PolicyId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$PolicyId" -Method GET -Json:$Json
         } else {
@@ -29,7 +30,7 @@ function New-OktaPolicy
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory)]
         [string] $Name,
@@ -69,7 +70,7 @@ function Remove-OktaPolicy
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -93,13 +94,16 @@ function Remove-OktaPolicy
 function Set-OktaPolicy {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
+        [Parameter(Mandatory,Position=1,ValueFromPipeline)]
         [PSCustomObject] $Policy
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Policy.Name)","Update Policy")) {
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$($Policy.id)" -Body $Policy -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Policy.Name)","Update Policy")) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/policies/$($Policy.id)" -Body $Policy -Method PUT
+        }
     }
 }
 

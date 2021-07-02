@@ -3,18 +3,22 @@ BeforeAll {
 }
 
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ ipdId = "123-123-345" }
+    "It:TestCases" = @{ ipdId = "123-123-345" 
+			vars = @{
+				provider = $null
+			}}
 }
 
 Describe "Identity Provider" {
     It "Gets Identity Providers" {
-        $null = Get-OktaIdentityProvider
-        # Currently a Google provider is there for my server
-        # $result | Should -Not -Be $null
+        $vars.provider = Get-OktaIdentityProvider | Select -First 1
+        $vars.provider | Should -Not -Be $null
     }
     It "Gets Identity Provider By Id" {
-        $result = Get-OktaIdentityProvider -Id $ipdId
-        $result | Should -Be $null
+        $result = Get-OktaIdentityProvider -Id $vars.provider.id
+        $result.id | Should -Be $vars.provider.id 
+        $result = Get-OktaIdentityProvider -Query $vars.provider.id
+        $result.id | Should -Be $vars.provider.id 
     }
 }
 

@@ -58,6 +58,8 @@ Describe "Application Tests" {
     It "Gets Application by Id" {
         $result = Get-OktaApplication -ApplicationId $vars.app.Id
         $result.Id | Should -Be $vars.app.Id
+        $result = Get-OktaApplication -Query $vars.app.Id
+        $result.Id | Should -Be $vars.app.Id
     }
     It "Disables Application" {
         Disable-OktaApplication -Id $vars.app.Id -Confirm:$false
@@ -157,6 +159,11 @@ Describe "Application Tests" {
         $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $user2.id
         $users = @(Get-OktaApplicationUser -AppId $vars.app.id)
         $users.Count | Should -Be 2
+
+        $user = Get-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id
+	$user.id | Should -Be $vars.user.id
+        $user = Get-OktaApplicationUser -AppId $vars.app.id -Query $vars.user.id
+	$user.id | Should -Be $vars.user.id
 
         $users = @(Get-OktaApplicationUser -AppId $vars.app.id -limit 1)
         $users.Count | Should -Be 1

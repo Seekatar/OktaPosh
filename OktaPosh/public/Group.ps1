@@ -24,6 +24,7 @@ function Get-OktaGroup
     )
 
     process {
+        $GroupId = testQueryForId $GroupId $Query '00g'
         if ($GroupId) {
             Invoke-OktaApi -RelativeUri "groups/$GroupId" -Method GET -Json:$Json
         } else {
@@ -59,10 +60,10 @@ function Set-OktaGroup {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,ParameterSetName="Object")]
+        [Parameter(Mandatory,ValueFromPipeline,ParameterSetName="Object")]
         [PSCustomObject] $Group,
 
-        [Parameter(Mandatory,ValueFromPipeline,ParameterSetName="Separate")]
+        [Parameter(Mandatory,ParameterSetName="Separate")]
         [Alias('GroupId')]
         [string] $Id,
         [Parameter(Mandatory,ParameterSetName="Separate")]

@@ -1,24 +1,25 @@
-. C:\code\PoshStuff\base64.ps1
+# sample code to create a password hash for adding to Okta
 
 $ErrorActionPreference = 'Stop'
 
-ipmo C:\code\OktaPosh\OktaPosh\OktaPosh.psd1 -fo
+Import-Module C:\code\OktaPosh\OktaPosh\OktaPosh.psd1 -fo
 
 $pw = "testing123"
 $salt = "this is the salt"
-$value = [System.Text.Encoding]::UTF8.GetBytes($pw)
+$pwValue = [System.Text.Encoding]::UTF8.GetBytes($pw)
 $saltValue = [System.Text.Encoding]::UTF8.GetBytes($salt)
 
-$saltedValue = $value + $saltValue
+# in this case the hash is of password+salt hashed with SHA-256
+$saltedValue = $pwValue + $saltValue
+$hashValue = (New-Object 'System.Security.Cryptography.SHA256Managed').ComputeHash($saltedValue)
 
-$pwValue = (New-Object 'System.Security.Cryptography.SHA256Managed').ComputeHash($saltedValue)
-
+# tell Okta how it is hashed
 $passwordHash = @{
     hash = @{
       algorithm = "SHA-256"
       salt = ([System.Convert]::ToBase64String([System.Text.Encoding]::utf8.GetBytes($salt)))
       saltOrder = "POSTFIX"
-      value = ([System.Convert]::ToBase64String($pwValue))
+      value = ([System.Convert]::ToBase64String($hashValue))
     }
   }
 

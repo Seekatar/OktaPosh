@@ -27,6 +27,10 @@ Get-OktaZone -ZoneId <String> [-Json] [<CommonParameters>]
 Get-OktaZone [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
+## EXAMPLES
+
 ## PARAMETERS
 
 ### -Json

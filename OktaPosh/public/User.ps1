@@ -303,6 +303,7 @@ function Get-OktaUser {
     )
 
     process {
+        $UserId = testQueryForId $UserId $Query '00u'
         if ($UserId) {
             Invoke-OktaApi -RelativeUri "users/$UserId" -Json:$Json
         } else {
@@ -375,7 +376,7 @@ function Remove-OktaUser {
             if ($user.profile.email -ne $user.profile.login) {
                 $prompt = "$($user.profile.email)/$($user.profile.login)"
             }
-            if ($PSCmdlet.ShouldProcess($prompt,"Remove User")) {
+            if ($PSCmdlet.ShouldProcess($prompt,"Remove Usersad")) {
                 if ($user.Status -ne 'DEPROVISIONED') {
                     $null = Disable-OktaUser -UserId $UserId
                 }
@@ -390,11 +391,13 @@ function Remove-OktaUser {
 function Set-OktaUser {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0,ValueFromPipeline)]
         [PSCustomObject]$User
     )
 
-    if ($PSCmdlet.ShouldProcess($User.id,"Update User")) {
-        Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
+    process {
+        if ($PSCmdlet.ShouldProcess($User.id,"Update User")) {
+            Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
+        }
     }
 }

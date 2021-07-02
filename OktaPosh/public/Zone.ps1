@@ -155,7 +155,7 @@ function Set-OktaZone {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,ParameterSetName="Object")]
+        [Parameter(Mandatory,Position=0,ValueFromPipeline)]
         [PSCustomObject] $Zone
     )
 

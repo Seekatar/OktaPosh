@@ -22,18 +22,18 @@ foreach ($t in $Task) {
         'unit' {
             checkPester
             Push-Location (Join-Path $PSScriptRoot '/tests/unit')
-            Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
+            Invoke-Pester -Configuration @{Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
         }
         'integration' {
             checkPester
             Push-Location (Join-Path $PSScriptRoot '/tests/integration')
-            Invoke-Pester -Configuration @{Output = @{Verbosity='Detailed'}; Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
+            Invoke-Pester -Configuration @{Run = @{PassThru=[bool]$PesterPassThru}; CodeCoverage=@{Enabled=$true;Path='../../OktaPosh/public/*.ps1'}}
         }
         'build' {
             Push-Location (Join-Path $PSScriptRoot '/build')
             .\New-ModuleHelp.ps1
             if (Test-Path \code\joat-powershell\New-HelpOutput.ps1) {
-                $Groups = "Authorization","Claim","User","Group","Policy","Rule","Scope","Application","TrustedOrigin","PasswordPolicy","Zone"
+                $Groups = "Authorization","Claim","User","Group","Policy","Rule","Scope","Application","TrustedOrigin","PasswordPolicy","Zone","Link"
                 \code\joat-powershell\New-HelpOutput.ps1 -Folder ..\OktaPosh\ -GroupPrefix "Okta" -Groups $groups | Out-File ..\summary.md -Encoding ascii
             } else {
                 Write-Warning "\code\joat-powershell\New-HelpOutput.ps1 not found, won't update summary"

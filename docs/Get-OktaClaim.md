@@ -12,14 +12,14 @@ Get one of more Claims for an AuthorizationServer
 
 ## SYNTAX
 
+### Query (Default)
+```
+Get-OktaClaim -AuthorizationServerId <String> [-Query <String>] [-Json] [<CommonParameters>]
+```
+
 ### ById
 ```
 Get-OktaClaim -AuthorizationServerId <String> -ClaimId <String> [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaClaim -AuthorizationServerId <String> [-Query <String>] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

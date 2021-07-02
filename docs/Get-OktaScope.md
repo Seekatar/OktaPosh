@@ -12,14 +12,14 @@ Get one or more Scopes for an AuthorizationServer
 
 ## SYNTAX
 
+### Query (Default)
+```
+Get-OktaScope -AuthorizationServerId <String> [-Query <String>] [-IncludeSystem] [-Json] [<CommonParameters>]
+```
+
 ### ById
 ```
 Get-OktaScope -AuthorizationServerId <String> -ScopeId <String> [-IncludeSystem] [-Json] [<CommonParameters>]
-```
-
-### Query
-```
-Get-OktaScope -AuthorizationServerId <String> [-Query <String>] [-IncludeSystem] [-Json] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

@@ -5,13 +5,15 @@ BeforeAll {
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{
-                        email = 'testuser@mailinator.com'
+                        email1 = 'testuser1@mailinator.com'
                         email2 = 'testuser2@mailinator.com'
                         email3 = 'testuser3@mailinator.com'
                         email4 = 'testuser4@mailinator.com'
                         email5 = 'testuser5@mailinator.com'
                         email6 = 'testuser6@mailinator.com'
                         email7 = 'testuser7@mailinator.com'
+                        primaryLink = "boss"
+                        associatedLink = "minon"
                         vars = @{
                             user = $null
                             user2 = $null
@@ -27,14 +29,11 @@ $PSDefaultParameterValues = @{
 }
 
 Describe "Cleanup" {
+    It "Remove test link definition" {
+        Remove-OktaLinkDefinition -PrimaryName $primaryLink -Confirm:$false
+    }
     It "Remove test user" {
-        (Get-OktaUser -q $email) | Remove-OktaUser -Confirm:$false
-        (Get-OktaUser -q $email2) | Remove-OktaUser -Confirm:$false
-        (Get-OktaUser -q $email3) | Remove-OktaUser -Confirm:$false
-        (Get-OktaUser -q $email4) | Remove-OktaUser -Confirm:$false
-        (Get-OktaUser -q $email5) | Remove-OktaUser -Confirm:$false
-        (Get-OktaUser -q $email6) | Remove-OktaUser -Confirm:$false
-        (Get-OktaUser -q $email7) | Remove-OktaUser -Confirm:$false
+        Get-OktaUser -q testuser | Remove-OktaUser -Confirm:$false
         $vars.group = Get-OktaGroup -Query "userTestGroup"
         if (!$vars.group) {
             $vars.group = New-OktaGroup -Name "userTestGroup"
@@ -44,7 +43,7 @@ Describe "Cleanup" {
 
 Describe "User" {
     It "Adds a user" {
-        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
+        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email1
         $vars.user | Should -Not -Be $null
         $vars.user.Status | Should -Be 'STAGED'
     }
@@ -72,7 +71,7 @@ Describe "User" {
         $vars.user7.Status | Should -Be 'STAGED'
     }
     It "Tries to use pw and has" {
-        { New-OktaUser -Login $email -FirstName Test -LastName User -Email $email -PasswordHash @{} -Pw 'test' } | Should -Throw 'Can''t supply both*'
+        { New-OktaUser -Login $email1 -FirstName Test -LastName User -Email $email1 -PasswordHash @{} -Pw 'test' } | Should -Throw 'Can''t supply both*'
     }
     It "Adds a user with recovery question" {
         $vars.user3 = New-OktaUser -FirstName test-user -LastName test-user -Email $email3 -RecoveryQuestion Why? -RecoveryAnswer "Answer is 42"
@@ -133,12 +132,15 @@ Describe "User" {
         $limit.RateLimit | Should -BeGreaterThan 0
     }
     It "Gets User By Email" {
-        $result = Get-OktaUser -Query $email
+        $result = Get-OktaUser -Query $email1
         $result | Should -Not -Be $null
-        $result.Profile.Email | Should -Be $email
+        $result.Profile.Email | Should -Be $email1
     }
     It "Gets User By Id" {
         $result = Get-OktaUser -Id $vars.user.Id
+        $result | Should -Not -Be $null
+        $result.Id | Should -Be $vars.user.Id
+        $result = Get-OktaUser -Query $vars.user.Id
         $result | Should -Not -Be $null
         $result.Id | Should -Be $vars.user.Id
     }
@@ -172,8 +174,70 @@ Describe "User" {
     }
 }
 
+Describe "LinkTests" {
+    It 'Creates a link definition' {
+        $ld = New-OktaLinkDefinition -PrimaryTitle $primaryLink -AssociatedTitle $associatedLink
+        $ld | Should -Not -BeNullOrEmpty
+        $ld.primary.name | Should -Be $primaryLink
+        $ld.associated.name | Should -Be $associatedLink
+    }
+    It 'Gets a link definition by primary' {
+        $ld = Get-OktaLinkDefinition -PrimaryName $primaryLink
+        $ld | Should -Not -BeNullOrEmpty
+        $ld.primary.name | Should -Be $primaryLink
+        $ld.associated.name | Should -Be $associatedLink
+    }
+    It 'Gets a link definition by associated' {
+        $ld = Get-OktaLinkDefinition -PrimaryName $associatedLink
+        $ld | Should -Not -BeNullOrEmpty
+        $ld.primary.name | Should -Be $primaryLink
+        $ld.associated.name | Should -Be $associatedLink
+    }
+    It 'Gets all link definitions' {
+        $ld = @(Get-OktaLinkDefinition)
+        $ld.Count | Should -BeGreaterThan 0
+    }
+    It 'Links two users to one' {
+        $null = Set-OktaLink -PrimaryUserId $vars.user.id -AssociatedUserId $vars.user2.id -PrimaryName $primaryLink
+        $null = Set-OktaLink -PrimaryUserId $vars.user.id -AssociatedUserId $vars.user3.id -PrimaryName $primaryLink
+    }
+    It 'Gets primary user link' {
+        $ids = Get-OktaLink -UserId $vars.user.id -LinkName $associatedLink
+        $ids | Should -Not -BeNullOrEmpty
+        $ids.Count | Should -Be 2
+        $ids | Where-Object { $_ -eq $vars.user2.id } | Should -Not -BeNullOrEmpty
+        $ids | Where-Object { $_ -eq $vars.user3.id } | Should -Not -BeNullOrEmpty
+    }
+    It 'Gets primary user link as objects' {
+        $ids = Get-OktaLink -UserId $vars.user.id -LinkName $associatedLink -GetUser
+        $ids | Should -Not -BeNullOrEmpty
+        $ids.Count | Should -Be 2
+        $ids | Where-Object { $_.id -eq $vars.user2.id } | Should -Not -BeNullOrEmpty
+        $ids | Where-Object { $_.id -eq $vars.user3.id } | Should -Not -BeNullOrEmpty
+    }
+    It 'Gets associate user link' {
+        $ids = @(Get-OktaLink -UserId $vars.user2.id -LinkName $primaryLink)
+        $ids | Should -Not -BeNullOrEmpty
+        $ids.Count | Should -Be 1
+        $ids | Should -Be $vars.user.id
+
+        $ids = @(Get-OktaLink -UserId $vars.user3.id -LinkName $primaryLink)
+        $ids | Should -Not -BeNullOrEmpty
+        $ids.Count | Should -Be 1
+        $ids | Should -Be $vars.user.id
+    }
+    It 'Removes a user link' {
+        $null = Remove-OktaLink -UserId $vars.user2.id -PrimaryName $primaryLink -Confirm:$false
+        $ids = @(Get-OktaLink -UserId $vars.user2.id -LinkName $primaryLink)
+        $ids | Should -BeNullOrEmpty
+    }
+}
+
 Describe "Cleanup" {
-    It "Remove test user" {
+    It "Remove test link definition" {
+        Remove-OktaLinkDefinition -PrimaryName $primaryLink -Confirm:$false
+    }
+    It "Remove test users" {
         if ($vars.user) { Remove-OktaUser -UserId $vars.user.id -Confirm:$false }
         if ($vars.user2) { Remove-OktaUser -UserId $vars.user2.id -Confirm:$false }
         if ($vars.user3) { Remove-OktaUser -UserId $vars.user3.id -Confirm:$false }

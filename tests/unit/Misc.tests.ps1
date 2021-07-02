@@ -58,32 +58,3 @@ Describe "Log tests" {
             }
     }
 }
-
-Describe "Yaml tests" {
-    It "Tests Get-OktaLog" {
-        ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml -WipeFolder
-        Should -Invoke Invoke-WebRequest -Times 1 -ModuleName OktaPosh `
-            -ParameterFilter {
-                $Uri -like '*/apps/*/groups?limit=100' -and $Method -eq 'GET'
-            }
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-            -ParameterFilter {
-                $Uri -like '*/authorizationServers' -and $Method -eq 'GET'
-            }
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-            -ParameterFilter {
-                $Uri -like '*/apps' -and $Method -eq 'GET'
-            }
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-            -ParameterFilter {
-                $Uri -like '*/groups?limit=100' -and $Method -eq 'GET'
-            }
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-            -ParameterFilter {
-                $Uri -like '*/trustedOrigins' -and $Method -eq 'GET'
-            }
-    }
-    It "CleansUp" {
-        Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
-    }
-} -Skip # ugh, required lots of code to Mock

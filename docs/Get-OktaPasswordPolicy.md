@@ -12,14 +12,14 @@ Get a password policy
 
 ## SYNTAX
 
-### ById (Default)
+### ByType (Default)
 ```
-Get-OktaPasswordPolicy [-PolicyId] <String> [-WithRules] [-JSON] [<CommonParameters>]
+Get-OktaPasswordPolicy [-Type <String>] [-JSON] [<CommonParameters>]
 ```
 
-### ByType
+### ById
 ```
-Get-OktaPasswordPolicy -Type <String> [-JSON] [<CommonParameters>]
+Get-OktaPasswordPolicy [-PolicyId] <String> [-WithRules] [-JSON] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,7 +30,7 @@ Get-OktaPasswordPolicy -Type <String> [-JSON] [<CommonParameters>]
 ## PARAMETERS
 
 ### -JSON
-{{ Fill JSON Description }}
+Set to return JSON instead of PSCustomObject
 
 ```yaml
 Type: SwitchParameter
@@ -45,7 +45,7 @@ Accept wildcard characters: False
 ```
 
 ### -PolicyId
-{{ Fill PolicyId Description }}
+The policy id retrieved from Get-OktaPolicy
 
 ```yaml
 Type: String
@@ -60,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Type
-{{ Fill Type Description }}
+Type of policy to get.
 
 ```yaml
 Type: String
@@ -76,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -WithRules
-{{ Fill WithRules Description }}
+If set will also return the policy rules in _embedded
 
 ```yaml
 Type: SwitchParameter

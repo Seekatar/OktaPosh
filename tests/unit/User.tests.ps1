@@ -7,10 +7,12 @@ $PSDefaultParameterValues = @{
     "It:TestCases" = @{
                         email = 'testuser@mailinator.com'
                         email2 = 'testuser2@mailinator.com'
+                        primaryLink = "boss"
+                        associatedLink = "minon"
                         vars = @{
-                            user = @{id = '123-234'}
-                            user2 = @{id = '123-235'}
-                            group = @{id = "123-123-345";profile=@{description="test"}}
+                            user = @{id = '00u3mo3swhHpQbzOw4u7';profile=@{email="test";login="login"}}
+                            user2 = @{id = '00u3mo3swhHpQbzOw4u7';profile=@{email="test";login="login"}}
+                            group = @{id = "00g3mo3swhHpQbzOw4u7";profile=@{description="test"}}
                         }
     }
 }
@@ -168,7 +170,8 @@ Describe "User" {
     }
     It "Gets User By Id" {
         $null = Get-OktaUser -Id $vars.user.Id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+        $null = Get-OktaUser -Query $vars.user.Id
+        Should -Invoke Invoke-WebRequest -Times 2 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users/$($vars.user.Id)" -and $Method -eq 'GET'
                 }
@@ -274,14 +277,85 @@ Describe "User" {
     }
 }
 
+Describe "LinkTests" {
+    It 'Creates a link definition' {
+        $null = New-OktaLinkDefinition -PrimaryTitle $primaryLink -AssociatedTitle $associatedLink
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/meta/schemas/user/linkedObjects" -and $Method -eq 'POST'
+                }
+    }
+    It 'Gets a link definition by primary' {
+        $null = Get-OktaLinkDefinition -PrimaryName $primaryLink
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*meta/schemas/user/linkedObjects/$primaryLink" -and $Method -eq 'GET'
+                }
+    }
+    It 'Gets a link definition by associated' {
+        $null = Get-OktaLinkDefinition -PrimaryName $associatedLink
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*meta/schemas/user/linkedObjects/$associatedLink" -and $Method -eq 'GET'
+                }
+    }
+    It 'Gets all link definitions' {
+        $null = @(Get-OktaLinkDefinition)
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*meta/schemas/user/linkedObjects" -and $Method -eq 'GET'
+                }
+    }
+    It 'Links two users to one' {
+        $null = Set-OktaLink -PrimaryUserId $vars.user.id -AssociatedUserId $vars.user2.id -PrimaryName $primaryLink
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*users/$($vars.user2.id)/linkedObjects/$primaryLink/$($vars.user.id)" -and $Method -eq 'PUT'
+                }
+    }
+    It 'Gets primary user link' {
+        $null = Get-OktaLink -UserId $vars.user.id -LinkName $associatedLink
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*users/$($vars.user.id)/linkedObjects/$associatedLink" -and $Method -eq 'GET'
+                }
+    }
+    It 'Gets primary user link as objects' {
+        $null = Get-OktaLink -UserId $vars.user.id -LinkName $associatedLink -GetUser
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*users/$($vars.user.id)/linkedObjects/$associatedLink" -and $Method -eq 'GET'
+                }
+    }
+    It 'Gets associate user link' {
+        $ids = @(Get-OktaLink -UserId $vars.user2.id -LinkName $primaryLink)
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*users/$($vars.user2.id)/linkedObjects/$primaryLink" -and $Method -eq 'GET'
+                }
+    }
+}
+
+
 Describe "Cleanup" {
     It "Remove test user" {
+        Remove-OktaLinkDefinition -PrimaryName $primaryLink -Confirm:$false
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*meta/schemas/user/linkedObjects/$primaryLink" -and $Method -eq 'DELETE'
+                }
+
         Mock Get-OktaUser -ModuleName OktaPosh -MockWith { @{profile=@{email='test';login='test'};Status='PROVISIONED'}}
         Remove-OktaUser -UserId $vars.user.id -Confirm:$false
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users/$($vars.user.Id)" -and $Method -eq 'DELETE'
                 }
-    }
+        $null = Remove-OktaLink -UserId $vars.user2.id -PrimaryName $primaryLink -Confirm:$false
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*users/$($vars.user2.id)/linkedObjects/$primaryLink" -and $Method -eq 'DELETE'
+                }
+        }
 }
 

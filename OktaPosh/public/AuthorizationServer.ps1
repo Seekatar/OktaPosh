@@ -20,6 +20,7 @@ function Get-OktaAuthorizationServer
     )
 
     process {
+        $AuthorizationServerId = testQueryForId $AuthorizationServerId $Query 'aus'
         if ($AuthorizationServerId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId" -Json:$Json
         } else {

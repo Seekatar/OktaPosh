@@ -5,18 +5,19 @@ function Get-OktaScope
 {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $ScopeId,
-        [Parameter(ParameterSetName="Query",Position=0)]
+        [Parameter(ParameterSetName="Query",Position=1)]
         [string] $Query,
         [switch] $IncludeSystem,
         [switch] $Json
     )
 
     process {
+        $ScopeId = testQueryForId $ScopeId $Query 'scp'
         if ($ScopeId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$ScopeId" -Method GET -Json:$Json
         } else {
@@ -34,7 +35,7 @@ function New-OktaScope
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string] $Name,
@@ -61,7 +62,7 @@ function Remove-OktaScope
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -85,13 +86,16 @@ function Remove-OktaScope
 function Set-OktaScope {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
+        [Parameter(Mandatory,Position=1,ValueFromPipeline)]
         [PSCustomObject] $Scope
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Scope.Name)","Update Scope")) {
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$($Scope.id)" -Body $Scope -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Scope.Name)","Update Scope")) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/scopes/$($Scope.id)" -Body $Scope -Method PUT
+        }
     }
 }
 

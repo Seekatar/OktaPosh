@@ -32,11 +32,12 @@ function Get-OktaJwt {
 
     if ((!$ClientSecret -and !$SecureClientSecret) -or !$Issuer -or !$ClientId -or !$Username -or !$RedirectUri) {
         Write-Warning @"
-Have Username: $([bool]$Username)
-Have Secret: $($ClientSecret -or $SecureClientSecret)
-Have Issuer: $([bool]$Issuer)
-Have ClientId: $([bool]$ClientId)
-Have RedirectUrl: $(!$Username -or $RedirectUri)
+Missing a parameter:
+  Have Username: $([bool]$Username)
+  Have Secret: $($ClientSecret -or $SecureClientSecret)
+  Have Issuer: $([bool]$Issuer)
+  Have ClientId: $([bool]$ClientId)
+  Have RedirectUrl: $(!$Username -or $RedirectUri)
 "@
         throw "Missing required parameter. See help."
     }
@@ -178,9 +179,10 @@ function Get-OktaAppJwt {
 
     if ((!$ClientSecret -and !$SecureClientSecret) -or !$Issuer -or !$ClientId) {
         Write-Warning @"
-Have Secret: $($ClientSecret -or $SecureClientSecret)
-Have Issuer: $([bool]$Issuer)
-Have ClientId: $([bool]$ClientId)
+Missing a parameter:
+  Have Secret: $($ClientSecret -or $SecureClientSecret)
+  Have Issuer: $([bool]$Issuer)
+  Have ClientId: $([bool]$ClientId)
 "@
         throw "Missing required parameter. See help."
     }

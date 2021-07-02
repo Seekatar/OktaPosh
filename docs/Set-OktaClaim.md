@@ -13,7 +13,7 @@ Update an AuthorizationServer's Claim
 ## SYNTAX
 
 ```
-Set-OktaClaim [-AuthorizationServerId] <String> [[-Claim] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaClaim [-AuthorizationServerId] <String> [-Claim] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

@@ -16,6 +16,10 @@ Get the rules for an Okta Policy
 Get-OktaPolicyRule [-PolicyId] <String> [-RuleId <String>] [-JSON] [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
+## EXAMPLES
+
 ## PARAMETERS
 
 ### -JSON
@@ -43,6 +47,21 @@ Aliases:
 
 Required: True
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RuleId
+RuleId retrieved from Get-OktaRule
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

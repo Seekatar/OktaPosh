@@ -8,13 +8,16 @@ function Set-OktaOption {
     [CmdletBinding()]
     param (
         [string] $ApiToken = $env:OKTA_API_TOKEN,
-        [string] $BaseUri = $env:OKTA_BASE_URI
+        [string] $BaseUri = $env:OKTA_BASE_URI,
+        [bool] $UseQueryForId = $true
     )
+
 
     if (!$ApiToken -or !$BaseUri) {
         Write-Warning "Must supply ApiToken and BaseUri"
         $false
     } else {
+        $script:useQueryForId = $UseQueryForId
         $script:apiToken = $ApiToken
         $script:baseUri = $BaseUri
         $env:OKTA_API_TOKEN = $ApiToken
@@ -51,4 +54,8 @@ function Get-OktaBaseUri {
     } else {
         throw "Must pass in BaseUri or call Set-OktaOption"
     }
+}
+
+function Get-OktaQueryForId {
+    $script:useQueryForId
 }

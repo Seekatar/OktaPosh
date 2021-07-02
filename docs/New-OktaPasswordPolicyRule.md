@@ -93,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -Inactive
-{{ Fill Inactive Description }}
+Add the policy inactive
 
 ```yaml
 Type: SwitchParameter
@@ -108,7 +108,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the new password policy
 
 ```yaml
 Type: String
@@ -138,7 +138,7 @@ Accept wildcard characters: False
 ```
 
 ### -Priority
-{{ Fill Priority Description }}
+Priority of the rule
 
 ```yaml
 Type: Int32

@@ -5,24 +5,22 @@ function Get-OktaClaim
 {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ParameterSetName = "ById", ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $ClaimId,
-        [Parameter(ParameterSetName="Query",Position=0)]
+        [Parameter(ParameterSetName="Query",Position=1)]
         [string] $Query,
         [switch] $Json
     )
 
     process
     {
-        if ($ClaimId)
-        {
+        $ClaimId = testQueryForId $ClaimId $Query 'ocl'
+        if ($ClaimId) {
             Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$ClaimId" -Method GET -Json:$Json
-        }
-        else
-        {
+        } else {
             Find-InResult -Query $Query -Result (Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims" -Method GET -Json:$Json)
         }
     }
@@ -33,7 +31,7 @@ function New-OktaClaim
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [string] $Name,
@@ -94,7 +92,7 @@ function Remove-OktaClaim
 {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Alias("Id")]
@@ -121,13 +119,16 @@ function Remove-OktaClaim
 function Set-OktaClaim {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0)]
         [string] $AuthorizationServerId,
+        [Parameter(Mandatory,Position=1,ValueFromPipeline)]
         [PSCustomObject] $Claim
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Claim.Name)","Update Claim")) {
-        Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$($Claim.id)" -Body $Claim -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Claim.Name)","Update Claim")) {
+            Invoke-OktaApi -RelativeUri "authorizationServers/$AuthorizationServerId/claims/$($Claim.id)" -Body $Claim -Method PUT
+        }
     }
 }
 

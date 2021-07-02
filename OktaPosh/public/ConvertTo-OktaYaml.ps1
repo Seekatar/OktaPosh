@@ -42,11 +42,6 @@ try {
 
     ConvertTo-OktaApplicationYaml @params -OutputFolder "$OutputFolder"
 
-    $params = @{}
-    if ($ApplicationQuery) {
-        $params['q'] = $ApplicationQuery
-    }
-
     Write-Progress -Activity $activity -Status "Processing trusted origins"
     ConvertTo-OktaTrustedOriginYaml -OriginLike $OriginLike | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)
 

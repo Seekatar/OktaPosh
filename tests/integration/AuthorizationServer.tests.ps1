@@ -74,6 +74,9 @@ Describe "AuthorizationServer" {
         $result = Get-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.Id
         $result | Should -Not -Be $null
         $result.Id | Should -Be $vars.authServer.Id
+
+        $result = Get-OktaAuthorizationServer -Query $vars.authServer.Id
+        $result.Id | Should -Be $vars.authServer.Id
     }
     It "Gets Authorization Server By Query" {
         $result = Get-OktaAuthorizationServer -Query 'OktaPosh'
@@ -112,6 +115,12 @@ Describe "AuthorizationServer" {
         $vars.scopes | Should -Not -Be $null
         $vars.scopes.Count | Should -Be $scopeNames.Count
     }
+     It "Gets scopes by Id" {
+        $scope = Get-OktaScope -AuthorizationServerId $vars.authServer.id -Query $vars.scopes[0].Id
+        $scope.id | Should -Be $vars.scopes[0].Id
+        $scope = Get-OktaScope -AuthorizationServerId $vars.authServer.id -ScopeId $vars.scopes[0].Id
+        $scope.id | Should -Be $vars.scopes[0].Id
+    }
     It "Updates a scope" {
         $vars.scopes[0].description = 'Updated description'
         $update = Set-OktaScope -AuthorizationServerId $vars.authServer.id -Scope $vars.scopes[0]
@@ -141,6 +150,9 @@ Describe "AuthorizationServer" {
         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
         $claim | Should -Not -Be $null
         $claim.Name | Should -Be $claimName
+        $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -Query $vars.claim.id
+        $claim | Should -Not -Be $null
+        $claim.id | Should -Be $vars.claim.id
     }
     It "Updates a Claim" {
         $vars.claim.name = "Updated"
@@ -171,6 +183,8 @@ Describe "AuthorizationServer" {
     It "Get a policy by Id" {
         $vars.policy = Get-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Id $vars.policy.Id
         $vars.policy.Name | Should -Be $policyName
+        $vars.policy = Get-OktaPolicy -AuthorizationServerId $vars.authServer.Id -Query $vars.policy.Id
+        $vars.policy.id | Should -Be $vars.policy.Id
     }
     It "Updates a policy" {
         $vars.policy.description = "Updated policy"
@@ -190,6 +204,12 @@ Describe "AuthorizationServer" {
         $vars.rule = Get-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -Query "Allow $($policyName)"
         $vars.rule | Should -Not -Be $null
         $vars.rule.Id | Should -Be $vars.rule.Id
+    }
+    It "Gets a rule by Id" {
+        $rule = Get-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -Id $vars.rule.id
+	$rule.id | Should -Be $vars.rule.id
+        $rule = Get-OktaRule -AuthorizationServerId $vars.authServer.id -PolicyId $vars.policy.id -Query $vars.rule.id
+	$rule.id | Should -Be $vars.rule.id
     }
     It "Updates a rule" {
         $vars.rule.name = "Updated description"

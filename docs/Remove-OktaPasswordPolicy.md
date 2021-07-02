@@ -46,7 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### -PolicyId
-{{ Fill PolicyId Description }}
+The policy id retrieved from Get-OktaPolicy
 
 ```yaml
 Type: String

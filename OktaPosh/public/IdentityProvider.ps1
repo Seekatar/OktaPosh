@@ -17,6 +17,7 @@ function Get-OktaIdentityProvider
     )
 
     process {
+        $IdpId = testQueryForId $IdpId $Query '0oa'
         if ($IdpId) {
             Invoke-OktaApi -RelativeUri "idps/$IdpId" -Json:$Json
         } else {

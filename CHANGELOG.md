@@ -1,8 +1,21 @@
 # Change Log
 
-## 2021-06-28 0.3.0
+## 2021-07-01 0.3.0
 
+* New helper functions
+  * Build-OktaAuthorizationServer
+  * Build-OktaApplication
+* New functions for linking users
+  * Get-OktaLink
+  * Get-OktaLinkDefinition
+  * New-OktaLinkDefinition
+  * Remove-OktaLink
+  * Remove-OktaLinkDefinition
+  * Set-OktaLink
+* All Get-Okta* function with a -Query parameter now will use heuristics to determine if it's an id. This may be turned off with `Set-OktaQueryForId $false`
 * Add unit test for yaml
+* More parameter index cleanup
+* Add -Until to Get-OktaLog
 
 ## 2021-06-21 0.2.9
 
