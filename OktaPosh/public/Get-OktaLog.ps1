@@ -11,6 +11,9 @@ function Get-OktaLog {
         [ValidatePattern("^\d+(h|m|s)$")]
         [string] $Since = '10m',
         [Parameter(ParameterSetName="Query")]
+        [ValidatePattern("^\d+(h|m|s)$")]
+        [string] $Until,
+        [Parameter(ParameterSetName="Query")]
         [ValidateSet('DESCENDING','ASCENDING')]
         [string] $SortOrder = 'ASCENDING',
         [Parameter(ParameterSetName="Query")]
@@ -28,17 +31,28 @@ function Get-OktaLog {
         [switch] $NoWarn
     )
 
-    $extra = ''
-    if ($Since -match "^(\d+)") {
-        switch ($Since[-1]) {
-            's' { $ts = [TimeSpan]::FromSeconds($matches[1]) }
-            'm' { $ts = [TimeSpan]::FromMinutes($matches[1]) }
-            'h' { $ts = [TimeSpan]::FromHours($matches[1]) }
-            Default {
-                throw "Bad Since value '$Since'"
+    function parseTime( $t ) {
+        if ($t -match "^(\d+)(\w)") {
+            switch ($matches[2]) {
+                's' { $ts = [TimeSpan]::FromSeconds($matches[1]) }
+                'm' { $ts = [TimeSpan]::FromMinutes($matches[1]) }
+                'h' { $ts = [TimeSpan]::FromHours($matches[1]) }
+                Default {
+                    throw "Bad Since value '$Since'"
+                }
             }
+            $((([DateTime]::UtcNow) - $ts).ToString('s'))
         }
-        $extra = "&since=$((([DateTime]::UtcNow) - $ts).ToString('s'))Z"
+    }
+
+    $extra = ''
+    $s = parseTime $Since
+    if ($s) {
+        $extra = "&since=${s}Z"
+    }
+    $u = parseTime $Until
+    if ($u) {
+        $extra += "&until=${u}Z"
     }
     if ($Severity) {
         if ($Filter) {

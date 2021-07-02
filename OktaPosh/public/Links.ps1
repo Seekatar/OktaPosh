@@ -121,7 +121,7 @@ function Set-OktaLink {
     param (
         [Parameter(Mandatory)]
         [string] $PrimaryUserId,
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory)]
         [Alias('Id')]
         [string] $AssociatedUserId,
         [Parameter(Mandatory)]

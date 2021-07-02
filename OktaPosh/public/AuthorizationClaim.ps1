@@ -10,7 +10,7 @@ function Get-OktaClaim
         [Parameter(Mandatory, ParameterSetName = "ById", ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Alias("Id")]
         [string] $ClaimId,
-        [Parameter(ParameterSetName="Query",Position=0)]
+        [Parameter(ParameterSetName="Query",Position=1)]
         [string] $Query,
         [switch] $Json
     )

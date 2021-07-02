@@ -15,8 +15,8 @@ Defaults to getting 50 within last 10 minutes
 
 ### Query (Default)
 ```
-Get-OktaLog [-Query <String>] [-Since <String>] [-SortOrder <String>] [-Filter <String>] [-Limit <Int32>]
- [-Severity <String>] [-Json] [-Objects] [<CommonParameters>]
+Get-OktaLog [-Query <String>] [-Since <String>] [-Until <String>] [-SortOrder <String>] [-Filter <String>]
+ [-Limit <Int32>] [-Severity <String>] [-Json] [-Objects] [<CommonParameters>]
 ```
 
 ### Next
@@ -54,6 +54,12 @@ Get-OktaLog -filter 'uuid eq "ccac98c4-d026-11eb-8ea5-a5b75f62156a"' -object
 Get log filtered by one id as an object.
 This is useful to get details about one record.
 
+### Example 4
+```
+Get-OktaLog  Since 30m -Until 10m  -q deactivate | ft -a
+```
+
+Get logs between 30 and 10 minutes ago that contain 'deactivate'
 ## PARAMETERS
 
 ### -Filter
@@ -207,6 +213,23 @@ Accepted values: DESCENDING, ASCENDING
 Required: False
 Position: Named
 Default value: ASCENDING
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Until
+Get records until a time.
+Format it \d+(h|m|s) for recent hours, minutes or seconds.
+
+
+```yaml
+Type: String
+Parameter Sets: Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

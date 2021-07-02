@@ -33,7 +33,7 @@ $group = Get-OktaGroup -q my-cool-group
 Get-OktaApplicationUser -AppId $app.Id | Add-OktaGroupUser -GroupId $group.Id
 ```
 
-The `tests` folder also has more examples.
+The `tests/integration` folder also has many more examples.
 
 ## Comparing Okta Configuration
 
@@ -41,7 +41,7 @@ The `tests` folder also has more examples.
 
 ## High Level Functions
 
-The `tests/samples` folder has some high-level functions currently not in the module that add an AuthorizationServer and all of its related objects in one shot. There are also some sample scripts used by the my specific situation, but may be useful for others to look at.
+The `Build-Okta*` functions and `tests/samples` folder has some high-level functions make adding complex objects a bit easier. There are also some sample scripts used by the my specific situation, but may be useful for others to look at.
 
 ## Technical Details
 
@@ -49,6 +49,6 @@ The main Okta API documentation is [here](https://developer.okta.com/docs/refere
 
 The layout and building of this module and its help is based upon [Donovan Brown's](https://github.com/DarqueWarrior) PowerShell projects, [VSTeam](https://github.com/MethodsAndPractices/vsteam) in particular. Thanks, Donovan!
 
-This module is built and published using GitHub Actions.
+This module is built and published using GitHub Actions in `.github/workflows`
 
 A helper script `./run.ps1` makes running some of the commands from the GitHub Action locally easier, and some other functionality.

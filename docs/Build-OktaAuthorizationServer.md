@@ -5,38 +5,43 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaLink
+# Build-OktaAuthorizationServer
 
 ## SYNOPSIS
-Create a link between two users
+Helper to create an authorization server
 
 ## SYNTAX
 
 ```
-Set-OktaLink [-PrimaryUserId] <String> [-AssociatedUserId] <String> [-PrimaryName] <String> [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Build-OktaAuthorizationServer [-Name] <String> [-Audience] <String> [-Description] <String>
+ [-Scopes] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+This will create an authorization server if it does not exist and add scopes.If it exists, any missing scope are added. Note that it will not remove scopes that are not in the list.
 
 ## EXAMPLES
 
 ### Example 1
-```
-$assoc | Set-OktaLink -PrimaryUserId $boss.id -PrimaryName TheBoss
+```powershell
+Build-OktaAuthorizationServer `
+            -Name testAuthName `
+            -Description 'test' `
+            -Audience 'api.test.com' `
+            -Scopes @('scope:test1','scope:test2')
 ```
 
-Associate an array of users in $assoc to associate to a $boss user
+Add a test server if it doesn't exist and ensure it has the two scopes.
 
 ## PARAMETERS
 
-### -AssociatedUserId
-UserId retrieved from Get-OktaUser for the associated user
+### -Audience
+Audience value for the AuthorizationServer
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Id
+Aliases:
 
 Required: True
 Position: 1
@@ -55,13 +60,13 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PrimaryName
-Case sensitive primary name of link definition
+### -Description
+Description
 
 ```yaml
 Type: String
@@ -75,8 +80,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PrimaryUserId
-UserId retrieved from Get-OktaUser for the primary user
+### -Name
+Name of authorization server
 
 ```yaml
 Type: String
@@ -85,6 +90,21 @@ Aliases:
 
 Required: True
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Scopes
+Array of scope names to make sure are on the auth server
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,7 +121,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -111,7 +131,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### None
+
 ## OUTPUTS
 
 ### System.Object

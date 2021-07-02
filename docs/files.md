@@ -4,6 +4,10 @@
 
 ### [Add-OktaGroupUser](Add-OktaGroupUser.md)
 
+### [Build-OktaAuthorizationServer](Build-OktaAuthorizationServer.md)
+
+### [Build-OktaSpaApplication](Build-OktaSpaApplication.md)
+
 ### [ConvertTo-OktaApplicationYaml](ConvertTo-OktaApplicationYaml.md)
 
 ### [ConvertTo-OktaAuthorizationYaml](ConvertTo-OktaAuthorizationYaml.md)

@@ -10,10 +10,7 @@ param(
     [Parameter(Mandatory)]
     [string] $Description,
     [Parameter(Mandatory)]
-    [string[]] $Scopes,
-    [HashTable[]] $Claims,
-    [Parameter(Mandatory)]
-    [string[]] $GroupNames
+    [string[]] $Scopes
 )
     Set-StrictMode -Version Latest
     $prevErrorActionPreference = $ErrorActionPreference
@@ -42,15 +39,6 @@ param(
             Write-Host "    Scopes added: $($scopesToAdd -join ',')"
         } else {
             Write-Host "    All scopes found"
-        }
-
-        $existingClaims = Get-OktaClaim -AuthorizationServerId $authServer.id | Select-Object -ExpandProperty name
-        $Claims = $Claims | Where-Object { $_.name -notin $existingClaims }
-        if ($Claims) {
-            $null = $Claims | ForEach-Object { [PSCustomObject]$_ } | New-OktaClaim -AuthorizationServerId $authServer.id
-            Write-Host "    Claims added: $($Claims.name -join ',')"
-        } else {
-            Write-Host "    All claims found"
         }
 
         return $authServer

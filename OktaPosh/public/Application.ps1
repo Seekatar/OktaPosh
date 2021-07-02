@@ -139,12 +139,14 @@ function Set-OktaApplicationProperty {
     param (
         [Parameter(Mandatory,Position=0)]
         [PSCustomObject] $Application,
-        [Parameter(Mandatory,Position=1)]
+        [Parameter(Mandatory,ValueFromPipeline,Position=1)]
         [hashtable] $Properties
     )
 
-    Add-PropertiesToObject -Object $Application -Properties $Properties
-    Invoke-OktaApi -RelativeUri "apps/$($Application.Id)" -Method PUT -Body (ConvertTo-Json $Application -Depth 10)
+    process {
+        Add-PropertiesToObject -Object $Application -Properties $Properties
+        Invoke-OktaApi -RelativeUri "apps/$($Application.Id)" -Method PUT -Body (ConvertTo-Json $Application -Depth 10)
+    }
 }
 
 function Remove-OktaApplication {
@@ -197,12 +199,14 @@ function Enable-OktaApplication
 function Set-OktaApplication {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,Position=0)]
+        [Parameter(Mandatory,ValueFromPipeline,Position=0)]
         [PSCustomObject] $Application
     )
 
-    if ($PSCmdlet.ShouldProcess("$($Application.label)","Update Application")) {
-        Invoke-OktaApi -RelativeUri "apps/$($Application.id)" -Body $Application -Method PUT
+    process {
+        if ($PSCmdlet.ShouldProcess("$($Application.label)","Update Application")) {
+            Invoke-OktaApi -RelativeUri "apps/$($Application.id)" -Body $Application -Method PUT
+        }
     }
 }
 

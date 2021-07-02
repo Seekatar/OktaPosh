@@ -14,9 +14,8 @@ function Build-OktaSpaApplication {
         [ValidateSet('implicit','authorization_code','refresh_token')]
         [string[]] $GrantTypes = @('implicit','refresh_token'),
         [Parameter(Mandatory)]
-        [string[]] $Scopes,
-        [Parameter(Mandatory)]
-        [string] $AuthServerId
+        [string] $AuthServerId,
+        [string[]] $Scopes
     )
 
     Set-StrictMode -Version Latest
@@ -32,10 +31,10 @@ function Build-OktaSpaApplication {
         $app.settings.oauthClient.grant_types = $GrantTypes
         $app.settings.oauthClient.initiate_login_uri = $LoginUri
         $app.settings.oauthClient.response_types = @()
-        if ('Implicit' -in $GrantTypes) {
+        if ('implicit' -in $GrantTypes) {
             $app.settings.oauthClient.response_types += @('id_token', 'token')
         }
-        if ('Code' -in $GrantTypes) {
+        if ('authorization_code' -in $GrantTypes) {
             $app.settings.oauthClient.response_types += 'code'
         }
 
@@ -62,17 +61,19 @@ function Build-OktaSpaApplication {
         $policy = New-OktaPolicy -AuthorizationServerId $AuthServerId -Name $policyName -ClientIds $app.Id
         Write-Host "    Added '$($policyName)' Policy"
     }
-    $rule = Get-OktaRule -AuthorizationServerId $AuthServerId -PolicyId $policy.id -Query "Allow $($policyName)"
-    if ($rule) {
-        Write-Host "    Found 'Allow $($policyName)' Rule"
-    } else {
-        $rule = New-OktaRule -AuthorizationServerId $AuthServerId `
-                             -Name "Allow $($policyName)" `
-                             -PolicyId $policy.id `
-                             -Priority 1 `
-                             -GrantTypes $GrantTypes `
-                             -Scopes $Scopes
-        Write-Host "    Added 'Allow $($policyName)' Rule"
+    if ($Scopes) {
+        $rule = Get-OktaRule -AuthorizationServerId $AuthServerId -PolicyId $policy.id -Query "Allow $($policyName)"
+        if ($rule) {
+            Write-Host "    Found 'Allow $($policyName)' Rule"
+        } else {
+            $rule = New-OktaRule -AuthorizationServerId $AuthServerId `
+                                -Name "Allow $($policyName)" `
+                                -PolicyId $policy.id `
+                                -Priority 1 `
+                                -GrantTypes $GrantTypes `
+                                -Scopes $Scopes
+            Write-Host "    Added 'Allow $($policyName)' Rule"
+        }
     }
     return $app
 }
