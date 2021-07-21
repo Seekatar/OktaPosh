@@ -376,7 +376,7 @@ function Remove-OktaUser {
             if ($user.profile.email -ne $user.profile.login) {
                 $prompt = "$($user.profile.email)/$($user.profile.login)"
             }
-            if ($PSCmdlet.ShouldProcess($prompt,"Remove Usersad")) {
+            if ($PSCmdlet.ShouldProcess($prompt,"Remove User")) {
                 if ($user.Status -ne 'DEPROVISIONED') {
                     $null = Disable-OktaUser -UserId $UserId
                 }
