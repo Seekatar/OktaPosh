@@ -1,5 +1,11 @@
 # Change Log
 
+## 2021-08-01 0.3.1
+
+* Get-OktaLog better -Since and -Until support for d, h, m, s
+* New functions
+  * Unlock-User
+
 ## 2021-07-01 0.3.0
 
 * New helper functions

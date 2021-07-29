@@ -18,6 +18,8 @@ Disable-OktaUser [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<CommonPa
 
 ## DESCRIPTION
 
+The user must not be in the DEPROVISIONED state
+
 ## EXAMPLES
 
 ### Example 1
@@ -101,6 +103,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### System.Object
+
 ## NOTES
+
+Deactivating a user is a destructive operation. The user is deprovisioned from all assigned applications which may destroy their data such as email or files. This action cannot be recovered!
 
 ## RELATED LINKS

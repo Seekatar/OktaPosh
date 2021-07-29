@@ -275,6 +275,13 @@ Describe "User" {
                     $Uri -like "*/users/$($vars.user.Id)/lifecycle/deactivate?sendEmail=false" -and $Method -eq 'POST'
                 }
     }
+    It "Unlocks a user" {
+        $null = Unlock-OktaUser -UserId $vars.user.id
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/users/$($vars.user.id)/lifecycle/unlock" -and $Method -eq 'POST'
+                }
+    }
 }
 
 Describe "LinkTests" {
