@@ -244,6 +244,7 @@ function Suspend-OktaUser
         Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/suspend" -Method POST
     }
 }
+
 function Resume-OktaUser
 {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
@@ -399,5 +400,33 @@ function Set-OktaUser {
         if ($PSCmdlet.ShouldProcess($User.id,"Update User")) {
             Invoke-OktaApi -RelativeUri "users/$($User.id)" -Method PUT -Body (ConvertTo-Json $User -Depth 10)
         }
+    }
+}
+
+function Unlock-OktaUser
+{
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
+    [CmdletBinding(SupportsShouldProcess)]
+    param (
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Alias("Id")]
+        [string] $UserId,
+        [switch] $CheckCurrentStatus
+    )
+
+    process {
+        if ($CheckCurrentStatus) {
+            $user = Get-OktaUser -UserId $UserId
+            if ($user) {
+                if ($user.Status -ne 'LOCKED_OUT') {
+                    Write-Warning "User status is '$($user.Status)'. Can't unlock."
+                    return
+                }
+            } else {
+                Write-Warning "UserId: '$UserId' not found"
+                return
+            }
+        }
+        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/unlock" -Method Post
     }
 }

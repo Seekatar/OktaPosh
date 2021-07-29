@@ -138,6 +138,10 @@ function Test-OktaResult {
         errorId      : oaeyCzZvl2CRu6RwjpoNe_QgQ
         errorCauses  : {}
         #>
-        throw $oktaError
+        try {
+            throw $oktaError
+        } catch {
+            throw "$oktaError`n$($_.ScriptStackTrace)"
+        }
     }
 }
