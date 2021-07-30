@@ -24,17 +24,18 @@ function addUser
 
 }
 
-function Convert-OktaUserToFederated {
-    [CmdletBinding(SupportsShouldProcess)]
-    param (
-        [Parameter(Mandatory,Position=0,ValueFromPipeline)]
-        [string] $UserId
-    )
+# not sure what this does
+# function Convert-OktaUserToFederated {
+#     [CmdletBinding(SupportsShouldProcess)]
+#     param (
+#         [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
+#         [string] $UserId
+#     )
 
-    process {
-        Invoke-OktaApi -RelativeUri "users/$($User.id)/lifecycle/reset_password?provider=FEDERATION&sendEmail=false" -Method POST
-    }
-}
+#     process {
+#         Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/reset_password?provider=FEDERATION&sendEmail=false" -Method POST
+#     }
+# }
 
 
 function New-OktaAuthProviderUser
@@ -42,17 +43,17 @@ function New-OktaAuthProviderUser
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("given_name")]
         [string] $FirstName,
-        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName,Position=1)]
         [Alias("family_name")]
         [string] $LastName,
-        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName,Position=2)]
         [string] $Email,
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipelineByPropertyName,Position=3)]
         [string] $Login,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=4)]
         [ValidateSet('OKTA', 'ACTIVE_DIRECTORY', 'LDAP', 'FEDERATION', 'SOCIAL', 'IMPORT')]
         [string] $ProviderType,
         [string] $ProviderName,
@@ -92,7 +93,7 @@ function New-OktaUser
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("given_name")]
         [string] $FirstName,
         [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
@@ -107,6 +108,7 @@ function New-OktaUser
         [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $Activate,
         [Parameter(ValueFromPipelineByPropertyName)]
+        [ValidateLength(1,72)]
         [string] $Pw,
         [ValidateCount(0,20)]
         [string[]] $GroupIds,
@@ -114,7 +116,7 @@ function New-OktaUser
         [Parameter(ValueFromPipelineByPropertyName)]
         [string] $RecoveryQuestion,
         [Parameter(ValueFromPipelineByPropertyName)]
-        [ValidateLength(4,1000)]
+        [ValidateLength(4,100)]
         [string] $RecoveryAnswer,
         [HashTable] $PasswordHash
     )
@@ -180,7 +182,7 @@ function Disable-OktaUser
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact="High")]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $SendEmail,
@@ -211,7 +213,7 @@ function Enable-OktaUser
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $SendEmail
@@ -238,7 +240,7 @@ function Suspend-OktaUser
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $CheckCurrentStatus
@@ -265,7 +267,7 @@ function Resume-OktaUser
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $CheckCurrentStatus
@@ -291,7 +293,7 @@ function Resume-OktaUser
 function Get-OktaUser {
     [CmdletBinding(DefaultParameterSetName="Query")]
     param (
-        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ParameterSetName="ById",ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [Alias("Login")]
         [string] $UserId,
@@ -378,7 +380,7 @@ function Get-OktaUserGroup {
 function Remove-OktaUser {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $Async
@@ -397,7 +399,7 @@ function Remove-OktaUser {
             }
             if ($PSCmdlet.ShouldProcess($prompt,"Remove User")) {
                 if ($user.Status -ne 'DEPROVISIONED') {
-                    $null = Disable-OktaUser -UserId $UserId
+                    $null = Disable-OktaUser -UserId $UserId -Confirm:$false
                 }
                 Invoke-OktaApi -RelativeUri "users/$UserId" -Method DELETE -AdditionalHeaders $additionalHeaders
             }
@@ -409,29 +411,24 @@ function Remove-OktaUser {
 function Remove-OktaUserSession {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $RevokeOauthTokens
     )
 
     process {
-        $q = ""
-        if ($RevokeOauthTokens) {
-            $q = "?oauthTokens=true"
-        }
         if ($PSCmdlet.ShouldProcess($UserId,"Remove User sessions")) {
-            Invoke-OktaApi -RelativeUri "users/$UserId/sessions$q" -Method DELETE
+            Invoke-OktaApi -RelativeUri "users/$UserId/sessions?oauthTokens=$(ternary $RevokeOauthTokens 'true' 'false')" -Method DELETE
         }
     }
 }
-function Reset-OktaUserFactor {
+function Reset-OktaUserMfa {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
-        [string] $UserId,
-        [switch] $SendEmail
+        [string] $UserId
     )
 
     process {
@@ -440,10 +437,11 @@ function Reset-OktaUserFactor {
         Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/reset_factors" -Method POST
     }
 }
-function Reset-OktaUserPassword {
-    [CmdletBinding(SupportsShouldProcess)]
+
+function Reset-OktaPassword {
+    [CmdletBinding(SupportsShouldProcess,DefaultParameterSetName="Reset")]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $SendEmail
@@ -452,107 +450,97 @@ function Reset-OktaUserPassword {
     process {
         Set-StrictMode -Version Latest
 
-        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/reset_password" -Method POST
+        # Seems can't use forgot_password getting this message, even though user is ACTIVE
+        # --- Forgot password is not allowed in the user's current status
+        # if ($UseRecoveryQuestion) {
+        #     Invoke-OktaApi -RelativeUri "users/$UserId/credentials/forgot_password?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST
+        # }
+        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/reset_password?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST
     }
 }
-function Reset-OktaUserPassword2 {
+
+function Reset-OktaPasswordWithAnswer {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
-        [switch] $SendEmail,
-        [ValidateLength(1,100)]
-        [switch] $Question,
-        [ValidateLength(1,100)]
-        [switch] $Answer
+        [Parameter(Mandatory,Position=1)]
+        [ValidateLength(4,100)]
+        [string] $Answer,
+        [Parameter(Mandatory,Position=2)]
+        [ValidateLength(1,72)]
+        [string] $Pw
     )
 
     process {
         Set-StrictMode -Version Latest
 
-        # generate and return one-time-token url if user has questions
-        Invoke-OktaApi -RelativeUri "users/$UserId/credentials/forgot_password" -Method POST
-        # set a password
-        # https://developer.okta.com/docs/reference/api/users/#user-consent-grant-properties
-        $pw = @{ value = $newPw}
-        $pw = @{ hash = @{}
-                 hook = @{ }
-                }
-        $body = @{
-            password = $pw
-            recovery_question = @{
-                question = $Question # len 1-100 for both
-                answer = $Answer
-            }
-        }
+        $body = @{ password = @{ value = $Pw }; recovery_question = @{ answer = $Answer }}
         Invoke-OktaApi -RelativeUri "users/$UserId/credentials/forgot_password" -Method POST -Body $body
     }
 }
-function Revoke-OktaUserPassword {
+
+function Revoke-OktaPassword {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
-        [string] $TempPw
+        [switch] $TempPw
     )
 
     process {
-        Set-StrictMode -Version Latest
-        $q = ""
-        if ($TempPw) {
-            $q = "?tempPassword=true"
-        }
-        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/expire_password$q" -Method POST
+        Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/expire_password?tempPassword=$(ternary $TempPw 'true' 'false')" -Method POST
     }
 }
 
-function Set-OktaUserPassword {
+function Set-OktaPassword {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
+        [Parameter(Mandatory,Position=1)]
         [string] $OldPw,
+        [Parameter(Mandatory,Position=2)]
+        [ValidateLength(1,72)]
         [string] $NewPw,
         [switch] $Strict
     )
 
     process {
-        Set-StrictMode -Version Latest
-        $q = ""
-        if ($Strict) {
-            $q = "?strict=true"
-        }
         $body = @{
-            oldPassword = $oldPwObj
-            newPassword = $newPwObj
+            oldPassword = @{ value = $OldPw }
+            newPassword = @{ value = $NewPw }
         }
-        Invoke-OktaApi -RelativeUri "users/$UserId/credentials/change_password$q" -Method POST -Body $body
+        Invoke-OktaApi -RelativeUri "users/$UserId/credentials/change_password?strict=$(ternary $Strict 'true' 'false')" -Method POST -Body $body
     }
 }
 function Set-OktaUserRecoveryQuestion {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
-        [string] $NewPw,
+        [Parameter(Mandatory,Position=1)]
+        [ValidateLength(1,72)]
+        [string] $Pw,
+        [Parameter(Mandatory,Position=2)]
         [ValidateLength(1,100)]
-        [switch] $Question,
-        [ValidateLength(1,100)]
-        [switch] $Answer
+        [string] $Question,
+        [Parameter(Mandatory,Position=3)]
+        [ValidateLength(4,100)]
+        [string] $Answer
     )
 
     process {
         Set-StrictMode -Version Latest
         $body = @{
-            password = $pwObj
-            question = $Question
-            answer = $Answer
+            password = @{ value = $Pw}
+            recovery_question = @{ question = $Question; answer = $Answer }
         }
-        Invoke-OktaApi -RelativeUri "users/$UserId/credentials/change_password" -Method POST -Body $body
+        Invoke-OktaApi -RelativeUri "users/$UserId/credentials/change_recovery_question" -Method POST -Body $body
     }
 }
 
@@ -575,7 +563,7 @@ function Unlock-OktaUser
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess", "")]
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName,Position=0)]
         [Alias("Id")]
         [string] $UserId,
         [switch] $CheckCurrentStatus

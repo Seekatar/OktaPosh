@@ -8,6 +8,8 @@
 
 ### [Build-OktaSpaApplication](Build-OktaSpaApplication.md)
 
+### [Convert-OktaUserToFederated](Convert-OktaUserToFederated.md)
+
 ### [ConvertTo-OktaApplicationYaml](ConvertTo-OktaApplicationYaml.md)
 
 ### [ConvertTo-OktaAuthorizationYaml](ConvertTo-OktaAuthorizationYaml.md)
@@ -174,9 +176,19 @@
 
 ### [Remove-OktaUser](Remove-OktaUser.md)
 
+### [Remove-OktaUserSession](Remove-OktaUserSession.md)
+
 ### [Remove-OktaZone](Remove-OktaZone.md)
 
+### [Reset-OktaPassword](Reset-OktaPassword.md)
+
+### [Reset-OktaPasswordWithAnswer](Reset-OktaPasswordWithAnswer.md)
+
+### [Reset-OktaUserMfa](Reset-OktaUserMfa.md)
+
 ### [Resume-OktaUser](Resume-OktaUser.md)
+
+### [Revoke-OktaPassword](Revoke-OktaPassword.md)
 
 ### [Set-OktaApplication](Set-OktaApplication.md)
 
@@ -194,6 +206,8 @@
 
 ### [Set-OktaOption](Set-OktaOption.md)
 
+### [Set-OktaPassword](Set-OktaPassword.md)
+
 ### [Set-OktaPasswordPolicy](Set-OktaPasswordPolicy.md)
 
 ### [Set-OktaPolicy](Set-OktaPolicy.md)
@@ -206,6 +220,8 @@
 
 ### [Set-OktaUser](Set-OktaUser.md)
 
+### [Set-OktaUserRecoveryQuestion](Set-OktaUserRecoveryQuestion.md)
+
 ### [Set-OktaZone](Set-OktaZone.md)
 
 ### [Show-Okta](Show-Okta.md)
@@ -213,5 +229,7 @@
 ### [Suspend-OktaUser](Suspend-OktaUser.md)
 
 ### [Test-OktaNext](Test-OktaNext.md)
+
+### [Unlock-OktaUser](Unlock-OktaUser.md)
 
 
