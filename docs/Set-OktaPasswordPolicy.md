@@ -13,7 +13,7 @@ Update the password policy
 ## SYNTAX
 
 ```
-Set-OktaPasswordPolicy [[-Policy] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaPasswordPolicy [-Policy] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

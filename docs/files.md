@@ -8,8 +8,6 @@
 
 ### [Build-OktaSpaApplication](Build-OktaSpaApplication.md)
 
-### [Convert-OktaUserToFederated](Convert-OktaUserToFederated.md)
-
 ### [ConvertTo-OktaApplicationYaml](ConvertTo-OktaApplicationYaml.md)
 
 ### [ConvertTo-OktaAuthorizationYaml](ConvertTo-OktaAuthorizationYaml.md)

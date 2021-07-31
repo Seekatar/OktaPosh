@@ -289,15 +289,15 @@ Describe "User" {
                     $Uri -like "*/users/$($vars.user.id)/lifecycle/reset_factors" -and $Method -eq 'POST'
                 }
     }
-    It "Reset Password" {
-        $null = Reset-OktaPassword -UserId $vars.user.id
+    It "Sets RecoveryQuestion" {
+        $null = Set-OktaUserRecoveryQuestion -UserId $vars.user.id -Pw oldPw -Question Why -Answer Because
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/users/$($vars.user.id)/lifecycle/reset_password?sendEmail=false" -and $Method -eq 'POST'
+                    $Uri -like "*/users/$($vars.user.id)/credentials/change_recovery_question" -and $Method -eq 'POST'
                 }
     }
     It "Reset Password with answer" {
-        $null = Reset-OktaPasswordWithAnswer -UserId $vars.user.id -Answer test -Pw test
+        $null = Reset-OktaPasswordWithAnswer -UserId $vars.user.id -Answer test -NewPw test
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users/$($vars.user.id)/credentials/forgot_password" -and $Method -eq 'POST'
@@ -310,11 +310,11 @@ Describe "User" {
                     $Uri -like "*/users/$($vars.user.id)/credentials/change_password?strict=false" -and $Method -eq 'POST'
                 }
     }
-    It "Sets RecoveryQuestion" {
-        $null = Set-OktaUserRecoveryQuestion -UserId $vars.user.id -Pw oldPw -Question Why -Answer Because
+    It "Reset Password" {
+        $null = Reset-OktaPassword -UserId $vars.user.id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
-                    $Uri -like "*/users/$($vars.user.id)/credentials/change_recovery_question" -and $Method -eq 'POST'
+                    $Uri -like "*/users/$($vars.user.id)/lifecycle/reset_password?sendEmail=false" -and $Method -eq 'POST'
                 }
     }
     It "Unlocks a user" {
@@ -331,13 +331,13 @@ Describe "User" {
                     $Uri -like "*/users/$($vars.user.id)/lifecycle/expire_password?tempPassword=false" -and $Method -eq 'POST'
                 }
     }
-    It "Convert to Federated" {
-        $null = Convert-OktaUserToFederated -UserId $vars.user.id
-        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
-                -ParameterFilter {
-                    $Uri -like "*/users/$($vars.user.id)/lifecycle/reset_password?provider=FEDERATION&sendEmail=false" -and $Method -eq 'POST'
-                }
-    }
+    # It "Convert to Federated" {
+    #     $null = Convert-OktaUserToFederated -UserId $vars.user.id
+    #     Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+    #             -ParameterFilter {
+    #                 $Uri -like "*/users/$($vars.user.id)/lifecycle/reset_password?provider=FEDERATION&sendEmail=false" -and $Method -eq 'POST'
+    #             }
+    # }
 }
 
 Describe "LinkTests" {

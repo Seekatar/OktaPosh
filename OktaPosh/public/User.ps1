@@ -191,7 +191,7 @@ function Disable-OktaUser
     process {
         $additionalHeaders = ternary $Async @{Prefer='respond-async'} $null
 
-        if ($PSCmdlet.ShouldProcess($userId,"Deactivate User")) {
+        if ($PSCmdlet.ShouldProcess($userId,"Disable User")) {
             Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/deactivate?sendEmail=$(ternary $SendEmail 'true' 'false')" -Method POST -NotFoundOk -AdditionalHeaders $additionalHeaders
         }
     }
@@ -470,13 +470,13 @@ function Reset-OktaPasswordWithAnswer {
         [string] $Answer,
         [Parameter(Mandatory,Position=2)]
         [ValidateLength(1,72)]
-        [string] $Pw
+        [string] $NewPw
     )
 
     process {
         Set-StrictMode -Version Latest
 
-        $body = @{ password = @{ value = $Pw }; recovery_question = @{ answer = $Answer }}
+        $body = @{ password = @{ value = $NewPw }; recovery_question = @{ answer = $Answer }}
         Invoke-OktaApi -RelativeUri "users/$UserId/credentials/forgot_password" -Method POST -Body $body
     }
 }

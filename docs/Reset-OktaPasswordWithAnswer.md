@@ -13,7 +13,7 @@ Reset a user's password given the answer to their current recovery question
 ## SYNTAX
 
 ```
-Reset-OktaPasswordWithAnswer [-UserId] <String> [-Answer] <String> [-Pw] <String> [-WhatIf] [-Confirm]
+Reset-OktaPasswordWithAnswer [-UserId] <String> [-Answer] <String> [-NewPw] <String> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -56,7 +56,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Pw
+### -NewPw
 The new password
 
 ```yaml

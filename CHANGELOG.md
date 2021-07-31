@@ -3,7 +3,17 @@
 ## 2021-08-01 0.3.1
 
 * Get-OktaLog better -Since and -Until support for d, h, m, s
+* Invoke-OktaApi has -AdditionalHeaders
+* Disable-OktaUser has -Async
+* Remove-OktaUser has -Async
 * New functions
+  * Remove-OktaUserSession
+  * Reset-OktaPassword
+  * Reset-OktaPasswordWithAnswer
+  * Reset-OktaUserMfa
+  * Revoke-OktaPassword
+  * Set-OktaPassword
+  * Set-OktaUserRecoveryQuestion
   * Unlock-User
 
 ## 2021-07-01 0.3.0

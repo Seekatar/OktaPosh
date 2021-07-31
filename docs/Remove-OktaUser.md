@@ -13,7 +13,7 @@ Remove a user, permanently!
 ## SYNTAX
 
 ```
-Remove-OktaUser [-UserId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-OktaUser [-UserId] <String> [-Async] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,6 +65,21 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Async
+Process the remove asynchronously
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -100,9 +100,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.Object
 ## NOTES
+Suspended users: 
+Can't log in to Okta.
+Their group and app assignments are retained.
 
-Suspended users:
-* Can't log in to Okta. Their group and app assignments are retained.
 * Can only be unsuspended or deactivated.
 
 ## RELATED LINKS

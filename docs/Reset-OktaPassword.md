@@ -17,10 +17,17 @@ Reset-OktaPassword [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<Common
 ```
 
 ## DESCRIPTION
+Generates a one-time token (OTT) that can be used to reset a user's password.
+The link is returned, or emailed if -SendEmail is set
 
 ## EXAMPLES
 
 ### Example 1
+```PowerShell
+Get-OktaUser -Login testUser123 | Reset-OktaPassword
+```
+
+Resets testUser123's password and returns the link that you can use or send to the user
 
 ## PARAMETERS
 
@@ -40,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -SendEmail
-If true sends an email with a reset link, otherwise returns the link
+If true sends an email with a reset link, otherwise returns the reset password link
 
 ```yaml
 Type: SwitchParameter

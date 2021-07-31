@@ -304,7 +304,7 @@ Describe "AuthorizationServer" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
         Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123"}' }
         $output = (Join-Path ([System.IO.Path]::GetTempPath()) ([Guid]::NewGuid().ToString()) )
-        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $output
+        $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $output 3>$null
         Remove-Item $output
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
@@ -336,7 +336,7 @@ Describe "AuthorizationServer" {
                 }
     }
     It "Tests Server JWT Access Invalid Parameter" {
-        { Get-OktaAppJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
+        { Get-OktaAppJwt -Scopes $scopeNames[0] 3>$null } | Should -Throw 'Missing required*'
     }
     It "Tests User JWT Access" {
         $null = New-OktaUser -FirstName Wilma -LastName Flintsone -Email $username -Activate -Pw $userPw
@@ -389,7 +389,7 @@ Describe "AuthorizationServer" {
     }
     It "Tests User JWT Access Invalid arg" {
         if ($PSVersionTable.PSVersion.Major -ge 7) {
-            { Get-OktaJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
+            { Get-OktaJwt -Scopes $scopeNames[0] 3> $null } | Should -Throw 'Missing required*'
         }
     }
     It "Removes a Policy Rule" {

@@ -242,7 +242,7 @@ Describe "AuthorizationServer" {
         [bool]$jwt | Should -BeTrue
     }
     It "Tests Server JWT Access Invalid Parameter" {
-        { Get-OktaAppJwt -Scopes $scopeNames[0] } | Should -Throw 'Missing required*'
+        { Get-OktaAppJwt -Scopes $scopeNames[0] 3>$null } | Should -Throw 'Missing required*'
     }
     It "Tests User JWT Access" {
         $vars.user = New-OktaUser -FirstName Wilma -LastName Flintsone -Email $username -Activate -Pw $userPw
@@ -290,7 +290,7 @@ Describe "AuthorizationServer" {
 
 Describe "Cleanup" {
     It "Removes a Claim By Id" {
-        Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false
+        Remove-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id -Confirm:$false 3>$null
         $claim = Get-OktaClaim -AuthorizationServerId $vars.authServer.Id -ClaimId $vars.claim.id
         $claim | Should -Be $null
     }

@@ -10,12 +10,13 @@ Import-Module OktaPosh
 
 Function Groups:
 
-* [Application](#Application-Functions)
+* [App](#App-Functions)
 * [Authorization](#Authorization-Functions)
 * [Claim](#Claim-Functions)
 * [Group](#Group-Functions)
 * [Link](#Link-Functions)
 * [Misc](#Misc-Functions)
+* [Password](#Password-Functions)
 * [PasswordPolicy](#PasswordPolicy-Functions)
 * [Policy](#Policy-Functions)
 * [Rule](#Rule-Functions)
@@ -24,20 +25,39 @@ Function Groups:
 * [User](#User-Functions)
 * [Zone](#Zone-Functions)
 
-## Application Functions
+## App Functions
  
 Command     | Synopsis
 ------------|---------|
+Add-OktaAppGroup | Adds a group to the application
+Add-OktaAppUser | Add a User to the Application
+Build-OktaSpaApp | Helper to create an spa application
+ConvertTo-OktaAppYaml | Get Application objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
+Disable-OktaApp | Disable the Application
+Enable-OktaApp | Enable the Application
+Get-OktaApp | Get one or more Applications
+Get-OktaAppGroup | Get the list of groups attached to the application, or a specific group
+Get-OktaAppSchema | Get the schema (profile) for the Application
+Get-OktaAppUser | Get one or more users attached to the application
+Remove-OktaApp | Remove an Application. It will disable it first.
+Remove-OktaAppGroup | Remove a Group from an Application
+Remove-OktaAppSchemaProperty | Remove a Property from a Schema.
+Remove-OktaAppUser | Remove a User from the Application
+Set-OktaApp | Update an Application
+Set-OktaAppProperty | Set an application property
+Set-OktaAppSchemaProperty | Set a Property on a Schema
 Add-OktaApplicationGroup | Adds a group to the application
 Add-OktaApplicationUser | Add a User to the Application
 Build-OktaSpaApplication | Helper to create an spa application
 ConvertTo-OktaApplicationYaml | Get Application objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
 Disable-OktaApplication | Disable the Application
 Enable-OktaApplication | Enable the Application
+Get-OktaAppJwt | Get the JWT for client_credential (server-to-server)
 Get-OktaApplication | Get one or more Applications
 Get-OktaApplicationGroup | Get the list of groups attached to the application, or a specific group
 Get-OktaApplicationSchema | Get the schema (profile) for the Application
 Get-OktaApplicationUser | Get one or more users attached to the application
+Get-OktaGroupApp | Get the Applications attached to the Group
 Get-OktaUserApplication | Get the list of Applications for a User
 New-OktaServerApplication | Create a new server-type OAuth Application
 New-OktaSpaApplication | Create a new SPA-type OAuth Application
@@ -107,20 +127,8 @@ Set-OktaLink | Create a link between two users
  
 Command     | Synopsis
 ------------|---------|
-Build-OktaSpaApp | Helper to create an spa application
-ConvertTo-OktaAppYaml | Get Application objects as Yaml for easy comparison between Okta instances. Note that ConvertTo-OktaYaml calls this.
-Disable-OktaApp | Disable the Application
-Enable-OktaApp | Enable the Application
-Get-OktaApp | Get one or more Applications
-Get-OktaAppSchema | Get the schema (profile) for the Application
-Remove-OktaApp | Remove an Application. It will disable it first.
-Remove-OktaAppSchemaProperty | Remove a Property from a Schema.
-Set-OktaApp | Update an Application
-Set-OktaAppProperty | Set an application property
-Set-OktaAppSchemaProperty | Set a Property on a Schema
 ConvertTo-OktaYaml | Get auth, app, trusted origin, and group objects as Yaml for easy comparison between Okta instances
 Get-OktaApiToken | Get the API token set by Set-OktaOption or from environment, or passed in
-Get-OktaAppJwt | Get the JWT for client_credential (server-to-server)
 Get-OktaBaseUri | Get the base Uri set by Set-OktaOption or from environment, or passed in
 Get-OktaIdentityProvider | Gets Identity Providers. Useful for New-OktaAuthProviderUser
 Get-OktaJwt | Get an Okta JWT token for an Application or Okta User
@@ -130,13 +138,29 @@ Get-OktaOpenIdConfig | Get the JSON from the configuration Url for an Authorizat
 Get-OktaQueryForId | Get the QueryForId setting
 Get-OktaRateLimit | Get the current rate limit values from the last request
 Invoke-OktaApi | Helper for calling the OktaApi. Mainly used internally.
+Set-OktaOption | Set OktaOptions for accessing the API
+Show-Okta | Launch the browser with the Get-OktaBaseUri, or auth server, or app
+Test-OktaNext | Checks to see if -Next will return anything for a give Okta object
+
+## Password Functions
+ 
+Command     | Synopsis
+------------|---------|
+Disable-OktaPasswordPolicy | Disables an Okta Policy
+Disable-OktaPasswordPolicyRule | Disable a policy rule
+Enable-OktaPasswordPolicy | Enables an OktaPolicy
+Enable-OktaPasswordPolicyRule | Enable a policy rule
+Get-OktaPasswordPolicyRule | Get the rules for an Okta Policy
+Remove-OktaPasswordPolicyRule | Remove a policy rule from a policy
+Get-OktaPasswordPolicy | Get a password policy
+New-OktaPasswordPolicy | Create a new Okta password policy
+New-OktaPasswordPolicyRule | Create a new password policy rule for a password policy
+Remove-OktaPasswordPolicy | Delete a password policy
 Reset-OktaPassword | Reset the password of a user
 Reset-OktaPasswordWithAnswer | Reset a user's password given the answer to their current recovery question
 Revoke-OktaPassword | Revoke (expire) a users password, forcing them to change it on next login
-Set-OktaOption | Set OktaOptions for accessing the API
 Set-OktaPassword | Set the user's password to a new value, given the current one.
-Show-Okta | Launch the browser with the Get-OktaBaseUri, or auth server, or app
-Test-OktaNext | Checks to see if -Next will return anything for a give Okta object
+Set-OktaPasswordPolicy | Update the password policy
 
 ## PasswordPolicy Functions
  
@@ -227,7 +251,6 @@ Get-OktaAppUser | Get one or more users attached to the application
 Remove-OktaAppUser | Remove a User from the Application
 Add-OktaApplicationUser | Add a User to the Application
 Add-OktaGroupUser | Add a User to a Group
-Convert-OktaUserToFederated | Convert a user to a federated user
 Disable-OktaUser | Disables (deactivates) a user
 Enable-OktaUser | Enable (Activate) a user
 Get-OktaApplicationUser | Get one or more users attached to the application
@@ -262,4 +285,4 @@ Remove-OktaZone | Delete a zone
 Set-OktaZone | Update an existing zone
 
 ---
-Generated by New-HelpOutput.ps1 on 07/29/2021 21:14:53
+Generated by New-HelpOutput.ps1 on 07/30/2021 21:21:28

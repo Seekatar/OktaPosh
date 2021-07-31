@@ -16,7 +16,7 @@ Mainly used internally.
 ```
 Invoke-OktaApi [-RelativeUri] <String> [[-Method] <String>] [[-Body] <Object>] [-Json]
  [[-OktaApiToken] <String>] [[-OktaBaseUri] <String>] [-Next] [-NotFoundOk] [-NoRetryOnLimit] [-NoWarn]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-AdditionalHeaders <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -224,6 +224,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AdditionalHeaders
+Any additional headers to add to the request
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

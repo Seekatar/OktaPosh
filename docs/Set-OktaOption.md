@@ -58,7 +58,8 @@ Accept wildcard characters: False
 ```
 
 ### -UseQueryForId
-Set to false to turn off the QueryForId feature. See Get-OktaUserForId
+Set to false to turn off the QueryForId feature.
+See Get-OktaUserForId
 
 ```yaml
 Type: Boolean
