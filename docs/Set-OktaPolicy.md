@@ -13,7 +13,7 @@ Update an Authorization server's Policy
 ## SYNTAX
 
 ```
-Set-OktaPolicy -AuthorizationServerId <String> [[-Policy] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaPolicy -AuthorizationServerId <String> [-Policy] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,10 +54,10 @@ Type: PSObject
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

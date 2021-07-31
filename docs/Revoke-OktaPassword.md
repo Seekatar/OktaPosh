@@ -5,20 +5,23 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaPasswordPolicy
+# Revoke-OktaPassword
 
 ## SYNOPSIS
-Update the password policy
+Revoke (expire) a users password, forcing them to change it on next login
 
 ## SYNTAX
 
 ```
-Set-OktaPasswordPolicy [-Policy] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+Revoke-OktaPassword [-UserId] <String> [-TempPw] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
+
 ## EXAMPLES
+
+### Example 1
 
 ## PARAMETERS
 
@@ -37,18 +40,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Policy
-Policy object retrieved from Get-OktaPasswordPolicy
+### -TempPw
+Set to return a temporary password to give to the user to use.
 
 ```yaml
-Type: PSObject
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserId
+UserId retrieved from Get-OktaUser
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -73,11 +91,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
 
 ## OUTPUTS
 
-### System.Object
+### Temporary password if -TempPw set
+
 ## NOTES
 
 ## RELATED LINKS

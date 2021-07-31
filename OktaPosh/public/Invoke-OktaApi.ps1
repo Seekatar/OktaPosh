@@ -21,7 +21,8 @@ function Invoke-OktaApi {
         [switch] $Next,
         [switch] $NotFoundOk,
         [switch] $NoRetryOnLimit,
-        [switch] $NoWarn
+        [switch] $NoWarn,
+        [hashTable] $AdditionalHeaders
     )
 
     if ($Body -isnot [String]) {
@@ -31,6 +32,9 @@ function Invoke-OktaApi {
     $headers = @{
         Authorization = "SSWS $(Get-OktaApiToken $OktaApiToken)"
         Accept        = "application/json"
+    }
+    if ($AdditionalHeaders) {
+        $headers += $AdditionalHeaders
     }
     $baseUri = Get-OktaBaseUri $OktaBaseUri
 

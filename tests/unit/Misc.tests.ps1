@@ -1,5 +1,9 @@
 BeforeAll {
     . (Join-Path $PSScriptRoot '../setup.ps1') -Unit
+
+    . (Join-Path $PSScriptRoot ../../OktaPosh/private/parseTime.ps1)
+    . (Join-Path $PSScriptRoot ../../OktaPosh/private/ternary.ps1)
+
     Mock -CommandName Start-Process `
         -ModuleName OktaPosh
         # -MockWith {
@@ -9,6 +13,7 @@ BeforeAll {
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{ groupName = "test-misc"
+                        now = [DateTime]::UtcNow
                       }
 }
 
@@ -56,5 +61,28 @@ Describe "Log tests" {
             -ParameterFilter {
                 $Uri -like '*/logs?limit=7&sortorder=DESCENDING&filter=severity+eq+"WARN"&since=*' -and $Method -eq 'GET'
             }
+    }
+}
+
+Describe "ParseTime test" {
+    It "Tests GetTime 1d" {
+        $t = parseTime "1d" $now
+        $t | Should -Be ($now - [TimeSpan]::FromDays(1)).ToString('s')
+    }
+    It "Tests GetTime 1h" {
+        $t = parseTime "1h" $now
+        $t | Should -Be ($now - [TimeSpan]::FromHours(1)).ToString('s')
+    }
+    It "Tests GetTime 1m" {
+        $t = parseTime "1m" $now
+        $t | Should -Be ($now - [TimeSpan]::FromMinutes(1)).ToString('s')
+    }
+    It "Tests GetTime 2h10m" {
+        $t = parseTime "2h10m" $now
+        $t | Should -Be ($now - [TimeSpan]::FromMinutes(130)).ToString('s')
+    }
+    It "Tests GetTime 1d2h10m" {
+        $t = parseTime "1d2h10m" $now
+        $t | Should -Be ($now - [TimeSpan]::FromMinutes(24*60+130)).ToString('s')
     }
 }

@@ -5,22 +5,41 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaPasswordPolicy
+# Set-OktaUserRecoveryQuestion
 
 ## SYNOPSIS
-Update the password policy
+Set the recovery question and answser
 
 ## SYNTAX
 
 ```
-Set-OktaPasswordPolicy [-Policy] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaUserRecoveryQuestion [-UserId] <String> [-Pw] <String> [-Question] <String> [-Answer] <String>
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
+
 ## EXAMPLES
 
+### Example 1
+
 ## PARAMETERS
+
+### -Answer
+The answer the the question (4 - 100 characters)
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
@@ -37,18 +56,48 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Policy
-Policy object retrieved from Get-OktaPasswordPolicy
+### -Pw
+Current password
 
 ```yaml
-Type: PSObject
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 0
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Question
+Recovery question
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserId
+UserId retrieved from Get-OktaUser
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -73,7 +122,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
 
 ## OUTPUTS
 

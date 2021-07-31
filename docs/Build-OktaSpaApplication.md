@@ -19,7 +19,8 @@ Build-OktaSpaApplication [-Label] <String> [-RedirectUris] <String[]> [-LoginUri
 ```
 
 ## DESCRIPTION
-This will create a spa server if it doesn't exist, and if it does exist will update the uris, grant types, ans response types. It will also add a <appName>-Policy policy to the auth server and add an allow rule.
+This will create a spa server if it doesn't exist, and if it does exist will update the uris, grant types, ans response types.
+It will also add a \<appName\>-Policy policy to the auth server and add an allow rule.
 
 ## EXAMPLES
 

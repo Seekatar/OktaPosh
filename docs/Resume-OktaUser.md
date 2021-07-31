@@ -8,7 +8,7 @@ schema: 2.0.0
 # Resume-OktaUser
 
 ## SYNOPSIS
-Resume (Unsuspend) a user
+Resume (Unsuspend) a suspended user
 
 ## SYNTAX
 

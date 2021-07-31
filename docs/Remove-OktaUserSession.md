@@ -5,20 +5,23 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaPasswordPolicy
+# Remove-OktaUserSession
 
 ## SYNOPSIS
-Update the password policy
+Clear all the user's Okta sessions, forcing the user to re-authenticate
 
 ## SYNTAX
 
 ```
-Set-OktaPasswordPolicy [-Policy] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-OktaUserSession [-UserId] <String> [-RevokeOauthTokens] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
+
 ## EXAMPLES
+
+### Example 1
 
 ## PARAMETERS
 
@@ -37,18 +40,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Policy
-Policy object retrieved from Get-OktaPasswordPolicy
+### -RevokeOauthTokens
+Revoke issued OpenID Connect and OAuth refresh and access tokens
 
 ```yaml
-Type: PSObject
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserId
+UserId retrieved from Get-OktaUser
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -73,7 +91,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
 
 ## OUTPUTS
 

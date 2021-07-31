@@ -18,6 +18,8 @@ Enable-OktaUser [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<CommonPar
 
 ## DESCRIPTION
 
+This is an asynchronous operation, so the user may not be active upon return
+
 ## EXAMPLES
 
 ### Example 1

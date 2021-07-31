@@ -8,10 +8,10 @@ function Get-OktaLog {
         [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
         [Parameter(ParameterSetName="Query")]
-        [ValidatePattern("^\d+(h|m|s)$")]
+        [ValidatePattern("((?<days>\d+)d){0,1}((?<hours>\d+)h){0,1}((?<minutes>\d+)m){0,1}((?<seconds>\d+)s){0,1}")]
         [string] $Since = '10m',
         [Parameter(ParameterSetName="Query")]
-        [ValidatePattern("^\d+(h|m|s)$")]
+        [ValidatePattern("((?<days>\d+)d){0,1}((?<hours>\d+)h){0,1}((?<minutes>\d+)m){0,1}((?<seconds>\d+)s){0,1}")]
         [string] $Until,
         [Parameter(ParameterSetName="Query")]
         [ValidateSet('DESCENDING','ASCENDING')]
@@ -30,20 +30,6 @@ function Get-OktaLog {
         [Parameter(ParameterSetName="Next")]
         [switch] $NoWarn
     )
-
-    function parseTime( $t ) {
-        if ($t -match "^(\d+)(\w)") {
-            switch ($matches[2]) {
-                's' { $ts = [TimeSpan]::FromSeconds($matches[1]) }
-                'm' { $ts = [TimeSpan]::FromMinutes($matches[1]) }
-                'h' { $ts = [TimeSpan]::FromHours($matches[1]) }
-                Default {
-                    throw "Bad Since value '$Since'"
-                }
-            }
-            $((([DateTime]::UtcNow) - $ts).ToString('s'))
-        }
-    }
 
     $extra = ''
     $s = parseTime $Since

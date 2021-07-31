@@ -5,20 +5,23 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaPasswordPolicy
+# Reset-OktaUserMfa
 
 ## SYNOPSIS
-Update the password policy
+Resets any MFA for the user
 
 ## SYNTAX
 
 ```
-Set-OktaPasswordPolicy [-Policy] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+Reset-OktaUserMfa [-UserId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+All MFA factor enrollments returned to the unenrolled state
 
 ## EXAMPLES
+
+### Example 1
 
 ## PARAMETERS
 
@@ -37,18 +40,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Policy
-Policy object retrieved from Get-OktaPasswordPolicy
+### -UserId
+UserId retrieved from Get-OktaUser
 
 ```yaml
-Type: PSObject
+Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: Id
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -73,7 +76,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
 
 ## OUTPUTS
 

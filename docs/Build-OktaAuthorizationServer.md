@@ -18,7 +18,8 @@ Build-OktaAuthorizationServer [-Name] <String> [-Audience] <String> [-Descriptio
 ```
 
 ## DESCRIPTION
-This will create an authorization server if it does not exist and add scopes.If it exists, any missing scope are added. Note that it will not remove scopes that are not in the list.
+This will create an authorization server if it does not exist and add scopes.If it exists, any missing scope are added.
+Note that it will not remove scopes that are not in the list.
 
 ## EXAMPLES
 

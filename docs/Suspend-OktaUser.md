@@ -8,7 +8,7 @@ schema: 2.0.0
 # Suspend-OktaUser
 
 ## SYNOPSIS
-Suspend a user
+Suspend an active user
 
 ## SYNTAX
 
@@ -100,5 +100,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.Object
 ## NOTES
+Suspended users: 
+Can't log in to Okta.
+Their group and app assignments are retained.
+
+* Can only be unsuspended or deactivated.
 
 ## RELATED LINKS

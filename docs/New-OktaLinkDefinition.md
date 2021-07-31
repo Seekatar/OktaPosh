@@ -19,7 +19,8 @@ New-OktaLinkDefinition [-PrimaryTitle] <String> [-PrimaryName <String>] [-Primar
 ```
 
 ## DESCRIPTION
-Links are one-to-many relationships with a primary and associated part. For example manager, employee where a manager will have many employees and an employee will have only one manager.
+Links are one-to-many relationships with a primary and associated part.
+For example manager, employee where a manager will have many employees and an employee will have only one manager.
 
 ## EXAMPLES
 

@@ -13,10 +13,12 @@ Disables (deactivates) a user
 ## SYNTAX
 
 ```
-Disable-OktaUser [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<CommonParameters>]
+Disable-OktaUser [-UserId] <String> [-SendEmail] [-Async] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+
+The user must not be in the DEPROVISIONED state
 
 ## EXAMPLES
 
@@ -86,6 +88,21 @@ Aliases: wi
 
 Required: False
 Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Async
+Process the disable asynchronously
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,6 +118,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### System.Object
+
 ## NOTES
+Deactivating a user is a destructive operation.
+The user is deprovisioned from all assigned applications which may destroy their data such as email or files.
+This action cannot be recovered!
 
 ## RELATED LINKS

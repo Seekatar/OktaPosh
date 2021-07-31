@@ -5,20 +5,29 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-OktaPasswordPolicy
+# Reset-OktaPassword
 
 ## SYNOPSIS
-Update the password policy
+Reset the password of a user
 
 ## SYNTAX
 
 ```
-Set-OktaPasswordPolicy [-Policy] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+Reset-OktaPassword [-UserId] <String> [-SendEmail] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+Generates a one-time token (OTT) that can be used to reset a user's password.
+The link is returned, or emailed if -SendEmail is set
 
 ## EXAMPLES
+
+### Example 1
+```PowerShell
+Get-OktaUser -Login testUser123 | Reset-OktaPassword
+```
+
+Resets testUser123's password and returns the link that you can use or send to the user
 
 ## PARAMETERS
 
@@ -37,18 +46,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Policy
-Policy object retrieved from Get-OktaPasswordPolicy
+### -SendEmail
+If true sends an email with a reset link, otherwise returns the reset password link
 
 ```yaml
-Type: PSObject
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserId
+UserId retrieved from Get-OktaUser
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Id
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -73,11 +97,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
 
 ## OUTPUTS
 
-### System.Object
+### Password link if -SendEmail is not set
+
 ## NOTES
 
 ## RELATED LINKS

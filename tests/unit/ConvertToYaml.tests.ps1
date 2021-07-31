@@ -45,9 +45,9 @@ BeforeAll {
 }
 
 Describe "Yaml tests" {
-    It "Tests Get-OktaLog" {
+    It "Tests ConvertTo-OktaYaml" {
         Push-Location (Join-Path $PSScriptRoot mock-auth-export)
-        ConvertTo-OktaYaml -OutputFolder (Join-Path $PSScriptRoot mock-auth-export) -AuthServerQuery test -ApplicationQuery test -GroupQueries test
+        ConvertTo-OktaYaml -OutputFolder (Join-Path $PSScriptRoot mock-auth-export) -AuthServerQuery test -ApplicationQuery test -GroupQueries test 3> $null
         Test-Path app-Test-SPA.yaml | Should -BeTrue
         Test-Path app-Test2-SPA.yaml | Should -BeTrue
         Test-Path trustedOrigins.yaml | Should -BeTrue

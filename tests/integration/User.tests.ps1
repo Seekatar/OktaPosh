@@ -14,6 +14,10 @@ $PSDefaultParameterValues = @{
                         email7 = 'testuser7@mailinator.com'
                         primaryLink = "boss"
                         associatedLink = "minon"
+                        user3pw = 'Test1234!'
+                        user4pw = 'Test4567!'
+                        user4newPw = 'Test5678!'
+                        user4newPw2= 'Test9876!'
                         vars = @{
                             user = $null
                             user2 = $null
@@ -74,13 +78,15 @@ Describe "User" {
         { New-OktaUser -Login $email1 -FirstName Test -LastName User -Email $email1 -PasswordHash @{} -Pw 'test' } | Should -Throw 'Can''t supply both*'
     }
     It "Adds a user with recovery question" {
-        $vars.user3 = New-OktaUser -FirstName test-user -LastName test-user -Email $email3 -RecoveryQuestion Why? -RecoveryAnswer "Answer is 42"
+        $vars.user3 = New-OktaUser -FirstName test-user -LastName test-user -Email $email3 `
+                            -RecoveryQuestion Why? -RecoveryAnswer "Answer is 42" `
+                            -Pw $user3pw
         $vars.user3 | Should -Not -Be $null
         $vars.user3.Status | Should -Be 'STAGED'
         $vars.user3.credentials.recovery_question.question | Should -Be 'Why?'
     }
     It "Adds a user to login next" {
-        $vars.user4 = New-OktaUser -FirstName test-user -LastName test-user -Email $email4 -NextLogin -Activate -Pw "12SHiwS9876$%#"
+        $vars.user4 = New-OktaUser -FirstName test-user -LastName test-user -Email $email4 -NextLogin -Activate -Pw $user4pw
         $vars.user4 | Should -Not -Be $null
         $vars.user4.Status | Should -Be 'PASSWORD_EXPIRED'
     }
@@ -156,6 +162,7 @@ Describe "User" {
         $result = Enable-OktaUser -Id $vars.user.Id
         $result = Get-OktaUser -Id $vars.user.Id
         $result.Status | Should -Be 'PROVISIONED'
+        $result = Enable-OktaUser -Id $vars.user3.Id
     }
     It "Suspends a user" {
         $result = Suspend-OktaUser -Id $vars.user.Id
@@ -168,10 +175,48 @@ Describe "User" {
         $result.Status | Should -Be 'PROVISIONED'
     }
     It "Deactivates a user" {
-        $result = Disable-OktaUser -Id $vars.user.Id
+        $result = Disable-OktaUser -Id $vars.user.Id -Confirm:$false
         $result = Get-OktaUser -Id $vars.user.Id
         $result.Status | Should -Be 'DEPROVISIONED'
     }
+    It "Clears sessions" {
+        $null = Remove-OktaUserSession -UserId $vars.user.id -Confirm:$false
+    }
+    It "Reset MFA" {
+        $null = Reset-OktaUserMfa -UserId $vars.user.id
+    }
+    It "Sets RecoveryQuestion" {
+        $result = Set-OktaUserRecoveryQuestion -UserId $vars.user4.id -Pw $user4Pw -Question Why -Answer Because
+        $result | Should -Not -BeNullOrEmpty
+        $result.recovery_question.question | Should -Be Why
+    }
+    It "Reset Password with answer" {
+        $result = Reset-OktaPasswordWithAnswer -UserId $vars.user4.id -Answer Because -NewPw $user4newPw
+        $result | Should -Not -BeNullOrEmpty
+        $result.recovery_question.question | Should -Be Why
+    }
+    It "Sets Password" {
+        $result = Set-OktaPassword -UserId $vars.user4.id -OldPw $user4newPw -NewPw $user4newPw2
+        $result | Should -Not -BeNullOrEmpty
+        $result.recovery_question.question | Should -Be Why
+    }
+    It "Reset Password" {
+        $result = Reset-OktaPassword -UserId $vars.user4.id
+        $result | Should -Not -BeNullOrEmpty
+        $result.resetPasswordUrl | Should -Not -BeNullOrEmpty
+    }
+    It "Unlocks a user" {
+        $null = Unlock-OktaUser -UserId $vars.user3.id -CheckCurrentStatus 3> $null
+    }
+    It "Revoke a password" {
+        $result = Revoke-OktaPassword -UserId $vars.user3.id
+        $result | Should -Not -BeNullOrEmpty
+        $result.status | Should -Be PASSWORD_EXPIRED
+    }
+    # It "Convert to Federated" {
+    #     $result = Convert-OktaUserToFederated -UserId $vars.user.id
+    #     $result | Should -Not -BeNullOrEmpty
+    # }
 }
 
 Describe "LinkTests" {
