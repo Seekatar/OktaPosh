@@ -1,0 +1,264 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "http://oktaposhconifguration",
+    "title": "OktaPoshConfiguration Schema",
+    "type": "object",
+    "required": [
+        "authorizationServer"
+    ],
+    "properties": {
+        "authorizationServer": {
+            "description": "The authorization server to add or update",
+            "$ref": "#/$defs/authorizationServer"
+        },
+        "groups": {
+            "description": "The list of groups to add",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/group"
+            }
+        },
+        "serverApplications": {
+            "description": "test",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/serverApplication"
+            },
+            "uniqueItems": true
+        },
+        "spaApplications": {
+            "description": "test",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/spaApplication"
+            }
+        }
+    },
+    "$defs": {
+        "authorizationServer": {
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name of the AuthorizationServer",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Optional description",
+                    "type": "string",
+                    "default": "added by OktaPosh"
+                },
+                "audiences": {
+                    "description": "Audience value for the AuthorizationServer",
+                    "type": "string"
+                },
+                "scopes": {
+                    "description": "Array of scopes to add to the AuthorizationServer",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/scope"
+                    }
+                },
+                "claims": {
+                    "description": "Array of claims to add to the AuthorizationServer",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/claim"
+                    }
+                }
+            }
+        },
+        "claim": {
+            "type": "object",
+            "required": [
+                "name",
+                "valueType",
+                "value"
+            ],
+            "properties": {
+                "name": {
+                    "description": "test",
+                    "type": "string"
+                },
+                "valueType": {
+                    "description": "test",
+                    "enum": [
+                        "EXPRESSION",
+                        "GROUPS"
+                    ]
+                },
+                "claimType": {
+                    "description": "test",
+                    "enum": [
+                        "RESOURCE",
+                        "IDENTITY",
+                        "ACCESS_TOKEN",
+                        "ID_TOKEN"
+                    ]
+                },
+                "value": {
+                    "description": "test",
+                    "type": "string"
+                },
+                "groupFilterType": {
+                    "description": "test",
+                    "enum": [
+                        "STARTS_WITH",
+                        "EQUALS",
+                        "CONTAINS",
+                        "REGEX",
+                        ""
+                    ]
+                },
+                "scopes": {
+                    "description": "test",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "alwaysIncludeInToken": {
+                    "description": "test",
+                    "type": "boolean"
+                },
+                "inactive": {
+                    "description": "test",
+                    "type": "boolean"
+                }
+            }
+        },
+        "group": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of the Okta Group",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Optional description",
+                    "type": "string"
+                },
+                "createScope": {
+                    "description": "create a scope with the group name",
+                    "type": "boolean"
+                }
+            }
+        },
+        "serverApplication": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "test",
+                    "type": "string"
+                },
+                "signOnMode": {
+                    "description": "test",
+                    "type": "string"
+                },
+                "scopes": {
+                    "description": "test",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "inactive": {
+                    "description": "test",
+                    "type": "boolean"
+                },
+                "properties": {
+                    "description": "Additional properties for the app",
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "spaApplication": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "test",
+                    "type": "string"
+                },
+                "redirectUris": {
+                    "description": "test",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "loginUri": {
+                    "description": "test",
+                    "type": "string"
+                },
+                "postLogoutUris": {
+                    "description": "test",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "origins": {
+                    "description": "test",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "grantTypes": {
+                    "description": "test",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "scopes": {
+                    "description": "test",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "inactive": {
+                    "description": "test",
+                    "type": "boolean"
+                }
+            }
+        },
+        "scope": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of Okta Scope",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Optional description",
+                    "type": "string"
+                },
+                "metadataPublish": {
+                    "description": "Set to publish in public metadata",
+                    "type": "boolean"
+                },
+                "isDefault": {
+                    "description": "Set to include in the default scope",
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

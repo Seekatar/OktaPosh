@@ -1,0 +1,110 @@
+{
+    "$schema": "./configuration-schema.json",
+    "authorizationServer": {
+        "name": "Casualty-Reliance-AS",
+        "scopes": [
+            {
+                "name": "access:token",
+                "description": "Added by OktaPosh",
+                "metadataPublish": "ALL_CLIENTS"
+            },
+            {
+                "name": "get:item",
+                "description": "Added by OktaPosh",
+                "metadataPublish": "ALL_CLIENTS"
+            },
+            {
+                "name": "save:item",
+                "description": "Added by OktaPosh",
+                "metadataPublish": "ALL_CLIENTS"
+            },
+            {
+                "name": "remove:item",
+                "description": "Added by OktaPosh",
+                "metadataPublish": "ALL_CLIENTS"
+            },
+            {
+                "name": "get:provider",
+                "description": "Added by OktaPosh",
+                "metadataPublish": "ALL_CLIENTS"
+            }
+        ]
+    },
+    "groups": [
+        {
+            "name": "Group1",
+            "createScope": false
+        }
+    ],
+    "serverApplications": [
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider"
+            ],
+            "name": "CCC-CASReliance-DRE"
+        },
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider"
+            ],
+            "name": "CCC-CASReliance-Interface"
+        },
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "get:provider"
+            ],
+            "name": "CCC-CASReliance-ThirdParty"
+        },
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider"
+            ],
+            "name": "CCC-CASReliance-ThirdPartyAdmin"
+        },
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "get:provider"
+            ],
+            "name": "CCC-CASReliance-Analytics"
+        },
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider"
+            ],
+            "name": "CCC-CASReliance-Mobile"
+        },
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item"
+            ],
+            "name": "CCC-CASDataCapture-API"
+        },
+        {
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider"
+            ],
+            "name": "CICD-CASReliance-LoadTest-DEV"
+        }
+    ]
+}

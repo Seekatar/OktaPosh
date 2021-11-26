@@ -1,0 +1,44 @@
+oktaNew:
+  authorizationServers:
+  - name: $name
+    description: $optional
+    audiences: [] #
+    scopes:
+    - name: $name
+      description: $optional
+      metadataPublish: # ALL_CLIENTS" | "NO_CLIENTS"
+      default: false
+    claims:
+    - name: $Name
+      status: $status # INACTIVE | ACTIVE
+      valueType: $ValueType
+      claimType: $ClaimType
+      value: $Value
+      scopes:
+      - scopeName1
+      - scopeName2
+      groupFilterType: # if ValueType is GROUPS
+      alwaysIncludeInToken: # if ClaimType is IDENTITY
+
+  groups:
+  - name: $name
+    description: $optional
+    addScope: true
+
+  serverApplications:
+  - label: $name
+    status: $status # INACTIVE | ACTIVE
+  - scopes:
+    - scope1
+    - scope2
+
+  spaApplications:
+  - label: $name
+    redirect_uris: $RedirectUris # []
+    loginUri: $LoginUri
+    post_logout_redirect_uris: $PostLogoutUris
+    origins: $Origin
+    grant_types: [] # passed in
+  - scopes:
+    - scope1
+    - scope2
