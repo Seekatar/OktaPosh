@@ -76,12 +76,6 @@
             }
         ]
     },
-    "groups": [
-        {
-            "name": "Group1",
-            "createScope": false
-        }
-    ],
     "serverApplications": [
         {
             "name": "CCC-CASReliance-DRE",

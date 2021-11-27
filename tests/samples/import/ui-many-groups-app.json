@@ -1,0 +1,88 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": [
+        {
+            "name": "ui-path",
+            "value": "fp-ui"
+        },
+        {
+            "name": "additionalRedirect",
+            "value": ""
+        },
+        {
+            "name": "additionalLogout",
+            "value": ""
+        },
+        {
+            "name": "additionalOrigins",
+            "value": ""
+        }
+    ],
+    "authorizationServer": {
+        "name": "Casualty-RBR-AS",
+        "description": "Reliance UI for casualty",
+        "audience": "https://reliance/{{ ui-path }}",
+        "scopes": [],
+        "claims": [
+            {
+                "name": "email",
+                "valueType": "EXPRESSION",
+                "claimType": "ACCESS_TOKEN",
+                "value": "user.email"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ACCESS_TOKEN"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ID_TOKEN"
+            },
+            {
+                "name": "login",
+                "valueType": "EXPRESSION",
+                "value": "user.email",
+                "claimType": "ACCESS_TOKEN"
+            }
+        ]
+    },
+    "groups": [
+        "{{ groupObjects }}"
+    ],
+    "spaApplications": [
+        {
+            "name": "CCC-CASRBR-SPA",
+            "policyName": "CCC-CASRBR-SPA-Policy",
+            "loginUri": "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}",
+            "redirectUris": [
+                "https://rbr{{ domainSuffix }}.casualty.mycccportal.com/{{ ui-path }}/implicit/callback",
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}/implicit/callback"
+                ,"{{ additionalRedirect }}"
+            ],
+            "postLogoutUris": [
+                "https://rbr{{ domainSuffix }}.casualty.mycccportal.com/{{ ui-path }}",
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}"
+                ,"{{ additionalLogout }}"
+            ],
+            "origins": [
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com"
+                ,"{{ additionalOrigins }}"
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code",
+                "refresh_token"
+            ],
+            "scopes": [
+                "*"
+            ],
+            "groups": [
+                "{{ groupNames }}"
+            ]
+        }
+    ]
+}

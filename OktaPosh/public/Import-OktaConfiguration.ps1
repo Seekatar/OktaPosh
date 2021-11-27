@@ -1,23 +1,40 @@
 <#
 .EXAMPLE
-Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\datacapture-ui.json -DumpConfig -Variables @{ cluster = "nonprod"; domainSuffix = "dev" }
-
-Dump out the config to check on variable replacements
-
-.EXAMPLE
-Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\datacapture-ui.json -DumpConfig -Variables @{ cluster = "nonprod"; domainSuffix = "dev" }
+Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\ui-app.json -DumpConfig -Variables @{ cluster = "nonprod"; domainSuffix = "dev" }
 
 Dump out the config to check on variable replacements
 
 .EXAMPLE
 $variables = @{
     cluster = "nonprod"
-    domainSuffix = "dev"
-    additionalRedirect = ",http://localhost:8008/imageintake-ui/implicit/callback"
+    domainSuffix = "-dev"
+    additionalRedirect = "http://localhost:8008/fp-ui/implicit/callback"
+    groupNames = "groupNames.json"
+    groupObjects = "groups.json"
 }
-Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\ui-and-app.json -DumpConfig -Variables $variables
+Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\tests\samples\import\ui-many-groups-app.json -Variables $variables
+
+Import using two files to substitute in
+
+.EXAMPLE
+$variables = @{
+    cluster = "nonprod"
+    domainSuffix = "-dev"
+    additionalRedirect = "http://localhost:8009/dc-ui/implicit/callback"
+}
+Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\ui-app.json -DumpConfig -Variables $variables
 
 Dump out the config to check on variable replacements
+
+.EXAMPLE
+$variables = @{
+    cluster = "nonprod"
+    domainSuffix = "-dev"
+    additionalRedirect = "http://localhost:8008/imageintake-ui/implicit/callback"
+}
+Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\ui-and-app.json -Variables $variables
+
+Import ui and server app for an application
 #>
 function Import-OktaConfiguration
 {
@@ -65,9 +82,9 @@ function addScopes( $config, $authServerId ) {
         $scopes = $scopesConfig | Where-Object { $_.name -notin $existingScopes }
         if ($scopes) {
             $null = $scopes | New-OktaScope -AuthorizationServerId $authServerId
-            Write-Information "Scopes added: $($scopes -join ',')"
+            Write-Information "    Scopes added: $($scopes.name -join ',')"
         } else {
-            Write-Information "All scopes found"
+            Write-Information "    All scopes found"
         }
     }
 }
@@ -81,7 +98,7 @@ function addClaims( $config, $authServerId ) {
             $claimType = normalizeClaimType (getProp $claimConfig "claimType" "RESOURCE")
             $claim = $existingClaims | Where-Object { ($_.name -eq $claimConfig.name) -and ($_.claimType -eq $claimType) }
             if ($claim) {
-                Write-Information "Found '$($claimConfig.Name)' Claim"
+                Write-Information "    Found '$($claimConfig.Name)' Claim"
             } else {
                 $claim = New-OktaClaim -AuthorizationServerId $authServerId `
                                         -Name $claimConfig.name `
@@ -89,7 +106,7 @@ function addClaims( $config, $authServerId ) {
                                         -ClaimType $claimType `
                                         -Value $claimConfig.value `
                                         -Scopes @(getProp $claimConfig "scopes" @())
-                Write-Information "Added '$($claimConfig.Name)' Claim"
+                Write-Information "    Added '$($claimConfig.Name)' Claim"
             }
         }
     }
@@ -112,7 +129,7 @@ function addGroups ($config, $authServerId) {
 
         foreach ($group in $groupToAdd) {
             $script:existingGroups += New-OktaGroup -Name $group.Name
-            Write-Information "Added group '$group'"
+            Write-Information "Added group '$($group.Name)'"
         }
         foreach ($group in $groupConfigs) {
             if ((getProp $group "scope" "")) {
@@ -121,7 +138,7 @@ function addGroups ($config, $authServerId) {
                 } else {
                     $null = New-OktaScope -AuthorizationServerId $authServerId `
                                         -Name $group.scope
-                    Write-Information "    Added scope '$group.scope'"
+                    Write-Information "    Added scope '$($group.scope)'"
                 }
                 if (Get-OktaClaim -AuthorizationServerId $authServerId -Query $group.scope) {
                     Write-Information "    Found claim $($group.scope)"
@@ -220,6 +237,18 @@ function addAppGroups($appConfig, $appId) {
     }
 }
 
+function addTrustedOrigins($config) {
+    $origins = @(getProp $config "origins" @())
+    foreach ($origin in $origins) {
+        if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
+            Write-Information "Found origin '$origin'"
+        } else {
+            $null = New-OktaTrustedOrigin -Name $origin -Origin $origin -CORS -Redirect
+            Write-Information "Added origin '$origin'"
+        }
+    }
+}
+
 function addSpaApplications($config, $authServerId) {
 
     $appConfigs = @(getProp $config "spaApplications" @())
@@ -248,6 +277,7 @@ function addSpaApplications($config, $authServerId) {
                         -Label $appName `
                         -RedirectUris $appConfig.redirectUris `
                         -LoginUri $appConfig.loginUri `
+                        -GrantTypes (getProp $appConfig "grantTypes" $null) `
                         -PostLogoutUris @(getProp $appConfig "postLogoutUris" @())
             $appId = "WhatIf"
             if ($app) {
@@ -258,6 +288,7 @@ function addSpaApplications($config, $authServerId) {
 
         addPolicyAndRule $appConfig $authServerId $appId
         addAppGroups $appConfig $appId
+        addTrustedOrigins $appConfig
     }
 }
 
@@ -271,7 +302,12 @@ function replaceVariables {
 
     if ($Variables) {
         foreach ($override in $Variables.Keys) {
-            $vars += @{ name = $override; value = $Variables[$override] }
+            $existing = $vars | Where-Object name -eq $override | Select-Object -First 1
+            if ($existing) {
+                $existing.value = $Variables[$override]
+            } else {
+                $vars += @{ name = $override; value = $Variables[$override] }
+            }
             Write-Verbose "Command line variable: $override = $($Variables[$override])"
         }
     }
@@ -281,8 +317,15 @@ function replaceVariables {
                 Write-Debug "Replacing $($v.name) as empty array item"
                 $content = $content -replace ",`"{{\s*$($v.name)\s*}}`"", ""
             }
-            Write-Debug "Replacing $($v.name) with $($v.value)"
-            $content = $content -replace "{{\s*$($v.name)\s*}}", $v.value
+            $replacement = $v.value
+            if (Test-Path (Join-Path (Split-Path $JsonConfig -Parent) $v.value) -PathType Leaf) {
+                Write-Debug "Replacing $($v.name) with file content from $($v.value)"
+                $replacement = Get-Content (Join-Path (Split-Path $JsonConfig -Parent) $v.value) -Raw
+                $content = $content -replace "`"{{\s*$($v.name)\s*}}`"", $replacement
+            } else {
+                Write-Debug "Replacing $($v.name) with $($v.value)"
+                $content = $content -replace "{{\s*$($v.name)\s*}}", $replacement
+            }
         }
         if ($DumpConfig) {
             return $content

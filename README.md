@@ -7,7 +7,9 @@
 
 This PowerShell module wraps the Okta REST API making it easy to manipulate objects in Okta individually. Use this in a CI/CD pipeline to configure multiple Okta environments consistently. Most of the functionality is also available on the Okta admin site, but not all.
 
-To get the complete list of the module's functions run `Get-Command -Module OktaPosh` (after installing and loading, of course). A summary of all the functions is [here](summary.md)
+OktaPosh has CRUD operations on the most-used Okta objects, like authorization servers, applications, users, etc. A summary of all the functions is [here](summary.md).
+
+To get the complete list of the module's functions run `Get-Command -Module OktaPosh` (after installing and loading, of course).
 
 ## Installing
 
@@ -19,7 +21,7 @@ Install-Module -Name OktaPosh
 
 ## Quick Examples
 
-The module was design to make getting objects and running then through the pipeline as easy as possible.
+The module was design to make getting objects and running them through the pipeline as easy as possible.
 
 ```PowerShell
 # Delete all test apps (use standard -Confirm:$false to avoid any prompting)
@@ -34,6 +36,47 @@ Get-OktaApplicationUser -AppId $app.Id | Add-OktaGroupUser -GroupId $group.Id
 ```
 
 The `tests/integration` folder also has many more examples.
+
+## Importing Okta Configuration
+
+`Import-OktaConfiguration` takes a JSON file that describes an authorization server and all it's related objects, and multiple apps, and will create or update them in Okta. It will check to see if the item exist and add it if not there. Some objects (apps), will be updated if they exist.
+
+To make editing the JSON easier, there are several typical examples in the `tests/samples/import` folder. Also there is a schema file that VS Code will detect and give you intellisense for adding elements (Ctrl+Space), and help on hover for each item.
+
+### Variables
+
+Since the values in each deployment environment may differ from one to another, you can use a simple variable substitution within the JSON. Variables use a moustache-like syntax as shown below:
+
+```json
+    "audience": "https://myapp/{{ ui-path }}",
+```
+
+`{{ ui-path }}` will be replaced with a value in `variables` or from the `-Variables` hash table parameter.
+
+If you have a large list that differs, you can create separate JSON, or use a filename as the variable's value, and the entire file's content will be dropped in.
+
+```json
+    "groups": [
+        "{{ groupObjects }}"
+    ],
+
+```
+
+In this case the value of `groupObjects` is `groups.json` and that file exists alongside the json file and has the values for all the groups.
+
+```json
+  {
+    "name": "GroupName1",
+    "scope": "group-scope1"
+  },
+  {
+    "name": "GroupName2",
+    "scope": "group-scope2"
+  },
+  ...
+```
+
+To make sure your variables are correct you can use the `-DumpConfig` switch which will do the variable substitution, and write the content to the output stream.
 
 ## Comparing Okta Configuration
 

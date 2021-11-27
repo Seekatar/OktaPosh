@@ -24,7 +24,7 @@ This can be used for comparing configuration between AuthorizationServers or Okt
 ### Example 1
 ```
 mkdir "\temp\authserver_$($authserver.id)"
-Export-OktaAuthorizationServer  $authServer.id
+Export-OktaAuthorizationServer $authServer.id -OutputFolder "\temp\authserver_$($authserver.id)"
 ```
 
 Export an Authorization server to a folder.

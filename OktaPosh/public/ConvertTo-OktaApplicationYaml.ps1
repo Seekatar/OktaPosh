@@ -50,16 +50,17 @@ settings:
         while (Test-OktaNext -ObjectName groups) { $appGroups += Get-OktaApplicationGroup -AppId $app.id -Next }
 
         Write-Verbose "Writing output for $($appGroups.Count) groups"
+        $groupNames = @()
         $appGroups | ForEach-Object {
                 $appGroupId = $_.id
                 $group = ($groups | Where-Object { $_.id -eq $appGroupId } )
                 if ($group) {
-                    $group.profile.name | Sort-Object | ForEach-Object {
-                        $output += "  - $_$nl"
+                    $group.profile.name | ForEach-Object {
+                        $groupNames += "  - $_$nl"
                     }
                 }
             }
-
+        $output += $groupNames | Sort-Object
         $output | Out-File (Join-Path $OutputFolder "app-$($app.label).yaml") -Encoding ascii
         Write-Host (Join-Path $OutputFolder "app-$($app.label).yaml")
     }

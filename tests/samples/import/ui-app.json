@@ -4,6 +4,18 @@
         {
             "name": "ui-path",
             "value": "dc-ui"
+        },
+        {
+            "name": "additionalRedirect",
+            "value": ""
+        },
+        {
+            "name": "additionalLogout",
+            "value": ""
+        },
+        {
+            "name": "additionalOrigins",
+            "value": ""
         }
     ],
     "authorizationServer": {
@@ -62,24 +74,36 @@
     ],
     "spaApplications": [
         {
+            "name": "CCC-CASDataCapture-SPA",
+            "policyName": "CCC-CASDataCapture-SPA-Policy",
             "loginUri": "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}",
             "redirectUris": [
+                "https://rbr{{ domainSuffix }}.casualty.mycccportal.com/{{ ui-path }}/implicit/callback",
                 "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}/implicit/callback"
+                ,"{{ additionalRedirect }}"
             ],
             "postLogoutUris": [
+                "https://rbr{{ domainSuffix }}.casualty.mycccportal.com/{{ ui-path }}",
                 "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}"
+                ,"{{ additionalLogout }}"
             ],
             "origins": [
                 "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com"
+                ,"{{ additionalOrigins }}"
             ],
             "grantTypes": [
                 "implicit",
                 "authorization_code"
             ],
-            "name": "CCC-CASReliance-DataCapture",
-            "policyName": "CCC-CASReliance-DataCapture-Policy",
             "scopes": [
                 "*"
+            ],
+            "groups": [
+                "CCC-DataCapture-Client-USAA-Group",
+                "CCC-DataCapture-Client-SAFECO-Group",
+                "CCC-DataCapture-Client-NW-Group",
+                "CCC-DataCapture-Client-geico-Group",
+                "CCC-DataCapture-Client-DEN1-Group"
             ]
         }
     ]
