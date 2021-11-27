@@ -8,7 +8,8 @@
     ],
     "authorizationServer": {
         "name": "Casualty-DataCapture-AS",
-        "audience": "api://cccis/reliance/{{ ui-path }}",
+        "description": "DataCapture UI for casualty",
+        "audience": "https://reliance/{{ ui-path }}",
         "scopes": [],
         "claims": [
             {
@@ -40,23 +41,23 @@
     "groups": [
         {
             "name": "CCC-DataCapture-Client-den1-Group",
-            "createScope": true
+            "scope": "casualty.datacapture.client.den1"
         },
         {
             "name": "CCC-DataCapture-Client-nw-Group",
-            "createScope": true
+            "scope": "casualty.datacapture.client.nw"
         },
         {
             "name": "CCC-DataCapture-Client-safeco-Group",
-            "createScope": true
+            "scope": "casualty.datacapture.client.safeco"
         },
         {
             "name": "CCC-DataCapture-Client-geico-Group",
-            "createScope": true
+            "scope": "casualty.DataCapture.client.geico"
         },
         {
             "name": "CCC-DataCapture-Client-usaa-Group",
-            "createScope": true
+            "scope": "casualty.datacapture.client.usaa"
         }
     ],
     "spaApplications": [

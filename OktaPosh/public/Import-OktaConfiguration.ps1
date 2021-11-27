@@ -40,20 +40,22 @@ function addAuthServer {
             throw "Failed to create '$($authConfig.name)'"
         }
     }
-    return $authServer
+    if ($authServer -and $authServer.id) {
+        return $authServer.Id
+    } else {
+        return "WhatIf"
+    }
 }
 
-function addScopes( $config, $authServer) {
+function addScopes( $config, $authServerId ) {
     $scopesConfig = @(getProp $config "scopes" @())
     if ($scopesConfig) {
         $existingScopes = Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty name
         $scopes = $scopesConfig | Where-Object { $_.name -notin $existingScopes }
         if ($scopes) {
-            foreach ($scope in $scopes) {
-                $null = $scopes | New-OktaScope -AuthorizationServerId $authServerId `
-                                                -Description (getProp $scope "description" "Added By OktaPosh") `
-                                                -MetadataPublish:(getProp $scope "metadataPublish" $false)
-            }
+            $null = $scopes | New-OktaScope -AuthorizationServerId $authServerId `
+                                            -Description (getProp $scope "description" "Added By OktaPosh") `
+                                            -MetadataPublish:(getProp $scope "metadataPublish" $false)
             Write-Information "Scopes added: $($scopes -join ',')"
         } else {
             Write-Information "All scopes found"
@@ -61,7 +63,7 @@ function addScopes( $config, $authServer) {
     }
 }
 
-function addClaims( $config, $authServerId) {
+function addClaims( $config, $authServerId ) {
     $claimsConfig = @(getProp $config "claims" @())
     foreach ($claimConfig in $claimsConfig) {
         $claim = Get-OktaClaim -AuthorizationServerId $authServerId -Query $claimConfig.name
@@ -79,13 +81,53 @@ function addClaims( $config, $authServerId) {
     }
 }
 
-function addGroups ($config) {
-    foreach ($groupConfig in @(getProp $config "groups" @())) {
-        Write-Information "Found group '$($groupConfig.name)'"
+function addGroups ($config, $authServerId) {
+    $groupConfigs = @(getProp $config "groups" @())
+    $groupPrefix = ""
+    if ($groupConfigs) {
+        $existingGroups = @(Get-OktaGroup -q $groupPrefix)
+        while (Test-OktaNext -ObjectName groups) { $existingGroups += Get-OktaGroup -Next; }
+        if ($existingGroups) {
+            $existingGroupNames = $existingGroups.profile.name
+        } else {
+            $existingGroupNames = @()
+        }
+
+        $groupToAdd = @($groupConfigs | Where-Object { $_.name -notin $existingGroupNames})
+        Write-Information "Found $($existingGroupNames.count) groups for $groupPrefix* and want $($groupConfigs.Count) may add $($groupToAdd.Count)"
+
+        foreach ($group in $groupToAdd) {
+            $null = New-OktaGroup -Name $group.Name
+            Write-Information "Added group '$group'"
+        }
+        foreach ($group in $groupConfigs) {
+            if ((getProp $group "scope" "")) {
+                if (Get-OktaScope -AuthorizationServerId $authServerId -Query $group.scope) {
+                    Write-Information "    Found scope $($group.scope)"
+                } else {
+                    $null = New-OktaScope -AuthorizationServerId $authServerId `
+                                        -Name $group.scope
+                    Write-Information "    Added scope '$group.scope'"
+                }
+                if (Get-OktaClaim -AuthorizationServerId $authServerId -Query $group.name) {
+                    Write-Information "    Found claim $($group.name)"
+                } else {
+                    $null = New-OktaClaim -AuthorizationServerId $authServerId `
+                                          -Name $group.scope `
+                                          -ValueType "GROUPS" `
+                                          -ClaimType "RESOURCE" `
+                                          -GroupFilterType "EQUALS" `
+                                          -Value $group.name `
+                                          -Scopes @($group.scope)
+
+                    Write-Information "    Added claim '$group.name'"
+                }
+            }
+        }
     }
 }
 
-function addServerApplications($config, $authServer) {
+function addServerApplications($config, $authServerId) {
     $appConfigs = @(getProp $config "serverApplications" @())
     foreach ($appConfig in $appConfigs) {
         $appName = $appConfig.name
@@ -136,7 +178,7 @@ function addServerApplications($config, $authServer) {
     }
 }
 
-function addPolicyAndRule($config, $authServer, $app) {
+function addPolicyAndRule($config, $authServerId, $appId) {
     # create policies to restrict scopes per app
     $policyName = getProp $appConfig "policyName" ""
     if ($policyName) {
@@ -144,12 +186,9 @@ function addPolicyAndRule($config, $authServer, $app) {
         if ($policy) {
             Write-Information "    Found '$($policyName)' Policy"
         } else {
-            Write-Debug $authServerId
-            Write-Debug $app.id
-
             $policy = New-OktaPolicy -AuthorizationServerId $authServerId `
                                      -Name $policyName `
-                                     -ClientIds $app.Id
+                                     -ClientIds $appId
             Write-Information "    Added '$($policyName)' Policy"
         }
         if (!$WhatIfPreference) {
@@ -182,9 +221,7 @@ function addPolicyAndRule($config, $authServer, $app) {
     }
 }
 
-function addSpaApplications {
-    [CmdletBinding(SupportsShouldProcess)]
-    param($config, $authServer)
+function addSpaApplications($config, $authServerId) {
 
     $appConfigs = @(getProp $config "spaApplications" @())
     foreach ($appConfig in $appConfigs) {
@@ -194,7 +231,7 @@ function addSpaApplications {
         if ($app) {
             Write-Information "Found and updating app '$appName' $($app.id)"
             $app.settings.oauthClient.redirect_uris = $appConfig.redirectUris
-            setProp $app.settings.oauthClient "post_logout_redirect_uris" (getProp $appConfig "postLogoutUris" @())
+            setProp $app.settings.oauthClient "post_logout_redirect_uris" @(getProp $appConfig "postLogoutUris" @())
             setProp $app.settings.oauthClient "grant_types" (getProp $appConfig "grantTypes" $null)
             setProp $app.settings.oauthClient "initiate_login_uri" $appConfig.loginUri
             $app.settings.oauthClient.response_types = @()
@@ -205,17 +242,22 @@ function addSpaApplications {
                 $app.settings.oauthClient.response_types += 'code'
             }
 
-            $app = Set-OktaApplication -Application $app -Verbose
+            $app = Set-OktaApplication -Application $app
+            $appId = $app.id
         } else {
             $app = New-OktaSpaApplication `
                         -Label $appName `
                         -RedirectUris $appConfig.redirectUris `
                         -LoginUri $appConfig.loginUri `
                         -PostLogoutUris @(getProp $appConfig "postLogoutUris" @())
-            Write-Information "Added app '$appName' $($app.id)"
+            $appId = "WhatIf"
+            if ($app) {
+                $appId = $app.id
+            }
+            Write-Information "Added app '$appName' $appId"
         }
 
-        addPolicyAndRule $appConfig $authServer $app
+        addPolicyAndRule $appConfig $authServerId $appId
     }
 }
 
@@ -227,7 +269,7 @@ function replaceVariables($JsonConfig) {
     if ($Variables) {
         foreach ($override in $Variables.Keys) {
             $vars += @{ name = $override; value = $Variables[$override] }
-            Write-Debug "Test $override"
+            Write-Verbose "Command line variable: $override = $($Variables[$override])"
         }
     }
     if ($vars) {
@@ -252,17 +294,17 @@ if ($DumpConfig) {
 }
 
 try {
-    $authServer = addAuthServer $config
+    $authServerId = addAuthServer $config
 
-    addScopes $config.authorizationServer $authServer
+    addScopes $config.authorizationServer $authServerId
 
-    addClaims $config.authorizationServer $authServer
+    addClaims $config.authorizationServer $authServerId
 
-    addGroups $config
+    addGroups $config $authServerId
 
-    addServerApplications $config $authServer
+    addServerApplications $config $authServerId
 
-    addSpaApplications $config $authServer
+    addSpaApplications $config $authServerId
 
 } catch {
     Write-Error "Error! $_`n$($_.ScriptStackTrace)"

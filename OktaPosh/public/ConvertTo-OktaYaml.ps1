@@ -9,8 +9,10 @@ function ConvertTo-OktaYaml {
         [string[]] $GroupQueries,
         [switch] $WipeFolder
     )
+
 try {
     Set-StrictMode -Version Latest
+    $ErrorActionPreference = "Stop"
 
     if (Test-Path $OutputFolder) {
         if ($WipeFolder ) {

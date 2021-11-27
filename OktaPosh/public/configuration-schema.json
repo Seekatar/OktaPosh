@@ -149,9 +149,9 @@
                     "description": "Optional description",
                     "type": "string"
                 },
-                "createScope": {
-                    "description": "create a scope with the group name",
-                    "type": "boolean"
+                "scope": {
+                    "description": "Set to also add a claim and scope",
+                    "type": "string"
                 }
             }
         },
@@ -206,7 +206,7 @@
                     "items": {
                         "type": "string"
                     },
-                    "minItems" : 1
+                    "minItems": 1
                 },
                 "loginUri": {
                     "description": "test",
@@ -230,7 +230,13 @@
                     "description": "test",
                     "type": "array",
                     "items": {
-                        "enum" : ["implicit","code","refresh","authorization_code","refresh_token"]
+                        "enum": [
+                            "implicit",
+                            "code",
+                            "refresh",
+                            "authorization_code",
+                            "refresh_token"
+                        ]
                     },
                     "minItems": 1
                 },

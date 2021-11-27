@@ -7,6 +7,7 @@ function ConvertTo-OktaAuthorizationYaml
         [string] $OutputFolder
     )
     Set-StrictMode -Version Latest
+    $ErrorActionPreference = "Stop"
 
   try {
       Push-Location $OutputFolder
@@ -38,7 +39,7 @@ authServer:
           "        - ALL_CLIENTS"
         } else {
           foreach ($clientId in @($p.conditions.clients.include)) {
-            "        - $((Get-OktaApplication -Id $clientId).label)"
+            "        - $(getProp (Get-OktaApplication -Id $clientId) "label" "??")"
           }
         }
         "      rules:"
