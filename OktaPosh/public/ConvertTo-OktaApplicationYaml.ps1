@@ -46,15 +46,15 @@ settings:
         $output += "${nl}groups:$nl"
 
         Write-Verbose "Getting appGroups"
-        $appGroups = Get-OktaApplicationGroup -AppId $app.id -Limit 100
+        $appGroups = @(Get-OktaApplicationGroup -AppId $app.id -Limit 100)
         while (Test-OktaNext -ObjectName groups) { $appGroups += Get-OktaApplicationGroup -AppId $app.id -Next }
 
-        Write-Verbose "Writing output"
+        Write-Verbose "Writing output for $($appGroups.Count) groups"
         $appGroups | ForEach-Object {
                 $appGroupId = $_.id
-                $groups = ($groups | Where-Object { $_.id -eq $appGroupId } )
-                if ($groups) {
-                    $groups.profile.name | Sort-Object | ForEach-Object {
+                $group = ($groups | Where-Object { $_.id -eq $appGroupId } )
+                if ($group) {
+                    $group.profile.name | Sort-Object | ForEach-Object {
                         $output += "  - $_$nl"
                     }
                 }

@@ -1,0 +1,108 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": [
+        {
+            "name": "accessTokenScope",
+            "value": "access:token"
+        },
+        {
+            "name": "ui-path",
+            "value": "imageintake-ui"
+        }
+    ],
+    "authorizationServer": {
+        "name": "Casualty-ImageIntake-AS",
+        "audience": "https://reliance/{{ ui-path }}",
+        "scopes": [
+            {
+                "name": "{{ accessTokenScope }}",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            }
+        ],
+        "claims": [
+            {
+                "name": "appName",
+                "valueType": "EXPRESSION",
+                "claimType": "RESOURCE",
+                "value": "app.profile.appName",
+                "scopes": []
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ACCESS_TOKEN"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ID_TOKEN"
+            },
+            {
+                "name": "login",
+                "valueType": "EXPRESSION",
+                "value": "user.email",
+                "claimType": "ACCESS_TOKEN"
+            }
+        ]
+    },
+    "groups": [
+        {
+            "name": "CCC-ImageIntake-Client-user-Group",
+            "scope": "casualty.imageintake.client.user"
+        }
+    ],
+    "serverApplications": [
+        {
+            "name": "CCC-CASImageIntake-Client",
+            "properties": {
+                "appName": "CCC-CASImageIntake-Client"
+            },
+            "policyName": "CCC-CASImageIntake-Client-Policy",
+            "scopes": [
+                "{{ accessTokenScope }}"
+            ]
+        },
+        {
+            "name": "CICD-CASImageIntake-DEV",
+            "properties": {
+                "appName": "CICD-CASImageIntake-DEV"
+            },
+            "policyName": "CICD-CASImageIntake-DEV-Policy",
+            "scopes": [
+                "{{ accessTokenScope }}"
+            ]
+        }
+    ],
+    "spaApplications": [
+        {
+            "name": "CCC-CASImageIntake-SPA",
+            "policyName": "CCC-CASImageIntake-SPA-Policy",
+            "loginUri": "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}",
+            "redirectUris": [
+                "https://cas-image-proc-flask-web{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/authorization-code/callback",
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}/implicit/callback",
+                "{{ additionalRedirect }}"
+            ],
+            "postLogoutUris": [
+                "https://cas-image-proc-flask-web{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/authorization-code/callback",
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}"
+            ],
+            "origins": [
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com"
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code"
+            ],
+            "scopes": [
+                "*"
+            ],
+            "groups" : [
+                "CCC-ImageIntake-Client-user-Group"
+            ]
+        }
+    ]
+}

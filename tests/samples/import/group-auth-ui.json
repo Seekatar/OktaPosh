@@ -1,5 +1,5 @@
 {
-    "$schema": "./configuration-schema.json",
+    "$schema": "../../../schemas/configuration-schema.json",
     "variables": [
         {
             "name": "ui-path",
@@ -62,15 +62,15 @@
     ],
     "spaApplications": [
         {
-            "loginUri": "https://rbr{{ domainSuffix }}.{{ Cluster }}.aws.casualty.cccis.com/{{ ui-path }}",
+            "loginUri": "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}",
             "redirectUris": [
                 "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}/implicit/callback"
             ],
             "postLogoutUris": [
-                "https://rbr{{ domainSuffix }}.{{ Cluster }}.aws.casualty.cccis.com/{{ ui-path }}"
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}"
             ],
             "origins": [
-                "https://rbr{{ domainSuffix }}.{{ Cluster }}.aws.casualty.cccis.com"
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com"
             ],
             "grantTypes": [
                 "implicit",

@@ -29,7 +29,7 @@ authServer:
   policies:
 "@
     if ($policies) {
-    foreach ($p in $policies | Where-Object system -eq $false) {
+    foreach ($p in $policies | Where-Object system -eq $false | Sort-Object -Property name) {
       @"
     - name: $($p.name)
       status: $($p.status)
@@ -75,7 +75,7 @@ authServer:
     }
 
     "  claims:"
-    foreach ($c in $claims | Where-Object valueType -ne 'SYSTEM' | Sort-Object -Property name ) {
+    foreach ($c in $claims | Where-Object valueType -ne 'SYSTEM' | Sort-Object -Property name,claimType ) {
       @"
     - name: $($c.name)
       status: $($c.status)

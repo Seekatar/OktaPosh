@@ -8,6 +8,16 @@ Dump out the config to check on variable replacements
 Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\datacapture-ui.json -DumpConfig -Variables @{ cluster = "nonprod"; domainSuffix = "dev" }
 
 Dump out the config to check on variable replacements
+
+.EXAMPLE
+$variables = @{
+    cluster = "nonprod"
+    domainSuffix = "dev"
+    additionalRedirect = ",http://localhost:8008/imageintake-ui/implicit/callback"
+}
+Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\ui-and-app.json -DumpConfig -Variables $variables
+
+Dump out the config to check on variable replacements
 #>
 function Import-OktaConfiguration
 {
@@ -21,6 +31,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+$script:existingGroups = @()
 
 function addAuthServer {
     [CmdletBinding(SupportsShouldProcess)]
@@ -32,8 +43,8 @@ function addAuthServer {
         Write-Information "Found auth server '$($authConfig.name)'"
     } else {
         $authServer = New-OktaAuthorizationServer -Name $authConfig.name `
-            -Audience $authConfig.audience `
-            -Description (getProp $authConfig "description" "Added By OktaPosh")
+                                                  -Audience $authConfig.audience `
+                                                  -Description (getProp $authConfig "description" "Added By OktaPosh")
         if ($authServer -or $WhatIfPreference) {
             Write-Information "Created '$($authConfig.name)'"
         } else {
@@ -53,9 +64,7 @@ function addScopes( $config, $authServerId ) {
         $existingScopes = Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty name
         $scopes = $scopesConfig | Where-Object { $_.name -notin $existingScopes }
         if ($scopes) {
-            $null = $scopes | New-OktaScope -AuthorizationServerId $authServerId `
-                                            -Description (getProp $scope "description" "Added By OktaPosh") `
-                                            -MetadataPublish:(getProp $scope "metadataPublish" $false)
+            $null = $scopes | New-OktaScope -AuthorizationServerId $authServerId
             Write-Information "Scopes added: $($scopes -join ',')"
         } else {
             Write-Information "All scopes found"
@@ -65,18 +74,23 @@ function addScopes( $config, $authServerId ) {
 
 function addClaims( $config, $authServerId ) {
     $claimsConfig = @(getProp $config "claims" @())
-    foreach ($claimConfig in $claimsConfig) {
-        $claim = Get-OktaClaim -AuthorizationServerId $authServerId -Query $claimConfig.name
-        if ($claim) {
-            Write-Information "Found '$($claimConfig.Name)' Claim"
-        } else {
-            $claim = New-OktaClaim -AuthorizationServerId $authServerId `
-                                    -Name $claimConfig.name `
-                                    -ValueType $claimConfig.valueType `
-                                    -ClaimType (getProp $claimConfig "claimType" "RESOURCE") `
-                                    -Value $claimConfig.value `
-                                    -Scopes @(getProp $claimConfig "scopes" @())
-            Write-Information "Added '$($claimConfig.Name)' Claim"
+    if ($claimsConfig) {
+        $existingClaims = Get-OktaClaim -AuthorizationServerId $authServerId
+
+        foreach ($claimConfig in $claimsConfig) {
+            $claimType = normalizeClaimType (getProp $claimConfig "claimType" "RESOURCE")
+            $claim = $existingClaims | Where-Object { ($_.name -eq $claimConfig.name) -and ($_.claimType -eq $claimType) }
+            if ($claim) {
+                Write-Information "Found '$($claimConfig.Name)' Claim"
+            } else {
+                $claim = New-OktaClaim -AuthorizationServerId $authServerId `
+                                        -Name $claimConfig.name `
+                                        -ValueType $claimConfig.valueType `
+                                        -ClaimType $claimType `
+                                        -Value $claimConfig.value `
+                                        -Scopes @(getProp $claimConfig "scopes" @())
+                Write-Information "Added '$($claimConfig.Name)' Claim"
+            }
         }
     }
 }
@@ -85,10 +99,10 @@ function addGroups ($config, $authServerId) {
     $groupConfigs = @(getProp $config "groups" @())
     $groupPrefix = ""
     if ($groupConfigs) {
-        $existingGroups = @(Get-OktaGroup -q $groupPrefix)
-        while (Test-OktaNext -ObjectName groups) { $existingGroups += Get-OktaGroup -Next; }
-        if ($existingGroups) {
-            $existingGroupNames = $existingGroups.profile.name
+        $script:existingGroups = @(Get-OktaGroup -q $groupPrefix)
+        while (Test-OktaNext -ObjectName groups) { $script:existingGroups += Get-OktaGroup -Next; }
+        if ($script:existingGroups) {
+            $existingGroupNames = $script:existingGroups.profile.name
         } else {
             $existingGroupNames = @()
         }
@@ -97,7 +111,7 @@ function addGroups ($config, $authServerId) {
         Write-Information "Found $($existingGroupNames.count) groups for $groupPrefix* and want $($groupConfigs.Count) may add $($groupToAdd.Count)"
 
         foreach ($group in $groupToAdd) {
-            $null = New-OktaGroup -Name $group.Name
+            $script:existingGroups += New-OktaGroup -Name $group.Name
             Write-Information "Added group '$group'"
         }
         foreach ($group in $groupConfigs) {
@@ -109,8 +123,8 @@ function addGroups ($config, $authServerId) {
                                         -Name $group.scope
                     Write-Information "    Added scope '$group.scope'"
                 }
-                if (Get-OktaClaim -AuthorizationServerId $authServerId -Query $group.name) {
-                    Write-Information "    Found claim $($group.name)"
+                if (Get-OktaClaim -AuthorizationServerId $authServerId -Query $group.scope) {
+                    Write-Information "    Found claim $($group.scope)"
                 } else {
                     $null = New-OktaClaim -AuthorizationServerId $authServerId `
                                           -Name $group.scope `
@@ -120,7 +134,7 @@ function addGroups ($config, $authServerId) {
                                           -Value $group.name `
                                           -Scopes @($group.scope)
 
-                    Write-Information "    Added claim '$group.name'"
+                    Write-Information "    Added claim '$($group.scope)' with value $($group.name)"
                 }
             }
         }
@@ -137,44 +151,13 @@ function addServerApplications($config, $authServerId) {
             Write-Information "Found app '$appName'"
         } else {
             $app = New-OktaServerApplication -Label $appName `
+                                             -SignOnMode (getProp $appConfig "signOnMode" "OPENID_CONNECT") `
                                              -Properties (convertToHashTable (getProp $appConfig "properties" $null))
             Write-Information "Added app '$appName'"
         }
 
-        # create policies to restrict scopes per app
-        $policyName = getProp $appConfig "policyName" ""
-        if ($policyName) {
-            $policy = Get-OktaPolicy -AuthorizationServerId $authServerId -Query $policyName
-            if ($policy) {
-                Write-Information "    Found '$($policyName)' Policy"
-            } else {
-                $policy = New-OktaPolicy -AuthorizationServerId $authServerId `
-                                         -Name $policyName `
-                                         -ClientIds $app.Id
-                Write-Information "    Added '$($policyName)' Policy"
-            }
-            $rule = Get-OktaRule -AuthorizationServerId $authServerId `
-                                 -PolicyId $policy.id `
-                                 -Query "Allow $($policyName)"
-            if ($rule) {
-                Write-Information "    Found 'Allow $($policyName)' Rule"
-                if (!(arraysEqual $rule.conditions.scopes.include $appConfig.scopes)) {
-                    $rule.conditions.scopes.include = $appConfig.scopes
-                    $null = Set-OktaRule -AuthorizationServerId $authServerId `
-                                         -PolicyId $policy.id `
-                                         -Rule $rule
-                    Write-Information "    Updated rule's scopes"
-                }
-            } else {
-                $rule = New-OktaRule -AuthorizationServerId $authServerId `
-                                     -Name "Allow $($policyName)" `
-                                     -PolicyId $policy.id `
-                                     -Priority 1 `
-                                     -GrantTypes client_credentials `
-                                     -Scopes $appConfig.scopes
-                Write-Information "    Added 'Allow $($policyName)' Rule"
-            }
-        }
+        addPolicyAndRule $appConfig $authServerId $app.Id
+        addAppGroups $appConfig $app.Id
     }
 }
 
@@ -221,6 +204,22 @@ function addPolicyAndRule($config, $authServerId, $appId) {
     }
 }
 
+function addAppGroups($appConfig, $appId) {
+    $groupNames = @(getProp $appConfig "groups")
+    Write-Debug "Found $($groupNames.Count) groupNames to add $($groupNames | out-string)"
+    if ($groupNames) {
+        $appGroupIds = @((Get-OktaApplicationGroup -AppId $appId) | Select-Object -ExpandProperty id)
+        while (Test-OktaNext -ObjectName "apps/$($appId)/groups" ) { $appGroupIds += (Get-OktaApplicationGroup -AppId $appId -Next).id }
+
+        $groups = @($script:existingGroups | Where-Object { $_.profile.name -in $groupNames })
+
+        foreach ($group in ($groups | Where-Object { $_.id -notin $appGroupIds})) {
+            $null = Add-OktaApplicationGroup -AppId $appId -GroupId $group.id
+            Write-Host "    Added '$($group.profile.name)' group to app"
+        }
+    }
+}
+
 function addSpaApplications($config, $authServerId) {
 
     $appConfigs = @(getProp $config "spaApplications" @())
@@ -258,10 +257,14 @@ function addSpaApplications($config, $authServerId) {
         }
 
         addPolicyAndRule $appConfig $authServerId $appId
+        addAppGroups $appConfig $appId
     }
 }
 
-function replaceVariables($JsonConfig) {
+function replaceVariables {
+    [CmdletBinding()]
+    param($JsonConfig)
+
     $content = Get-Content $JsonConfig -Raw
     $config = ConvertFrom-Json $content
     $vars = @(getProp $config "variables" @())
@@ -274,6 +277,11 @@ function replaceVariables($JsonConfig) {
     }
     if ($vars) {
         foreach ($v in $vars) {
+            if ($v.value -eq "") {
+                Write-Debug "Replacing $($v.name) as empty array item"
+                $content = $content -replace ",`"{{\s*$($v.name)\s*}}`"", ""
+            }
+            Write-Debug "Replacing $($v.name) with $($v.value)"
             $content = $content -replace "{{\s*$($v.name)\s*}}", $v.value
         }
         if ($DumpConfig) {
@@ -284,7 +292,8 @@ function replaceVariables($JsonConfig) {
         return $config
     }
 }
-$config = replaceVariables $JsonConfig -Raw
+
+$config = replaceVariables $JsonConfig
 if ($DumpConfig) {
     $config
     if ($config.Contains("{{")) {

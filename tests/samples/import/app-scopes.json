@@ -1,5 +1,5 @@
 {
-    "$schema": "./configuration-schema.json",
+    "$schema": "../../../schemas/configuration-schema.json",
     "variables": [
         {
             "name": "accessTokenScope",

@@ -34,7 +34,7 @@ try {
         Write-Progress -Activity $activity -Status "Processing auth servers" -CurrentOperation $_.name
     }
 
-    Get-ChildItem $OutputFolder -Directory | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }
+    Get-ChildItem $OutputFolder -Directory -Exclude '.*' | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }
 
     $params = @{}
     if ($ApplicationQuery) {

@@ -39,7 +39,9 @@ function New-OktaScope
         [string] $AuthorizationServerId,
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string] $Name,
+        [Parameter(ValueFromPipelineByPropertyName)]
         [string] $Description,
+        [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $MetadataPublish,
         [switch] $DefaultScope
     )

@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "http://oktaposhconifguration",
-    "title": "OktaPoshConfiguration Schema",
+    "$id": "http://seekatar/OktaPosh/",
+    "title": "OktaPosh Configuration Schema of Import-OktaConfiguration",
     "type": "object",
     "required": [
         "authorizationServer"
@@ -33,7 +33,7 @@
             }
         },
         "variables": {
-            "description": "Variables to substitute in the file.",
+            "description": "Variables to substitute in the file. With {{ name }}",
             "type": "array",
             "items": {
                 "$ref": "#/$defs/variable"
@@ -43,7 +43,8 @@
     "$defs": {
         "authorizationServer": {
             "required": [
-                "name"
+                "name",
+                "audience"
             ],
             "type": "object",
             "properties": {
@@ -54,9 +55,9 @@
                 "description": {
                     "description": "Optional description",
                     "type": "string",
-                    "default": "added by OktaPosh"
+                    "default": "Added by OktaPosh"
                 },
-                "audiences": {
+                "audience": {
                     "description": "Audience value for the AuthorizationServer",
                     "type": "string"
                 },
@@ -85,18 +86,18 @@
             ],
             "properties": {
                 "name": {
-                    "description": "test",
+                    "description": "Name of the claim",
                     "type": "string"
                 },
                 "valueType": {
-                    "description": "test",
+                    "description": "Type of the value: EXPRESSION or GROUPS",
                     "enum": [
                         "EXPRESSION",
                         "GROUPS"
                     ]
                 },
                 "claimType": {
-                    "description": "test",
+                    "description": "Type of claim: RESOURCE, IDENTITY, ACCESS_TOKEN, ID_TOKEN",
                     "enum": [
                         "RESOURCE",
                         "IDENTITY",
@@ -105,11 +106,11 @@
                     ]
                 },
                 "value": {
-                    "description": "test",
+                    "description": "Value of the claim, depends on the value type.",
                     "type": "string"
                 },
                 "groupFilterType": {
-                    "description": "test",
+                    "description": "For group values, how it matches: STARTS_WITH, EQUALS, CONTAINS, REGEX",
                     "enum": [
                         "STARTS_WITH",
                         "EQUALS",
@@ -119,18 +120,18 @@
                     ]
                 },
                 "scopes": {
-                    "description": "test",
+                    "description": "Any scopes to add to the claim",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "alwaysIncludeInToken": {
-                    "description": "test",
+                    "description": "Always in include this token in the claim",
                     "type": "boolean"
                 },
                 "inactive": {
-                    "description": "test",
+                    "description": "Set to add as inactive",
                     "type": "boolean"
                 }
             }
@@ -150,7 +151,7 @@
                     "type": "string"
                 },
                 "scope": {
-                    "description": "Set to also add a claim and scope",
+                    "description": "Add this scope, and claim of name",
                     "type": "string"
                 }
             }
@@ -162,22 +163,29 @@
             ],
             "properties": {
                 "name": {
-                    "description": "test",
+                    "description": "Application name",
                     "type": "string"
                 },
                 "signOnMode": {
-                    "description": "test",
+                    "description": "Sign on mode, defaults to OPENID_CONNECT for Servers",
                     "type": "string"
                 },
                 "scopes": {
-                    "description": "test",
+                    "description": "Any scopes to add to the server app",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "groups": {
+                    "description": "Array of groups to associated to the app",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "inactive": {
-                    "description": "test",
+                    "description": "Set to add as inactive",
                     "type": "boolean"
                 },
                 "properties": {
@@ -197,11 +205,11 @@
             ],
             "properties": {
                 "name": {
-                    "description": "test",
+                    "description": "Application name",
                     "type": "string"
                 },
                 "redirectUris": {
-                    "description": "test",
+                    "description": "URIs where Okta will send relying party initiated logouts.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -209,25 +217,25 @@
                     "minItems": 1
                 },
                 "loginUri": {
-                    "description": "test",
+                    "description": "Initiate login URI",
                     "type": "string"
                 },
                 "postLogoutUris": {
-                    "description": "test",
+                    "description": "URIs where Okta will send relying party initiated logouts.",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "origins": {
-                    "description": "test",
+                    "description": "Name of Trusted Origins to add",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "grantTypes": {
-                    "description": "test",
+                    "description": "Types of grant for the Rule",
                     "type": "array",
                     "items": {
                         "enum": [
@@ -241,14 +249,21 @@
                     "minItems": 1
                 },
                 "scopes": {
-                    "description": "test",
+                    "description": "Array of scope names to allow",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "groups": {
+                    "description": "Array of groups to associated to the app",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "inactive": {
-                    "description": "test",
+                    "description": "Set to add as inactive",
                     "type": "boolean"
                 }
             }
@@ -289,7 +304,7 @@
                     "type": "string"
                 },
                 "value": {
-                    "description": "Value of the variable",
+                    "description": "Value to replace for {{ name }}",
                     "type": "string"
                 }
             }

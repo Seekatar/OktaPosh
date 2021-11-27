@@ -1,32 +1,33 @@
 {
-    "$schema": "./configuration-schema.json",
+    "$schema": "../../../schemas/configuration-schema.json",
     "authorizationServer": {
         "name": "Casualty-Reliance-AS",
+        "audience": "api://cccis/reliance/api",
         "scopes": [
             {
                 "name": "access:token",
                 "description": "Added by OktaPosh",
-                "metadataPublish": "ALL_CLIENTS"
+                "metadataPublish": false
             },
             {
                 "name": "get:item",
                 "description": "Added by OktaPosh",
-                "metadataPublish": "ALL_CLIENTS"
+                "metadataPublish": false
             },
             {
                 "name": "save:item",
                 "description": "Added by OktaPosh",
-                "metadataPublish": "ALL_CLIENTS"
+                "metadataPublish": false
             },
             {
                 "name": "remove:item",
                 "description": "Added by OktaPosh",
-                "metadataPublish": "ALL_CLIENTS"
+                "metadataPublish": false
             },
             {
                 "name": "get:provider",
                 "description": "Added by OktaPosh",
-                "metadataPublish": "ALL_CLIENTS"
+                "metadataPublish": false
             }
         ]
     },

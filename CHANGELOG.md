@@ -1,9 +1,13 @@
 # Change Log
 
-## 2021-11-26 0.3.2
+## 2021-11-29 0.3.2
 
 * Added Import-OktaConfiguration for easier CI/CD
-* Set-Options has -WarnIfMore switch that will kick out a warning message if more data is available when getting items. 
+* Set-Options has -WarnIfMore switch that will kick out a warning message if more data is available when getting items.
+* Change Export-OktaAuthorizationServer to export formatted JSON instead of one line for better comparing
+* Fix ConvertTo-OktaApplicationYaml to get all applications if more than default Limit of 20, and get all groups
+* Fix ConvertTo-OktaAuthorizationYaml in instance where label was missing, and claim sorting by type
+* Fix ConvertTo-OktaYaml to exclude directories starting with '.' to avoid warning
 
 ## 2021-08-01 0.3.1
 
