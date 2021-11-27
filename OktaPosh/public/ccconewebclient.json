@@ -1,0 +1,11 @@
+{
+    "$schema": "./configuration-schema.json",
+    "authorizationServer": {
+        "name": "CCCOne-RepairServices-AS"
+    },
+    "serverApplications": [
+        {
+            "name": "cccone-webclients"
+        }
+    ]
+}

@@ -1,5 +1,10 @@
 # Change Log
 
+## 2021-11-26 0.3.2
+
+* Added Import-OktaConfiguration for easier CI/CD
+* Set-Options has -WarnIfMore switch that will kick out a warning message if more data is available when getting items. 
+
 ## 2021-08-01 0.3.1
 
 * Get-OktaLog better -Since and -Until support for d, h, m, s

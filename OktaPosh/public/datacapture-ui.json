@@ -1,0 +1,85 @@
+{
+    "$schema": "./configuration-schema.json",
+    "variables": [
+        {
+            "name": "ui-path",
+            "value": "dc-ui"
+        }
+    ],
+    "authorizationServer": {
+        "name": "Casualty-DataCapture-AS",
+        "audience": "api://cccis/reliance/{{ ui-path }}",
+        "scopes": [],
+        "claims": [
+            {
+                "name": "email",
+                "valueType": "EXPRESSION",
+                "claimType": "ACCESS_TOKEN",
+                "value": "user.email"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ACCESS_TOKEN"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ID_TOKEN"
+            },
+            {
+                "name": "login",
+                "valueType": "EXPRESSION",
+                "value": "user.email",
+                "claimType": "ACCESS_TOKEN"
+            }
+        ]
+    },
+    "groups": [
+        {
+            "name": "CCC-DataCapture-Client-den1-Group",
+            "createScope": true
+        },
+        {
+            "name": "CCC-DataCapture-Client-nw-Group",
+            "createScope": true
+        },
+        {
+            "name": "CCC-DataCapture-Client-safeco-Group",
+            "createScope": true
+        },
+        {
+            "name": "CCC-DataCapture-Client-geico-Group",
+            "createScope": true
+        },
+        {
+            "name": "CCC-DataCapture-Client-usaa-Group",
+            "createScope": true
+        }
+    ],
+    "spaApplications": [
+        {
+            "loginUri": "https://rbr{{ domainSuffix }}.{{ Cluster }}.aws.casualty.cccis.com/{{ ui-path }}",
+            "redirectUris": [
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}/implicit/callback"
+            ],
+            "postLogoutUris": [
+                "https://rbr{{ domainSuffix }}.{{ Cluster }}.aws.casualty.cccis.com/{{ ui-path }}"
+            ],
+            "origins": [
+                "https://rbr{{ domainSuffix }}.{{ Cluster }}.aws.casualty.cccis.com"
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code"
+            ],
+            "name": "CCC-CASReliance-DataCapture",
+            "policyName": "CCC-CASReliance-DataCapture-Policy",
+            "scopes": [
+                "*"
+            ]
+        }
+    ]
+}

@@ -2,6 +2,7 @@ Set-StrictMode -Version Latest
 
 $script:apiToken = ""
 $script:baseUri = ""
+$script:warnIfMore = $false
 
 function Set-OktaOption {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -9,7 +10,8 @@ function Set-OktaOption {
     param (
         [string] $ApiToken = $env:OKTA_API_TOKEN,
         [string] $BaseUri = $env:OKTA_BASE_URI,
-        [bool] $UseQueryForId = $true
+        [bool] $UseQueryForId = $true,
+        [switch] $WarnIfMore
     )
 
 
@@ -20,6 +22,7 @@ function Set-OktaOption {
         $script:useQueryForId = $UseQueryForId
         $script:apiToken = $ApiToken
         $script:baseUri = $BaseUri
+        $script:warnIfMore = [bool]$WarnIfMore
         $env:OKTA_API_TOKEN = $ApiToken
         $env:OKTA_BASE_URI = $BaseUri
         $true

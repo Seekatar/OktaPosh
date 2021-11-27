@@ -24,7 +24,7 @@ Get all the authorization server settings as yaml
 
 ### Example 1
 ```powershell
-$auth = Get-OktaAuthorizationServer -q test
+$auth = Get-OktaAuthorizationServer -q CCC
 $auth | ForEach-Object { Export-OktaAuthorizationServer -AuthorizationServerId $_.id -OutputFolder "$OutputFolder\$($_.name)" }
 
 Get-ChildItem $OutputFolder -Directory | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }

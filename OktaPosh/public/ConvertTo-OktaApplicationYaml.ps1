@@ -10,21 +10,14 @@ function ConvertTo-OktaApplicationYaml
         [string] $OutputFolder
     )
     Set-StrictMode -Version Latest
+    $nl = [System.Environment]::NewLine
 
-    function getProp( $object, $name )
-    {
-        if (Get-Member -InputObject $object -Name $name) {
-            $object.$name
-        } else {
-            $null
-        }
-    }
     $params = @{}
     if ($Query) {
         $params["q"] = $Query
     }
     $apps = Get-OktaApplication @params
-    $nl = [System.Environment]::NewLine
+    while (Test-OktaNext -ObjectName apps) { $appGroups += Get-OktaApplication -Next }
 
     Write-Verbose "Getting groups"
     $groups = @(Get-OktaGroup -limit 100)

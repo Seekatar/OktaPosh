@@ -206,6 +206,8 @@ function Set-OktaApplication {
     process {
         if ($PSCmdlet.ShouldProcess("$($Application.label)","Update Application")) {
             Invoke-OktaApi -RelativeUri "apps/$($Application.id)" -Body $Application -Method PUT
+        } else {
+            return $Application
         }
     }
 }

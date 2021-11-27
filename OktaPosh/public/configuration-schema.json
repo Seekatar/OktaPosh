@@ -19,18 +19,24 @@
             }
         },
         "serverApplications": {
-            "description": "test",
+            "description": "Server-type applications",
             "type": "array",
             "items": {
                 "$ref": "#/$defs/serverApplication"
-            },
-            "uniqueItems": true
+            }
         },
         "spaApplications": {
-            "description": "test",
+            "description": "SPA-type applications",
             "type": "array",
             "items": {
                 "$ref": "#/$defs/spaApplication"
+            }
+        },
+        "variables": {
+            "description": "Variables to substitute in the file.",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/variable"
             }
         }
     },
@@ -184,7 +190,10 @@
         "spaApplication": {
             "type": "object",
             "required": [
-                "name"
+                "name",
+                "loginUri",
+                "redirectUris",
+                "grantTypes"
             ],
             "properties": {
                 "name": {
@@ -196,7 +205,8 @@
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "minItems" : 1
                 },
                 "loginUri": {
                     "description": "test",
@@ -220,8 +230,9 @@
                     "description": "test",
                     "type": "array",
                     "items": {
-                        "type": "string"
-                    }
+                        "enum" : ["implicit","code","refresh","authorization_code","refresh_token"]
+                    },
+                    "minItems": 1
                 },
                 "scopes": {
                     "description": "test",
@@ -257,6 +268,23 @@
                 "isDefault": {
                     "description": "Set to include in the default scope",
                     "type": "boolean"
+                }
+            }
+        },
+        "variable": {
+            "type": "object",
+            "required": [
+                "name",
+                "value"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of the {{ variable }}",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value of the variable",
+                    "type": "string"
                 }
             }
         }
