@@ -21,7 +21,7 @@ Install-Module -Name OktaPosh
 
 ## Quick Examples
 
-The module was design to make getting objects and running them through the pipeline as easy as possible.
+The module was designed to make getting objects and running them through the pipeline as easy as possible.
 
 ```PowerShell
 # Delete all test apps (use standard -Confirm:$false to avoid any prompting)
@@ -39,9 +39,23 @@ The `tests/integration` folder also has many more examples.
 
 ## Importing Okta Configuration
 
-`Import-OktaConfiguration` takes a JSON file that describes an authorization server and all it's related objects, and multiple apps, and will create or update them in Okta. It will check to see if the item exist and add it if not there. Some objects (apps), will be updated if they exist.
+`Import-OktaConfiguration` takes a JSON file that describes an authorization server and all its related objects, and multiple apps, and will create or update them in Okta. It will check to see if the item exist and add it if not there. Some objects (apps), will be updated if they exist.
 
 To make editing the JSON easier, there are several typical examples in the `tests/samples/import` folder. Also there is a schema file that VS Code will detect and give you intellisense for adding elements (Ctrl+Space), and help on hover for each item.
+
+The function can import the following:
+
+* Authorization Server
+  * Scopes
+  * Claims
+* Groups
+  * Optionally create Scope and Claim on auth server
+* Server Apps for server-to-server apps and auth
+  * Scopes
+  * Groups
+* SPA Apps for SPA applications and auth
+  * Scopes
+  * Groups
 
 ### Variables
 
@@ -84,7 +98,7 @@ To make sure your variables are correct you can use the `-DumpConfig` switch whi
 
 ## High Level Functions
 
-The `Build-Okta*` functions and `tests/samples` folder has some high-level functions make adding complex objects a bit easier. There are also some sample scripts used by the my specific situation, but may be useful for others to look at.
+The `Build-Okta*` functions and `tests/samples` folder has some high-level functions that make adding complex objects a bit easier. There are also some sample scripts used by my specific situation, but may be useful for others to look at.
 
 ## Technical Details
 
