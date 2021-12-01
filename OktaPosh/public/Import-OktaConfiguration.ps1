@@ -32,7 +32,7 @@ $variables = @{
     domainSuffix = "-dev"
     additionalRedirect = "http://localhost:8008/imageintake-ui/implicit/callback"
 }
-Import-OktaConfiguration -JsonConfig C:\code\OktaPosh\OktaPosh\public\ui-and-app.json -Variables $variables
+Import-OktaConfiguration -JsonConfig ui-and-app.json -Variables $variables
 
 Import ui and server app for an application
 #>
@@ -298,42 +298,34 @@ function replaceVariables {
 
     $content = Get-Content $JsonConfig -Raw
     $config = ConvertFrom-Json $content
-    $vars = @(getProp $config "variables" @())
+    $vars = convertToHashTable (getProp $config "variables" @())
 
     if ($Variables) {
         foreach ($override in $Variables.Keys) {
-            $existing = $vars | Where-Object name -eq $override | Select-Object -First 1
-            if ($existing) {
-                $existing.value = $Variables[$override]
-            } else {
-                $vars += @{ name = $override; value = $Variables[$override] }
-            }
+            $vars[$override] = $Variables[$override]
             Write-Verbose "Command line variable: $override = $($Variables[$override])"
         }
     }
-    if ($vars) {
-        foreach ($v in $vars) {
-            if ($v.value -eq "") {
-                Write-Debug "Replacing $($v.name) as empty array item"
-                $content = $content -replace ",`"{{\s*$($v.name)\s*}}`"", ""
-            }
-            $replacement = $v.value
-            if (Test-Path (Join-Path (Split-Path $JsonConfig -Parent) $v.value) -PathType Leaf) {
-                Write-Debug "Replacing $($v.name) with file content from $($v.value)"
-                $replacement = Get-Content (Join-Path (Split-Path $JsonConfig -Parent) $v.value) -Raw
-                $content = $content -replace "`"{{\s*$($v.name)\s*}}`"", $replacement
-            } else {
-                Write-Debug "Replacing $($v.name) with $($v.value)"
-                $content = $content -replace "{{\s*$($v.name)\s*}}", $replacement
-            }
+
+    foreach ($key in $vars.Keys) {
+        if ($vars[$key] -eq "") {
+            Write-Debug "Replacing $($key) as empty array item"
+            $content = $content -replace ",`"{{\s*$($key)\s*}}`"", ""
         }
-        if ($DumpConfig) {
-            return $content
+        $replacement = $vars[$key]
+        if (Test-Path (Join-Path (Split-Path $JsonConfig -Parent) $vars[$key]) -PathType Leaf) {
+            Write-Debug "Replacing $($key) with file content from $($vars[$key])"
+            $replacement = Get-Content (Join-Path (Split-Path $JsonConfig -Parent) $vars[$key]) -Raw
+            $content = $content -replace "`"{{\s*$($key)\s*}}`"", $replacement
+        } else {
+            Write-Debug "Replacing $($key) with $($vars[$key])"
+            $content = $content -replace "{{\s*$($key)\s*}}", $replacement
         }
-        return ConvertFrom-Json $content
-    } else {
-        return $config
     }
+    if ($DumpConfig) {
+        return $content
+    }
+    return ConvertFrom-Json $content
 }
 
 $config = replaceVariables $JsonConfig

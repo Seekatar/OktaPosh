@@ -8,7 +8,7 @@
     },
     "authorizationServer": {
         "name": "Okta-Posh-Test-AS",
-        "audience": "https://reliance/{{ ui-path }}",
+        "audience": "https://reliance/my-ui",
         "scopes": [],
         "claims": [
             {
@@ -59,20 +59,20 @@
         {
             "name": "test-spa-app",
             "policyName": "test-spa-app-policy",
-            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}",
+            "loginUri": "https://mydomain-dev.nonprod.aws.com/my-ui",
             "redirectUris": [
-                "https://rbr{{ domainSuffix }}.myportal.com/{{ ui-path }}/implicit/callback",
-                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}/implicit/callback",
-                "{{ additionalRedirect }}"
+                "https://rbr-dev.myportal.com/my-ui/implicit/callback",
+                "https://rbr-dev.nonprod.aws.com/my-ui/implicit/callback",
+                "http://localhost:8009/my-ui/implicit/callback"
             ],
             "postLogoutUris": [
-                "https://mydomain{{ domainSuffix }}.casualty.portal.com/{{ ui-path }}",
-                "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}",
-                "{{ additionalLogout }}"
+                "https://mydomain-dev.casualty.portal.com/my-ui",
+                "https://mydomain-dev.nonprod.aws.com/my-ui",
+                ""
             ],
             "origins": [
-                "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com",
-                "{{ additionalOrigins }}"
+                "https://mydomain-dev.nonprod.aws.com",
+                ""
             ],
             "grantTypes": [
                 "implicit",

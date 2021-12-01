@@ -34,10 +34,8 @@
         },
         "variables": {
             "description": "Variables to substitute in the file. With {{ name }}",
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/variable"
-            }
+            "type": "object",
+            "additionalProperties": true
         }
     },
     "$defs": {
@@ -289,23 +287,6 @@
                 "isDefault": {
                     "description": "Set to include in the default scope",
                     "type": "boolean"
-                }
-            }
-        },
-        "variable": {
-            "type": "object",
-            "required": [
-                "name",
-                "value"
-            ],
-            "properties": {
-                "name": {
-                    "description": "Name of the {{ variable }}",
-                    "type": "string"
-                },
-                "value": {
-                    "description": "Value to replace for {{ name }}",
-                    "type": "string"
                 }
             }
         }

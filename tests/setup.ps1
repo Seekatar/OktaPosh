@@ -9,7 +9,7 @@ if ($Unit) {
     Mock -CommandName Invoke-WebRequest `
         -ModuleName OktaPosh `
         -MockWith {
-            $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
+            $Response = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
             $Content = @"
 {
  "errorCode": "200",
