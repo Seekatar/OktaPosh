@@ -1,8 +1,19 @@
 {
     "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "accessTokenScope": "access:token",
+        "getItemScope": "get:item",
+        "saveItemScope": "save:item",
+        "removeItemScope": "remove:item",
+        "getProviderScope": "get:provider",
+        "mainApp": "test-main",
+        "interfaceApp": "test-Interface",
+        "3rdPartyApp": "test-ThirdParty",
+        "analyticsApp": "test-Analytics"
+    },
     "authorizationServer": {
-        "name": "Casualty-Reliance-AS",
-        "audience": "api://cccis/reliance/api",
+        "name": "Okta-Posh-Test-AS",
+        "audience": "https://mydomain/my-ui",
         "scopes": [
             {
                 "name": "access:token",
@@ -29,83 +40,70 @@
                 "description": "Added by OktaPosh",
                 "metadataPublish": false
             }
+        ],
+        "claims": [
+            {
+                "name": "appName",
+                "valueType": "EXPRESSION",
+                "claimType": "RESOURCE",
+                "value": "app.profile.appName",
+                "scopes": [
+                    "access:token"
+                ]
+            }
         ]
     },
-    "groups": [
-        {
-            "name": "Group1",
-            "createScope": false
-        }
-    ],
     "serverApplications": [
         {
+            "name": "test-main",
+            "properties": {
+                "appName": "test-main"
+            },
+            "policyName": "test-main-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
                 "save:item",
                 "get:provider"
-            ],
-            "name": "CCC-CASReliance-DRE"
+            ]
         },
         {
+            "name": "test-Interface",
+            "policyName": "test-Interface-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
                 "save:item",
                 "get:provider"
-            ],
-            "name": "CCC-CASReliance-Interface"
+            ]
         },
         {
+            "name": "test-ThirdParty",
+            "policyName": "test-ThirdParty-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
                 "get:provider"
-            ],
-            "name": "CCC-CASReliance-ThirdParty"
+            ]
         },
         {
+            "name": "test-ThirdPartyAdmin",
+            "policyName": "test-ThirdPartyAdmin-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
                 "save:item",
                 "get:provider"
-            ],
-            "name": "CCC-CASReliance-ThirdPartyAdmin"
+            ]
         },
         {
+            "name": "test-Analytics",
+            "policyName": "test-Analytics-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
                 "get:provider"
-            ],
-            "name": "CCC-CASReliance-Analytics"
-        },
-        {
-            "scopes": [
-                "access:token",
-                "get:item",
-                "save:item",
-                "get:provider"
-            ],
-            "name": "CCC-CASReliance-Mobile"
-        },
-        {
-            "scopes": [
-                "access:token",
-                "get:item",
-                "save:item"
-            ],
-            "name": "CCC-CASDataCapture-API"
-        },
-        {
-            "scopes": [
-                "access:token",
-                "get:item",
-                "save:item",
-                "get:provider"
-            ],
-            "name": "CICD-CASReliance-LoadTest-DEV"
+            ]
         }
     ]
 }

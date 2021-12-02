@@ -1,27 +1,14 @@
 {
     "$schema": "../../../schemas/configuration-schema.json",
-    "variables": [
-        {
-            "name": "ui-path",
-            "value": "fp-ui"
-        },
-        {
-            "name": "additionalRedirect",
-            "value": ""
-        },
-        {
-            "name": "additionalLogout",
-            "value": ""
-        },
-        {
-            "name": "additionalOrigins",
-            "value": ""
-        }
-    ],
+    "variables": {
+        "ui-path": "fp-ui",
+        "additionalRedirect": "",
+        "additionalLogout": "",
+        "additionalOrigins": ""
+    },
     "authorizationServer": {
-        "name": "Casualty-RBR-AS",
-        "description": "Reliance UI for casualty",
-        "audience": "https://reliance/{{ ui-path }}",
+        "name": "Okta-Posh-Test-AS",
+        "audience": "https://mydomain/my-ui",
         "scopes": [],
         "claims": [
             {
@@ -55,27 +42,23 @@
     ],
     "spaApplications": [
         {
-            "name": "CCC-CASRBR-SPA",
-            "policyName": "CCC-CASRBR-SPA-Policy",
-            "loginUri": "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}",
+            "name": "test-spa-app",
+            "policyName": "test-spa-app-policy",
+            "loginUri": "https://mydomain-dev.nonprod.aws.com/my-ui",
             "redirectUris": [
-                "https://rbr{{ domainSuffix }}.casualty.mycccportal.com/{{ ui-path }}/implicit/callback",
-                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}/implicit/callback"
-                ,"{{ additionalRedirect }}"
+                "https://mydomain-dev.nonprod.aws..com/my-ui/implicit/callback",
+                "http://localhost:8009/my-ui/implicit/callback"
             ],
             "postLogoutUris": [
-                "https://rbr{{ domainSuffix }}.casualty.mycccportal.com/{{ ui-path }}",
-                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com/{{ ui-path }}"
-                ,"{{ additionalLogout }}"
+                "https://flask-web-dev.nonprod.aws.com/authorization-code/callback",
+                "https://mydomain-dev.nonprod.aws.com/my-ui"
             ],
             "origins": [
-                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.casualty.cccis.com"
-                ,"{{ additionalOrigins }}"
+                "https://mydomain-dev.nonprod.aws.com"
             ],
             "grantTypes": [
                 "implicit",
-                "authorization_code",
-                "refresh_token"
+                "authorization_code"
             ],
             "scopes": [
                 "*"

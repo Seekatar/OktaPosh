@@ -332,7 +332,7 @@ $config = replaceVariables $JsonConfig
 if ($DumpConfig) {
     $config
     if ($config.Contains("{{")) {
-        Write-Warning "After variable replacement, contains {{"
+        Write-Error "After variable replacement, $JsonConfig contains {{"
     }
     return
 }

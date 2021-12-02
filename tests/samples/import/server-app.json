@@ -1,42 +1,19 @@
 {
     "$schema": "../../../schemas/configuration-schema.json",
-    "variables": [
-        {
-            "name": "accessTokenScope",
-            "value": "access:token"
-        },
-        {
-            "name": "getItemScope",
-            "value": "get:item"
-        },
-        {
-            "name": "saveItemScope",
-            "value": "save:item"
-        },
-        {
-            "name": "removeItemScope",
-            "value": "remove:item"
-        },
-        {
-            "name": "getProviderScope",
-            "value": "get:provider"
-        },
-        {
-            "name": "interfaceApp",
-            "value": "CCC-CASReliance-Interface"
-        },
-        {
-            "name": "3rdPartyApp",
-            "value": "CCC-CASReliance-ThirdParty"
-        },
-        {
-            "name": "analyticsApp",
-            "value": "CCC-CASReliance-Analytics"
-        }
-    ],
+    "variables": {
+        "accessTokenScope": "access:token",
+        "getItemScope": "get:item",
+        "saveItemScope": "save:item",
+        "removeItemScope": "remove:item",
+        "getProviderScope": "get:provider",
+        "mainApp": "test-main",
+        "interfaceApp": "test-Interface",
+        "3rdPartyApp": "test-ThirdParty",
+        "analyticsApp": "test-Analytics"
+    },
     "authorizationServer": {
-        "name": "Casualty-Reliance-AS",
-        "audience": "api://cccis/reliance/api",
+        "name": "Okta-Posh-Test-AS",
+        "audience": "https://mydomain/my-ui",
         "scopes": [
             {
                 "name": "{{ accessTokenScope }}",
@@ -78,11 +55,11 @@
     },
     "serverApplications": [
         {
-            "name": "CCC-CASReliance-DRE",
+            "name": "{{ mainApp }}",
             "properties": {
-                "appName": "CCC-CASReliance-DRE"
+                "appName": "{{ mainApp }}"
             },
-            "policyName": "CCC-CASReliance-DRE-Policy",
+            "policyName": "{{ mainApp }}-Policy",
             "scopes": [
                 "{{ accessTokenScope }}",
                 "{{ getItemScope }}",
@@ -128,35 +105,5 @@
                 "{{ getProviderScope }}"
             ]
         }
-        // ,
-        // {
-        //     "scopes": [
-        //         "{{ accessTokenScope }}",
-        //         "{{ getItemScope }}",
-        //         "{{ saveItemScope }}",
-        //         "{{ getProviderScope }}"
-        //     ],
-        //     "name": "CCC-CASReliance-Mobile",
-        //     "policyName": "CCC-CASReliance-Mobile-Policy"
-        // },
-        // {
-        //     "scopes": [
-        //         "{{ accessTokenScope }}",
-        //         "{{ getItemScope }}",
-        //         "{{ saveItemScope }}"
-        //     ],
-        //     "name": "CCC-CASDataCapture-API",
-        //     "policyName": "CCC-CASDataCapture-API-Policy"
-        // },
-        // {
-        //     "scopes": [
-        //         "{{ accessTokenScope }}",
-        //         "{{ getItemScope }}",
-        //         "{{ saveItemScope }}",
-        //         "{{ getProviderScope }}"
-        //     ],
-        //     "name": "CICD-CASReliance-LoadTest-DEV",
-        //     "policyName": "CICD-CASReliance-LoadTest-DEV-Policy"
-        // }
     ]
 }

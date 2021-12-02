@@ -1,0 +1,140 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "ui-path": "fp-ui",
+        "additionalRedirect": "",
+        "additionalLogout": "",
+        "additionalOrigins": ""
+    },
+    "authorizationServer": {
+        "name": "Okta-Posh-Test-AS",
+        "audience": "https://mydomain/my-ui",
+        "scopes": [],
+        "claims": [
+            {
+                "name": "email",
+                "valueType": "EXPRESSION",
+                "claimType": "ACCESS_TOKEN",
+                "value": "user.email"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ACCESS_TOKEN"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ID_TOKEN"
+            },
+            {
+                "name": "login",
+                "valueType": "EXPRESSION",
+                "value": "user.email",
+                "claimType": "ACCESS_TOKEN"
+            }
+        ]
+    },
+    "groups": [
+            {
+        "name": "test-testclient-group",
+        "scope": "test-testclient"
+    },
+    {
+        "name": "test-review-group",
+        "scope": "test-review"
+    },    {
+        "name": "test-kangaroo-group",
+        "scope": "test-kangaroo"
+    },    {
+        "name": "test-insect-group",
+        "scope": "test-insect"
+    },    {
+        "name": "test-yellow-group",
+        "scope": "test-yellow"
+    },    {
+        "name": "test-walrus-group",
+        "scope": "test-walrus"
+    },    {
+        "name": "test-wind-group",
+        "scope": "test-wind"
+    },    {
+        "name": "test-test-group",
+        "scope": "test-test"
+    },    {
+        "name": "test-usa-group",
+        "scope": "test-usa"
+    },    {
+        "name": "test-traveler-group",
+        "scope": "test-traveler"
+    },    {
+        "name": "test-tower-group",
+        "scope": "test-tower"
+    },    {
+        "name": "test-state-group",
+        "scope": "test-state"
+    },    {
+        "name": "test-scot-group",
+        "scope": "test-scot"
+    },    {
+        "name": "test-safe-group",
+        "scope": "test-safe"
+    },    {
+        "name": "test-nation-group",
+        "scope": "test-nation"
+    },    {
+        "name": "test-horse-group",
+        "scope": "test-horse"
+    },    {
+        "name": "test-gecko-group",
+        "scope": "test-gecko"
+    },
+    ],
+    "spaApplications": [
+        {
+            "name": "test-spa-app",
+            "policyName": "test-spa-app-policy",
+            "loginUri": "https://mydomain-dev.nonprod.aws.com/my-ui",
+            "redirectUris": [
+                "https://mydomain-dev.nonprod.aws..com/my-ui/implicit/callback",
+                "http://localhost:8009/my-ui/implicit/callback"
+            ],
+            "postLogoutUris": [
+                "https://flask-web-dev.nonprod.aws.com/authorization-code/callback",
+                "https://mydomain-dev.nonprod.aws.com/my-ui"
+            ],
+            "origins": [
+                "https://mydomain-dev.nonprod.aws.com"
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code"
+            ],
+            "scopes": [
+                "*"
+            ],
+            "groups": [
+                "test-client-group",
+"test-review-group",
+"test-kangaroo-group",
+"test-insect-group",
+"test-yellow-group",
+"test-walrus-group",
+"test-wind-group",
+"test-test-group",
+"test-usa-group",
+"test-traveler-group",
+"test-tower-group",
+"test-state-group",
+"test-scot-group",
+"test-safe-group",
+"test-nation-group",
+"test-horse-group",
+"test-gecko-group",
+
+            ]
+        }
+    ]
+}
