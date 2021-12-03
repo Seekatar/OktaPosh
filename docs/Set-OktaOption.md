@@ -13,7 +13,8 @@ Set OktaOptions for accessing the API
 ## SYNTAX
 
 ```
-Set-OktaOption [[-ApiToken] <String>] [[-BaseUri] <String>] [-UseQueryForId <Boolean>] [<CommonParameters>]
+Set-OktaOption [[-ApiToken] <String>] [[-BaseUri] <String>] [-UseQueryForId <Boolean>] [-WarnIfMore]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,6 +64,21 @@ See Get-OktaUserForId
 
 ```yaml
 Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WarnIfMore
+Set to kick out a warning if more data is available.
+
+```yaml
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 

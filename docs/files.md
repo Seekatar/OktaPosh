@@ -104,6 +104,8 @@
 
 ### [Get-OktaZone](Get-OktaZone.md)
 
+### [Import-OktaConfiguration](Import-OktaConfiguration.md)
+
 ### [Invoke-OktaApi](Invoke-OktaApi.md)
 
 ### [New-OktaAuthorizationServer](New-OktaAuthorizationServer.md)
