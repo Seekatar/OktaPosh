@@ -56,15 +56,15 @@ function Build-OktaSpaApplication {
     $policyName = "$($app.Label)-Policy"
     $policy = Get-OktaPolicy -AuthorizationServerId $AuthServerId -Query $policyName
     if ($policy) {
-        Write-Host "    Found '$($policyName)' Policy"
+        Write-Host "    Found policy '$($policyName)'"
     } else {
         $policy = New-OktaPolicy -AuthorizationServerId $AuthServerId -Name $policyName -ClientIds $app.Id
-        Write-Host "    Added '$($policyName)' Policy"
+        Write-Host "    Added policy '$($policyName)'"
     }
     if ($Scopes) {
         $rule = Get-OktaRule -AuthorizationServerId $AuthServerId -PolicyId $policy.id -Query "Allow $($policyName)"
         if ($rule) {
-            Write-Host "    Found 'Allow $($policyName)' Rule"
+            Write-Host "    Found rule 'Allow $($policyName)'"
         } else {
             $rule = New-OktaRule -AuthorizationServerId $AuthServerId `
                                 -Name "Allow $($policyName)" `
@@ -72,7 +72,7 @@ function Build-OktaSpaApplication {
                                 -Priority 1 `
                                 -GrantTypes $GrantTypes `
                                 -Scopes $Scopes
-            Write-Host "    Added 'Allow $($policyName)' Rule"
+            Write-Host "    Added rule 'Allow $($policyName)'"
         }
     }
     return $app

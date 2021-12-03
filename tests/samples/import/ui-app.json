@@ -7,8 +7,8 @@
         "additionalOrigins": "{}"
     },
     "authorizationServer": {
-        "name": "OktaPosh-OktaPosh-test-AS",
-        "audience": "https://reliance/{{ ui-path }}",
+        "name": "OktaPosh-test-ui-AS",
+        "audience": "https://myapp/{{ ui-path }}",
         "scopes": [],
         "claims": [
             {
@@ -59,21 +59,21 @@
         {
             "name": "OktaPosh-test-spa-app",
             "policyName": "OktaPosh-test-spa-app-policy",
-            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}",
+            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}",
             "redirectUris": [
                 "https://rbr{{ domainSuffix }}.myportal.com/{{ ui-path }}/implicit/callback",
-                "https://rbr{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}/implicit/callback",
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}/implicit/callback",
                 "{{ additionalRedirect }}"
             ],
             "postLogoutUris": [
                 "https://mydomain{{ domainSuffix }}.casualty.portal.com/{{ ui-path }}",
-                "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}",
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}",
                 "{{ additionalLogout }}"
             ],
             "origins": [
                 {
-                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.OktaPosh.com",
-                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.OktaPosh.com"
+                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.com",
+                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com"
                 },
                 "{{ additionalOrigins }}"
             ],

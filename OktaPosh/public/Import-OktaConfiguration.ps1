@@ -41,9 +41,10 @@ function Import-OktaConfiguration
 [CmdletBinding(SupportsShouldProcess)]
 param(
     [ValidateScript({Test-Path $_ -PathType Leaf})]
-    [string] $JsonConfig = "C:\code\OktaPosh\OktaPosh\public\datacapture-ui.json", #"C:\code\OktaPosh\OktaPosh\public\reliance-server.json",
+    [string] $JsonConfig = "C:\code\OktaPosh\OktaPosh\public\datacapture-ui.json",
     [HashTable] $Variables = @{ cluster = "nonprod"; domainSuffix = "dev" },
-    [switch] $DumpConfig
+    [switch] $DumpConfig,
+    [switch] $Quiet
 )
 
 Set-StrictMode -Version Latest
@@ -63,9 +64,9 @@ function addAuthServer {
                                                   -Audience $authConfig.audience `
                                                   -Description (getProp $authConfig "description" "Added By OktaPosh")
         if ($authServer -or $WhatIfPreference) {
-            Write-Information "Created '$($authConfig.name)'"
+            Write-Information "Added auth server '$($authConfig.name)'"
         } else {
-            throw "Failed to create '$($authConfig.name)'"
+            throw "Failed to create auth server '$($authConfig.name)'"
         }
     }
     if ($authServer -and $authServer.id) {
@@ -82,9 +83,9 @@ function addScopes( $config, $authServerId ) {
         $scopes = $scopesConfig | Where-Object { $_.name -notin $existingScopes }
         if ($scopes) {
             $null = $scopes | New-OktaScope -AuthorizationServerId $authServerId
-            Write-Information "    Scopes added: $($scopes.name -join ',')"
+            Write-Information "  Scopes added: $($scopes.name -join ',')"
         } else {
-            Write-Information "    All scopes found"
+            Write-Information "  All scopes found"
         }
     }
 }
@@ -98,7 +99,7 @@ function addClaims( $config, $authServerId ) {
             $claimType = normalizeClaimType (getProp $claimConfig "claimType" "RESOURCE")
             $claim = $existingClaims | Where-Object { ($_.name -eq $claimConfig.name) -and ($_.claimType -eq $claimType) }
             if ($claim) {
-                Write-Information "    Found '$($claimConfig.Name)' Claim"
+                Write-Information "  Found claim '$($claimConfig.Name)'"
             } else {
                 $claim = New-OktaClaim -AuthorizationServerId $authServerId `
                                         -Name $claimConfig.name `
@@ -106,7 +107,7 @@ function addClaims( $config, $authServerId ) {
                                         -ClaimType $claimType `
                                         -Value $claimConfig.value `
                                         -Scopes @(getProp $claimConfig "scopes" @())
-                Write-Information "    Added '$($claimConfig.Name)' Claim"
+                Write-Information "  Added claim '$($claimConfig.Name)'"
             }
         }
     }
@@ -125,23 +126,23 @@ function addGroups ($config, $authServerId) {
         }
 
         $groupToAdd = @($groupConfigs | Where-Object { $_.name -notin $existingGroupNames})
-        Write-Information "Found $($existingGroupNames.count) groups for $groupPrefix* and want $($groupConfigs.Count) may add $($groupToAdd.Count)"
+        Write-Information "Found $($existingGroupNames.count) groups for prefix '$groupPrefix*' and want $($groupConfigs.Count) will add $($groupToAdd.Count)"
 
         foreach ($group in $groupToAdd) {
             $script:existingGroups += New-OktaGroup -Name $group.Name
-            Write-Information "Added group '$($group.Name)'"
+            Write-Information "  Added group '$($group.Name)'"
         }
         foreach ($group in $groupConfigs) {
             if ((getProp $group "scope" "")) {
                 if (Get-OktaScope -AuthorizationServerId $authServerId -Query $group.scope) {
-                    Write-Information "    Found scope $($group.scope)"
+                    Write-Information "  Found scope $($group.scope)"
                 } else {
                     $null = New-OktaScope -AuthorizationServerId $authServerId `
                                         -Name $group.scope
-                    Write-Information "    Added scope '$($group.scope)'"
+                    Write-Information "  Added scope '$($group.scope)'"
                 }
                 if (Get-OktaClaim -AuthorizationServerId $authServerId -Query $group.scope) {
-                    Write-Information "    Found claim $($group.scope)"
+                    Write-Information "  Found claim $($group.scope)"
                 } else {
                     $null = New-OktaClaim -AuthorizationServerId $authServerId `
                                           -Name $group.scope `
@@ -151,7 +152,7 @@ function addGroups ($config, $authServerId) {
                                           -Value $group.name `
                                           -Scopes @($group.scope)
 
-                    Write-Information "    Added claim '$($group.scope)' with value $($group.name)"
+                    Write-Information "  Added claim '$($group.scope)' with value $($group.name)"
                 }
             }
         }
@@ -184,12 +185,12 @@ function addPolicyAndRule($config, $authServerId, $appId) {
     if ($policyName) {
         $policy = Get-OktaPolicy -AuthorizationServerId $authServerId -Query $policyName
         if ($policy) {
-            Write-Information "    Found '$($policyName)' Policy"
+            Write-Information "  Found policy '$($policyName)'"
         } else {
             $policy = New-OktaPolicy -AuthorizationServerId $authServerId `
                                      -Name $policyName `
                                      -ClientIds $appId
-            Write-Information "    Added '$($policyName)' Policy"
+            Write-Information "  Added policy '$($policyName)'"
         }
         if (!$WhatIfPreference) {
             $rule = Get-OktaRule -AuthorizationServerId $authServerId `
@@ -199,13 +200,13 @@ function addPolicyAndRule($config, $authServerId, $appId) {
             $rule = $null
         }
         if ($rule) {
-            Write-Information "    Found 'Allow $($policyName)' Rule"
+            Write-Information "  Found rule 'Allow $($policyName)'"
             if (!(arraysEqual $rule.conditions.scopes.include $appConfig.scopes)) {
                 $rule.conditions.scopes.include = $appConfig.scopes
                 $null = Set-OktaRule -AuthorizationServerId $authServerId `
                                      -PolicyId $policy.id `
                                      -Rule $rule
-                Write-Information "    Updated rule's scopes"
+                Write-Information "  Updated rule's scopes"
             }
         } else {
             if (!$WhatIfPreference) {
@@ -216,7 +217,7 @@ function addPolicyAndRule($config, $authServerId, $appId) {
                                     -GrantTypes client_credentials `
                                     -Scopes $appConfig.scopes
             }
-            Write-Information "    Added 'Allow $($policyName)' Rule"
+            Write-Information "  Added rule 'Allow $($policyName)'"
         }
     }
 }
@@ -232,7 +233,7 @@ function addAppGroups($appConfig, $appId) {
 
         foreach ($group in ($groups | Where-Object { $_.id -notin $appGroupIds})) {
             $null = Add-OktaApplicationGroup -AppId $appId -GroupId $group.id
-            Write-Information "    Added '$($group.profile.name)' group to app"
+            Write-Information "  Added group to app '$($group.profile.name)'"
         }
     }
 }
@@ -240,14 +241,16 @@ function addAppGroups($appConfig, $appId) {
 function addTrustedOrigins($config) {
     $originConfigs = @(getProp $config "origins" @())
     foreach ($origin in $originConfigs) {
-        if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
-            Write-Information "Found origin '$origin'"
-        } else {
-            $null = New-OktaTrustedOrigin -Name (getProp $origin "name" $origin.origin) `
-                                          -Origin $origin.origin `
-                                          -CORS:(getProp $origin "cors" $true) `
-                                          -Redirect:(getProp $origin "redirect" $true)
-            Write-Information "Added origin '$($origin.origin)'"
+        if (getProp $origin "origin" "") { # may have empty "additional"
+            if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
+                Write-Information "Found origin '$origin'"
+            } else {
+                $null = New-OktaTrustedOrigin -Name (getProp $origin "name" $origin.origin) `
+                                            -Origin $origin.origin `
+                                            -CORS:(getProp $origin "cors" $true) `
+                                            -Redirect:(getProp $origin "redirect" $true)
+                Write-Information "Added origin '$($origin.origin)'"
+            }
         }
     }
 }
@@ -340,6 +343,8 @@ if ($DumpConfig) {
     return
 }
 
+$prevInformationPreference = $InformationPreference
+$InformationPreference = ternary $Quiet "SilentlyContinue" "Continue"
 try {
     $authServerId = addAuthServer $config
 
@@ -355,6 +360,8 @@ try {
 
 } catch {
     Write-Error "Error! $_`n$($_.ScriptStackTrace)"
+} finally {
+    $InformationPreference = $prevInformationPreference
 }
 
 }

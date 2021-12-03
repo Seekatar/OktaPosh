@@ -1,0 +1,191 @@
+authServer:
+  name: OktaPosh-test-many-groups-AS
+  status: ACTIVE
+  audiences: https://mydomain/my-ui
+  policies:
+    - name: OktaPosh-test-spa-app-policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-spa-app
+      rules:
+  claims:
+    - name: email
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'user.email'
+      conditions:
+        scopes:
+    - name: friendlyName
+      status: ACTIVE
+      claimType: IDENTITY
+      valueType: EXPRESSION
+      value: 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+      conditions:
+        scopes:
+    - name: friendlyName
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+      conditions:
+        scopes:
+    - name: login
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'user.email'
+      conditions:
+        scopes:
+    - name: OktaPosh-test-gecko
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-gecko-group'
+      conditions:
+        scopes:
+          OktaPosh-test-gecko
+    - name: OktaPosh-test-horse
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-horse-group'
+      conditions:
+        scopes:
+          OktaPosh-test-horse
+    - name: OktaPosh-test-insect
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-insect-group'
+      conditions:
+        scopes:
+          OktaPosh-test-insect
+    - name: OktaPosh-test-kangaroo
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-kangaroo-group'
+      conditions:
+        scopes:
+          OktaPosh-test-kangaroo
+    - name: OktaPosh-test-nation
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-nation-group'
+      conditions:
+        scopes:
+          OktaPosh-test-nation
+    - name: OktaPosh-test-review
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-review-group'
+      conditions:
+        scopes:
+          OktaPosh-test-review
+    - name: OktaPosh-test-safe
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-safe-group'
+      conditions:
+        scopes:
+          OktaPosh-test-safe
+    - name: OktaPosh-test-scot
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-scot-group'
+      conditions:
+        scopes:
+          OktaPosh-test-scot
+    - name: OktaPosh-test-state
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-state-group'
+      conditions:
+        scopes:
+          OktaPosh-test-state
+    - name: OktaPosh-test-testclient
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-testclient-group'
+      conditions:
+        scopes:
+          OktaPosh-test-testclient
+    - name: OktaPosh-test-tower
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-tower-group'
+      conditions:
+        scopes:
+          OktaPosh-test-tower
+    - name: OktaPosh-test-traveler
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-traveler-group'
+      conditions:
+        scopes:
+          OktaPosh-test-traveler
+    - name: OktaPosh-test-usa
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-usa-group'
+      conditions:
+        scopes:
+          OktaPosh-test-usa
+    - name: OktaPosh-test-walrus
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-walrus-group'
+      conditions:
+        scopes:
+          OktaPosh-test-walrus
+    - name: OktaPosh-test-wind
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-wind-group'
+      conditions:
+        scopes:
+          OktaPosh-test-wind
+    - name: OktaPosh-test-yellow
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-yellow-group'
+      conditions:
+        scopes:
+          OktaPosh-test-yellow
+    - name: sub
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: '(appuser != null) ? appuser.userName : app.clientId'
+      conditions:
+        scopes:
+  scopes:
+    - name: OktaPosh-test-gecko
+    - name: OktaPosh-test-horse
+    - name: OktaPosh-test-insect
+    - name: OktaPosh-test-kangaroo
+    - name: OktaPosh-test-nation
+    - name: OktaPosh-test-review
+    - name: OktaPosh-test-safe
+    - name: OktaPosh-test-scot
+    - name: OktaPosh-test-state
+    - name: OktaPosh-test-testclient
+    - name: OktaPosh-test-tower
+    - name: OktaPosh-test-traveler
+    - name: OktaPosh-test-usa
+    - name: OktaPosh-test-walrus
+    - name: OktaPosh-test-wind
+    - name: OktaPosh-test-yellow

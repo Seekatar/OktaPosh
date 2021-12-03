@@ -5,7 +5,7 @@ BeforeAll {
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{ variables = @{
-                            cluster = "nonprod"
+                            cluster = "OktaPosh"
                             domainSuffix = "-dev"
                             additionalRedirect = "http://localhost:8009/my-ui/implicit/callback"
                             groupNames = "groupNames.json"
@@ -20,19 +20,19 @@ Describe "Cleanup" {
 Describe "DumpConfig" {
     It "tests ui-and-server-app variables" {
         $config = Import-OktaConfiguration -JsonConfig ../samples/import/ui-and-server-app.json -Variables $variables -DumpConfig
-        $config | Should -Be (Get-Content ./export/ui-and-server-app-config.json -Raw)
+        $config | Should -Be (Get-Content ./export/ui-and-server-app.json -Raw)
     }
     It "tests ui-app variables" {
         $config = Import-OktaConfiguration -JsonConfig ../samples/import/ui-app.json -Variables $variables -DumpConfig
-        $config | Should -Be (Get-Content ./export/ui-app-config.json -Raw)
+        $config | Should -Be (Get-Content ./export/ui-app.json -Raw)
     }
     It "tests server-app variables" {
         $config = Import-OktaConfiguration -JsonConfig ../samples/import/server-app.json -Variables $variables -DumpConfig
-        $config | Should -Be (Get-Content ./export/server-app-config.json -Raw)
+        $config | Should -Be (Get-Content ./export/server-app.json -Raw)
     }
     It "tests file-replacement variables" {
         $config = Import-OktaConfiguration -JsonConfig ../samples/import/many-groups-ui-app.json -Variables $variables -DumpConfig
-        $config | Should -Be (Get-Content ./export/many-groups-ui-app-config.json -Raw)
+        $config | Should -Be (Get-Content ./export/many-groups-ui-app.json -Raw)
     }
     It "tests missing variable" {
         $badVariables = @{

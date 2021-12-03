@@ -5,7 +5,7 @@
         "ui-path": "my-ui"
     },
     "authorizationServer": {
-        "name": "OktaPosh-OktaPosh-test-AS",
+        "name": "OktaPosh-test-ui-server-AS",
         "audience": "https://mydomain/{{ ui-path }}",
         "scopes": [
             {
@@ -60,7 +60,7 @@
             ]
         },
         {
-            "name": "cicd-app",
+            "name": "OktaPosh-test-cicd-app",
             "properties": {
                 "appName": "My-CICD-App"
             },
@@ -74,19 +74,19 @@
         {
             "name": "OktaPosh-test-spa-app",
             "policyName": "OktaPosh-test-spa-app-policy",
-            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}",
+            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}",
             "redirectUris": [
-                "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws..com/{{ ui-path }}/implicit/callback",
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}/implicit/callback",
                 "{{ additionalRedirect }}"
             ],
             "postLogoutUris": [
-                "https://flask-web{{ domainSuffix }}.{{ cluster }}.aws.com/authorization-code/callback",
-                "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com/{{ ui-path }}"
+                "https://flask-web{{ domainSuffix }}.{{ cluster }}.com/authorization-code/callback",
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}"
             ],
             "origins": [
                 {
-                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.OktaPosh.com",
-                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.OktaPosh.com"
+                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.com",
+                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com"
                 }
             ],
             "grantTypes": [

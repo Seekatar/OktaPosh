@@ -1,0 +1,52 @@
+authServer:
+  name: OktaPosh-test-server-AS
+  status: ACTIVE
+  audiences: https://mydomain/my-ui
+  policies:
+    - name: OktaPosh-test-Analytics-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-Analytics
+      rules:
+    - name: OktaPosh-test-Interface-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-Interface
+      rules:
+    - name: OktaPosh-test-main-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-main
+      rules:
+    - name: OktaPosh-test-ThirdParty-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-ThirdParty
+      rules:
+    - name: OktaPosh-test-ThirdPartyAdmin-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-ThirdPartyAdmin
+      rules:
+  claims:
+    - name: appName
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'app.profile.appName'
+      conditions:
+        scopes:
+          access:token
+    - name: sub
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: '(appuser != null) ? appuser.userName : app.clientId'
+      conditions:
+        scopes:
+  scopes:
+    - name: access:token
+    - name: get:item
+    - name: get:provider
+    - name: remove:item
+    - name: save:item

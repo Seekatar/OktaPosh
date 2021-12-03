@@ -12,7 +12,7 @@
         "analyticsApp": "OktaPosh-test-Analytics"
     },
     "authorizationServer": {
-        "name": "OktaPosh-OktaPosh-test-AS",
+        "name": "OktaPosh-test-server-AS",
         "audience": "https://mydomain/my-ui",
         "scopes": [
             {

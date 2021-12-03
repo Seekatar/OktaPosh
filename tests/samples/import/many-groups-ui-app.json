@@ -1,7 +1,7 @@
 {
     "$schema": "../../../schemas/configuration-schema.json",
     "authorizationServer": {
-        "name": "OktaPosh-OktaPosh-test-AS",
+        "name": "OktaPosh-test-many-groups-AS",
         "audience": "https://mydomain/my-ui",
         "scopes": [],
         "claims": [

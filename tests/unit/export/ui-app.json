@@ -7,8 +7,8 @@
         "additionalOrigins": "{}"
     },
     "authorizationServer": {
-        "name": "OktaPosh-OktaPosh-test-AS",
-        "audience": "https://reliance/my-ui",
+        "name": "OktaPosh-test-ui-AS",
+        "audience": "https://myapp/my-ui",
         "scopes": [],
         "claims": [
             {
@@ -62,7 +62,7 @@
             "loginUri": "https://mydomain-dev.OktaPosh.com/my-ui",
             "redirectUris": [
                 "https://rbr-dev.myportal.com/my-ui/implicit/callback",
-                "https://rbr-dev.nonprod.aws.com/my-ui/implicit/callback",
+                "https://rbr-dev.OktaPosh.com/my-ui/implicit/callback",
                 "http://localhost:8009/my-ui/implicit/callback"
             ],
             "postLogoutUris": [
@@ -72,7 +72,7 @@
             ],
             "origins": [
                 {
-                    "name": "OktaPosh-test-mydomain-dev.nonprod.aws.com",
+                    "name": "OktaPosh-test-mydomain-dev.OktaPosh.com",
                     "origin": "https://mydomain-dev.OktaPosh.com"
                 },
                 "{}"

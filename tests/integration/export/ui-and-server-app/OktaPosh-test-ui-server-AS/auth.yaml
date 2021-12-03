@@ -1,12 +1,12 @@
 authServer:
-  name: OktaPosh-OktaPosh-test-AS
+  name: OktaPosh-test-ui-server-AS
   status: ACTIVE
   audiences: https://mydomain/my-ui
   policies:
     - name: cicd-app-policy
       status: ACTIVE
       clients:
-        - cicd-app
+        - OktaPosh-test-cicd-app
       rules:
     - name: OktaPosh-test-server-app-policy
       status: ACTIVE

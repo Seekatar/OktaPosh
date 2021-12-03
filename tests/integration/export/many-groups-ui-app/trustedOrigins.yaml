@@ -1,5 +1,5 @@
 trustedOrigins:
-  - name: OktaPosh-test-mydomain-dev.OktaPosh.com
+  - name: OktaPosh-test-mydomain-dev.nonprod.aws.com
     origin: https://mydomain-dev.OktaPosh.com
     status: ACTIVE
     scopes:
