@@ -119,7 +119,7 @@ function addGroups ($config, $authServerId) {
         $script:existingGroups = @(Get-OktaGroup -q $groupPrefix)
         while (Test-OktaNext -ObjectName groups) { $script:existingGroups += Get-OktaGroup -Next; }
         if ($script:existingGroups) {
-            $existingGroupNames = $script:existingGroups.profile.name
+            $existingGroupNames = @($script:existingGroups.profile.name)
         } else {
             $existingGroupNames = @()
         }
@@ -244,10 +244,10 @@ function addTrustedOrigins($config) {
             Write-Information "Found origin '$origin'"
         } else {
             $null = New-OktaTrustedOrigin -Name (getProp $origin "name" $origin.origin) `
-                                          -Origin $origin `
+                                          -Origin $origin.origin `
                                           -CORS:(getProp $origin "cors" $true) `
                                           -Redirect:(getProp $origin "redirect" $true)
-            Write-Information "Added origin '$origin'"
+            Write-Information "Added origin '$($origin.origin)'"
         }
     }
 }

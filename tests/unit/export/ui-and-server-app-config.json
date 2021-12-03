@@ -74,19 +74,19 @@
         {
             "name": "OktaPosh-test-spa-app",
             "policyName": "OktaPosh-test-spa-app-policy",
-            "loginUri": "https://mydomain-dev.nonprod.aws.com/my-ui",
+            "loginUri": "https://mydomain-dev.OktaPosh.com/my-ui",
             "redirectUris": [
                 "https://mydomain-dev.nonprod.aws..com/my-ui/implicit/callback",
                 "http://localhost:8009/my-ui/implicit/callback"
             ],
             "postLogoutUris": [
                 "https://flask-web-dev.nonprod.aws.com/authorization-code/callback",
-                "https://mydomain-dev.nonprod.aws.com/my-ui"
+                "https://mydomain-dev.OktaPosh.com/my-ui"
             ],
             "origins": [
                 {
                     "name": "OktaPosh-test-mydomain-dev.nonprod.aws.com",
-                    "origin": "https://mydomain-dev.nonprod.aws.com"
+                    "origin": "https://mydomain-dev.OktaPosh.com"
                 }
             ],
             "grantTypes": [

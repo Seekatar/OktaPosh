@@ -85,8 +85,8 @@
             ],
             "origins": [
                 {
-                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.aws.com",
-                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.aws.com"
+                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.OktaPosh.com",
+                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.OktaPosh.com"
                 }
             ],
             "grantTypes": [

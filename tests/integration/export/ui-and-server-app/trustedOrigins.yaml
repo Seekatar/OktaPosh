@@ -1,0 +1,8 @@
+trustedOrigins:
+  - name: OktaPosh-test-mydomain-dev.nonprod.OktaPosh.com
+    origin: https://mydomain-dev.nonprod.OktaPosh.com
+    status: ACTIVE
+    scopes:
+      type:
+        - CORS
+        - REDIRECT

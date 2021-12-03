@@ -1,5 +1,5 @@
 BeforeAll {
-    . (Join-Path $PSScriptRoot '../setup.ps1') -Unit
+    . (Join-Path $PSScriptRoot '../setup.ps1')
 }
 
 # Pester 5 need to pass in TestCases object to pass share
@@ -16,53 +16,41 @@ $PSDefaultParameterValues = @{
 
 function cleanUp {
     Get-OktaAuthorizationServer -Query OktaPosh-OktaPosh-test-AS | Remove-OktaAuthorizationServer -Confirm:$false
-    Get-OktaApplication -Query 'OktaPosh-test-*' | Remove-OktaApplication -Confirm:$false
-    Get-OktaGroup -Query 'OktaPosh-test-*' | Remove-OktaGroup -Confirm:$false
-    Get-OktaTrustedOrigin -Query 'OktaPosh-test-*' | Remove-OktaTrustedOrigin -Confirm:$false
+    Get-OktaApplication -Query 'OktaPosh-test-' | Remove-OktaApplication -Confirm:$false
+    Get-OktaGroup -Query 'OktaPosh-test-' | Remove-OktaGroup -Confirm:$false
+    Get-OktaTrustedOrigin | Where-Object origin -like '*.OktaPosh.*' | Remove-OktaTrustedOrigin -Confirm:$false
 }
 
-BeforeEach {
-    cleanUp
-}
-
-AfterEach {
-    cleanUp
-}
 
 # DumpConfig tests would be identical
-Describe "DumpConfig" {
-    It "tests ui-and-server-app variables" {
+Describe "Imports Configuration" {
+    BeforeEach {
+        cleanUp
+    }
+
+    AfterEach {
+        cleanUp
+    }
+
+    It "tests ui-and-server-app" {
         Import-OktaConfiguration -JsonConfig ../samples/import/ui-and-server-app.json -Variables $variables
-        $config | Should -Be (Get-Content ./export/ui-and-server-app-config.json -Raw)
-    }
-    It "tests ui-app variables" {
-        $config = Import-OktaConfiguration -JsonConfig ../samples/import/ui-app.json -Variables $variables -DumpConfig
-        $config | Should -Be (Get-Content ./export/ui-app-config.json -Raw)
-    }
-    It "tests server-app variables" {
-        $config = Import-OktaConfiguration -JsonConfig ../samples/import/server-app.json -Variables $variables -DumpConfig
-        $config | Should -Be (Get-Content ./export/server-app-config.json -Raw)
-    }
-    It "tests file-replacement variables" {
-        $config = Import-OktaConfiguration -JsonConfig ../samples/import/many-groups-ui-app.json -Variables $variables -DumpConfig
-        $config | Should -Be (Get-Content ./export/many-groups-ui-app-config.json -Raw)
-    }
-    It "tests missing variable" {
-        $badVariables = @{
-            cluster = "nonprod"
+        ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml `
+                           -AuthServerQuery OktaPosh-test `
+                           -ApplicationQuery OktaPosh-test `
+                           -OriginLike *.OktaPosh.* `
+                           -GroupQueries OktaPosh-test `
+                           -WipeFolder
+        (Test-Path $env:TMP/oktaposh-yaml) | Should -BeTrue
+        (Get-ChildItem $env:TMP/oktaposh-yaml/app-*).Count | Should -BeGreaterThan 1
+        (Test-Path $env:TMP/oktaposh-yaml/trustedOrigins.yaml) | Should -BeTrue
+        $folder = Join-Path $PSScriptRoot "export/ui-and-server-app"
+        foreach ($file in Get-ChildItem -r "$env:TMP/oktaposh-yaml/*.yaml") {
+            $testFile = $file.FullName.Replace("$env:TMP/oktaposh-yaml",$folder)
+            Get-Content $file -Raw | Should -Be (Get-Content $testFile -Raw)
         }
-        $error.Clear()
-        try {
-            $null = Import-OktaConfiguration -JsonConfig ../samples/import/ui-app.json -Variables $badVariables -DumpConfig
-            $false | Should -Be $true
-        } catch {
-            $error.Count | Should -Be 1
-            $error[0] | Should -BeLike '*After variable replacement*'
-        }
-
     }
 }
 
-Describe "Cleanup" {
+AfterAll {
+    Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
 }
-
