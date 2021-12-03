@@ -4,10 +4,10 @@
         "ui-path": "my-ui",
         "additionalRedirect": "",
         "additionalLogout": "",
-        "additionalOrigins": ""
+        "additionalOrigins": "{}"
     },
     "authorizationServer": {
-        "name": "Okta-Posh-Test-AS",
+        "name": "OktaPosh-OktaPosh-test-AS",
         "audience": "https://reliance/my-ui",
         "scopes": [],
         "claims": [
@@ -39,26 +39,26 @@
     },
     "groups": [
         {
-            "name": "test-group1-Group",
+            "name": "OktaPosh-test-client1-Group",
             "scope": "client.group1"
         },
         {
-            "name": "test-group2-Group",
+            "name": "OktaPosh-test-client2-Group",
             "scope": "client.group2"
         },
         {
-            "name": "test-group3-Group",
+            "name": "OktaPosh-test-client3-Group",
             "scope": "client.group3"
         },
         {
-            "name": "test-group3-Group",
-            "scope": "client.group3"
+            "name": "OktaPosh-test-client4-Group",
+            "scope": "client.group4"
         }
     ],
     "spaApplications": [
         {
-            "name": "test-spa-app",
-            "policyName": "test-spa-app-policy",
+            "name": "OktaPosh-test-spa-app",
+            "policyName": "OktaPosh-test-spa-app-policy",
             "loginUri": "https://mydomain-dev.nonprod.aws.com/my-ui",
             "redirectUris": [
                 "https://rbr-dev.myportal.com/my-ui/implicit/callback",
@@ -71,8 +71,11 @@
                 ""
             ],
             "origins": [
-                "https://mydomain-dev.nonprod.aws.com",
-                ""
+                {
+                    "name": "OktaPosh-test-mydomain-dev.nonprod.aws.com",
+                    "origin": "https://mydomain-dev.nonprod.aws.com"
+                },
+                "{}"
             ],
             "grantTypes": [
                 "implicit",
@@ -82,10 +85,10 @@
                 "*"
             ],
             "groups": [
-                "test-client1-group",
-                "test-client2-group",
-                "test-client3-group",
-                "test-client4-group"
+                "OktaPosh-test-client1-group",
+                "OktaPosh-test-client2-group",
+                "OktaPosh-test-client3-group",
+                "OktaPosh-test-client4-group"
             ]
         }
     ]

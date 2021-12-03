@@ -47,7 +47,7 @@ Describe "Cleanup" {
 
 Describe "User" {
     It "Adds a user" {
-        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email1
+        $vars.user = New-OktaUser -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email1
         $vars.user | Should -Not -Be $null
         $vars.user.Status | Should -Be 'STAGED'
     }
@@ -70,7 +70,7 @@ Describe "User" {
             }
           }
 
-        $vars.user7 = New-OktaUser -Login $email7 -FirstName test-user -LastName test-user -Email $email7 -PasswordHash $passwordHash
+        $vars.user7 = New-OktaUser -Login $email7 -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email7 -PasswordHash $passwordHash
         $vars.user7 | Should -Not -Be $null
         $vars.user7.Status | Should -Be 'STAGED'
     }
@@ -78,7 +78,7 @@ Describe "User" {
         { New-OktaUser -Login $email1 -FirstName Test -LastName User -Email $email1 -PasswordHash @{} -Pw 'test' } | Should -Throw 'Can''t supply both*'
     }
     It "Adds a user with recovery question" {
-        $vars.user3 = New-OktaUser -FirstName test-user -LastName test-user -Email $email3 `
+        $vars.user3 = New-OktaUser -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email3 `
                             -RecoveryQuestion Why? -RecoveryAnswer "Answer is 42" `
                             -Pw $user3pw
         $vars.user3 | Should -Not -Be $null
@@ -86,12 +86,12 @@ Describe "User" {
         $vars.user3.credentials.recovery_question.question | Should -Be 'Why?'
     }
     It "Adds a user to login next" {
-        $vars.user4 = New-OktaUser -FirstName test-user -LastName test-user -Email $email4 -NextLogin -Activate -Pw $user4pw
+        $vars.user4 = New-OktaUser -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email4 -NextLogin -Activate -Pw $user4pw
         $vars.user4 | Should -Not -Be $null
         $vars.user4.Status | Should -Be 'PASSWORD_EXPIRED'
     }
     It "Adds a user to a group" {
-        $vars.user5 = New-OktaUser -FirstName test-user -LastName test-user -Email $email5 -GroupIds @($vars.group.id)
+        $vars.user5 = New-OktaUser -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email5 -GroupIds @($vars.group.id)
         $vars.user5 | Should -Not -Be $null
         $vars.user5.Status | Should -Be 'STAGED'
         $groups = Get-OktaUserGroup -UserId $vars.user5.id

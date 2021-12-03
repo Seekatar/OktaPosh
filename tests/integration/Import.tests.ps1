@@ -14,12 +14,25 @@ $PSDefaultParameterValues = @{
                       }
 }
 
-Describe "Cleanup" {
+function cleanUp {
+    Get-OktaAuthorizationServer -Query OktaPosh-OktaPosh-test-AS | Remove-OktaAuthorizationServer -Confirm:$false
+    Get-OktaApplication -Query 'OktaPosh-test-*' | Remove-OktaApplication -Confirm:$false
+    Get-OktaGroup -Query 'OktaPosh-test-*' | Remove-OktaGroup -Confirm:$false
+    Get-OktaTrustedOrigin -Query 'OktaPosh-test-*' | Remove-OktaTrustedOrigin -Confirm:$false
 }
 
+BeforeEach {
+    cleanUp
+}
+
+AfterEach {
+    cleanUp
+}
+
+# DumpConfig tests would be identical
 Describe "DumpConfig" {
     It "tests ui-and-server-app variables" {
-        $config = Import-OktaConfiguration -JsonConfig ../samples/import/ui-and-server-app.json -Variables $variables -DumpConfig
+        Import-OktaConfiguration -JsonConfig ../samples/import/ui-and-server-app.json -Variables $variables
         $config | Should -Be (Get-Content ./export/ui-and-server-app-config.json -Raw)
     }
     It "tests ui-app variables" {

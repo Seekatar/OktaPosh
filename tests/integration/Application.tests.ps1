@@ -5,11 +5,11 @@ BeforeAll {
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{
-        appName        = "test-app"
-        spaAppName     = "test-spa-app"
-        groupName      = 'test-group-app'
+        appName        = "OktaPosh-test-app"
+        spaAppName     = "OktaPosh-test-spa-app"
+        groupName      = 'OktaPosh-test-group-app'
         email          = 'apptestuser@mailinator.com'
-        groupName2     = 'test-group-app2'
+        groupName2     = 'OktaPosh-test-group-app2'
         email2         = 'apptestuser2@mailinator.com'
         vars           = @{
             app        = $null
@@ -72,7 +72,7 @@ Describe "Application Tests" {
         $result.status | Should -Be 'ACTIVE'
     }
     It "Set an Application" {
-        $vars.spaApp.label = "test-updated"
+        $vars.spaApp.label = "OktaPosh-test-updated"
         $result = Set-OktaApplication -Application $vars.spaApp
         $result.label | Should -Be $vars.spaApp.label
     }
@@ -150,9 +150,9 @@ Describe "Application Tests" {
     }
 
     It "Adds and removes a user from the app" {
-        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
+        $vars.user = New-OktaUser -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email
         $vars.user | Should -Not -Be $null
-        $user2 = New-OktaUser -FirstName test-user2 -LastName test-user2 -Email $email2
+        $user2 = New-OktaUser -FirstName OktaPosh-test-user2 -LastName OktaPosh-test-user2 -Email $email2
         $user2 | Should -Not -Be $null
 
         $null = Add-OktaApplicationUser -AppId $vars.app.id -UserId $vars.user.id

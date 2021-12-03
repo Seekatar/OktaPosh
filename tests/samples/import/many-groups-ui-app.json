@@ -1,13 +1,7 @@
 {
     "$schema": "../../../schemas/configuration-schema.json",
-    "variables": {
-        "ui-path": "fp-ui",
-        "additionalRedirect": "",
-        "additionalLogout": "",
-        "additionalOrigins": ""
-    },
     "authorizationServer": {
-        "name": "Okta-Posh-Test-AS",
+        "name": "OktaPosh-OktaPosh-test-AS",
         "audience": "https://mydomain/my-ui",
         "scopes": [],
         "claims": [
@@ -42,8 +36,8 @@
     ],
     "spaApplications": [
         {
-            "name": "test-spa-app",
-            "policyName": "test-spa-app-policy",
+            "name": "OktaPosh-test-spa-app",
+            "policyName": "OktaPosh-test-spa-app-policy",
             "loginUri": "https://mydomain-dev.nonprod.aws.com/my-ui",
             "redirectUris": [
                 "https://mydomain-dev.nonprod.aws..com/my-ui/implicit/callback",
@@ -54,7 +48,10 @@
                 "https://mydomain-dev.nonprod.aws.com/my-ui"
             ],
             "origins": [
-                "https://mydomain-dev.nonprod.aws.com"
+                {
+                    "name": "OktaPosh-test-mydomain-dev.nonprod.aws.com",
+                    "origin": "https://mydomain-dev.nonprod.aws.com"
+                }
             ],
             "grantTypes": [
                 "implicit",

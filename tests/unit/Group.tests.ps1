@@ -4,7 +4,7 @@ BeforeAll {
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ groupName = "test-group"
+    "It:TestCases" = @{ groupName = "OktaPosh-test-group"
                         email = 'grouptestuser@mailinator.com'
                         vars = @{group = @{id = "00g3mo3swhHpQbzOw4u7";profile=@{description="test"}}
                                  user = @{id = "00u3mo3swhHpQbzOw4u7"}

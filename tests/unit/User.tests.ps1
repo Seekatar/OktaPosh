@@ -82,14 +82,14 @@ Describe "User" {
                 }
     }
     It "Adds AuthProviderUser" {
-        $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL
+        $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "OktaPosh-test-user@mailinator.com" -ProviderType SOCIAL
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users?activate=false&provider=true*" -and $Method -eq 'POST'
                 }
     }
     It "Adds AuthProviderUser to loginNext" {
-        $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "test-user@mailinator.com" -ProviderType SOCIAL -Activate
+        $null = New-OktaAuthProviderUser -FirstName "fn" -LastName "ln" -Email "OktaPosh-test-user@mailinator.com" -ProviderType SOCIAL -Activate
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/users?activate=true&provider=true" -and $Method -eq 'POST'

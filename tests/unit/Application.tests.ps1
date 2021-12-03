@@ -5,12 +5,12 @@ BeforeAll {
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
     "It:TestCases" = @{
-        appName = "test-app"
-        spaAppName = "test-spa-app"
+        appName = "OktaPosh-test-app"
+        spaAppName = "OktaPosh-test-spa-app"
         groupName      = 'test-group-app'
         email          = 'apptestuser@mailinator.com'
         vars = @{
-            app        = @{id = '0oa3mo3swhHpQbzOw4u7';label="test-app"}
+            app        = @{id = '0oa3mo3swhHpQbzOw4u7';label="OktaPosh-test-app"}
             spaApp     = $null
             schema     = $null
             user       = @{id = '00u3mo3swhHpQbzOw4u7';login='User123';email='user123@test.com'}
@@ -74,7 +74,7 @@ Describe "Application Tests" {
                 }
     }
     It "Set an Application" {
-        $vars.app.label = "test-updated"
+        $vars.app.label = "OktaPosh-test-updated"
         $null = Set-OktaApplication -Application $vars.app
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {

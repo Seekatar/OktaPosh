@@ -6,13 +6,13 @@
         "saveItemScope": "save:item",
         "removeItemScope": "remove:item",
         "getProviderScope": "get:provider",
-        "mainApp": "test-main",
-        "interfaceApp": "test-Interface",
-        "3rdPartyApp": "test-ThirdParty",
-        "analyticsApp": "test-Analytics"
+        "mainApp": "OktaPosh-test-main",
+        "interfaceApp": "OktaPosh-test-Interface",
+        "3rdPartyApp": "OktaPosh-test-ThirdParty",
+        "analyticsApp": "OktaPosh-test-Analytics"
     },
     "authorizationServer": {
-        "name": "Okta-Posh-Test-AS",
+        "name": "OktaPosh-OktaPosh-test-AS",
         "audience": "https://mydomain/my-ui",
         "scopes": [
             {

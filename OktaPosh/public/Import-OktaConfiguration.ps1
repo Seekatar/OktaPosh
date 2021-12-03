@@ -232,18 +232,21 @@ function addAppGroups($appConfig, $appId) {
 
         foreach ($group in ($groups | Where-Object { $_.id -notin $appGroupIds})) {
             $null = Add-OktaApplicationGroup -AppId $appId -GroupId $group.id
-            Write-Host "    Added '$($group.profile.name)' group to app"
+            Write-Information "    Added '$($group.profile.name)' group to app"
         }
     }
 }
 
 function addTrustedOrigins($config) {
-    $origins = @(getProp $config "origins" @())
-    foreach ($origin in $origins) {
+    $originConfigs = @(getProp $config "origins" @())
+    foreach ($origin in $originConfigs) {
         if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
             Write-Information "Found origin '$origin'"
         } else {
-            $null = New-OktaTrustedOrigin -Name $origin -Origin $origin -CORS -Redirect
+            $null = New-OktaTrustedOrigin -Name (getProp $origin "name" $origin.origin) `
+                                          -Origin $origin `
+                                          -CORS:(getProp $origin "cors" $true) `
+                                          -Redirect:(getProp $origin "redirect" $true)
             Write-Information "Added origin '$origin'"
         }
     }

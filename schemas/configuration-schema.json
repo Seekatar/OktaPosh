@@ -229,8 +229,8 @@
                     "description": "Name of Trusted Origins to add",
                     "type": "array",
                     "items": {
-                        "type": "string"
-                    }
+                        "$ref": "#/$defs/trustedOrigin"
+                     }
                 },
                 "grantTypes": {
                     "description": "Types of grant for the Rule",
@@ -287,6 +287,32 @@
                 "isDefault": {
                     "description": "Set to include in the default scope",
                     "type": "boolean"
+                }
+            }
+        },
+        "trustedOrigin": {
+            "type": "object",
+            "required": [
+                "origin"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of Okta Trusted origin, will default to origin",
+                    "type": "string"
+                },
+                "origin": {
+                    "description": "Origin URL",
+                    "type": "string"
+                },
+                "cors": {
+                    "description": "Enables the origin URL to access Okta APIs from Javascript.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "allowRedirect": {
+                    "description": "Allows for browser redirection to 'Origin URL' after signing in or out.",
+                    "type": "boolean",
+                    "default": true
                 }
             }
         }

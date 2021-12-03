@@ -5,7 +5,7 @@
         "ui-path": "my-ui"
     },
     "authorizationServer": {
-        "name": "Okta-Posh-Test-AS",
+        "name": "OktaPosh-OktaPosh-test-AS",
         "audience": "https://mydomain/my-ui",
         "scopes": [
             {
@@ -44,17 +44,17 @@
     },
     "groups": [
         {
-            "name": "user-group",
-            "scope": "user.group"
+            "name": "OktaPosh-test-user-group",
+            "scope": "test.user"
         }
     ],
     "serverApplications": [
         {
-            "name": "test-server-app",
+            "name": "OktaPosh-test-server-app",
             "properties": {
-                "appName": "My-Test-App"
+                "appName": "My-OktaPosh-test-App"
             },
-            "policyName": "test-server-app-policy",
+            "policyName": "OktaPosh-test-server-app-policy",
             "scopes": [
                 "access:token"
             ]
@@ -72,8 +72,8 @@
     ],
     "spaApplications": [
         {
-            "name": "test-spa-app",
-            "policyName": "test-spa-app-policy",
+            "name": "OktaPosh-test-spa-app",
+            "policyName": "OktaPosh-test-spa-app-policy",
             "loginUri": "https://mydomain-dev.nonprod.aws.com/my-ui",
             "redirectUris": [
                 "https://mydomain-dev.nonprod.aws..com/my-ui/implicit/callback",
@@ -84,7 +84,10 @@
                 "https://mydomain-dev.nonprod.aws.com/my-ui"
             ],
             "origins": [
-                "https://mydomain-dev.nonprod.aws.com"
+                {
+                    "name": "OktaPosh-test-mydomain-dev.nonprod.aws.com",
+                    "origin": "https://mydomain-dev.nonprod.aws.com"
+                }
             ],
             "grantTypes": [
                 "implicit",
@@ -94,7 +97,7 @@
                 "*"
             ],
             "groups": [
-                "user-group"
+                "OktaPosh-test-user-group"
             ]
         }
     ]

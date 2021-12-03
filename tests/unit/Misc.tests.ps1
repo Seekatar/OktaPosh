@@ -12,7 +12,7 @@ BeforeAll {
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ groupName = "test-misc"
+    "It:TestCases" = @{ groupName = "OktaPosh-test-misc"
                         now = [DateTime]::UtcNow
                       }
 }

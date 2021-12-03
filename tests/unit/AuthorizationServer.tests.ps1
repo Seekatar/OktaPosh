@@ -7,13 +7,13 @@ $PSDefaultParameterValues = @{
     "It:TestCases" = @{
         testAppName     = "Test-API-App" # must exist
         username        = "wflintstone@mailinator.com"
-        appName         = "test-policy-app"
-        spaAppName      = "test-spa-app"
+        appName         = "OktaPosh-test-policy-app"
+        spaAppName      = "OktaPosh-test-spa-app"
         userPw          = "Test123!"
-        authServerName = "Okta-Posh-Test"
+        authServerName = "OktaPosh-test"
         scopeNames     = "access:token", "get:item", "save:item", "remove:item"
-        claimName      = "test-claim"
-        policyName     = "test-policy"
+        claimName      = "OktaPosh-test-claim"
+        policyName     = "OktaPosh-test-policy"
         redirectUri     = "http://gohome"
         policy         = @{ id = "policy-123-4675-67"}
         vars           = @{
@@ -302,7 +302,7 @@ Describe "AuthorizationServer" {
     }
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
-        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123"}' }
+        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123","name":"mock"}' }
         $output = (Join-Path ([System.IO.Path]::GetTempPath()) ([Guid]::NewGuid().ToString()) )
         $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $output 3>$null
         Remove-Item $output

@@ -6,13 +6,13 @@
         "saveItemScope": "save:item",
         "removeItemScope": "remove:item",
         "getProviderScope": "get:provider",
-        "mainApp": "test-main",
-        "interfaceApp": "test-Interface",
-        "3rdPartyApp": "test-ThirdParty",
-        "analyticsApp": "test-Analytics"
+        "mainApp": "OktaPosh-test-main",
+        "interfaceApp": "OktaPosh-test-Interface",
+        "3rdPartyApp": "OktaPosh-test-ThirdParty",
+        "analyticsApp": "OktaPosh-test-Analytics"
     },
     "authorizationServer": {
-        "name": "Okta-Posh-Test-AS",
+        "name": "OktaPosh-OktaPosh-test-AS",
         "audience": "https://mydomain/my-ui",
         "scopes": [
             {
@@ -55,11 +55,11 @@
     },
     "serverApplications": [
         {
-            "name": "test-main",
+            "name": "OktaPosh-test-main",
             "properties": {
-                "appName": "test-main"
+                "appName": "OktaPosh-test-main"
             },
-            "policyName": "test-main-Policy",
+            "policyName": "OktaPosh-test-main-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
@@ -68,8 +68,8 @@
             ]
         },
         {
-            "name": "test-Interface",
-            "policyName": "test-Interface-Policy",
+            "name": "OktaPosh-test-Interface",
+            "policyName": "OktaPosh-test-Interface-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
@@ -78,8 +78,8 @@
             ]
         },
         {
-            "name": "test-ThirdParty",
-            "policyName": "test-ThirdParty-Policy",
+            "name": "OktaPosh-test-ThirdParty",
+            "policyName": "OktaPosh-test-ThirdParty-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
@@ -87,8 +87,8 @@
             ]
         },
         {
-            "name": "test-ThirdPartyAdmin",
-            "policyName": "test-ThirdPartyAdmin-Policy",
+            "name": "OktaPosh-test-ThirdPartyAdmin",
+            "policyName": "OktaPosh-test-ThirdPartyAdmin-Policy",
             "scopes": [
                 "access:token",
                 "get:item",
@@ -97,8 +97,8 @@
             ]
         },
         {
-            "name": "test-Analytics",
-            "policyName": "test-Analytics-Policy",
+            "name": "OktaPosh-test-Analytics",
+            "policyName": "OktaPosh-test-Analytics-Policy",
             "scopes": [
                 "access:token",
                 "get:item",

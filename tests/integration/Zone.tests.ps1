@@ -4,20 +4,20 @@ BeforeAll {
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ dynamicName = "test-dynamic-zone"
-                        blockName = "test-block-zone"
-                        policyName = "test-policy-zone"
+    "It:TestCases" = @{ dynamicName = "OktaPosh-test-dynamic-zone"
+                        blockName = "OktaPosh-test-block-zone"
+                        policyName = "OktaPosh-test-policy-zone"
                         vars = @{
-                            dynamicZone = @{id = $null ;name="test-dynamic-zone"}
-                            blockZone = @{id = $null;name="test-block-zone"}
-                            policyZone = @{id = $null;name="test-policy-zone"}
+                            dynamicZone = @{id = $null ;name="OktaPosh-test-dynamic-zone"}
+                            blockZone = @{id = $null;name="OktaPosh-test-block-zone"}
+                            policyZone = @{id = $null;name="OktaPosh-test-policy-zone"}
                         }
                     }
 }
 
 Describe "Cleanup" {
     It "Remove test zone" {
-        Get-OktaZone | Where-Object name -like test-*-zone | Remove-OktaZone -confirm:$false
+        Get-OktaZone | Where-Object name -like OktaPosh-test-*-zone | Remove-OktaZone -confirm:$false
     }
 }
 
@@ -36,7 +36,7 @@ Describe "Zone" {
     }
     It "Gets Zones" {
         $zones = @(Get-OktaZone)
-        ($zones | Where-Object name -like test-*-zone).Count | Should -BeGreaterOrEqual 3
+        ($zones | Where-Object name -like OktaPosh-test-*-zone).Count | Should -BeGreaterOrEqual 3
     }
     It "Gets Zone By Usage" {
         $zones = Get-OktaZone -Usage POLICY
@@ -63,7 +63,7 @@ Describe "Zone" {
 
 Describe "Cleanup" {
     It "Remove test zone" {
-        # Get-OktaZone | Where-Object name -like test-*-zone | Remove-OktaZone -confirm:$false
+        # Get-OktaZone | Where-Object name -like OktaPosh-test-*-zone | Remove-OktaZone -confirm:$false
     }
 }
 
