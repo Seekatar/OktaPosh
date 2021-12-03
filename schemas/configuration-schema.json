@@ -168,6 +168,10 @@
                     "description": "Sign on mode, defaults to OPENID_CONNECT for Servers",
                     "type": "string"
                 },
+                "policyName": {
+                    "description": "Sign on mode, defaults to OPENID_CONNECT for Servers",
+                    "type": "string"
+                },
                 "scopes": {
                     "description": "Any scopes to add to the server app",
                     "type": "array",
@@ -181,10 +185,6 @@
                     "items": {
                         "type": "string"
                     }
-                },
-                "inactive": {
-                    "description": "Set to add as inactive",
-                    "type": "boolean"
                 },
                 "properties": {
                     "description": "Additional properties for the app",
@@ -201,11 +201,8 @@
                 "redirectUris",
                 "grantTypes"
             ],
+            "allOf" : [ { "$ref": "#/$defs/serverApplication" } ],
             "properties": {
-                "name": {
-                    "description": "Application name",
-                    "type": "string"
-                },
                 "redirectUris": {
                     "description": "URIs where Okta will send relying party initiated logouts.",
                     "type": "array",
@@ -245,24 +242,6 @@
                         ]
                     },
                     "minItems": 1
-                },
-                "scopes": {
-                    "description": "Array of scope names to allow",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "groups": {
-                    "description": "Array of groups to associated to the app",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "inactive": {
-                    "description": "Set to add as inactive",
-                    "type": "boolean"
                 }
             }
         },
@@ -284,7 +263,7 @@
                     "description": "Set to publish in public metadata",
                     "type": "boolean"
                 },
-                "isDefault": {
+                "default": {
                     "description": "Set to include in the default scope",
                     "type": "boolean"
                 }

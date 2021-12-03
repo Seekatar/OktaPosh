@@ -43,8 +43,7 @@ authServer:
           }
         }
         "      rules:"
-        $rf = "rules_$($p.name).json"
-        if (Test-Path $rf) {
+        foreach ($rf in (Get-Item "rules_$($p.name)_*.json")) {
           $rules = ConvertFrom-Json (Get-Content $rf -raw)
           Write-Verbose "Processing $rf"
           foreach ($r in $rules | Where-Object system -eq $false) {
@@ -98,6 +97,8 @@ authServer:
       foreach ($s in $scopes | Where-Object system -eq $false | Sort-Object -Property name) {
         @"
     - name: $($s.name)
+      metadataPublish: $($s.metadataPublish)
+      default: $($s.default)
 "@
     }
   }

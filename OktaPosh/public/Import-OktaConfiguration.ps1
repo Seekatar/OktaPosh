@@ -23,7 +23,7 @@ function addAuthServer {
         Write-Information "Found auth server '$($authConfig.name)'"
     } else {
         $authServer = New-OktaAuthorizationServer -Name $authConfig.name `
-                                                  -Audience $authConfig.audience `
+                                                  -Audiences $authConfig.audience `
                                                   -Description (getProp $authConfig "description" "Added By OktaPosh")
         if ($authServer -or $WhatIfPreference) {
             Write-Information "Added auth server '$($authConfig.name)'"
@@ -42,10 +42,10 @@ function addScopes( $config, $authServerId ) {
     $scopesConfig = @(getProp $config "scopes" @())
     if ($scopesConfig) {
         $existingScopes = Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty name
-        $scopes = $scopesConfig | Where-Object { $_.name -notin $existingScopes }
-        if ($scopes) {
-            $null = $scopes | New-OktaScope -AuthorizationServerId $authServerId
-            Write-Information "  Scopes added: $($scopes.name -join ',')"
+        $scopeToAdd = $scopesConfig | Where-Object { $_.name -notin $existingScopes }
+        if ($scopeToAdd) {
+            $null = $scopeToAdd | New-OktaScope -AuthorizationServerId $authServerId
+            Write-Information "  Scopes added: $($scopeToAdd.name -join ',')"
         } else {
             Write-Information "  All scopes found"
         }
@@ -136,51 +136,8 @@ function addServerApplications($config, $authServerId) {
             Write-Information "Added app '$appName'"
         }
 
-        addPolicyAndRule $appConfig $authServerId $app.Id
+        Add-PolicyAndRule (getProp $appConfig "policyName" "") $authServerId $app.Id "client_credentials"
         addAppGroups $appConfig $app.Id
-    }
-}
-
-function addPolicyAndRule($config, $authServerId, $appId) {
-    # create policies to restrict scopes per app
-    $policyName = getProp $appConfig "policyName" ""
-    if ($policyName) {
-        $policy = Get-OktaPolicy -AuthorizationServerId $authServerId -Query $policyName
-        if ($policy) {
-            Write-Information "  Found policy '$($policyName)'"
-        } else {
-            $policy = New-OktaPolicy -AuthorizationServerId $authServerId `
-                                     -Name $policyName `
-                                     -ClientIds $appId
-            Write-Information "  Added policy '$($policyName)'"
-        }
-        if (!$WhatIfPreference) {
-            $rule = Get-OktaRule -AuthorizationServerId $authServerId `
-                                -PolicyId $policy.id `
-                                -Query "Allow $($policyName)"
-        } else {
-            $rule = $null
-        }
-        if ($rule) {
-            Write-Information "  Found rule 'Allow $($policyName)'"
-            if (!(arraysEqual $rule.conditions.scopes.include $appConfig.scopes)) {
-                $rule.conditions.scopes.include = $appConfig.scopes
-                $null = Set-OktaRule -AuthorizationServerId $authServerId `
-                                     -PolicyId $policy.id `
-                                     -Rule $rule
-                Write-Information "  Updated rule's scopes"
-            }
-        } else {
-            if (!$WhatIfPreference) {
-                $rule = New-OktaRule -AuthorizationServerId $authServerId `
-                                    -Name "Allow $($policyName)" `
-                                    -PolicyId $policy.id `
-                                    -Priority 1 `
-                                    -GrantTypes client_credentials `
-                                    -Scopes $appConfig.scopes
-            }
-            Write-Information "  Added rule 'Allow $($policyName)'"
-        }
     }
 }
 
@@ -245,8 +202,10 @@ function addSpaApplications($config, $authServerId) {
                         -Label $appName `
                         -RedirectUris $appConfig.redirectUris `
                         -LoginUri $appConfig.loginUri `
-                        -GrantTypes (getProp $appConfig "grantTypes" $null) `
-                        -PostLogoutUris @(getProp $appConfig "postLogoutUris" @())
+                        -PostLogoutUris @(getProp $appConfig "postLogoutUris" @()) `
+                        -SignOnMode (getProp $appConfig "signOnMode" "OPENID_CONNECT") `
+                        -Properties (convertToHashTable (getProp $appConfig "properties" $null)) `
+                        -GrantTypes (getProp $appConfig "grantTypes" $null)
             $appId = "WhatIf"
             if ($app) {
                 $appId = $app.id
@@ -254,7 +213,7 @@ function addSpaApplications($config, $authServerId) {
             Write-Information "Added app '$appName' $appId"
         }
 
-        addPolicyAndRule $appConfig $authServerId $appId
+        Add-PolicyAndRule (getProp $appConfig "policyName" "") $authServerId $appId $appConfig.grantTypes
         addAppGroups $appConfig $appId
         addTrustedOrigins $appConfig
     }

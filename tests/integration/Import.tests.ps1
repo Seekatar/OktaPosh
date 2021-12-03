@@ -48,21 +48,21 @@ Describe "Imports Configuration" {
         cleanUp $true
     }
 
-    It "tests many-groups-ui-app" {
-        testImportExport "many-groups-ui-app" 1
-    }
-    It "tests server-app" {
-        testImportExport "server-app" 5
-    }
+    # It "tests many-groups-ui-app" {
+    #     testImportExport "many-groups-ui-app" 1
+    # }
+    # It "tests server-app" {
+    #     testImportExport "server-app" 5
+    # }
     It "tests ui-and-server-app" {
-        testImportExport "ui-and-server-app" 3
+        testImportExport "ui-and-server-app" 4
     }
-    It "tests ui-app" {
-        testImportExport "ui-app" 1
-    }
+    # It "tests ui-app" {
+    #     testImportExport "ui-app" 1
+    # }
 }
 
 AfterAll {
-    cleanUp $false
-    Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
+    # cleanUp $false
+    # Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
 }

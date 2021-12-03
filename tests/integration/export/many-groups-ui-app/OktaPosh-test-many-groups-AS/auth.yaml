@@ -8,6 +8,25 @@ authServer:
       clients:
         - OktaPosh-test-spa-app
       rules:
+        - name: Allow OktaPosh-test-spa-app-policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: authorization_code, implicit
+              scopes:
+                include: *
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
   claims:
     - name: email
       status: ACTIVE
@@ -174,18 +193,50 @@ authServer:
         scopes:
   scopes:
     - name: OktaPosh-test-gecko
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-horse
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-insect
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-kangaroo
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-nation
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-review
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-safe
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-scot
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-state
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-testclient
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-tower
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-traveler
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-usa
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-walrus
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-wind
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: OktaPosh-test-yellow
+      metadataPublish: NO_CLIENTS
+      default: False

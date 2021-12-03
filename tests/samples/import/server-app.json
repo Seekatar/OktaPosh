@@ -38,7 +38,8 @@
             {
                 "name": "{{ getProviderScope }}",
                 "description": "Added by OktaPosh",
-                "metadataPublish": false
+                "metadataPublish": true,
+                "default": true
             }
         ],
         "claims": [
@@ -64,7 +65,8 @@
                 "{{ accessTokenScope }}",
                 "{{ getItemScope }}",
                 "{{ saveItemScope }}",
-                "{{ getProviderScope }}"
+                "{{ getProviderScope }}",
+                "{{ removeItemScope }}"
             ]
         },
         {
@@ -101,8 +103,7 @@
             "policyName": "{{ analyticsApp }}-Policy",
             "scopes": [
                 "{{ accessTokenScope }}",
-                "{{ getItemScope }}",
-                "{{ getProviderScope }}"
+                "{{ getItemScope }}"
             ]
         }
     ]

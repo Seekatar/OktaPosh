@@ -43,6 +43,8 @@ function New-OktaScope
         [string] $Description,
         [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $MetadataPublish,
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [Alias("default")]
         [switch] $DefaultScope
     )
 

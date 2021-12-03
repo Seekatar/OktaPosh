@@ -36,6 +36,7 @@ function New-OktaServerApplication {
     param (
         [Parameter(Mandatory)]
         [string] $Label,
+        [ObsoleteAttribute("Always active on add")]
         [switch] $Inactive,
         [string] $SignOnMode = "OPENID_CONNECT",
         [hashtable] $Properties
@@ -46,7 +47,6 @@ function New-OktaServerApplication {
     # settings for OAUTH https://developer.okta.com/docs/reference/api/apps/#add-oauth-2-0-client-application
     $body = [PSCustomObject]@{
         name      = $Name
-        status    = ternary $Inactive "INACTIVE" "ACTIVE"
         label     = $Label
         signOnMode = $SignOnMode
         settings   = @{
@@ -79,6 +79,7 @@ function New-OktaSpaApplication {
         [Parameter(Mandatory)]
         [string] $LoginUri,
         [string[]] $PostLogoutUris,
+        [ObsoleteAttribute("Always active on add")]
         [switch] $Inactive,
         [string] $SignOnMode = "OPENID_CONNECT",
         [hashtable] $Properties,

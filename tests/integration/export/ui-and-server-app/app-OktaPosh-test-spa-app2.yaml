@@ -1,0 +1,14 @@
+label: OktaPosh-test-spa-app2
+status: ACTIVE
+name: oidc_client
+settings:
+  oauthClient:
+    redirectUris: https://mydomain-dev.OktaPosh.com/my-ui/implicit/callback
+    post_logout_redirect_uris: https://flask-web-dev.OktaPosh.com/authorization-code/callback, https://mydomain-dev.OktaPosh.com/my-ui
+    grant_types: authorization_code, implicit, refresh_token
+    response_types: code, id_token, token
+    initiate_login_uri: https://mydomain-dev.OktaPosh.com/my-ui
+    application_type: browser
+    consent_method: REQUIRED
+groups:
+

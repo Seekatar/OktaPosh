@@ -39,12 +39,12 @@ function Export-OktaAuthorizationServer {
             Get-OktaScope -AuthorizationServerId $AuthorizationServerId | ConvertTo-Json -Depth 5 | Out-File "scopes.json" -enc $encoding
             Join-Path $PWD "scopes.json"
 
-            $policies = Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId -Json
-            $policies | out-file "policies.json" -enc $encoding
+            $policies = Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId
+            $policies | ConvertTo-Json -Depth 5 | Out-File "policies.json" -enc $encoding
             Join-Path $PWD "policies.json"
 
             $j = 1
-            $temp = ConvertFrom-Json $policies # PS v5 quirk sends array through on next instead of each item, if don't use temp
+            $temp = $policies
             $temp | ForEach-Object { $policyName = $_.name; Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id } | ForEach-Object {
                 $_ | ConvertTo-Json -Depth 5 | Out-File "rules_${policyName}_$j.json" -enc $encoding
                 Join-Path $PWD "rules_${policyName}_$j.json"
