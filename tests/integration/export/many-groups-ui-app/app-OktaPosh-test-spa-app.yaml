@@ -11,7 +11,8 @@ settings:
     application_type: browser
     consent_method: REQUIRED
 groups:
-  - OktaPosh-test-gecko-group
+  - OktaPosh-test-client-group
+   - OktaPosh-test-gecko-group
    - OktaPosh-test-horse-group
    - OktaPosh-test-insect-group
    - OktaPosh-test-kangaroo-group

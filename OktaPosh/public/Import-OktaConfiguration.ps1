@@ -42,8 +42,8 @@ function addAuthServer {
 function addScopes( $config, $authServerId ) {
     $scopesConfig = @(getProp $config "scopes" @())
     if ($scopesConfig) {
-        $existingScopes = Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty name
-        $scopeToAdd = $scopesConfig | Where-Object { $_.name -notin $existingScopes }
+        $existingScopeNames = @(Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty name)
+        $scopeToAdd = $scopesConfig | Where-Object { $_.name -notin $existingScopeNames }
         if ($scopeToAdd) {
             $null = $scopeToAdd | New-OktaScope -AuthorizationServerId $authServerId
             Write-Information "  Scopes added: $($scopeToAdd.name -join ',')"
@@ -95,16 +95,18 @@ function addGroups ($config, $authServerId) {
             $script:existingGroups += New-OktaGroup -Name $group.Name
             Write-Information "  Added group '$($group.Name)'"
         }
+        $existingScopeNames = @(Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty Name)
+        $existingClaimNames = @(Get-OktaClaim -AuthorizationServerId $authServerId | Select-Object -ExpandProperty Name)
         foreach ($group in $groupConfigs) {
             if ((getProp $group "scope" "")) {
-                if (Get-OktaScope -AuthorizationServerId $authServerId -Query $group.scope) {
+                if ($group.scope -in $existingScopeNames) {
                     Write-Information "  Found scope $($group.scope)"
                 } else {
                     $null = New-OktaScope -AuthorizationServerId $authServerId `
                                         -Name $group.scope
                     Write-Information "  Added scope '$($group.scope)'"
                 }
-                if (Get-OktaClaim -AuthorizationServerId $authServerId -Query $group.scope) {
+                if ($group.scope -in $existingClaimNames) {
                     Write-Information "  Found claim $($group.scope)"
                 } else {
                     $null = New-OktaClaim -AuthorizationServerId $authServerId `
@@ -137,7 +139,7 @@ function addServerApplications($config, $authServerId) {
             Write-Information "Added app '$appName'"
         }
 
-        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $app.Id "client_credentials"
+        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $app.Id "client_credentials" $appConfig.scopes
         addAppGroups $appConfig $app.Id
     }
 }
@@ -146,12 +148,18 @@ function addAppGroups($appConfig, $appId) {
     $groupNames = @(getProp $appConfig "groups")
     Write-Debug "Found $($groupNames.Count) groupNames to add $($groupNames | out-string)"
     if ($groupNames) {
-        $appGroupIds = @((Get-OktaApplicationGroup -AppId $appId) | Select-Object -ExpandProperty id)
-        while (Test-OktaNext -ObjectName "apps/$($appId)/groups" ) { $appGroupIds += (Get-OktaApplicationGroup -AppId $appId -Next).id }
+        $existingGroupIds = @((Get-OktaApplicationGroup -AppId $appId) | ForEach-Object { ($_._links.group.href -split '/')[-1] })
+        while (Test-OktaNext -ObjectName "apps/$($appId)/groups" ) {
+            $existingGroupIds += (Get-OktaApplicationGroup -AppId $appId -Next | ForEach-Object { ($_._links.group.href -split '/')[-1] } )
+        }
 
-        $groups = @($script:existingGroups | Where-Object { $_.profile.name -in $groupNames })
+        foreach ($missingGroup in ($groupNames | Where-Object { $_ -notin $script:existingGroups.profile.name})) {
+            Write-Warning "Adding missing group configured only in app '$missingGroup'. Add to groups section to avoid warning"
+            $script:existingGroups += New-OktaGroup -Name $missingGroup -Description "Added by OktaPosh"
+        }
+        $groupsToAdd = @($script:existingGroups | Where-Object { ($_.profile.name -in $groupNames) -and ($_.id -notin $existingGroupIds) })
 
-        foreach ($group in ($groups | Where-Object { $_.id -notin $appGroupIds})) {
+        foreach ($group in $groupsToAdd) {
             $null = Add-OktaApplicationGroup -AppId $appId -GroupId $group.id
             Write-Information "  Added group to app '$($group.profile.name)'"
         }
@@ -214,7 +222,7 @@ function addSpaApplications($config, $authServerId) {
             Write-Information "Added app '$appName' $appId"
         }
 
-        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $appId $appConfig.grantTypes
+        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $appId $appConfig.grantTypes $appConfig.scopes
         addAppGroups $appConfig $appId
         addTrustedOrigins $appConfig
     }
@@ -268,6 +276,8 @@ if ($DumpConfig) {
 $prevInformationPreference = $InformationPreference
 $InformationPreference = ternary $Quiet "SilentlyContinue" "Continue"
 try {
+    $script:existingGroups = @()
+
     $authServerId = addAuthServer $config
 
     addScopes $config.authorizationServer $authServerId

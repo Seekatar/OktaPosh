@@ -1,4 +1,8 @@
-function addPolicyAndRule($policyName, $authServerId, $appId, $grantTypes) {
+
+function addPolicyAndRule($policyName, $authServerId, $appId, $grantTypes, $scopes) {
+
+    Set-StrictMode -Version Latest
+
     # create policies to restrict scopes per app
     if ($policyName) {
         $policy = Get-OktaPolicy -AuthorizationServerId $authServerId -Query $policyName
@@ -19,8 +23,8 @@ function addPolicyAndRule($policyName, $authServerId, $appId, $grantTypes) {
         }
         if ($rule) {
             Write-Information "  Found rule 'Allow $($policyName)'"
-            if (!(arraysEqual $rule.conditions.scopes.include $appConfig.scopes)) {
-                $rule.conditions.scopes.include = $appConfig.scopes
+            if (!(arraysEqual $rule.conditions.scopes.include $scopes)) {
+                $rule.conditions.scopes.include = $scopes
                 $null = Set-OktaRule -AuthorizationServerId $authServerId `
                                      -PolicyId $policy.id `
                                      -Rule $rule
@@ -33,7 +37,7 @@ function addPolicyAndRule($policyName, $authServerId, $appId, $grantTypes) {
                                     -PolicyId $policy.id `
                                     -Priority 1 `
                                     -GrantTypes $grantTypes `
-                                    -Scopes $appConfig.scopes
+                                    -Scopes $scopes
             }
             Write-Information "  Added rule 'Allow $($policyName)'"
         }

@@ -45,9 +45,9 @@ function Export-OktaAuthorizationServer {
 
             $j = 1
             $temp = $policies
-        $temp | ForEach-Object { $policyName = $_.name; Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id } | ForEach-Object {
-                $_ | ConvertTo-Json -Depth 5 | Out-File "rules_${policyName}_$j.json" -enc $encoding
-                Join-Path $PWD "rules_${policyName}_$j.json"
+            $temp | ForEach-Object { $script:policyName = $_.name; Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id } | ForEach-Object {
+                $_ | ConvertTo-Json -Depth 5 | Out-File "rules_${script:policyName}_$j.json" -enc $encoding
+                Join-Path $PWD "rules_${script:policyName}_$j.json"
                 $j += 1
             }
         } catch {
