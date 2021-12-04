@@ -1,4 +1,4 @@
-function Add-PolicyAndRule($policyName, $authServerId, $appId, $grantTypes) {
+function addPolicyAndRule($policyName, $authServerId, $appId, $grantTypes) {
     # create policies to restrict scopes per app
     if ($policyName) {
         $policy = Get-OktaPolicy -AuthorizationServerId $authServerId -Query $policyName

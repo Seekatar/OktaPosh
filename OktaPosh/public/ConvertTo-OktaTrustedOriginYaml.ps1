@@ -2,6 +2,7 @@
 function ConvertTo-OktaTrustedOriginYaml
 {
     [CmdletBinding()]
+    [OutputType([string])]
     param (
         [string] $OriginLike = '*'
     )

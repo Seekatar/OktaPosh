@@ -4,7 +4,7 @@ BeforeAll {
         Get-OktaAuthorizationServer -Query 'OktaPosh-test-' | Remove-OktaAuthorizationServer -Confirm:$false
         Get-OktaApplication -Query 'OktaPosh-test-' | Remove-OktaApplication -Confirm:$false
         Get-OktaGroup -Query 'OktaPosh-test-' | Remove-OktaGroup -Confirm:$false
-        Get-OktaTrustedOrigin | Where-Object origin -like '*.OktaPosh.*' | Remove-OktaTrustedOrigin -Confirm:$false
+        Get-OktaTrustedOrigin | Where-Object origin -like '*.OktaPosh*' | Remove-OktaTrustedOrigin -Confirm:$false
     }
 }
 

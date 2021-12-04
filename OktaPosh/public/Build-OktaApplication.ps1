@@ -57,7 +57,7 @@ function Build-OktaSpaApplication {
         Write-Information "Added app '$appName' $($app.id)"
     }
 
-    Add-PolicyAndRule "$($app.Label)-Policy" $AuthServerId $app.id $GrantTypes
+    addPolicyAndRule "$($app.Label)-Policy" $AuthServerId $app.id $GrantTypes
 
     return $app
 

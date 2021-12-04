@@ -8,6 +8,25 @@ authServer:
       clients:
         - OktaPosh-test-spa-app
       rules:
+        - name: Allow OktaPosh-test-spa-app-policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: authorization_code, implicit
+              scopes:
+                include: *
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
   claims:
     - name: client.group1
       status: ACTIVE
@@ -78,6 +97,14 @@ authServer:
         scopes:
   scopes:
     - name: client.group1
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: client.group2
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: client.group3
+      metadataPublish: NO_CLIENTS
+      default: False
     - name: client.group4
+      metadataPublish: NO_CLIENTS
+      default: False

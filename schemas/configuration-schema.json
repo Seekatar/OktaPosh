@@ -194,6 +194,7 @@
             }
         },
         "spaApplication": {
+            "allOf" : [ { "$ref": "#/$defs/serverApplication" } ],
             "type": "object",
             "required": [
                 "name",
@@ -201,7 +202,6 @@
                 "redirectUris",
                 "grantTypes"
             ],
-            "allOf" : [ { "$ref": "#/$defs/serverApplication" } ],
             "properties": {
                 "redirectUris": {
                     "description": "URIs where Okta will send relying party initiated logouts.",

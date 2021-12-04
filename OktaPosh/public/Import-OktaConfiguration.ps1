@@ -15,6 +15,7 @@ $script:existingGroups = @()
 
 function addAuthServer {
     [CmdletBinding(SupportsShouldProcess)]
+    [OutputType([string])]
     param ($config)
 
     $authConfig = $config.authorizationServer
@@ -136,7 +137,7 @@ function addServerApplications($config, $authServerId) {
             Write-Information "Added app '$appName'"
         }
 
-        Add-PolicyAndRule (getProp $appConfig "policyName" "") $authServerId $app.Id "client_credentials"
+        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $app.Id "client_credentials"
         addAppGroups $appConfig $app.Id
     }
 }
@@ -213,7 +214,7 @@ function addSpaApplications($config, $authServerId) {
             Write-Information "Added app '$appName' $appId"
         }
 
-        Add-PolicyAndRule (getProp $appConfig "policyName" "") $authServerId $appId $appConfig.grantTypes
+        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $appId $appConfig.grantTypes
         addAppGroups $appConfig $appId
         addTrustedOrigins $appConfig
     }
@@ -221,7 +222,7 @@ function addSpaApplications($config, $authServerId) {
 
 function replaceVariables {
     [CmdletBinding()]
-    param($JsonConfig)
+    param($JsonConfig,$Variables)
 
     $content = Get-Content $JsonConfig -Raw
     $config = ConvertFrom-Json $content
@@ -255,7 +256,7 @@ function replaceVariables {
     return ConvertFrom-Json $content
 }
 
-$config = replaceVariables $JsonConfig
+$config = replaceVariables $JsonConfig $Variables
 if ($DumpConfig) {
     $config
     if ($config.Contains("{{")) {

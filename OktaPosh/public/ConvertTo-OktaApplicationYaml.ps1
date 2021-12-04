@@ -62,7 +62,7 @@ settings:
             }
         $output += $groupNames | Sort-Object
         $output | Out-File (Join-Path $OutputFolder "app-$($app.label).yaml") -Encoding ascii
-        Write-Host (Join-Path $OutputFolder "app-$($app.label).yaml")
+        Write-Information (Join-Path $OutputFolder "app-$($app.label).yaml") -InformationAction Continue
     }
     Write-Verbose "Done"
 }

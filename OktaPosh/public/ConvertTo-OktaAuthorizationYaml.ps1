@@ -1,6 +1,7 @@
 function ConvertTo-OktaAuthorizationYaml
 {
     [CmdletBinding()]
+    [OutputType([string])]
     param (
         [Parameter(Mandatory)]
         [ValidateScript({Test-Path $_ -PathType Container})]

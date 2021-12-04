@@ -42,6 +42,10 @@ function New-OktaServerApplication {
         [hashtable] $Properties
     )
 
+    if ($Inactive) {
+        Write-Warning "Inactive switch ignored"
+    }
+
     $Name = "oidc_client" # https://developer.okta.com/docs/reference/api/apps/#app-names-and-settings
 
     # settings for OAUTH https://developer.okta.com/docs/reference/api/apps/#add-oauth-2-0-client-application
