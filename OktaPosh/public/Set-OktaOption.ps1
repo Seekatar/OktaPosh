@@ -29,6 +29,17 @@ function Set-OktaOption {
     }
 }
 
+function Get-OktaReadOnly {
+    $script:readOnly
+}
+
+function Set-OktaReadOnly {
+    param (
+        [bool] $ReadOnly = $true
+    )
+    $script:readOnly = $ReadOnly
+}
+
 function Get-OktaApiToken {
     param (
         [string] $ApiToken

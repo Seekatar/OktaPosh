@@ -14,9 +14,6 @@
         "titleBar.activeForeground": "#15202b",
         "titleBar.inactiveBackground": "#eaebfe99",
         "titleBar.inactiveForeground": "#15202b99",
-        "statusBar.border": "#eaebfe",
-        "tab.activeBorder": "#ffffff",
-        "titleBar.border": "#eaebfe",
         "sash.hoverBorder": "#ffffff",
         "statusBarItem.remoteBackground": "#eaebfe",
         "statusBarItem.remoteForeground": "#15202b"

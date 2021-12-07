@@ -1,9 +1,10 @@
 # Change Log
 
-## 2021-12-4 0.3.2
+## 2021-12-7 0.3.2
 
-* New function
+* New functions
   * Import-OktaConfiguration for easier CI/CD. This has a superset of the Build-OktaSpaApplication and Build-OktaAuthorizationServer functions
+  * Set-OktaReadOnly can disable any non-GET API calls in case you connect to a system you don't want to accidentally write to.
 * Updates
   * Set-Options has -WarnIfMore switch that will kick out a warning message if more data is available when getting items
   * Change Export-OktaAuthorizationServer to export formatted JSON instead of one line for easier comparing
