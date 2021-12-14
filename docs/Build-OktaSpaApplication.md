@@ -15,7 +15,7 @@ Helper to create an spa application
 ```
 Build-OktaSpaApplication [-Label] <String> [-RedirectUris] <String[]> [-LoginUri] <String>
  [[-PostLogoutUris] <String[]>] [-Inactive] [[-SignOnMode] <String>] [[-Properties] <Hashtable>]
- [[-GrantTypes] <String[]>] [-AuthServerId] <String> [[-Scopes] <String[]>] [<CommonParameters>]
+ [[-GrantTypes] <String[]>] [-AuthServerId] <String> [[-Scopes] <String[]>] [-Quiet] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -188,6 +188,21 @@ Aliases:
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Quiet
+Do not write out informational messages
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
