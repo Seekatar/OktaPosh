@@ -6,7 +6,8 @@ param(
     [string] $JsonConfig = "C:\code\OktaPosh\OktaPosh\public\datacapture-ui.json",
     [HashTable] $Variables = @{ cluster = "nonprod"; domainSuffix = "dev" },
     [switch] $DumpConfig,
-    [switch] $Quiet
+    [switch] $Quiet,
+    [switch] $Force
 )
 
 Set-StrictMode -Version Latest
@@ -249,6 +250,7 @@ function replaceVariables {
             $content = $content -replace ",`"{{\s*$($key)\s*}}`"", ""
         }
         $replacement = $vars[$key]
+
         if (Test-Path (Join-Path (Split-Path $JsonConfig -Parent) $vars[$key]) -PathType Leaf) {
             Write-Debug "Replacing $($key) with file content from $($vars[$key])"
             $replacement = Get-Content (Join-Path (Split-Path $JsonConfig -Parent) $vars[$key]) -Raw
@@ -260,6 +262,11 @@ function replaceVariables {
     }
     if ($DumpConfig) {
         return $content
+    } elseif (!$Force -and $content.Contains("{{")) {
+        Write-Warming "After variable replacement, $JsonConfig contains {{."
+        Write-Warming "Use -Force to run anyway."
+        Write-Warming "Use -DumpConfig to see output"
+        throw "ERROR: After variable replacement"
     }
     return ConvertFrom-Json $content
 }
@@ -268,10 +275,11 @@ $config = replaceVariables $JsonConfig $Variables
 if ($DumpConfig) {
     $config
     if ($config.Contains("{{")) {
-        Write-Error "After variable replacement, $JsonConfig contains {{"
+        Write-Error "ERROR: After variable replacement, $JsonConfig contains {{"
     }
     return
 }
+
 
 $prevInformationPreference = $InformationPreference
 $InformationPreference = ternary $Quiet "SilentlyContinue" "Continue"

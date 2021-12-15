@@ -14,6 +14,7 @@
   * Fix ConvertTo-OktaApplicationYaml to get all applications if more than default Limit of 20, and get all groups
   * Fix ConvertTo-OktaAuthorizationYaml in instance where label was missing, and claim sorting by type
   * Fix ConvertTo-OktaYaml to exclude directories starting with '.' to avoid warning
+  * Fix Export-OktaAuthorizationServer for policies with rules.
 
 ## 2021-08-01 0.3.1
 
