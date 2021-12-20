@@ -4,7 +4,7 @@ function ConvertTo-OktaYaml {
         [Parameter(Mandatory)]
         [string] $OutputFolder,
         [string] $AuthServerQuery,
-        [string] $ApplicationQuery,
+        [string[]] $ApplicationQuery,
         [string] $OriginLike = '*',
         [string[]] $GroupQueries,
         [switch] $WipeFolder
@@ -36,13 +36,16 @@ try {
 
     Get-ChildItem $OutputFolder -Directory -Exclude '.*' | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }
 
+    Write-Progress -Activity $activity -Status "Processing applications"
     $params = @{}
     if ($ApplicationQuery) {
-        $params['q'] = $ApplicationQuery
+        foreach ($appQuery in $ApplicationQuery) {
+            $params['q'] = $appQuery
+            ConvertTo-OktaApplicationYaml @params -OutputFolder "$OutputFolder"
+        }
+    } else {
+        ConvertTo-OktaApplicationYaml -OutputFolder "$OutputFolder"
     }
-    Write-Progress -Activity $activity -Status "Processing applications"
-
-    ConvertTo-OktaApplicationYaml @params -OutputFolder "$OutputFolder"
 
     Write-Progress -Activity $activity -Status "Processing trusted origins"
     ConvertTo-OktaTrustedOriginYaml -OriginLike $OriginLike | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)

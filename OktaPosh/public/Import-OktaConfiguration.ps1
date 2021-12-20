@@ -171,8 +171,8 @@ function addTrustedOrigins($config) {
     $originConfigs = @(getProp $config "origins" @())
     foreach ($origin in $originConfigs) {
         if (getProp $origin "origin" "") { # may have empty "additional"
-            if (Get-OktaTrustedOrigin -Filter "origin eq `"$origin`"") {
-                Write-Information "Found origin '$origin'"
+            if ((Get-OktaTrustedOrigin -Filter "origin eq `"$($origin.origin)`"")) {
+                Write-Information "Found origin '$($origin.origin)'"
             } else {
                 $null = New-OktaTrustedOrigin -Name (getProp $origin "name" $origin.origin) `
                                             -Origin $origin.origin `

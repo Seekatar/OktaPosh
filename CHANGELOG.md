@@ -10,6 +10,7 @@
   * Change Export-OktaAuthorizationServer to export formatted JSON instead of one line for easier comparing
   * Change Export-OktaAuthorizationServer to export more details about scopes and rules
   * New-Okta*Application Inactive switch obsolete since Okta always added as active.
+  * ConvertTo-OktaYaml now takes array for app name query
 * Fixes
   * Fix ConvertTo-OktaApplicationYaml to get all applications if more than default Limit of 20, and get all groups
   * Fix ConvertTo-OktaAuthorizationYaml in instance where label was missing, and claim sorting by type
