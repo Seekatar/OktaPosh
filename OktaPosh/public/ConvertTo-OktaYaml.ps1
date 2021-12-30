@@ -5,7 +5,7 @@ function ConvertTo-OktaYaml {
         [string] $OutputFolder,
         [string] $AuthServerQuery,
         [string[]] $ApplicationQuery,
-        [string] $OriginLike = '*',
+        [string] $OriginMatch = '.*',
         [string[]] $GroupQueries,
         [switch] $WipeFolder
     )
@@ -48,7 +48,7 @@ try {
     }
 
     Write-Progress -Activity $activity -Status "Processing trusted origins"
-    ConvertTo-OktaTrustedOriginYaml -OriginLike $OriginLike | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)
+    ConvertTo-OktaTrustedOriginYaml -OriginMatch $OriginMatch | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)
 
     Write-Progress -Activity $activity -Status "Processing groups"
     foreach ($g in $GroupQueries) {
@@ -58,8 +58,6 @@ try {
             $groups | ForEach-Object { $_.profile.name } | Sort-Object | Out-File (Join-Path $OutputFolder "groups-$g.yaml")
         }
     }
-    Write-Progress -Activity $activity -Status "Processing trusted origins"
-    ConvertTo-OktaTrustedOriginYaml -OriginLike $OriginLike | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)
 
 } catch {
     Write-Error "$_`n$($_.ScriptStackTrace)"

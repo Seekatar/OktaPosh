@@ -154,7 +154,7 @@ function addAppGroups($appConfig, $appId) {
             $existingGroupIds += (Get-OktaApplicationGroup -AppId $appId -Next | ForEach-Object { ($_._links.group.href -split '/')[-1] } )
         }
 
-        foreach ($missingGroup in ($groupNames | Where-Object { $_ -notin $script:existingGroups.profile.name})) {
+        foreach ($missingGroup in ($groupNames | Where-Object { $script:existingGroups -and $_ -notin $script:existingGroups.profile.name})) {
             Write-Warning "Adding missing group configured only in app '$missingGroup'. Add to groups section to avoid warning"
             $script:existingGroups += New-OktaGroup -Name $missingGroup -Description "Added by OktaPosh"
         }
@@ -171,14 +171,15 @@ function addTrustedOrigins($config) {
     $originConfigs = @(getProp $config "origins" @())
     foreach ($origin in $originConfigs) {
         if (getProp $origin "origin" "") { # may have empty "additional"
-            if ((Get-OktaTrustedOrigin -Filter "origin eq `"$($origin.origin)`"")) {
-                Write-Information "Found origin '$($origin.origin)'"
+            $name = (getProp $origin "name" $origin.origin)
+            if ((Get-OktaTrustedOrigin -Filter "name eq `"$name`"")) {
+                Write-Information "Found origin '$name' => '$($origin.origin)'"
             } else {
-                $null = New-OktaTrustedOrigin -Name (getProp $origin "name" $origin.origin) `
+                $null = New-OktaTrustedOrigin -Name $name `
                                             -Origin $origin.origin `
                                             -CORS:(getProp $origin "cors" $true) `
                                             -Redirect:(getProp $origin "redirect" $true)
-                Write-Information "Added origin '$($origin.origin)'"
+                Write-Information "Added origin '$name' => '$($origin.origin)'"
             }
         }
     }
@@ -247,25 +248,29 @@ function replaceVariables {
     foreach ($key in $vars.Keys) {
         if ($vars[$key] -eq "") {
             Write-Debug "Replacing $($key) as empty array item"
-            $content = $content -replace ",`"{{\s*$($key)\s*}}`"", ""
+            $content = $content -replace ",`"\s*{{\s*$($key)\s*}}\s*`"", ""
         }
         $replacement = $vars[$key]
 
         if (Test-Path (Join-Path (Split-Path $JsonConfig -Parent) $vars[$key]) -PathType Leaf) {
-            Write-Debug "Replacing $($key) with file content from $($vars[$key])"
+            Write-Debug "Replacing $($key) with file content from '$($vars[$key])'"
             $replacement = Get-Content (Join-Path (Split-Path $JsonConfig -Parent) $vars[$key]) -Raw
-            $content = $content -replace "`"{{\s*$($key)\s*}}`"", $replacement
+            $content = $content -replace "`"\s*{{\s*$($key)\s*}}\s*`"", $replacement
         } else {
-            Write-Debug "Replacing $($key) with $($vars[$key])"
-            $content = $content -replace "{{\s*$($key)\s*}}", $replacement
+            Write-Debug "Replacing $($key) with '$($vars[$key])'"
+            if ($replacement.StartsWith("{")) {
+                $content = $content -replace "`"\s*{{\s*$($key)\s*}}\s*`"", $replacement
+            } else {
+                $content = $content -replace "{{\s*$($key)\s*}}", $replacement
+            }
         }
     }
     if ($DumpConfig) {
         return $content
     } elseif (!$Force -and $content.Contains("{{")) {
-        Write-Warming "After variable replacement, $JsonConfig contains {{."
-        Write-Warming "Use -Force to run anyway."
-        Write-Warming "Use -DumpConfig to see output"
+        Write-Warning "After variable replacement, $JsonConfig contains {{."
+        Write-Warning "Use -Force to run anyway."
+        Write-Warning "Use -DumpConfig to see output"
         throw "ERROR: After variable replacement"
     }
     return ConvertFrom-Json $content
