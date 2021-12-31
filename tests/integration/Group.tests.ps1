@@ -4,7 +4,7 @@ BeforeAll {
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ groupName = "test-group"
+    "It:TestCases" = @{ groupName = "OktaPosh-test-group"
                         email = 'grouptestuser@mailinator.com'
                         email2 = 'grouptestuser2@mailinator.com'
                         vars = @{group =$null
@@ -54,10 +54,10 @@ Describe "Group" {
         $vars.group.profile.description | Should -Be "newer description"
     }
     It "Adds a user to a group and removes it" {
-        $vars.user = New-OktaUser -FirstName test-user -LastName test-user -Email $email
+        $vars.user = New-OktaUser -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email
         $vars.user | Should -Not -Be $null
 
-        $vars.user2 = New-OktaUser -FirstName test-user-2 -LastName test-user-2 -Email $email2
+        $vars.user2 = New-OktaUser -FirstName OktaPosh-test-user-2 -LastName OktaPosh-test-user-2 -Email $email2
         $vars.user2 | Should -Not -Be $null
 
         $null = Add-OktaGroupUser -GroupId $vars.group.id -UserId $vars.user.id

@@ -1,0 +1,130 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "accessTokenScope": "access:token",
+        "ui-path": "my-ui"
+    },
+    "authorizationServer": {
+        "name": "OktaPosh-test-ui-server-AS",
+        "audience": "https://mydomain/{{ ui-path }}",
+        "scopes": [
+            {
+                "name": "{{ accessTokenScope }}",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            }
+        ],
+        "claims": [
+            {
+                "name": "appName",
+                "valueType": "EXPRESSION",
+                "claimType": "RESOURCE",
+                "value": "app.profile.appName",
+                "scopes": []
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ACCESS_TOKEN"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ID_TOKEN"
+            },
+            {
+                "name": "login",
+                "valueType": "EXPRESSION",
+                "value": "user.email",
+                "claimType": "ACCESS_TOKEN"
+            }
+        ]
+    },
+    "groups": [
+        {
+            "name": "OktaPosh-test-user-group",
+            "scope": "test.user"
+        }
+    ],
+    "serverApplications": [
+        {
+            "name": "OktaPosh-test-server-app",
+            "properties": {
+                "appName": "My-OktaPosh-test-App"
+            },
+            "policyName": "OktaPosh-test-server-app-policy",
+            "scopes": [
+                "{{ accessTokenScope }}"
+            ]
+        },
+        {
+            "name": "OktaPosh-test-cicd-app",
+            "properties": {
+                "appName": "My-CICD-App"
+            },
+            "policyName": "cicd-app-policy",
+            "scopes": [
+                "{{ accessTokenScope }}"
+            ]
+        }
+    ],
+    "spaApplications": [
+        {
+            "name": "OktaPosh-test-spa-app",
+            "policyName": "OktaPosh-test-spa-app-policy",
+            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}",
+            "redirectUris": [
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}/implicit/callback",
+                "{{ additionalRedirect }}"
+            ],
+            "postLogoutUris": [
+                "https://flask-web{{ domainSuffix }}.{{ cluster }}.com/authorization-code/callback",
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}"
+            ],
+            "origins": [
+                {
+                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.com",
+                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com"
+                },
+                {
+                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}-2.com",
+                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}-2.com",
+                    "allowRedirect": false,
+                    "cors": false
+                }
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code"
+            ],
+            "scopes": [
+                "*"
+            ],
+            "groups": [
+                "OktaPosh-test-user-group"
+            ]
+        },
+        {
+            "name": "OktaPosh-test-spa-app2",
+            "policyName": "OktaPosh-test-spa-app-policy",
+            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}",
+            "redirectUris": [
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}/implicit/callback"
+            ],
+            "postLogoutUris": [
+                "https://flask-web{{ domainSuffix }}.{{ cluster }}.com/authorization-code/callback",
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}"
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code",
+                "refresh_token"
+            ],
+            "scopes": [
+                "access:token"
+            ]
+        }
+    ]
+}

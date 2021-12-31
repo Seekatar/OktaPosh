@@ -1,0 +1,157 @@
+authServer:
+  name: OktaPosh-test-server-AS
+  status: ACTIVE
+  audiences: https://mydomain/my-ui
+  policies:
+    - name: OktaPosh-test-Analytics-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-Analytics
+      rules:
+        - name: Allow OktaPosh-test-Analytics-Policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: client_credentials
+              scopes:
+                include: access:token, get:item
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+    - name: OktaPosh-test-Interface-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-Interface
+      rules:
+        - name: Allow OktaPosh-test-Interface-Policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: client_credentials
+              scopes:
+                include: access:token, get:item, get:provider, save:item
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+    - name: OktaPosh-test-main-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-main
+      rules:
+        - name: Allow OktaPosh-test-main-Policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: client_credentials
+              scopes:
+                include: access:token, get:item, get:provider, remove:item, save:item
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+    - name: OktaPosh-test-ThirdParty-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-ThirdParty
+      rules:
+        - name: Allow OktaPosh-test-ThirdParty-Policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: client_credentials
+              scopes:
+                include: access:token, get:item, get:provider
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+    - name: OktaPosh-test-ThirdPartyAdmin-Policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-ThirdPartyAdmin
+      rules:
+        - name: Allow OktaPosh-test-ThirdPartyAdmin-Policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: client_credentials
+              scopes:
+                include: access:token, get:item, get:provider, save:item
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+  claims:
+    - name: appName
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'app.profile.appName'
+      conditions:
+        scopes:
+          access:token
+    - name: sub
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: '(appuser != null) ? appuser.userName : app.clientId'
+      conditions:
+        scopes:
+  scopes:
+    - name: access:token
+      metadataPublish: NO_CLIENTS
+      default: False
+    - name: get:item
+      metadataPublish: NO_CLIENTS
+      default: False
+    - name: get:provider
+      metadataPublish: ALL_CLIENTS
+      default: True
+    - name: remove:item
+      metadataPublish: NO_CLIENTS
+      default: False
+    - name: save:item
+      metadataPublish: NO_CLIENTS
+      default: False

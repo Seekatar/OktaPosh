@@ -25,7 +25,7 @@ Get-OktaIdentityProvider -IdpId <String> [-Json] [<CommonParameters>]
 
 ### Next
 ```
-Get-OktaIdentityProvider [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaIdentityProvider [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

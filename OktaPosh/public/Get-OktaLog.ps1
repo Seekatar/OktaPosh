@@ -4,6 +4,7 @@
 # -Filter 'uuid eq "741dc322-cf76-11eb-899c-95a65059493b"'
 function Get-OktaLog {
     [CmdletBinding(DefaultParameterSetName="Query")]
+    [OutputType([object[]])]
     param (
         [Parameter(ParameterSetName="Query",Position=0)]
         [string] $Query,
@@ -26,9 +27,7 @@ function Get-OktaLog {
         [switch] $Json,
         [switch] $Objects,
         [Parameter(ParameterSetName="Next")]
-        [switch] $Next,
-        [Parameter(ParameterSetName="Next")]
-        [switch] $NoWarn
+        [switch] $Next
     )
 
     $extra = ''

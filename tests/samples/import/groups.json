@@ -1,0 +1,53 @@
+    {
+        "name": "OktaPosh-test-testclient-group",
+        "scope": "OktaPosh-test-testclient"
+    },
+    {
+        "name": "OktaPosh-test-review-group",
+        "scope": "OktaPosh-test-review"
+    },    {
+        "name": "OktaPosh-test-kangaroo-group",
+        "scope": "OktaPosh-test-kangaroo"
+    },    {
+        "name": "OktaPosh-test-insect-group",
+        "scope": "OktaPosh-test-insect"
+    },    {
+        "name": "OktaPosh-test-yellow-group",
+        "scope": "OktaPosh-test-yellow"
+    },    {
+        "name": "OktaPosh-test-walrus-group",
+        "scope": "OktaPosh-test-walrus"
+    },    {
+        "name": "OktaPosh-test-wind-group",
+        "scope": "OktaPosh-test-wind"
+    },    {
+        "name": "OktaPosh-test-OktaPosh-test-group",
+        "scope": "OktaPosh-test-test"
+    },    {
+        "name": "OktaPosh-test-usa-group",
+        "scope": "OktaPosh-test-usa"
+    },    {
+        "name": "OktaPosh-test-traveler-group",
+        "scope": "OktaPosh-test-traveler"
+    },    {
+        "name": "OktaPosh-test-tower-group",
+        "scope": "OktaPosh-test-tower"
+    },    {
+        "name": "OktaPosh-test-state-group",
+        "scope": "OktaPosh-test-state"
+    },    {
+        "name": "OktaPosh-test-scot-group",
+        "scope": "OktaPosh-test-scot"
+    },    {
+        "name": "OktaPosh-test-safe-group",
+        "scope": "OktaPosh-test-safe"
+    },    {
+        "name": "OktaPosh-test-nation-group",
+        "scope": "OktaPosh-test-nation"
+    },    {
+        "name": "OktaPosh-test-horse-group",
+        "scope": "OktaPosh-test-horse"
+    },    {
+        "name": "OktaPosh-test-gecko-group",
+        "scope": "OktaPosh-test-gecko"
+    },

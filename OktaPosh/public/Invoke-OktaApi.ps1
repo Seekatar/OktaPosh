@@ -1,6 +1,7 @@
 Set-StrictMode -Version Latest
 
 $script:limitThreshold = 10
+$script:readOnly = $false
 
 function Get-OktaRateLimit {
     param ()
@@ -63,6 +64,9 @@ function Invoke-OktaApi {
 
     $result = $null
     $writeMethod = $Method -in "Post", "Put", "Patch", "Merge"
+    if (($writeMethod -or $Method -eq "Delete") -and $script:readOnly) {
+        throw "Set-OktaReadOnly is set. And $Method was attempted on '$($params.Uri). Use Set-OktaReadOnly `$false to allow writes."
+    }
     if ($writeMethod -and $body) {
         Write-Verbose "Doing $method with body $body"
         $params["Body"] = $body
@@ -82,7 +86,7 @@ function Invoke-OktaApi {
                     }
                 }
             }
-            $response = Invoke-WebRequest @params
+            $response = Invoke-WebRequest @params -UseBasicParsing
         } catch {
             $e = $_
             # PS 5 throws on since don't have skipHttpErrorCheck

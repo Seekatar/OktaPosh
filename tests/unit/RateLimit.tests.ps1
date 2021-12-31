@@ -7,7 +7,7 @@ Describe "Test RateLimit" {
         $limits = Get-OktaRateLimit
         $limits.RateLimitRemaining = 1
         $limits.RateLimitResetLocal = (Get-Date) + [Timespan]::FromSeconds(5)
-        $elapse = Measure-Command { Get-OktaApplication -Limit 1 }
+        $elapse = Measure-Command { Get-OktaApplication -Limit 1 3> $null}
         $elapse.TotalSeconds | Should -BeGreaterThan 3
     }
 }

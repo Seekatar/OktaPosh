@@ -1,0 +1,110 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "accessTokenScope": "access:token",
+        "getItemScope": "get:item",
+        "saveItemScope": "save:item",
+        "removeItemScope": "remove:item",
+        "getProviderScope": "get:provider",
+        "mainApp": "OktaPosh-test-main",
+        "interfaceApp": "OktaPosh-test-Interface",
+        "3rdPartyApp": "OktaPosh-test-ThirdParty",
+        "analyticsApp": "OktaPosh-test-Analytics"
+    },
+    "authorizationServer": {
+        "name": "OktaPosh-test-server-AS",
+        "audience": "https://mydomain/my-ui",
+        "scopes": [
+            {
+                "name": "access:token",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "get:item",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "save:item",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "remove:item",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "get:provider",
+                "description": "Added by OktaPosh",
+                "metadataPublish": true,
+                "default": true
+            }
+        ],
+        "claims": [
+            {
+                "name": "appName",
+                "valueType": "EXPRESSION",
+                "claimType": "RESOURCE",
+                "value": "app.profile.appName",
+                "scopes": [
+                    "access:token"
+                ]
+            }
+        ]
+    },
+    "serverApplications": [
+        {
+            "name": "OktaPosh-test-main",
+            "properties": {
+                "appName": "OktaPosh-test-main"
+            },
+            "policyName": "OktaPosh-test-main-Policy",
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider",
+                "remove:item"
+            ]
+        },
+        {
+            "name": "OktaPosh-test-Interface",
+            "policyName": "OktaPosh-test-Interface-Policy",
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider"
+            ]
+        },
+        {
+            "name": "OktaPosh-test-ThirdParty",
+            "policyName": "OktaPosh-test-ThirdParty-Policy",
+            "scopes": [
+                "access:token",
+                "get:item",
+                "get:provider"
+            ]
+        },
+        {
+            "name": "OktaPosh-test-ThirdPartyAdmin",
+            "policyName": "OktaPosh-test-ThirdPartyAdmin-Policy",
+            "scopes": [
+                "access:token",
+                "get:item",
+                "save:item",
+                "get:provider"
+            ]
+        },
+        {
+            "name": "OktaPosh-test-Analytics",
+            "policyName": "OktaPosh-test-Analytics-Policy",
+            "scopes": [
+                "access:token",
+                "get:item"
+            ]
+        }
+    ]
+}

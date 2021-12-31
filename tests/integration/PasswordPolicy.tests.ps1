@@ -4,7 +4,7 @@ BeforeAll {
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ policyName = "test-policy"
+    "It:TestCases" = @{ policyName = "OktaPosh-test-policy"
                         vars = @{policy = $null
                                  rule = $null
                         } }

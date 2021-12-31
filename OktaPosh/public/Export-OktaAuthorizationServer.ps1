@@ -26,29 +26,31 @@ function Export-OktaAuthorizationServer {
             } else {
                 $encoding = "ascii"
             }
-            $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId -Json
+            $auth = Get-OktaAuthorizationServer -AuthorizationServerId $AuthorizationServerId
             if (!$auth) {
                 throw "Auth server not found for '$AuthorizationServerId'"
             }
-            $auth | Out-File authorizationServer.json -Encoding $encoding
+            $auth | ConvertTo-Json -Depth 5 | Out-File authorizationServer.json -Encoding $encoding
             Join-Path $PWD "authorizationServer.json"
 
-            Get-OktaClaim -AuthorizationServerId $AuthorizationServerId -Json | out-file "claims.json" -enc $encoding
+            Get-OktaClaim -AuthorizationServerId $AuthorizationServerId | ConvertTo-Json -Depth 5 | Out-File "claims.json" -enc $encoding
             Join-Path $PWD "claims.json"
 
-            Get-OktaScope -AuthorizationServerId $AuthorizationServerId -Json | out-file "scopes.json" -enc $encoding
+            Get-OktaScope -AuthorizationServerId $AuthorizationServerId | ConvertTo-Json -Depth 5 | Out-File "scopes.json" -enc $encoding
             Join-Path $PWD "scopes.json"
 
-            $policies = Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId -Json
-            $policies | out-file "policies.json" -enc $encoding
+            $policies = Get-OktaPolicy -AuthorizationServerId $AuthorizationServerId
+            $policies | ConvertTo-Json -Depth 5 | Out-File "policies.json" -enc $encoding
             Join-Path $PWD "policies.json"
 
             $j = 1
-            $temp = ConvertFrom-Json $policies # PS v5 quirk sends array through on next instead of each item, if don't use temp
-            $temp | ForEach-Object { Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id -Json } | ForEach-Object {
-                $_ | out-file "rules_$j.json" -enc $encoding
-                Join-Path $PWD "rules_$j.json"
-                $j += 1
+            $temp = $policies
+            $temp | ForEach-Object { $script:policyName = $_.name; Get-OktaRule -AuthorizationServerId $AuthorizationServerId -PolicyId $_.id } | ForEach-Object {
+                if ($_) {
+                    $_ | ConvertTo-Json -Depth 5 | Out-File "rules_${script:policyName}_$j.json" -enc $encoding
+                    Join-Path $PWD "rules_${script:policyName}_$j.json"
+                    $j += 1
+                }
             }
         } catch {
             Write-Error "$_`n$($_.ScriptStackTrace)"

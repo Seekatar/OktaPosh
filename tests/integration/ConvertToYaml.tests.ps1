@@ -8,18 +8,19 @@ BeforeAll {
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ groupName = "test-misc"
+    "It:TestCases" = @{ groupName = "OktaPosh-test-misc"
                       }
 }
 
 Describe "Yaml tests" {
-    It "Tests Get-OktaLog" {
+    It "ConvertTo-OktaYaml" {
         ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml -WipeFolder
         (Test-Path $env:TMP/oktaposh-yaml) | Should -BeTrue
         (Get-ChildItem $env:TMP/oktaposh-yaml/app-*).Count | Should -BeGreaterThan 1
         (Test-Path $env:TMP/oktaposh-yaml/trustedOrigins.yaml) | Should -BeTrue
     }
-    It "CleansUp" {
-        Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
-    }
+}
+
+AfterAll {
+    Remove-Item $env:TMP/oktaposh-yaml -Recurse -Force -ErrorAction Ignore
 }

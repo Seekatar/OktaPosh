@@ -83,6 +83,9 @@ function Test-OktaResult {
             if ($next) {
                 Write-Verbose "Status: $($result.StatusCode). Setting $ObjectPath = $($Matches[1])"
                 $script:nextUrls[$ObjectPath] = $Matches[1]
+                if ($script:warnIfMore) {
+                    Write-Warning "More data available for '$ObjectPath'"
+                }
             } else {
                 $script:nextUrls.Remove($ObjectPath)
             }

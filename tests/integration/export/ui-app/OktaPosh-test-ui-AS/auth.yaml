@@ -1,0 +1,110 @@
+authServer:
+  name: OktaPosh-test-ui-AS
+  status: ACTIVE
+  audiences: https://myapp/my-ui
+  policies:
+    - name: OktaPosh-test-spa-app-policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-spa-app
+      rules:
+        - name: Allow OktaPosh-test-spa-app-policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: authorization_code, implicit
+              scopes:
+                include: *
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+  claims:
+    - name: client.group1
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-client1-Group'
+      conditions:
+        scopes:
+          client.group1
+    - name: client.group2
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-client2-Group'
+      conditions:
+        scopes:
+          client.group2
+    - name: client.group3
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-client3-Group'
+      conditions:
+        scopes:
+          client.group3
+    - name: client.group4
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-client4-Group'
+      conditions:
+        scopes:
+          client.group4
+    - name: email
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'user.email'
+      conditions:
+        scopes:
+    - name: friendlyName
+      status: ACTIVE
+      claimType: IDENTITY
+      valueType: EXPRESSION
+      value: 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+      conditions:
+        scopes:
+    - name: friendlyName
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+      conditions:
+        scopes:
+    - name: login
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'user.email'
+      conditions:
+        scopes:
+    - name: sub
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: '(appuser != null) ? appuser.userName : app.clientId'
+      conditions:
+        scopes:
+  scopes:
+    - name: client.group1
+      metadataPublish: NO_CLIENTS
+      default: False
+    - name: client.group2
+      metadataPublish: NO_CLIENTS
+      default: False
+    - name: client.group3
+      metadataPublish: NO_CLIENTS
+      default: False
+    - name: client.group4
+      metadataPublish: NO_CLIENTS
+      default: False

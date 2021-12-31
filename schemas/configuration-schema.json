@@ -1,0 +1,299 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "http://seekatar/OktaPosh/",
+    "title": "OktaPosh Configuration Schema of Import-OktaConfiguration",
+    "type": "object",
+    "required": [
+        "authorizationServer"
+    ],
+    "properties": {
+        "authorizationServer": {
+            "description": "The authorization server to add or update",
+            "$ref": "#/$defs/authorizationServer"
+        },
+        "groups": {
+            "description": "The list of groups to add",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/group"
+            }
+        },
+        "serverApplications": {
+            "description": "Server-type applications",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/serverApplication"
+            }
+        },
+        "spaApplications": {
+            "description": "SPA-type applications",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/spaApplication"
+            }
+        },
+        "variables": {
+            "description": "Variables to substitute in the file. With {{ name }}",
+            "type": "object",
+            "additionalProperties": true
+        }
+    },
+    "$defs": {
+        "authorizationServer": {
+            "required": [
+                "name",
+                "audience"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name of the AuthorizationServer",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Optional description",
+                    "type": "string",
+                    "default": "Added by OktaPosh"
+                },
+                "audience": {
+                    "description": "Audience value for the AuthorizationServer",
+                    "type": "string"
+                },
+                "scopes": {
+                    "description": "Array of scopes to add to the AuthorizationServer",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/scope"
+                    }
+                },
+                "claims": {
+                    "description": "Array of claims to add to the AuthorizationServer",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/claim"
+                    }
+                }
+            }
+        },
+        "claim": {
+            "type": "object",
+            "required": [
+                "name",
+                "valueType",
+                "value"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of the claim",
+                    "type": "string"
+                },
+                "valueType": {
+                    "description": "Type of the value: EXPRESSION or GROUPS",
+                    "enum": [
+                        "EXPRESSION",
+                        "GROUPS"
+                    ]
+                },
+                "claimType": {
+                    "description": "Type of claim: RESOURCE, IDENTITY, ACCESS_TOKEN, ID_TOKEN",
+                    "enum": [
+                        "RESOURCE",
+                        "IDENTITY",
+                        "ACCESS_TOKEN",
+                        "ID_TOKEN"
+                    ]
+                },
+                "value": {
+                    "description": "Value of the claim, depends on the value type.",
+                    "type": "string"
+                },
+                "groupFilterType": {
+                    "description": "For group values, how it matches: STARTS_WITH, EQUALS, CONTAINS, REGEX",
+                    "enum": [
+                        "STARTS_WITH",
+                        "EQUALS",
+                        "CONTAINS",
+                        "REGEX",
+                        ""
+                    ]
+                },
+                "scopes": {
+                    "description": "Any scopes to add to the claim",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "alwaysIncludeInToken": {
+                    "description": "Always in include this token in the claim",
+                    "type": "boolean"
+                },
+                "inactive": {
+                    "description": "Set to add as inactive",
+                    "type": "boolean"
+                }
+            }
+        },
+        "group": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of the Okta Group",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Optional description",
+                    "type": "string"
+                },
+                "scope": {
+                    "description": "Add this scope, and claim of name",
+                    "type": "string"
+                }
+            }
+        },
+        "serverApplication": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Application name",
+                    "type": "string"
+                },
+                "signOnMode": {
+                    "description": "Sign on mode, defaults to OPENID_CONNECT for Servers",
+                    "type": "string"
+                },
+                "policyName": {
+                    "description": "Sign on mode, defaults to OPENID_CONNECT for Servers",
+                    "type": "string"
+                },
+                "scopes": {
+                    "description": "Any scopes to add to the server app",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "groups": {
+                    "description": "Array of groups to associated to the app",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "properties": {
+                    "description": "Additional properties for the app",
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "spaApplication": {
+            "allOf" : [ { "$ref": "#/$defs/serverApplication" } ],
+            "type": "object",
+            "required": [
+                "name",
+                "loginUri",
+                "redirectUris",
+                "grantTypes"
+            ],
+            "properties": {
+                "redirectUris": {
+                    "description": "URIs where Okta will send relying party initiated logouts.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1
+                },
+                "loginUri": {
+                    "description": "Initiate login URI",
+                    "type": "string"
+                },
+                "postLogoutUris": {
+                    "description": "URIs where Okta will send relying party initiated logouts.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "origins": {
+                    "description": "Name of Trusted Origins to add",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/trustedOrigin"
+                     }
+                },
+                "grantTypes": {
+                    "description": "Types of grant for the Rule",
+                    "type": "array",
+                    "items": {
+                        "enum": [
+                            "implicit",
+                            "code",
+                            "refresh",
+                            "authorization_code",
+                            "refresh_token"
+                        ]
+                    },
+                    "minItems": 1
+                }
+            }
+        },
+        "scope": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of Okta Scope",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Optional description",
+                    "type": "string"
+                },
+                "metadataPublish": {
+                    "description": "Set to publish in public metadata",
+                    "type": "boolean"
+                },
+                "default": {
+                    "description": "Set to include in the default scope",
+                    "type": "boolean"
+                }
+            }
+        },
+        "trustedOrigin": {
+            "type": "object",
+            "required": [
+                "origin"
+            ],
+            "properties": {
+                "name": {
+                    "description": "Name of Okta Trusted origin, will default to origin",
+                    "type": "string"
+                },
+                "origin": {
+                    "description": "Origin URL",
+                    "type": "string"
+                },
+                "cors": {
+                    "description": "Enables the origin URL to access Okta APIs from Javascript.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "allowRedirect": {
+                    "description": "Allows for browser redirection to 'Origin URL' after signing in or out.",
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        }
+    }
+}

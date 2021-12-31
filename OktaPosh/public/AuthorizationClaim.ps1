@@ -56,11 +56,7 @@ function New-OktaClaim
 
     process
     {
-        if ($ClaimType -eq "ACCESS_TOKEN") {
-            $ClaimType = "RESOURCE"
-        } elseif ($ClaimType -eq "ID_TOKEN") {
-            $ClaimType = "IDENTITY"
-        }
+        $ClaimType = normalizeClaimType $ClaimType
         $body = @{
             name      = $Name
             status    = ternary $Inactive "INACTIVE" "ACTIVE"

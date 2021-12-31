@@ -1,5 +1,11 @@
 param (
-    [ValidateSet('unit','integration','build','analyze','new-help','update-help')]
+    [ArgumentCompleter({
+        param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+        Get-Content (Join-Path $PSScriptRoot run.ps1) |
+                Where-Object { $_ -match "^\s+'([\w+-]+)' {" } |
+                ForEach-Object { if ( ($matches[1] -notin $fakeBoundParameters.$parameterName) -and ($matches[1] -like "*$wordToComplete*")) { $matches[1] } }
+     })]
+
     [string[]] $Task,
     [switch] $PesterPassThru
 )

@@ -1,0 +1,95 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "ui-path": "my-ui",
+        "additionalRedirect": "",
+        "additionalLogout": "",
+        "additionalOrigins": "{}"
+    },
+    "authorizationServer": {
+        "name": "OktaPosh-test-ui-AS",
+        "audience": "https://myapp/{{ ui-path }}",
+        "scopes": [],
+        "claims": [
+            {
+                "name": "email",
+                "valueType": "EXPRESSION",
+                "claimType": "ACCESS_TOKEN",
+                "value": "user.email"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ACCESS_TOKEN"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ID_TOKEN"
+            },
+            {
+                "name": "login",
+                "valueType": "EXPRESSION",
+                "value": "user.email",
+                "claimType": "ACCESS_TOKEN"
+            }
+        ]
+    },
+    "groups": [
+        {
+            "name": "OktaPosh-test-client1-Group",
+            "scope": "client.group1"
+        },
+        {
+            "name": "OktaPosh-test-client2-Group",
+            "scope": "client.group2"
+        },
+        {
+            "name": "OktaPosh-test-client3-Group",
+            "scope": "client.group3"
+        },
+        {
+            "name": "OktaPosh-test-client4-Group",
+            "scope": "client.group4"
+        }
+    ],
+    "spaApplications": [
+        {
+            "name": "OktaPosh-test-spa-app",
+            "policyName": "OktaPosh-test-spa-app-policy",
+            "loginUri": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}",
+            "redirectUris": [
+                "https://rbr{{ domainSuffix }}.myportal.com/{{ ui-path }}/implicit/callback",
+                "https://rbr{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}/implicit/callback",
+                "{{ additionalRedirect }}"
+            ],
+            "postLogoutUris": [
+                "https://mydomain{{ domainSuffix }}.casualty.portal.com/{{ ui-path }}",
+                "https://mydomain{{ domainSuffix }}.{{ cluster }}.com/{{ ui-path }}",
+                "{{ additionalLogout }}"
+            ],
+            "origins": [
+                {
+                    "name": "OktaPosh-test-mydomain{{ domainSuffix }}.{{ cluster }}.com",
+                    "origin": "https://mydomain{{ domainSuffix }}.{{ cluster }}.com"
+                },
+                "{{ additionalOrigins }}"
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code"
+            ],
+            "scopes": [
+                "*"
+            ],
+            "groups": [
+                "OktaPosh-test-client1-group",
+                "OktaPosh-test-client2-group",
+                "OktaPosh-test-client3-group",
+                "OktaPosh-test-client4-group"
+            ]
+        }
+    ]
+}

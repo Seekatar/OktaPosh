@@ -17,6 +17,8 @@ Get-OktaLink [-UserId] <String> [-LinkName] <String> [-GetUser] [-Json] [-WhatIf
  [<CommonParameters>]
 ```
 
+## DESCRIPTION
+
 ## EXAMPLES
 
 ### Example 1

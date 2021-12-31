@@ -1,0 +1,31 @@
+label: OktaPosh-test-spa-app
+status: ACTIVE
+name: oidc_client
+settings:
+  oauthClient:
+    redirectUris: http://localhost:8009/my-ui/implicit/callback, https://mydomain-dev.nonprod.aws..com/my-ui/implicit/callback
+    post_logout_redirect_uris: https://flask-web-dev.nonprod.aws.com/authorization-code/callback, https://mydomain-dev.OktaPosh.com/my-ui
+    grant_types: authorization_code, implicit
+    response_types: code, id_token, token
+    initiate_login_uri: https://mydomain-dev.OktaPosh.com/my-ui
+    application_type: browser
+    consent_method: REQUIRED
+groups:
+  - OktaPosh-test-client-group
+   - OktaPosh-test-gecko-group
+   - OktaPosh-test-horse-group
+   - OktaPosh-test-insect-group
+   - OktaPosh-test-kangaroo-group
+   - OktaPosh-test-nation-group
+   - OktaPosh-test-OktaPosh-test-group
+   - OktaPosh-test-review-group
+   - OktaPosh-test-safe-group
+   - OktaPosh-test-scot-group
+   - OktaPosh-test-state-group
+   - OktaPosh-test-tower-group
+   - OktaPosh-test-traveler-group
+   - OktaPosh-test-usa-group
+   - OktaPosh-test-walrus-group
+   - OktaPosh-test-wind-group
+   - OktaPosh-test-yellow-group
+

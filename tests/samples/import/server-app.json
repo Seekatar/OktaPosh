@@ -1,0 +1,110 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "accessTokenScope": "access:token",
+        "getItemScope": "get:item",
+        "saveItemScope": "save:item",
+        "removeItemScope": "remove:item",
+        "getProviderScope": "get:provider",
+        "mainApp": "OktaPosh-test-main",
+        "interfaceApp": "OktaPosh-test-Interface",
+        "3rdPartyApp": "OktaPosh-test-ThirdParty",
+        "analyticsApp": "OktaPosh-test-Analytics"
+    },
+    "authorizationServer": {
+        "name": "OktaPosh-test-server-AS",
+        "audience": "https://mydomain/my-ui",
+        "scopes": [
+            {
+                "name": "{{ accessTokenScope }}",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "{{ getItemScope }}",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "{{ saveItemScope }}",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "{{ removeItemScope }}",
+                "description": "Added by OktaPosh",
+                "metadataPublish": false
+            },
+            {
+                "name": "{{ getProviderScope }}",
+                "description": "Added by OktaPosh",
+                "metadataPublish": true,
+                "default": true
+            }
+        ],
+        "claims": [
+            {
+                "name": "appName",
+                "valueType": "EXPRESSION",
+                "claimType": "RESOURCE",
+                "value": "app.profile.appName",
+                "scopes": [
+                    "{{ accessTokenScope }}"
+                ]
+            }
+        ]
+    },
+    "serverApplications": [
+        {
+            "name": "{{ mainApp }}",
+            "properties": {
+                "appName": "{{ mainApp }}"
+            },
+            "policyName": "{{ mainApp }}-Policy",
+            "scopes": [
+                "{{ accessTokenScope }}",
+                "{{ getItemScope }}",
+                "{{ saveItemScope }}",
+                "{{ getProviderScope }}",
+                "{{ removeItemScope }}"
+            ]
+        },
+        {
+            "name": "{{ interfaceApp }}",
+            "policyName": "{{ interfaceApp }}-Policy",
+            "scopes": [
+                "{{ accessTokenScope }}",
+                "{{ getItemScope }}",
+                "{{ saveItemScope }}",
+                "{{ getProviderScope }}"
+            ]
+        },
+        {
+            "name": "{{ 3rdPartyApp }}",
+            "policyName": "{{ 3rdPartyApp }}-Policy",
+            "scopes": [
+                "{{ accessTokenScope }}",
+                "{{ getItemScope }}",
+                "{{ getProviderScope }}"
+            ]
+        },
+        {
+            "name": "{{ 3rdPartyApp }}Admin",
+            "policyName": "{{ 3rdPartyApp }}Admin-Policy",
+            "scopes": [
+                "{{ accessTokenScope }}",
+                "{{ getItemScope }}",
+                "{{ saveItemScope }}",
+                "{{ getProviderScope }}"
+            ]
+        },
+        {
+            "name": "{{ analyticsApp }}",
+            "policyName": "{{ analyticsApp }}-Policy",
+            "scopes": [
+                "{{ accessTokenScope }}",
+                "{{ getItemScope }}"
+            ]
+        }
+    ]
+}

@@ -4,13 +4,13 @@
 
 # Pester 5 need to pass in TestCases object to pass share
 $PSDefaultParameterValues = @{
-    "It:TestCases" = @{ dynamicName = "test-dynamic-zone"
-                        blockName = "test-block-zone"
-                        policyName = "test-policy-zone"
+    "It:TestCases" = @{ dynamicName = "OktaPosh-test-dynamic-zone"
+                        blockName = "OktaPosh-test-block-zone"
+                        policyName = "OktaPosh-test-policy-zone"
                         vars = @{
-                            dynamicZone = @{id = "123-123-345";name="test-dynamic-zone"}
-                            blockZone = @{id = "123-123-346";name="test-block-zone"}
-                            policyZone = @{id = "123-123-347";name="test-policy-zone"}
+                            dynamicZone = @{id = "123-123-345";name="OktaPosh-test-dynamic-zone"}
+                            blockZone = @{id = "123-123-346";name="OktaPosh-test-block-zone"}
+                            policyZone = @{id = "123-123-347";name="OktaPosh-test-policy-zone"}
                         }
                     }
 }

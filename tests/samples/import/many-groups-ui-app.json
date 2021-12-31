@@ -1,0 +1,71 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "in_this_example": "variables are passed in on command line. see Build-TestOutput.ps1"
+    },
+    "authorizationServer": {
+        "name": "OktaPosh-test-many-groups-AS",
+        "audience": "https://mydomain/my-ui",
+        "scopes": [],
+        "claims": [
+            {
+                "name": "email",
+                "valueType": "EXPRESSION",
+                "claimType": "ACCESS_TOKEN",
+                "value": "user.email"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ACCESS_TOKEN"
+            },
+            {
+                "name": "friendlyName",
+                "valueType": "EXPRESSION",
+                "value": "String.len(user.displayName) > 0 ? user.displayName : user.firstName+ \" \" + user.lastName",
+                "claimType": "ID_TOKEN"
+            },
+            {
+                "name": "login",
+                "valueType": "EXPRESSION",
+                "value": "user.email",
+                "claimType": "ACCESS_TOKEN"
+            }
+        ]
+    },
+    "groups": [
+        "{{ groupObjects }}"
+    ],
+    "spaApplications": [
+        {
+            "name": "OktaPosh-test-spa-app",
+            "policyName": "OktaPosh-test-spa-app-policy",
+            "loginUri": "https://mydomain-dev.OktaPosh.com/my-ui",
+            "redirectUris": [
+                "https://mydomain-dev.nonprod.aws..com/my-ui/implicit/callback",
+                "http://localhost:8009/my-ui/implicit/callback"
+            ],
+            "postLogoutUris": [
+                "https://flask-web-dev.nonprod.aws.com/authorization-code/callback",
+                "https://mydomain-dev.OktaPosh.com/my-ui"
+            ],
+            "origins": [
+                {
+                    "name": "OktaPosh-test-mydomain-dev.nonprod.aws.com",
+                    "origin": "https://mydomain-dev.OktaPosh.com"
+                }
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code"
+            ],
+            "scopes": [
+                "*"
+            ],
+            "groups": [
+                "{{ groupNames }}"
+            ]
+        }
+    ]
+}

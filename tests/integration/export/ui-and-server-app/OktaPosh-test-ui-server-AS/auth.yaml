@@ -1,0 +1,128 @@
+authServer:
+  name: OktaPosh-test-ui-server-AS
+  status: ACTIVE
+  audiences: https://mydomain/my-ui
+  policies:
+    - name: cicd-app-policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-cicd-app
+      rules:
+        - name: Allow cicd-app-policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: client_credentials
+              scopes:
+                include: access:token
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+    - name: OktaPosh-test-server-app-policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-server-app
+      rules:
+        - name: Allow OktaPosh-test-server-app-policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: client_credentials
+              scopes:
+                include: access:token
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+    - name: OktaPosh-test-spa-app-policy
+      status: ACTIVE
+      clients:
+        - OktaPosh-test-spa-app
+      rules:
+        - name: Allow OktaPosh-test-spa-app-policy
+          status: ACTIVE
+          conditions:
+            people:
+              users:
+                include: 
+                exclude: 
+              groups:
+                include: EVERYONE
+                exclude: 
+              grantTypes:
+                include: authorization_code, implicit
+              scopes:
+                include: access:token
+          actions:
+            token:
+              accessTokenLifetimeMinutes: 60
+              refreshTokenLifetimeMinutes: 0
+              refreshTokenWindowMinutes: 10080
+  claims:
+    - name: appName
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'app.profile.appName'
+      conditions:
+        scopes:
+    - name: friendlyName
+      status: ACTIVE
+      claimType: IDENTITY
+      valueType: EXPRESSION
+      value: 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+      conditions:
+        scopes:
+    - name: friendlyName
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'String.len(user.displayName) > 0 ? user.displayName : user.firstName+ " " + user.lastName'
+      conditions:
+        scopes:
+    - name: login
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: 'user.email'
+      conditions:
+        scopes:
+    - name: sub
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: EXPRESSION
+      value: '(appuser != null) ? appuser.userName : app.clientId'
+      conditions:
+        scopes:
+    - name: test.user
+      status: ACTIVE
+      claimType: RESOURCE
+      valueType: GROUPS
+      value: 'OktaPosh-test-user-group'
+      conditions:
+        scopes:
+          test.user
+  scopes:
+    - name: access:token
+      metadataPublish: NO_CLIENTS
+      default: False
+    - name: test.user
+      metadataPublish: NO_CLIENTS
+      default: False

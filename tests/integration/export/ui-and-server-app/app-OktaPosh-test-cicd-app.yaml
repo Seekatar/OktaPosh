@@ -1,0 +1,14 @@
+label: OktaPosh-test-cicd-app
+status: ACTIVE
+name: oidc_client
+settings:
+  oauthClient:
+    redirectUris: 
+    post_logout_redirect_uris: 
+    grant_types: client_credentials
+    response_types: token
+    initiate_login_uri: 
+    application_type: service
+    consent_method: TRUSTED
+groups:
+

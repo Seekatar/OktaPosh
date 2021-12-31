@@ -2,20 +2,20 @@ param(
     [switch] $Unit
 )
 
-Import-Module (Join-Path $PSScriptRoot ../OktaPosh/OktaPosh.psd1) -Force
+Import-Module (Join-Path $PSScriptRoot ../OktaPosh/OktaPosh.psd1) -Force 3> $null
 
 if ($Unit) {
     # Mock Invoke-OktaApi -ModuleName OktaPosh
     Mock -CommandName Invoke-WebRequest `
         -ModuleName OktaPosh `
         -MockWith {
-            $Response = New-MockObject -Type  Microsoft.PowerShell.Commands.WebResponseObject
+            $Response = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
             $Content = @"
 {
  "errorCode": "200",
- "name":"test",
- "system": "system",
- "id": "policyid",
+ "name":"mock",
+ "system": false,
+ "id": "1234",
  "access_token": "token",
  "sessionToken": "token",
  "profile":{"name": "test"},

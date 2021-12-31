@@ -1,5 +1,22 @@
 # Change Log
 
+## 2021-12-31 0.4.1
+
+* New functions
+  * Import-OktaConfiguration for easier CI/CD. This has a superset of the Build-OktaSpaApplication and Build-OktaAuthorizationServer functions
+  * Set-OktaReadOnly can disable any non-GET API calls in case you connect to a system you don't want to accidentally write to. Not that this has ever happened before.
+* Updates
+  * Set-Options has -WarnIfMore switch that will kick out a warning message if more data is available when getting items
+  * Change Export-OktaAuthorizationServer to export formatted JSON instead of one line for easier comparing
+  * Change Export-OktaAuthorizationServer to export more details about scopes and rules
+  * New-Okta*Application Inactive switch obsolete since Okta always added as active.
+  * ConvertTo-OktaYaml now takes array for app name query and regular expression for TrustedOrigins
+* Fixes
+  * Fix ConvertTo-OktaApplicationYaml to get all applications if more than default Limit of 20, and get all groups
+  * Fix ConvertTo-OktaAuthorizationYaml in instance where label was missing, and claim sorting by type
+  * Fix ConvertTo-OktaYaml to exclude directories starting with '.' to avoid warning
+  * Fix Export-OktaAuthorizationServer for policies with rules.
+
 ## 2021-08-01 0.3.1
 
 * Get-OktaLog better -Since and -Until support for d, h, m, s

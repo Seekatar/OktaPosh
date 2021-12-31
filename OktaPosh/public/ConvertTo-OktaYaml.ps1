@@ -4,13 +4,15 @@ function ConvertTo-OktaYaml {
         [Parameter(Mandatory)]
         [string] $OutputFolder,
         [string] $AuthServerQuery,
-        [string] $ApplicationQuery,
-        [string] $OriginLike = '*',
+        [string[]] $ApplicationQuery,
+        [string] $OriginMatch = '.*',
         [string[]] $GroupQueries,
         [switch] $WipeFolder
     )
+
 try {
     Set-StrictMode -Version Latest
+    $ErrorActionPreference = "Stop"
 
     if (Test-Path $OutputFolder) {
         if ($WipeFolder ) {
@@ -32,18 +34,21 @@ try {
         Write-Progress -Activity $activity -Status "Processing auth servers" -CurrentOperation $_.name
     }
 
-    Get-ChildItem $OutputFolder -Directory | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }
+    Get-ChildItem $OutputFolder -Directory -Exclude '.*' | ForEach-Object { ConvertTo-OktaAuthorizationYaml $_ | Out-File (Join-Path $_ auth.yaml) }
 
+    Write-Progress -Activity $activity -Status "Processing applications"
     $params = @{}
     if ($ApplicationQuery) {
-        $params['q'] = $ApplicationQuery
+        foreach ($appQuery in $ApplicationQuery) {
+            $params['q'] = $appQuery
+            ConvertTo-OktaApplicationYaml @params -OutputFolder "$OutputFolder"
+        }
+    } else {
+        ConvertTo-OktaApplicationYaml -OutputFolder "$OutputFolder"
     }
-    Write-Progress -Activity $activity -Status "Processing applications"
-
-    ConvertTo-OktaApplicationYaml @params -OutputFolder "$OutputFolder"
 
     Write-Progress -Activity $activity -Status "Processing trusted origins"
-    ConvertTo-OktaTrustedOriginYaml -OriginLike $OriginLike | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)
+    ConvertTo-OktaTrustedOriginYaml -OriginMatch $OriginMatch | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)
 
     Write-Progress -Activity $activity -Status "Processing groups"
     foreach ($g in $GroupQueries) {
@@ -53,8 +58,6 @@ try {
             $groups | ForEach-Object { $_.profile.name } | Sort-Object | Out-File (Join-Path $OutputFolder "groups-$g.yaml")
         }
     }
-    Write-Progress -Activity $activity -Status "Processing trusted origins"
-    ConvertTo-OktaTrustedOriginYaml -OriginLike $OriginLike | Out-File (Join-Path $OutputFolder trustedOrigins.yaml)
 
 } catch {
     Write-Error "$_`n$($_.ScriptStackTrace)"

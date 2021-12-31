@@ -1,12 +1,14 @@
 function ConvertTo-OktaAuthorizationYaml
 {
     [CmdletBinding()]
+    [OutputType([string])]
     param (
         [Parameter(Mandatory)]
         [ValidateScript({Test-Path $_ -PathType Container})]
         [string] $OutputFolder
     )
     Set-StrictMode -Version Latest
+    $ErrorActionPreference = "Stop"
 
   try {
       Push-Location $OutputFolder
@@ -28,7 +30,7 @@ authServer:
   policies:
 "@
     if ($policies) {
-    foreach ($p in $policies | Where-Object system -eq $false) {
+    foreach ($p in $policies | Where-Object system -eq $false | Sort-Object -Property name) {
       @"
     - name: $($p.name)
       status: $($p.status)
@@ -38,12 +40,11 @@ authServer:
           "        - ALL_CLIENTS"
         } else {
           foreach ($clientId in @($p.conditions.clients.include)) {
-            "        - $((Get-OktaApplication -Id $clientId).label)"
+            "        - $(getProp (Get-OktaApplication -Id $clientId) "label" "??")"
           }
         }
         "      rules:"
-        $rf = "rules_$($p.name).json"
-        if (Test-Path $rf) {
+        foreach ($rf in (Get-Item "rules_$($p.name)_*.json")) {
           $rules = ConvertFrom-Json (Get-Content $rf -raw)
           Write-Verbose "Processing $rf"
           foreach ($r in $rules | Where-Object system -eq $false) {
@@ -74,7 +75,7 @@ authServer:
     }
 
     "  claims:"
-    foreach ($c in $claims | Where-Object valueType -ne 'SYSTEM' | Sort-Object -Property name ) {
+    foreach ($c in $claims | Where-Object valueType -ne 'SYSTEM' | Sort-Object -Property name,claimType ) {
       @"
     - name: $($c.name)
       status: $($c.status)
@@ -97,6 +98,8 @@ authServer:
       foreach ($s in $scopes | Where-Object system -eq $false | Sort-Object -Property name) {
         @"
     - name: $($s.name)
+      metadataPublish: $($s.metadataPublish)
+      default: $($s.default)
 "@
     }
   }

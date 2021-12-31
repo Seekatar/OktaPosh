@@ -14,7 +14,7 @@ Helper to create an authorization server
 
 ```
 Build-OktaAuthorizationServer [-Name] <String> [-Audience] <String> [-Description] <String>
- [-Scopes] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Scopes] <String[]> [-Quiet] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -119,6 +119,21 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Quiet
+Do not write informational messages
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

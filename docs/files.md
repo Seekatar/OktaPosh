@@ -90,6 +90,8 @@
 
 ### [Get-OktaRateLimit](Get-OktaRateLimit.md)
 
+### [Get-OktaReadOnly](Get-OktaReadOnly.md)
+
 ### [Get-OktaRule](Get-OktaRule.md)
 
 ### [Get-OktaScope](Get-OktaScope.md)
@@ -103,6 +105,8 @@
 ### [Get-OktaUserGroup](Get-OktaUserGroup.md)
 
 ### [Get-OktaZone](Get-OktaZone.md)
+
+### [Import-OktaConfiguration](Import-OktaConfiguration.md)
 
 ### [Invoke-OktaApi](Invoke-OktaApi.md)
 
@@ -209,6 +213,8 @@
 ### [Set-OktaPasswordPolicy](Set-OktaPasswordPolicy.md)
 
 ### [Set-OktaPolicy](Set-OktaPolicy.md)
+
+### [Set-OktaReadOnly](Set-OktaReadOnly.md)
 
 ### [Set-OktaRule](Set-OktaRule.md)
 

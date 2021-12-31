@@ -7,6 +7,7 @@ function Build-OktaSpaApplication {
         [Parameter(Mandatory)]
         [string] $LoginUri,
         [string[]] $PostLogoutUris,
+        [ObsoleteAttribute("Always active on add")]
         [switch] $Inactive,
         [string] $SignOnMode = "OPENID_CONNECT",
         [hashtable] $Properties,
@@ -15,17 +16,22 @@ function Build-OktaSpaApplication {
         [string[]] $GrantTypes = @('implicit','refresh_token'),
         [Parameter(Mandatory)]
         [string] $AuthServerId,
-        [string[]] $Scopes
+        [string[]] $Scopes,
+        [switch] $Quiet
     )
 
     Set-StrictMode -Version Latest
     $ErrorActionPreference = "Stop"
 
+    $prevInformationPreference = $InformationPreference
+    $InformationPreference = ternary $Quiet "SilentlyContinue" "Continue"
+    try {
+
     $appName = $Label
 
-    $app = Get-OktaApplication -Query $appName
+    $app = Get-OktaApplication -Query $appName | Where-Object { $_ -and ($_.label -eq $appName) }
     if ($app) {
-        Write-Host "Found and updating app '$($app.label)' $($app.id)"
+        Write-Information "Found and updating app '$($app.label)' $($app.id)"
         $app.settings.oauthClient.redirect_uris = $RedirectUris
         $app.settings.oauthClient.post_logout_redirect_uris = $PostLogoutUris
         $app.settings.oauthClient.grant_types = $GrantTypes
@@ -45,37 +51,20 @@ function Build-OktaSpaApplication {
                     -RedirectUris $RedirectUris `
                     -LoginUri $LoginUri `
                     -PostLogoutUris $PostLogoutUris `
-                    -Inactive:$Inactive `
                     -SignOnMode $SignOnMode `
                     -Properties $Properties `
                     -GrantTypes $GrantTypes
-        Write-Host "Added app '$appName' $($app.id)"
+        Write-Information "Added app '$appName' $($app.id)"
     }
 
-    # create policies to restrict scopes per app
-    $policyName = "$($app.Label)-Policy"
-    $policy = Get-OktaPolicy -AuthorizationServerId $AuthServerId -Query $policyName
-    if ($policy) {
-        Write-Host "    Found '$($policyName)' Policy"
-    } else {
-        $policy = New-OktaPolicy -AuthorizationServerId $AuthServerId -Name $policyName -ClientIds $app.Id
-        Write-Host "    Added '$($policyName)' Policy"
-    }
-    if ($Scopes) {
-        $rule = Get-OktaRule -AuthorizationServerId $AuthServerId -PolicyId $policy.id -Query "Allow $($policyName)"
-        if ($rule) {
-            Write-Host "    Found 'Allow $($policyName)' Rule"
-        } else {
-            $rule = New-OktaRule -AuthorizationServerId $AuthServerId `
-                                -Name "Allow $($policyName)" `
-                                -PolicyId $policy.id `
-                                -Priority 1 `
-                                -GrantTypes $GrantTypes `
-                                -Scopes $Scopes
-            Write-Host "    Added 'Allow $($policyName)' Rule"
-        }
-    }
+    addPolicyAndRule "$($app.Label)-Policy" $AuthServerId $app.id $GrantTypes $scopes
+
     return $app
+
+} finally {
+    $InformationPreference = $prevInformationPreference
+}
+
 }
 
 if (!(Test-Path alias:Build-OktaSpaApp)) {

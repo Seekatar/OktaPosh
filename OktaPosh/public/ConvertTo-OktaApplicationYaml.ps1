@@ -10,21 +10,14 @@ function ConvertTo-OktaApplicationYaml
         [string] $OutputFolder
     )
     Set-StrictMode -Version Latest
+    $nl = [System.Environment]::NewLine
 
-    function getProp( $object, $name )
-    {
-        if (Get-Member -InputObject $object -Name $name) {
-            $object.$name
-        } else {
-            $null
-        }
-    }
     $params = @{}
     if ($Query) {
         $params["q"] = $Query
     }
     $apps = Get-OktaApplication @params
-    $nl = [System.Environment]::NewLine
+    while (Test-OktaNext -ObjectName apps) { $appGroups += Get-OktaApplication -Next }
 
     Write-Verbose "Getting groups"
     $groups = @(Get-OktaGroup -limit 100)
@@ -53,22 +46,23 @@ settings:
         $output += "${nl}groups:$nl"
 
         Write-Verbose "Getting appGroups"
-        $appGroups = Get-OktaApplicationGroup -AppId $app.id -Limit 100
+        $appGroups = @(Get-OktaApplicationGroup -AppId $app.id -Limit 100)
         while (Test-OktaNext -ObjectName groups) { $appGroups += Get-OktaApplicationGroup -AppId $app.id -Next }
 
-        Write-Verbose "Writing output"
+        Write-Verbose "Writing output for $($appGroups.Count) groups"
+        $groupNames = @()
         $appGroups | ForEach-Object {
                 $appGroupId = $_.id
-                $groups = ($groups | Where-Object { $_.id -eq $appGroupId } )
-                if ($groups) {
-                    $groups.profile.name | Sort-Object | ForEach-Object {
-                        $output += "  - $_$nl"
+                $group = ($groups | Where-Object { $_.id -eq $appGroupId } )
+                if ($group) {
+                    $group.profile.name | ForEach-Object {
+                        $groupNames += "  - $_$nl"
                     }
                 }
             }
-
+        $output += $groupNames | Sort-Object
         $output | Out-File (Join-Path $OutputFolder "app-$($app.label).yaml") -Encoding ascii
-        Write-Host (Join-Path $OutputFolder "app-$($app.label).yaml")
+        Write-Information (Join-Path $OutputFolder "app-$($app.label).yaml") -InformationAction Continue
     }
     Write-Verbose "Done"
 }
