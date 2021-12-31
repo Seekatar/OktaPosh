@@ -86,7 +86,7 @@ function Invoke-OktaApi {
                     }
                 }
             }
-            $response = Invoke-WebRequest @params
+            $response = Invoke-WebRequest @params -UseBasicParsing
         } catch {
             $e = $_
             # PS 5 throws on since don't have skipHttpErrorCheck

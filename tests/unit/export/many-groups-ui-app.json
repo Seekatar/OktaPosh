@@ -1,6 +1,8 @@
 {
     "$schema": "../../../schemas/configuration-schema.json",
-    // variables are passed in on command line. see Build-TestOutput.ps1
+    "variables": {
+        "in_this_example": "variables are passed in on command line. see Build-TestOutput.ps1"
+    },
     "authorizationServer": {
         "name": "OktaPosh-test-many-groups-AS",
         "audience": "https://mydomain/my-ui",

@@ -302,7 +302,6 @@ Describe "AuthorizationServer" {
     }
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
-        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { @{id="123";name="mock"} }
         $output = (Join-Path ([System.IO.Path]::GetTempPath()) ([Guid]::NewGuid().ToString()) )
         $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $output 3>$null
         Remove-Item $output
@@ -314,7 +313,10 @@ Describe "AuthorizationServer" {
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/claims" -and $Method -eq 'GET'
                 }
-        Should -Invoke Get-OktaPolicy -Times 1 -Exactly -ModuleName OktaPosh
+        Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
+                -ParameterFilter {
+                    $Uri -like "*/authorizationServers/$($vars.authServer.Id)/policies" -and $Method -eq 'GET'
+                }
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/authorizationServers/$($vars.authServer.Id)/scopes" -and $Method -eq 'GET'
