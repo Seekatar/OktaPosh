@@ -67,15 +67,13 @@
             ],
             "postLogoutUris": [
                 "https://mydomain-dev.casualty.portal.com/my-ui",
-                "https://mydomain-dev.OktaPosh.com/my-ui",
-                ""
+                "https://mydomain-dev.OktaPosh.com/my-ui"
             ],
             "origins": [
                 {
                     "name": "OktaPosh-test-mydomain-dev.OktaPosh.com",
                     "origin": "https://mydomain-dev.OktaPosh.com"
-                },
-                {}
+                }
             ],
             "grantTypes": [
                 "implicit",
