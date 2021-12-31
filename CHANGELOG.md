@@ -1,6 +1,6 @@
 # Change Log
 
-## 2021-12-14 0.3.2
+## 2021-12-31 0.4.1
 
 * New functions
   * Import-OktaConfiguration for easier CI/CD. This has a superset of the Build-OktaSpaApplication and Build-OktaAuthorizationServer functions
