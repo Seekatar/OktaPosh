@@ -232,7 +232,7 @@ function addSpaApplications($config, $authServerId) {
 
 function replaceVariables {
     [CmdletBinding()]
-    param($JsonConfig,$Variables)
+    param($JsonConfig,$Variables,$Force)
 
     $content = Get-Content $JsonConfig -Raw
     $config = ConvertFrom-Json $content
@@ -246,9 +246,9 @@ function replaceVariables {
     }
 
     foreach ($key in $vars.Keys) {
-        if ($vars[$key] -eq "") {
+        if ($vars[$key] -eq "" -or $vars[$key] -eq "{}") {
             Write-Debug "Replacing $($key) as empty array item"
-            $content = $content -replace ",`"\s*{{\s*$($key)\s*}}\s*`"", ""
+            $content = $content -replace ",\s*`"\s*{{\s*$($key)\s*}}\s*`"", ""
         }
         $replacement = $vars[$key]
 
@@ -276,7 +276,7 @@ function replaceVariables {
     return ConvertFrom-Json $content
 }
 
-$config = replaceVariables $JsonConfig $Variables
+$config = replaceVariables -JsonConfig $JsonConfig -Variables $Variables -Force $Force
 if ($DumpConfig) {
     $config
     if ($config.Contains("{{")) {

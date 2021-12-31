@@ -90,6 +90,8 @@
 
 ### [Get-OktaRateLimit](Get-OktaRateLimit.md)
 
+### [Get-OktaReadOnly](Get-OktaReadOnly.md)
+
 ### [Get-OktaRule](Get-OktaRule.md)
 
 ### [Get-OktaScope](Get-OktaScope.md)
@@ -211,6 +213,8 @@
 ### [Set-OktaPasswordPolicy](Set-OktaPasswordPolicy.md)
 
 ### [Set-OktaPolicy](Set-OktaPolicy.md)
+
+### [Set-OktaReadOnly](Set-OktaReadOnly.md)
 
 ### [Set-OktaRule](Set-OktaRule.md)
 

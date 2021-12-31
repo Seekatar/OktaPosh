@@ -7,6 +7,7 @@ function Build-OktaSpaApplication {
         [Parameter(Mandatory)]
         [string] $LoginUri,
         [string[]] $PostLogoutUris,
+        [ObsoleteAttribute("Always active on add")]
         [switch] $Inactive,
         [string] $SignOnMode = "OPENID_CONNECT",
         [hashtable] $Properties,
@@ -28,7 +29,7 @@ function Build-OktaSpaApplication {
 
     $appName = $Label
 
-    $app = Get-OktaApplication -Query $appName | Where-Object { $_.label -eq $appName }
+    $app = Get-OktaApplication -Query $appName | Where-Object { $_ -and ($_.label -eq $appName) }
     if ($app) {
         Write-Information "Found and updating app '$($app.label)' $($app.id)"
         $app.settings.oauthClient.redirect_uris = $RedirectUris
@@ -50,7 +51,6 @@ function Build-OktaSpaApplication {
                     -RedirectUris $RedirectUris `
                     -LoginUri $LoginUri `
                     -PostLogoutUris $PostLogoutUris `
-                    -Inactive:$Inactive `
                     -SignOnMode $SignOnMode `
                     -Properties $Properties `
                     -GrantTypes $GrantTypes

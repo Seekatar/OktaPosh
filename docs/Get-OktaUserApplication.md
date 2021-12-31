@@ -24,7 +24,7 @@ Get-OktaUserApplication -UserId <String> [-Limit <UInt32>] [-Json] [<CommonParam
 
 ### Next
 ```
-Get-OktaUserApplication -UserId <String> [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaUserApplication -UserId <String> [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

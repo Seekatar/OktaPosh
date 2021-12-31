@@ -302,7 +302,7 @@ Describe "AuthorizationServer" {
     }
     It "Exports an auth server" {
         Mock Out-File -ModuleName OktaPosh -MockWith {}
-        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { '{"id":"123","name":"mock"}' }
+        Mock Get-OktaPolicy -ModuleName OktaPosh -MockWith { @{id="123";name="mock"} }
         $output = (Join-Path ([System.IO.Path]::GetTempPath()) ([Guid]::NewGuid().ToString()) )
         $null = Export-OktaAuthorizationServer -AuthorizationServerId $vars.authServer.id -OutputFolder $output 3>$null
         Remove-Item $output

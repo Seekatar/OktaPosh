@@ -34,6 +34,7 @@ function Get-OktaReadOnly {
 }
 
 function Set-OktaReadOnly {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     param (
         [bool] $ReadOnly = $true
     )

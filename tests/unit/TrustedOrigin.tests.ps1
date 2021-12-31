@@ -14,35 +14,35 @@ $PSDefaultParameterValues = @{
 
 Describe "trustedOrigin" {
     It "Adds a TrustedOrigin" {
-        $null = New-OktatrustedOrigin -Name $trustedOriginName -Origin $trustedOriginName -CORS -Redirect
+        $null = New-OktaTrustedOrigin -Name $trustedOriginName -Origin $trustedOriginName -CORS -Redirect
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins" -and $Method -eq 'POST'
                 }
     }
     It "Gets TrustedOrigins" {
-        $null = @(Get-OktatrustedOrigin)
+        $null = @(Get-OktaTrustedOrigin)
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins" -and $Method -eq 'GET'
                 }
     }
     It "Gets TrustedOrigin By Name" {
-        $null = Get-OktatrustedOrigin -Filter "name eq `"$trustedOriginName`""
+        $null = Get-OktaTrustedOrigin -Filter "name eq `"$trustedOriginName`""
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins?filter*" -and $Method -eq 'GET'
                 }
     }
     It "Gets TrustedOrigin By Id" {
-        $null = Get-OktatrustedOrigin -Id $vars.trustedOrigin.Id
+        $null = Get-OktaTrustedOrigin -Id $vars.trustedOrigin.Id
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins/$($vars.trustedOrigin.Id)" -and $Method -eq 'GET'
                 }
     }
     It "Updates TrustedOrigin object" {
-        $null = Set-OktatrustedOrigin -trustedOrigin ([PSCustomObject]$vars.trustedOrigin)
+        $null = Set-OktaTrustedOrigin -trustedOrigin ([PSCustomObject]$vars.trustedOrigin)
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins/$($vars.trustedOrigin.Id)" -and $Method -eq 'PUT'
@@ -52,8 +52,8 @@ Describe "trustedOrigin" {
 
 Describe "Cleanup" {
     It "Remove test TrustedOrigin" {
-        Mock Get-OktatrustedOrigin -ModuleName OktaPosh -MockWith { @{name='test'}}
-        Remove-OktatrustedOrigin -trustedOriginId $vars.trustedOrigin.id -Confirm:$false
+        Mock Get-OktaTrustedOrigin -ModuleName OktaPosh -MockWith { @{name='test'}}
+        Remove-OktaTrustedOrigin -trustedOriginId $vars.trustedOrigin.id -Confirm:$false
         Should -Invoke Invoke-WebRequest -Times 1 -Exactly -ModuleName OktaPosh `
                 -ParameterFilter {
                     $Uri -like "*/trustedOrigins/$($vars.trustedOrigin.Id)" -and $Method -eq 'DELETE'

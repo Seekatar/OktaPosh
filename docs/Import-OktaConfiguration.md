@@ -13,8 +13,8 @@ Import Okta Authorization servers, applications, groups and related objects
 ## SYNTAX
 
 ```
-Import-OktaConfiguration [[-JsonConfig] <String>] [[-Variables] <Hashtable>] [-DumpConfig] [-Quiet] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Import-OktaConfiguration [[-JsonConfig] <String>] [[-Variables] <Hashtable>] [-DumpConfig] [-Quiet] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -155,6 +155,21 @@ Aliases: cf
 
 Required: False
 Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Import even if get warning about {{ in configuration
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -170,4 +185,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-[about_import]()
+
+[OktaPosh Readme](https://github.com/Seekatar/OktaPosh/blob/main/README.md)

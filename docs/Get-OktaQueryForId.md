@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-OktaQueryForId
 
 ## SYNOPSIS
-Get the QueryForId setting 
+Get the QueryForId setting
 
 ## SYNTAX
 

@@ -13,7 +13,7 @@ Update an AuthorizationServer's Scope
 ## SYNTAX
 
 ```
-Set-OktaScope -AuthorizationServerId <String> [[-Scope] <PSObject>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-OktaScope -AuthorizationServerId <String> [-Scope] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

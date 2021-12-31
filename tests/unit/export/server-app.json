@@ -38,7 +38,8 @@
             {
                 "name": "get:provider",
                 "description": "Added by OktaPosh",
-                "metadataPublish": false
+                "metadataPublish": true,
+                "default": true
             }
         ],
         "claims": [
@@ -64,7 +65,8 @@
                 "access:token",
                 "get:item",
                 "save:item",
-                "get:provider"
+                "get:provider",
+                "remove:item"
             ]
         },
         {
@@ -101,8 +103,7 @@
             "policyName": "OktaPosh-test-Analytics-Policy",
             "scopes": [
                 "access:token",
-                "get:item",
-                "get:provider"
+                "get:item"
             ]
         }
     ]

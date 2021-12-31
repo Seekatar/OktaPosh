@@ -24,7 +24,7 @@ Get-OktaTrustedOrigin -TrustedOriginId <String> [-Json] [<CommonParameters>]
 
 ### Next
 ```
-Get-OktaTrustedOrigin [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaTrustedOrigin [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

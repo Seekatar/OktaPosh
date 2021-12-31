@@ -13,8 +13,14 @@ Note that ConvertTo-OktaYaml calls this.
 
 ## SYNTAX
 
+### Like
 ```
 ConvertTo-OktaTrustedOriginYaml [[-OriginLike] <String>] [<CommonParameters>]
+```
+
+### Match
+```
+ConvertTo-OktaTrustedOriginYaml -OriginMatch <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,11 +41,26 @@ Get origins urls like this pattern, defaults to '*'
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Like
 Aliases:
 
 Required: False
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OriginMatch
+Get origins urls that match this regex pattern
+
+```yaml
+Type: String
+Parameter Sets: Match
+Aliases:
+
+Required: True
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

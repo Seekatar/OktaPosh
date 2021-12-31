@@ -87,6 +87,12 @@
                 {
                     "name": "OktaPosh-test-mydomain-dev.OktaPosh.com",
                     "origin": "https://mydomain-dev.OktaPosh.com"
+                },
+                {
+                    "name": "OktaPosh-test-mydomain-dev.OktaPosh-2.com",
+                    "origin": "https://mydomain-dev.OktaPosh-2.com",
+                    "allowRedirect": false,
+                    "cors": false
                 }
             ],
             "grantTypes": [
@@ -98,6 +104,26 @@
             ],
             "groups": [
                 "OktaPosh-test-user-group"
+            ]
+        },
+        {
+            "name": "OktaPosh-test-spa-app2",
+            "policyName": "OktaPosh-test-spa-app-policy",
+            "loginUri": "https://mydomain-dev.OktaPosh.com/my-ui",
+            "redirectUris": [
+                "https://mydomain-dev.OktaPosh.com/my-ui/implicit/callback"
+            ],
+            "postLogoutUris": [
+                "https://flask-web-dev.OktaPosh.com/authorization-code/callback",
+                "https://mydomain-dev.OktaPosh.com/my-ui"
+            ],
+            "grantTypes": [
+                "implicit",
+                "authorization_code",
+                "refresh_token"
+            ],
+            "scopes": [
+                "access:token"
             ]
         }
     ]

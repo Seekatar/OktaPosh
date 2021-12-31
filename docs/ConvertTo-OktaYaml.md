@@ -13,8 +13,8 @@ Get auth, app, trusted origin, and group objects as Yaml for easy comparison bet
 ## SYNTAX
 
 ```
-ConvertTo-OktaYaml [-OutputFolder] <String> [[-AuthServerQuery] <String>] [[-ApplicationQuery] <String>]
- [[-OriginLike] <String>] [-GroupQueries <String[]>] [-WipeFolder] [<CommonParameters>]
+ConvertTo-OktaYaml [-OutputFolder] <String> [[-AuthServerQuery] <String>] [[-ApplicationQuery] <String[]>]
+ [-OriginMatch <String>] [-GroupQueries <String[]>] [-WipeFolder] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,7 +34,7 @@ Get all test apps and auth servers,  all origins, and groups matching abc or tes
 Searches the name or label property of applications
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -76,21 +76,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OriginLike
-Get origins urls like this pattern, defaults to '*'
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -WipeFolder
 Set to delete everything in the Output folder
 
@@ -111,6 +96,21 @@ Array of query strings for getting groups
 
 ```yaml
 Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OriginMatch
+Get origins urls that match this regex pattern
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 

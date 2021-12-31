@@ -74,7 +74,7 @@ BeforeAll {
 }
 
 Describe "Build Okta App tests" {
-    It "Tests New App" {
+    It "Tests New App found" {
         Build-OktaSpaApplication `
             -Label 'found' `
             -RedirectUris 'a','b' `
@@ -86,7 +86,7 @@ Describe "Build Okta App tests" {
             -AuthServerId 'aus3khpqqgezen3Lx4x7'
 
     }
-    It "Tests New App" {
+    It "Tests New App notfound" {
         Build-OktaSpaApplication `
             -Label 'notFound' `
             -RedirectUris 'a','b' `

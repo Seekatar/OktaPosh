@@ -17,7 +17,8 @@ Set-OktaReadOnly [[-ReadOnly] <Boolean>]
 ```
 
 ## DESCRIPTION
-The default is false when OktaPosh is load. When this is called with true (the default), any calls that write to Okta will throw an exception.
+The default is false when OktaPosh is load.
+When this is called with true (the default), any calls that write to Okta will throw an exception.
 
 ## EXAMPLES
 
@@ -38,7 +39,8 @@ Turn off read only.
 ## PARAMETERS
 
 ### -ReadOnly
-The value to set. It defaults to true.
+The value to set.
+It defaults to true.
 
 ```yaml
 Type: Boolean

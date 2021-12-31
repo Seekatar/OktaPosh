@@ -24,7 +24,7 @@ Get-OktaGroupApp -GroupId <String> [-Limit <UInt32>] [-Json] [<CommonParameters>
 
 ### Next
 ```
-Get-OktaGroupApp -GroupId <String> [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaGroupApp -GroupId <String> [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
