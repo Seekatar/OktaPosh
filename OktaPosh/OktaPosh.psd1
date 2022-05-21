@@ -27,7 +27,7 @@ Author = 'Jim Wallace'
 CompanyName = 'Wallace Bros. JOAT Services'
 
 # Copyright statement for this module
-Copyright = '(c) 2020 Jim Wallace. All rights reserved.'
+Copyright = '(c) 2022 Jim Wallace. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Module for accessing the Okta API'
@@ -154,7 +154,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Okta','OAuhuth','PSEdition_Desktop','PSEdition_Core','Windows','Linux','MacOS'
+        Tags = 'Okta','OAuth','PSEdition_Desktop','PSEdition_Core','Windows','Linux','MacOS'
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/Seekatar/OktaPosh/blob/main/LICENSE'
