@@ -1,5 +1,10 @@
 # Change Log
 
+## 2022-05-22 0.5.0
+
+* New functions
+  * Import-OktaUser to allow importing users with a CSV
+
 ## 2021-12-31 0.4.1
 
 * New functions

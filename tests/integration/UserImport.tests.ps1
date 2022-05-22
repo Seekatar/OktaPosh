@@ -45,12 +45,11 @@ Describe "Cleanup" {
     }
 }
 
-Describe "User" {
-    It "Adds a user" {
-        $vars.user = New-OktaUser -FirstName OktaPosh-test-user -LastName OktaPosh-test-user -Email $email1
-        $vars.user | Should -Not -Be $null
-        $vars.user.Status | Should -Be 'STAGED'
+Describe "UserImport" {
+    It "Adds users with clear text passwords" {
     }
+
+
     It "Adds a with hashed pw" {
         $pw = "testing123"
         $salt = "this is the salt"
@@ -59,7 +58,7 @@ Describe "User" {
 
         $saltedValue = $value + $saltValue
 
-        $pwValue = [System.Security.Cryptography.SHA256].Create().ComputeHash($saltedValue)
+        $pwValue = [System.Security.Cryptography.SHA256]::Create().ComputeHash($saltedValue)
 
         $passwordHash = @{
             hash = @{

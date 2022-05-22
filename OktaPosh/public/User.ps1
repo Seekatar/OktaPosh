@@ -108,7 +108,7 @@ function New-OktaUser
         [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $Activate,
         [Parameter(ValueFromPipelineByPropertyName)]
-        [ValidateLength(1,72)]
+        [ValidateLength(0,72)]
         [string] $Pw,
         [ValidateCount(0,20)]
         [string[]] $GroupIds,

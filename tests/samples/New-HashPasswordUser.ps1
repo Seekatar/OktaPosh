@@ -11,7 +11,7 @@ $saltValue = [System.Text.Encoding]::UTF8.GetBytes($salt)
 
 # in this case the hash is of password+salt hashed with SHA-256
 $saltedValue = $pwValue + $saltValue
-$hashValue = (New-Object 'System.Security.Cryptography.SHA256Managed').ComputeHash($saltedValue)
+$hashValue = [System.Security.Cryptography.SHA256]::Create().ComputeHash($saltedValue)
 
 # tell Okta how it is hashed
 $passwordHash = @{
