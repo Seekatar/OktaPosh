@@ -39,6 +39,13 @@ Get-OktaApplicationGroup -Next
 
 Get the first and second pages of an application's groups
 
+### EXMAMPLE 2
+```
+Get-OktaAppGroup -AppId 0oa7dxw6tzqabj3184x7 -Limit 999 | Get-OktaGroup
+```
+
+Get all the app-groups for the id and then get the groups
+
 ## PARAMETERS
 
 ### -AppId

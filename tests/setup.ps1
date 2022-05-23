@@ -18,7 +18,7 @@ if ($Unit) {
  "id": "1234",
  "access_token": "token",
  "sessionToken": "token",
- "profile":{"name": "test"},
+ "profile":{"name": "test", "label":"test"},
  "_links": {
      "self": {
          "href" : "test/123"

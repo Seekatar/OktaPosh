@@ -585,3 +585,7 @@ function Unlock-OktaUser
         Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/unlock" -Method Post
     }
 }
+
+if (!(Test-Path alias:Get-OktaUserApp)) {
+    New-Alias -Name Get-OktaUserApp -Value Get-OktaUserApplication
+}

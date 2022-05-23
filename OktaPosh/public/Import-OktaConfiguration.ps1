@@ -19,24 +19,28 @@ function addAuthServer {
     [OutputType([string])]
     param ($config)
 
-    $authConfig = $config.authorizationServer
-    $authServer = Get-OktaAuthorizationServer -Query $authConfig.name
-    if ($authServer) {
-        Write-Information "Found auth server '$($authConfig.name)'"
-    } else {
-        $authServer = New-OktaAuthorizationServer -Name $authConfig.name `
-                                                  -Audiences $authConfig.audience `
-                                                  -Description (getProp $authConfig "description" "Added By OktaPosh")
-        if ($authServer -or $WhatIfPreference) {
-            Write-Information "Added auth server '$($authConfig.name)'"
+    $authConfig = @(getProp $config "authorizationServer")
+    if ($authConfig) {
+        $authServer = Get-OktaAuthorizationServer -Query $authConfig.name
+        if ($authServer) {
+            Write-Information "Found auth server '$($authConfig.name)'"
         } else {
-            throw "Failed to create auth server '$($authConfig.name)'"
+            $authServer = New-OktaAuthorizationServer -Name $authConfig.name `
+                                                    -Audiences $authConfig.audience `
+                                                    -Description (getProp $authConfig "description" "Added By OktaPosh")
+            if ($authServer -or $WhatIfPreference) {
+                Write-Information "Added auth server '$($authConfig.name)'"
+            } else {
+                throw "Failed to create auth server '$($authConfig.name)'"
+            }
         }
-    }
-    if ($authServer -and $authServer.id) {
-        return $authServer.Id
+        if ($authServer -and $authServer.id) {
+            return $authServer.Id
+        } else {
+            return "WhatIf"
+        }
     } else {
-        return "WhatIf"
+        return $null
     }
 }
 
@@ -96,29 +100,32 @@ function addGroups ($config, $authServerId) {
             $script:existingGroups += New-OktaGroup -Name $group.Name
             Write-Information "  Added group '$($group.Name)'"
         }
-        $existingScopeNames = @(Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty Name)
-        $existingClaimNames = @(Get-OktaClaim -AuthorizationServerId $authServerId | Select-Object -ExpandProperty Name)
-        foreach ($group in $groupConfigs) {
-            if ((getProp $group "scope" "")) {
-                if ($group.scope -in $existingScopeNames) {
-                    Write-Information "  Found scope $($group.scope)"
-                } else {
-                    $null = New-OktaScope -AuthorizationServerId $authServerId `
-                                        -Name $group.scope
-                    Write-Information "  Added scope '$($group.scope)'"
-                }
-                if ($group.scope -in $existingClaimNames) {
-                    Write-Information "  Found claim $($group.scope)"
-                } else {
-                    $null = New-OktaClaim -AuthorizationServerId $authServerId `
-                                          -Name $group.scope `
-                                          -ValueType "GROUPS" `
-                                          -ClaimType "RESOURCE" `
-                                          -GroupFilterType "EQUALS" `
-                                          -Value $group.name `
-                                          -Scopes @($group.scope)
 
-                    Write-Information "  Added claim '$($group.scope)' with value $($group.name)"
+        if ($authServerId) {
+            $existingScopeNames = @(Get-OktaScope -AuthorizationServerId $authServerId | Select-Object -ExpandProperty Name)
+            $existingClaimNames = @(Get-OktaClaim -AuthorizationServerId $authServerId | Select-Object -ExpandProperty Name)
+            foreach ($group in $groupConfigs) {
+                if ((getProp $group "scope" "")) {
+                    if ($group.scope -in $existingScopeNames) {
+                        Write-Information "  Found scope $($group.scope)"
+                    } else {
+                        $null = New-OktaScope -AuthorizationServerId $authServerId `
+                                            -Name $group.scope
+                        Write-Information "  Added scope '$($group.scope)'"
+                    }
+                    if ($group.scope -in $existingClaimNames) {
+                        Write-Information "  Found claim $($group.scope)"
+                    } else {
+                        $null = New-OktaClaim -AuthorizationServerId $authServerId `
+                                            -Name $group.scope `
+                                            -ValueType "GROUPS" `
+                                            -ClaimType "RESOURCE" `
+                                            -GroupFilterType "EQUALS" `
+                                            -Value $group.name `
+                                            -Scopes @($group.scope)
+
+                        Write-Information "  Added claim '$($group.scope)' with value $($group.name)"
+                    }
                 }
             }
         }
@@ -140,7 +147,7 @@ function addServerApplications($config, $authServerId) {
             Write-Information "Added app '$appName'"
         }
 
-        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $app.Id "client_credentials" $appConfig.scopes
+        addPolicyAndRule (getProp $appConfig "policyName" "") $authServerId $app.Id "client_credentials" (getProp $appConfig "scopes" @())
         addAppGroups $appConfig $app.Id
     }
 }
@@ -293,9 +300,11 @@ try {
 
     $authServerId = addAuthServer $config
 
-    addScopes $config.authorizationServer $authServerId
+    if ($authServerId) {
+        addScopes $config.authorizationServer $authServerId
 
-    addClaims $config.authorizationServer $authServerId
+        addClaims $config.authorizationServer $authServerId
+    }
 
     addGroups $config $authServerId
 

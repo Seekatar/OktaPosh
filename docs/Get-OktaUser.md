@@ -46,7 +46,7 @@ Get first user who has firstname of 'jim'
 
 ### Example 2
 ```
-Get-OktaUser  -Login testuser@test.com
+Get-OktaUser -Login testuser@test.com
 ```
 
 Get a user by login
@@ -66,6 +66,13 @@ $existingUsers.Count
 ```
 
 Get all the users, using Test-OktaNext
+
+### Example 5
+```
+Get-OktaUser -search 'profile.login sw "okta-test-"'
+```
+
+Get all the users whose login starts with (sw) "okta-test-"
 
 ## PARAMETERS
 

@@ -59,7 +59,7 @@ Describe "User" {
 
         $saltedValue = $value + $saltValue
 
-        $pwValue = [System.Security.Cryptography.SHA256].Create().ComputeHash($saltedValue)
+        $pwValue = [System.Security.Cryptography.SHA256]::Create().ComputeHash($saltedValue)
 
         $passwordHash = @{
             hash = @{

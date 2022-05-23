@@ -265,7 +265,7 @@ function Import-OktaUser {
                         Write-Warning "Got non-user back from add user: $($oktaUser.GetType())"
                         Write-Warning ($oktaUser | ConvertTo-Json -Depth 10)
                         $oktaUser = Get-OktaUser -Login $login
-                    } elseif ($oktaUser && oktaUser.status -ne 'PROVISIONED') {
+                    } elseif ($oktaUser && $oktaUser.status -ne 'PROVISIONED') {
                         # added disabled to avoid sending email
                         $null = Enable-OktaUser -UserId $oktaUser.id
 

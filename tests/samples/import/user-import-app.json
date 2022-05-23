@@ -1,0 +1,23 @@
+{
+    "$schema": "../../../schemas/configuration-schema.json",
+    "variables": {
+        "mainApp": "OktaPosh-test-user-import",
+        "appGroup": "OktaPosh-test-user-import"
+    },
+    "groups": [
+        {
+            "name": "{{ appGroup }}"
+        }
+    ],
+    "serverApplications": [
+        {
+            "name": "{{ mainApp }}",
+            "properties": {
+                "appName": "{{ mainApp }}"
+            },
+            "groups": [
+                "{{ appGroup }}"
+            ]
+        }
+    ]
+}

@@ -46,6 +46,13 @@ Get-OktaGroup -Search 'profile.name eq "MyGroupName"'
 
 Get a group with MyGroupName
 
+### Example 3
+```
+Get-OktaGroup -search 'profile.name sw "ZZZ"' |
+```
+
+Get all the groups starting (sw) with ZZZ
+
 ## PARAMETERS
 
 ### -Filter

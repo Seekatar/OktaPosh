@@ -4,7 +4,7 @@ function addPolicyAndRule($policyName, $authServerId, $appId, $grantTypes, $scop
     Set-StrictMode -Version Latest
 
     # create policies to restrict scopes per app
-    if ($policyName) {
+    if ($authServerId -and $policyName) {
         $policy = Get-OktaPolicy -AuthorizationServerId $authServerId -Query $policyName
         if ($policy) {
             Write-Information "  Found policy '$($policyName)'"
