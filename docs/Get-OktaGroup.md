@@ -25,7 +25,7 @@ Get-OktaGroup -GroupId <String> [-Json] [<CommonParameters>]
 
 ### Next
 ```
-Get-OktaGroup [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaGroup [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,6 +45,13 @@ Get-OktaGroup -Search 'profile.name eq "MyGroupName"'
 ```
 
 Get a group with MyGroupName
+
+### Example 3
+```
+Get-OktaGroup -search 'profile.name sw "ZZZ"' |
+```
+
+Get all the groups starting (sw) with ZZZ
 
 ## PARAMETERS
 

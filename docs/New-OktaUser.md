@@ -47,7 +47,7 @@ $saltValue = [System.Text.Encoding]::UTF8.GetBytes($salt)
 
 $saltedValue = $value + $saltValue
 
-$pwValue = (New-Object 'System.Security.Cryptography.SHA256Managed').ComputeHash($saltedValue)
+$pwValue = [System.Security.Cryptography.SHA256]::Create().ComputeHash($saltedValue)
 
 $passwordHash = @{
     hash = @{

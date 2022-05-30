@@ -108,7 +108,7 @@ function New-OktaUser
         [Parameter(ValueFromPipelineByPropertyName)]
         [switch] $Activate,
         [Parameter(ValueFromPipelineByPropertyName)]
-        [ValidateLength(1,72)]
+        [ValidateLength(0,72)]
         [string] $Pw,
         [ValidateCount(0,20)]
         [string[]] $GroupIds,
@@ -584,4 +584,8 @@ function Unlock-OktaUser
         }
         Invoke-OktaApi -RelativeUri "users/$UserId/lifecycle/unlock" -Method Post
     }
+}
+
+if (!(Test-Path alias:Get-OktaUserApp)) {
+    New-Alias -Name Get-OktaUserApp -Value Get-OktaUserApplication
 }

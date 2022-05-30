@@ -18,9 +18,7 @@ Disable-OktaPolicyRule [-PolicyId] <String> [-RuleId] <String> [<CommonParameter
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
-
 
 ## PARAMETERS
 

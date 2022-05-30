@@ -18,7 +18,6 @@ Set-OktaZone -Zone <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ## PARAMETERS

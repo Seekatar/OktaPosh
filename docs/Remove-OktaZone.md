@@ -18,7 +18,6 @@ Remove-OktaZone [-ZoneId] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

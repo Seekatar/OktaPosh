@@ -21,7 +21,7 @@ Get-OktaLog [-Query <String>] [-Since <String>] [-Until <String>] [-SortOrder <S
 
 ### Next
 ```
-Get-OktaLog [-Json] [-Objects] [-Next] [-NoWarn] [<CommonParameters>]
+Get-OktaLog [-Json] [-Objects] [-Next] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -60,6 +60,7 @@ Get-OktaLog  Since 30m -Until 10m  -q deactivate | ft -a
 ```
 
 Get logs between 30 and 10 minutes ago that contain 'deactivate'
+
 ## PARAMETERS
 
 ### -Filter
@@ -110,21 +111,6 @@ Accept wildcard characters: False
 
 ### -Next
 Set to get the next page from a previous call (if one exists)
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Next
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NoWarn
-For -Next when no results, do not show warning
 
 ```yaml
 Type: SwitchParameter

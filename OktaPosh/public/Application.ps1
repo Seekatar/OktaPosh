@@ -16,15 +16,21 @@ function Get-OktaApplication {
         [switch] $Next,
         [switch] $Json,
         [Parameter(ParameterSetName="Next")]
-        [switch] $NoWarn
+        [switch] $NoWarn,
+        [switch] $IncludeOkta
     )
 
     process {
         $AppId = testQueryForId $AppId $Query '0oa'
         if ($AppId) {
-            Invoke-OktaApi -RelativeUri "apps/$AppId" -Json:$Json
+            $ret = @(Invoke-OktaApi -RelativeUri "apps/$AppId" -Json:$Json)
         } else {
-            Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next -NoWarn:$NoWarn
+            $ret = @(Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next -NoWarn:$NoWarn)
+        }
+        if ($ret -and !$IncludeOkta) {
+            $ret | Where-Object { $ret.label -NotLike "Okta *" }
+        } else {
+            $ret
         }
     }
 }

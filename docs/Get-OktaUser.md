@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-OktaUser
 
 ## SYNOPSIS
-Get one or more Okta Users
+Get one or more Okta Users (not including DEPROVISIONED, see NOTES)
 
 ## SYNTAX
 
@@ -30,7 +30,7 @@ Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-Search <St
 
 ### Next
 ```
-Get-OktaUser [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaUser [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,7 +46,7 @@ Get first user who has firstname of 'jim'
 
 ### Example 2
 ```
-Get-OktaUser  -Login testuser@test.com
+Get-OktaUser -Login testuser@test.com
 ```
 
 Get a user by login
@@ -66,6 +66,20 @@ $existingUsers.Count
 ```
 
 Get all the users, using Test-OktaNext
+
+### Example 5
+```
+Get-OktaUser -search 'profile.login sw "okta-test-"'
+```
+
+Get all the users whose login starts with (sw) "okta-test-"
+
+### Example 5
+```
+Get-OktaUser -search 'status eq "DEPROVISIONED"'
+```
+
+Get DEPROVISIONED users, who do not get returned from Get-OktaUser
 
 ## PARAMETERS
 
@@ -239,5 +253,7 @@ Pipe objects with Id
 User Objects
 
 ## NOTES
+
+The default returns all users, except those in the DEPROVISIONED state. To see those use the example that get users with that status.
 
 ## RELATED LINKS

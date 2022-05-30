@@ -19,7 +19,6 @@ Set-OktaUserRecoveryQuestion [-UserId] <String> [-Pw] <String> [-Question] <Stri
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

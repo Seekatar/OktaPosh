@@ -13,11 +13,10 @@ Gets the current read-only setting that prevents calling write operations
 ## SYNTAX
 
 ```
-Get-OktaReadOnly
+Get-OktaReadOnly [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-
 
 ## EXAMPLES
 
@@ -29,6 +28,9 @@ PS C:\> Get-OktaReadOnly
 Gets the current value of read only.
 
 ## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

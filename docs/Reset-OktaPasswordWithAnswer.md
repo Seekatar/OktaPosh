@@ -19,7 +19,6 @@ Reset-OktaPasswordWithAnswer [-UserId] <String> [-Answer] <String> [-NewPw] <Str
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

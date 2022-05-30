@@ -1,5 +1,11 @@
 # Change Log
 
+## 2022-05-30 0.5.1
+
+* New functions
+  * Import-OktaUser to allow importing users with a CSV
+  * Get-OktaApplication has a IncludeOkta switch to include apps that start with "Okta "
+
 ## 2021-12-31 0.4.1
 
 * New functions

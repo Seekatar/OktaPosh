@@ -1,7 +1,7 @@
 ---
 external help file: OktaPosh-help.xml
 Module Name: OktaPosh
-online version:
+online version: https://github.com/Seekatar/OktaPosh/blob/main/README.md
 schema: 2.0.0
 ---
 

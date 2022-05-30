@@ -18,7 +18,6 @@ Unlock-OktaUser [-UserId] <String> [-CheckCurrentStatus] [-WhatIf] [-Confirm] [<
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1
