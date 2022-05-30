@@ -24,7 +24,7 @@ Get-OktaAuthorizationServer -AuthorizationServerId <String> [-Json] [<CommonPara
 
 ### Next
 ```
-Get-OktaAuthorizationServer [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaAuthorizationServer [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

@@ -18,7 +18,6 @@ Remove-OktaLink [-UserId] <String> [-PrimaryName] <String> [-WhatIf] [-Confirm] 
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

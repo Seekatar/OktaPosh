@@ -15,7 +15,7 @@ To get the complete list of the module's functions run `Get-Command -Module Okta
 
 ## Installing
 
-OktaPosh is available in the [PowerShell Gallery](https://www.powershellgallery.com/packages/OktaPosh).  To install it run this command:
+OktaPosh is available in the [PowerShell Gallery](https://www.powershellgallery.com/packages/OktaPosh). To install it run this command:
 
 ``` PowerShell
 Install-Module -Name OktaPosh

@@ -14,17 +14,17 @@ Get one or more Applications
 
 ### Query (Default)
 ```
-Get-OktaApplication [-Query <String>] [-Limit <UInt32>] [-Json] [<CommonParameters>]
+Get-OktaApplication [-Query <String>] [-Limit <UInt32>] [-Json] [-IncludeOkta] [<CommonParameters>]
 ```
 
 ### ById
 ```
-Get-OktaApplication -AppId <String> [-Json] [<CommonParameters>]
+Get-OktaApplication -AppId <String> [-Json] [-IncludeOkta] [<CommonParameters>]
 ```
 
 ### Next
 ```
-Get-OktaApplication [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaApplication [-Next] [-Json] [-NoWarn] [-IncludeOkta] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -126,6 +126,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeOkta
+Set to also include apps that start with "Okta "
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

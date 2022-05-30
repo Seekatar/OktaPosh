@@ -25,7 +25,7 @@ Get-OktaGroup -GroupId <String> [-Json] [<CommonParameters>]
 
 ### Next
 ```
-Get-OktaGroup [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaGroup [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

@@ -19,7 +19,6 @@ Set-OktaPassword [-UserId] <String> [-OldPw] <String> [-NewPw] <String> [-Strict
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

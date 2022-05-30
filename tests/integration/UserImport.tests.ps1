@@ -26,7 +26,7 @@ Describe "Cleanup" {
     }
 }
 
-Describe "UserImport" {
+Describe "UserImport-Clear" {
     It "Adds two users with clear text passwords" {
         Import-OktaUser -Path (Join-Path $PSScriptRoot 'user-import/clear-text.csv') -HashAlgorithm ClearText -Limit 2
 
@@ -58,6 +58,51 @@ Describe "UserImport" {
         Get-OktaUserGroup -UserId $user.Id | Where-Object id -eq $vars.groupId | Should -Not -BeNull
         Get-OktaUserApp -UserId $user.Id | Where-Object id -eq $vars.appId | Should -Not -BeNull
     }
+} -skip
+
+Describe "UserImport-Clear-No-Pw" {
+
+    It "Adds two users to app with no pw" {
+        Import-OktaUser -Path (Join-Path $PSScriptRoot 'user-import/no-pw.csv') -HashAlgorithm ClearText -Limit 2 -AppName "OktaPosh-test-user-import"
+
+        $user = Get-OktaUser -Login 'okta-test-groberts'
+        $user | Should -Not -BeNull
+        $user.status | Should -Be 'PROVISIONED'
+        $g = Get-OktaUserGroup -UserId $user.Id | Where-Object id -eq $vars.groupId
+        $g | Should -BeNull
+        $a = Get-OktaUserApp -UserId $user.Id | Where-Object id -eq $vars.appId
+        $a | Should -Not -BeNull
+
+        $user = Get-OktaUser -Login 'okta-test-james.newman@mailinator.com'
+        $user | Should -Not -BeNull
+        $user.status | Should -Be 'PROVISIONED'
+        $g = Get-OktaUserGroup -UserId $user.Id | Where-Object id -eq $vars.groupId
+        $g | Should -BeNull
+        $a = Get-OktaUserApp -UserId $user.Id | Where-Object id -eq $vars.appId
+        $a | Should -Not -BeNull
+
+    }
+
+    It "Adds two users to app to group with no pw" {
+        Import-OktaUser -Path (Join-Path $PSScriptRoot 'user-import/no-pw.csv') -HashAlgorithm ClearText -Skip 2 -Limit 2
+
+        $user = Get-OktaUser -Login 'okta-test-ahart'
+        $user | Should -Not -BeNull
+        $user.status | Should -Be 'PROVISIONED'
+        $g = Get-OktaUserGroup -UserId $user.Id | Where-Object id -eq $vars.groupId
+        $g | Should -Not -BeNull
+        $a = Get-OktaUserApp -UserId $user.Id | Where-Object id -eq $vars.appId
+        $a | Should -Not -BeNull
+
+        $user = Get-OktaUser -Login 'okta-test-kylie.lambert@mailinator.com'
+        $user | Should -Not -BeNull
+        $user.status | Should -Be 'PROVISIONED'
+        $g = Get-OktaUserGroup -UserId $user.Id | Where-Object id -eq $vars.groupId
+        $g | Should -Not -BeNull
+        $a = Get-OktaUserApp -UserId $user.Id | Where-Object id -eq $vars.appId
+        $a | Should -Not -BeNull
+
+    }
 }
 
 Describe "Cleanup" {
@@ -67,4 +112,5 @@ Describe "Cleanup" {
         Get-OktaUser -search 'profile.login sw "okta-test-"' | Remove-OktaUser -Confirm:$false
     }
 }
+
 

@@ -18,7 +18,6 @@ Revoke-OktaPassword [-UserId] <String> [-TempPw] [-WhatIf] [-Confirm] [<CommonPa
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

@@ -24,7 +24,7 @@ Get-OktaApplicationGroup -AppId <String> -GroupId <String> [-Json] [<CommonParam
 
 ### Next
 ```
-Get-OktaApplicationGroup -AppId <String> [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaApplicationGroup -AppId <String> [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

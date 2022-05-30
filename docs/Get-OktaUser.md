@@ -30,7 +30,7 @@ Get-OktaUser [-Query <String>] [-Filter <String>] [-Limit <UInt32>] [-Search <St
 
 ### Next
 ```
-Get-OktaUser [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaUser [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

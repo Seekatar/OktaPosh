@@ -5,7 +5,7 @@ Import one or more user into Okta from a CSV file
 .PARAMETER Path
 Path to a CSV file. See notes for format of file.
 
-.PARAMETER Application
+.PARAMETER AppName
 Optional Okta application name to associate each user
 
 .PARAMETER HashAlgorithm
@@ -21,7 +21,7 @@ To process part of the file, where to start. Defaults to 0
 Number of users to process. Defaults to 9999
 
 .EXAMPLE
-Import-CasualtyOktaUser.ps1 -UserCsv .\clear-text.csv -Application MyApp
+Import-CasualtyOktaUser.ps1 -UserCsv .\clear-text.csv -AppName MyApp
 
 
 .NOTES
@@ -53,7 +53,7 @@ function Import-OktaUser {
         [Parameter(Mandatory)]
         [ValidateScript({ Test-Path $_ -Type Leaf })]
         [string] $Path,
-        [string] $Application,
+        [string] $AppName,
         [ValidateSet("ClearText", "Provider", "SHA-512", "SHA-256", "SHA-1", "MD5")]
         [string] $HashAlgorithm,
         [ValidateSet("PREFIX", "POSTFIX")]
@@ -171,7 +171,7 @@ function Import-OktaUser {
             [Parameter(Mandatory)]
             $AppId
         )
-        Write-Verbose "Adding user $($User.Login) to app $Application"
+        Write-Verbose "Adding user $($User.Login) to app $AppName"
 
         $oktaUserAppId = @((Get-OktaUserApplication -UserId $oktaUser.id) | Select-Object -ExpandProperty id)
         foreach ($id in $AppId | Where-Object { $_ -notin $oktaUserAppId }) {
@@ -186,14 +186,13 @@ function Import-OktaUser {
     try {
 
         $app = $null
-        $appGroups = @()
 
         $users = @(ConvertFrom-Csv (Get-Content $Path -Raw)) | Select-Object -First $Limit -Skip $Skip
 
         Write-Information "Read $($users.Count) users from '$Path'"
 
-        if ($Application) {
-            Write-Information "Getting groups for '$Application'"
+        if ($AppName) {
+            Write-Information "Getting groups for '$AppName'"
             $app = @(Get-OktaApplication -q $appName | Where-Object { $_.label -eq $appName })
             if (!$app) {
                 throw "Didn't get Okta Application with a prefix of '$appName'"

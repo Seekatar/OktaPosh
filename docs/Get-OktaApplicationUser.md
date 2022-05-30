@@ -24,7 +24,7 @@ Get-OktaApplicationUser -AppId <String> -UserId <String> [-Json] [<CommonParamet
 
 ### Next
 ```
-Get-OktaApplicationUser -AppId <String> [-Next] [-Json] [-NoWarn][<CommonParameters>]
+Get-OktaApplicationUser -AppId <String> [-Next] [-Json] [-NoWarn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

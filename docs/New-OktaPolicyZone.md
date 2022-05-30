@@ -19,7 +19,6 @@ New-OktaPolicyZone [-Name] <String> [[-GatewayIps] <String[]>] [[-ProxyIps] <Str
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ## PARAMETERS

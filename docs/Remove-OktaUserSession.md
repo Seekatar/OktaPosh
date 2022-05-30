@@ -18,7 +18,6 @@ Remove-OktaUserSession [-UserId] <String> [-RevokeOauthTokens] [-WhatIf] [-Confi
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ### Example 1

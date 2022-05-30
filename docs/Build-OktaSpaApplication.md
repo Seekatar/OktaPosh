@@ -26,7 +26,7 @@ It will also add a \<appName\>-Policy policy to the auth server and add an allow
 
 ### Example 1
 ```powershell
-        Build-OktaSpaApplication `
+Build-OktaSpaApplication `
             -Label testAppName `
             -RedirectUris 'https://a.test.com','https://b.test.com' `
             -LoginUri 'https://l.test.com' `
@@ -35,7 +35,6 @@ It will also add a \<appName\>-Policy policy to the auth server and add an allow
             -GrantTypes 'implicit','authorization_code' `
             -Scopes 'scope:test1','scope:test2' `
             -AuthServerId $auth.id
-
 ```
 
 Adds test application, or updates it.

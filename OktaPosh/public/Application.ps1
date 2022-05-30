@@ -28,7 +28,7 @@ function Get-OktaApplication {
             $ret = @(Invoke-OktaApi -RelativeUri "apps$(Get-QueryParameters -Query $Query -Limit $Limit)" -Json:$Json -Next:$Next -NoWarn:$NoWarn)
         }
         if ($ret -and !$IncludeOkta) {
-            $ret | Where-Object { $_.profile.label -NotLike "Okta *" }
+            $ret | Where-Object { $ret.label -NotLike "Okta *" }
         } else {
             $ret
         }

@@ -24,8 +24,7 @@ New-OktaPasswordPolicyRule [-PolicyId] <String> [-Name] <String> [-AllowPassword
 
 ### Example 1
 ```powershell
-    New-OktaPasswordPolicyRule -PolicyId $policy.id -Name $Name -AllowPasswordChange -AllowSelfServicePasswordReset -AllowSelfServiceUnlock
-
+New-OktaPasswordPolicyRule -PolicyId $policy.id -Name $Name -AllowPasswordChange -AllowSelfServicePasswordReset -AllowSelfServiceUnlock
 ```
 
 Add a rule

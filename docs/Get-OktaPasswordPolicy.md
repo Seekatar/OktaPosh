@@ -24,7 +24,6 @@ Get-OktaPasswordPolicy [-PolicyId] <String> [-WithRules] [-JSON] [<CommonParamet
 
 ## DESCRIPTION
 
-
 ## EXAMPLES
 
 ## PARAMETERS
@@ -68,7 +67,7 @@ Parameter Sets: ByType
 Aliases:
 Accepted values: OKTA_SIGN_ON, PASSWORD, MFA_ENROLL, OAUTH_AUTHORIZATION_POLICY, IDP_DISCOVERY, USER_LIFECYCLE
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
