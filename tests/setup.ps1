@@ -19,6 +19,7 @@ if ($Unit) {
  "access_token": "token",
  "sessionToken": "token",
  "profile":{"name": "test", "label":"test"},
+ "label": "OktaPosh-test-app",
  "_links": {
      "self": {
          "href" : "test/123"
