@@ -31,6 +31,18 @@ Get-OktaGroupUser [-GroupId <String>] [-Next] [-Json] [-NoWarn] [<CommonParamete
 
 ## EXAMPLES
 
+### EXAMPLE 1
+
+```
+$groupId = '....'
+$users = @(Get-OktaGroupUser -GroupId $groupId -limit 1000)
+$users.Count
+while (Test-OktaNext -ObjectName "groups/$($groupId)/users" ) {$users += Get-OktaGroupUser -GroupId $groupId -Next; $users.Count}
+Write-Host 'Total users:' $users.Count
+```
+
+Get all the users for a group
+
 ## PARAMETERS
 
 ### -GroupId

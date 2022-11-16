@@ -1,5 +1,10 @@
 # Change Log
 
+## 2022-11-11 0.5.2
+
+* Fixes
+  * Update for PowerShell 7.3 breaking change
+
 ## 2022-05-30 0.5.1
 
 * New functions

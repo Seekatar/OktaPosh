@@ -5,7 +5,7 @@ $script:rateLimit = [PSCustomObject]@{
     RateLimitResetUtc = $null
     RateLimitResetLocal = $null
 }
-$script:epochStart = New-Object DateTime -ArgumentList 1970,1,1,0,0,0,0,'Utc'
+$script:epochStart = [DateTime]::parse('1970-01-01T00:00:00.0000000Z',$null,'AdjustToUniversal')
 $script:nextUrls = @{}
 
 function Set-RateLimit {

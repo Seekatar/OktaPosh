@@ -7,7 +7,8 @@ function ConvertTo-OktaYaml {
         [string[]] $ApplicationQuery,
         [string] $OriginMatch = '.*',
         [string[]] $GroupQueries,
-        [switch] $WipeFolder
+        [switch] $WipeFolder,
+        [switch] $IncludeOkta
     )
 
 try {
@@ -38,10 +39,12 @@ try {
 
     Write-Progress -Activity $activity -Status "Processing applications"
     $params = @{}
+    Write-Warning ">>>>>>>>>>>>>>>>>>>> $ApplicationQuery"
     if ($ApplicationQuery) {
+        Write-Warning ">>>>>>>>>>>>>>>>>>>> $ApplicationQuery"
         foreach ($appQuery in $ApplicationQuery) {
             $params['q'] = $appQuery
-            ConvertTo-OktaApplicationYaml @params -OutputFolder "$OutputFolder"
+            ConvertTo-OktaApplicationYaml @params -OutputFolder "$OutputFolder" -IncludeOkta:$IncludeOkta
         }
     } else {
         ConvertTo-OktaApplicationYaml -OutputFolder "$OutputFolder"

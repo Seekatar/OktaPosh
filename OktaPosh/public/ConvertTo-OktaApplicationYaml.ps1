@@ -7,16 +7,18 @@ function ConvertTo-OktaApplicationYaml
         [string] $Query,
         [Parameter(Mandatory)]
         [ValidateScript({Test-Path $_ -PathType Container})]
-        [string] $OutputFolder
+        [string] $OutputFolder,
+        [switch] $IncludeOkta
     )
     Set-StrictMode -Version Latest
     $nl = [System.Environment]::NewLine
 
-    $params = @{}
+    $params = @{ IncludeOkta = $IncludeOkta }
     if ($Query) {
         $params["q"] = $Query
     }
     $apps = Get-OktaApplication @params
+    Write-Warning "Found $($apps.Count) applications with IncludOkta=$IncludeOkta"
     while (Test-OktaNext -ObjectName apps) { $appGroups += Get-OktaApplication -Next }
 
     Write-Verbose "Getting groups"

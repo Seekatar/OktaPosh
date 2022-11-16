@@ -14,7 +14,7 @@ $PSDefaultParameterValues = @{
 
 Describe "Yaml tests" {
     It "ConvertTo-OktaYaml" {
-        ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml -WipeFolder
+        ConvertTo-OktaYaml -OutputFolder $env:TMP/oktaposh-yaml -WipeFolder -IncludeOkta -ApplicationQuery 'Okta'
         (Test-Path $env:TMP/oktaposh-yaml) | Should -BeTrue
         (Get-ChildItem $env:TMP/oktaposh-yaml/app-*).Count | Should -BeGreaterThan 1
         (Test-Path $env:TMP/oktaposh-yaml/trustedOrigins.yaml) | Should -BeTrue
